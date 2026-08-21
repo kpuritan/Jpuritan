@@ -342,6 +342,21 @@ function selectMainMenu(menuKey) {
   
   // Scroll to submenus nicely
   submenuContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  // Automatically select the first subcategory if exists to update workspace immediately
+  const allSubCats = buildFlatTree(menuKey, 0);
+  if (allSubCats.length > 0) {
+    selectSubcategory(allSubCats[0].id);
+  } else {
+    state.currentCategory = null;
+    state.currentArticle = null;
+    renderWorkspaceSidebar();
+    renderArticlesList();
+    const workspaceSec = document.getElementById('workspace-sec');
+    workspaceSec.classList.add('active');
+    document.getElementById('view-article-list').style.display = 'block';
+    document.getElementById('view-article-detail').style.display = 'none';
+  }
 }
 
 // Select a subcategory folder
