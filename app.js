@@ -1,4 +1,4 @@
-﻿// Reformed & Puritan Japanese Hub - Core JavaScript Logic
+// Reformed & Puritan Japanese Hub - Core JavaScript Logic
 
 // ==========================================
 // 1. Initial Seed Data Configuration (v6 with Dynamic Main Menus & Video Support)
@@ -1207,6 +1207,7 @@ function resetWriteForm() {
   document.getElementById('art-scripture').value = '';
   document.getElementById('art-video-url').value = '';
   document.getElementById('art-content').value = '';
+  document.getElementById('art-date').value = new Date().toISOString().split('T')[0];
 }
 
 function handleSaveArticle(event) {
@@ -1219,13 +1220,12 @@ function handleSaveArticle(event) {
   const scripture = document.getElementById('art-scripture').value.trim();
   const videoUrl = document.getElementById('art-video-url').value.trim();
   const content = document.getElementById('art-content').value.trim();
+  const date = document.getElementById('art-date').value;
 
-  if (!categoryId || !title || !content || !author) {
-    alert("親メニュー、細部フォルダ、タイトル、著者、および本文は必須入力項目です。");
+  if (!categoryId || !title || !content || !author || !date) {
+    alert("親メニュー、細部フォルダ、タイトル、著者、投稿日、および本文は必須入力項目です。");
     return;
   }
-
-  const currentDate = new Date().toISOString().split('T')[0];
 
   if (articleId) {
     const artIdx = state.articles.findIndex(a => a.id === articleId);
@@ -1236,6 +1236,7 @@ function handleSaveArticle(event) {
       state.articles[artIdx].scripture = scripture;
       state.articles[artIdx].videoUrl = videoUrl;
       state.articles[artIdx].content = content;
+      state.articles[artIdx].createdAt = date;
       alert("記事を修正・保存しました。");
     }
   } else {
@@ -1247,7 +1248,7 @@ function handleSaveArticle(event) {
       scripture: scripture,
       videoUrl: videoUrl,
       content: content,
-      createdAt: currentDate
+      createdAt: date
     };
     state.articles.push(newArt);
     alert("新規記事を公開しました。");
@@ -1345,6 +1346,7 @@ function loadArticleToEdit(artId) {
   document.getElementById('art-scripture').value = art.scripture || '';
   document.getElementById('art-video-url').value = art.videoUrl || '';
   document.getElementById('art-content').value = art.content;
+  document.getElementById('art-date').value = art.createdAt || new Date().toISOString().split('T')[0];
 }
 
 function handleDeleteArticle(artId) {
