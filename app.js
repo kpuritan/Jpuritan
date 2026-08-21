@@ -28,19 +28,51 @@ let state = {
 };
 
 // Initialize App
-function initApp() {
-  // Load data from LocalStorage or initialize with Seed Data (v6 keys)
-  if (!localStorage.getItem('wscal_mainmenus_v6')) {
-    localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(DEFAULT_MAIN_MENUS));
-  }
-  if (!localStorage.getItem('wscal_categories_v6')) {
-    localStorage.setItem('wscal_categories_v6', JSON.stringify(DEFAULT_CATEGORIES));
-  }
-  if (!localStorage.getItem('wscal_articles_v6')) {
-    localStorage.setItem('wscal_articles_v6', JSON.stringify(DEFAULT_ARTICLES));
-  }
-  if (!localStorage.getItem('wscal_featured_v6')) {
-    localStorage.setItem('wscal_featured_v6', JSON.stringify(DEFAULT_FEATURED));
+async function initApp() {
+  try {
+    // Fetch latest shared data from server
+    const res = await fetch('./data.json?t=' + Date.now());
+    if (res.ok) {
+      const serverData = await res.json();
+      const isLogged = sessionStorage.getItem('wscal_admin_logged') === 'true';
+      
+      // If NOT logged in (general user), always use latest server data.
+      // If logged in (admin), only seed if local storage is empty to prevent overwriting ongoing unsaved modifications.
+      if (!isLogged) {
+        localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(serverData.mainMenus));
+        localStorage.setItem('wscal_categories_v6', JSON.stringify(serverData.categories));
+        localStorage.setItem('wscal_articles_v6', JSON.stringify(serverData.articles));
+        localStorage.setItem('wscal_featured_v6', JSON.stringify(serverData.featured));
+      } else {
+        if (!localStorage.getItem('wscal_mainmenus_v6')) {
+          localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(serverData.mainMenus));
+        }
+        if (!localStorage.getItem('wscal_categories_v6')) {
+          localStorage.setItem('wscal_categories_v6', JSON.stringify(serverData.categories));
+        }
+        if (!localStorage.getItem('wscal_articles_v6')) {
+          localStorage.setItem('wscal_articles_v6', JSON.stringify(serverData.articles));
+        }
+        if (!localStorage.getItem('wscal_featured_v6')) {
+          localStorage.setItem('wscal_featured_v6', JSON.stringify(serverData.featured));
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("Failed to fetch data.json, falling back to local storage or defaults", err);
+    // Fallback if network offline
+    if (!localStorage.getItem('wscal_mainmenus_v6')) {
+      localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(DEFAULT_MAIN_MENUS));
+    }
+    if (!localStorage.getItem('wscal_categories_v6')) {
+      localStorage.setItem('wscal_categories_v6', JSON.stringify(DEFAULT_CATEGORIES));
+    }
+    if (!localStorage.getItem('wscal_articles_v6')) {
+      localStorage.setItem('wscal_articles_v6', JSON.stringify(DEFAULT_ARTICLES));
+    }
+    if (!localStorage.getItem('wscal_featured_v6')) {
+      localStorage.setItem('wscal_featured_v6', JSON.stringify(DEFAULT_FEATURED));
+    }
   }
 
   state.mainMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v6'));
@@ -705,6 +737,13 @@ function showAdminDashboard() {
 
   // Show Admin Dashboard Container
   document.getElementById('admin-dashboard-sec').classList.add('active');
+
+  // Load saved GitHub token into input
+  const savedToken = localStorage.getItem('wscal_github_token') || '';
+  const tokenInput = document.getElementById('admin-github-token');
+  if (tokenInput) {
+    tokenInput.value = savedToken;
+  }
 
   // Trigger default Admin Tab loading
   switchAdminTab('folders');
@@ -1494,6 +1533,85 @@ function renderAdminStats() {
     `;
     rankingBody.appendChild(tr);
   });
+}
+
+function saveGithubToken() {
+  const token = document.getElementById('admin-github-token').value.trim();
+  localStorage.setItem('wscal_github_token', token);
+}
+
+async function syncDataToGithub() {
+  const token = localStorage.getItem('wscal_github_token') || '';
+  if (!token) {
+    alert("먼저 GitHub Token을 입력해 주세요.");
+    return;
+  }
+
+  const confirmSync = confirm("현재 브라우저에 저장된 최신 폴더 및 글 정보들을 인터넷 깃허브(GitHub)에 반영하시겠습니까?\n반영 후 약 1~2분 뒤에 실시간 사이트에 배포가 완료됩니다.");
+  if (!confirmSync) return;
+
+  const dataToSync = {
+    mainMenus: JSON.parse(localStorage.getItem('wscal_mainmenus_v6')),
+    categories: JSON.parse(localStorage.getItem('wscal_categories_v6')),
+    articles: JSON.parse(localStorage.getItem('wscal_articles_v6')),
+    featured: JSON.parse(localStorage.getItem('wscal_featured_v6'))
+  };
+
+  const owner = "kpuritan";
+  const repo = "Jpuritan";
+  const path = "data.json";
+  const branch = "main";
+
+  try {
+    // 1. Get current data.json file SHA
+    const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`;
+    const resGet = await fetch(getUrl, {
+      headers: {
+        "Authorization": `token ${token}`
+      }
+    });
+
+    if (!resGet.ok) {
+      throw new Error("GitHub에서 기존 data.json 정보를 가져오는 데 실패했습니다. 토큰 권한을 확인해주세요.");
+    }
+
+    const fileInfo = await resGet.json();
+    const sha = fileInfo.sha;
+
+    // 2. Encode JSON safely as base64 supporting multi-byte chars
+    const utf8Bytes = new TextEncoder().encode(JSON.stringify(dataToSync, null, 2));
+    let binaryString = "";
+    for (let i = 0; i < utf8Bytes.length; i++) {
+      binaryString += String.fromCharCode(utf8Bytes[i]);
+    }
+    const base64Content = btoa(binaryString);
+
+    // 3. Put request to update data.json
+    const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+    const resPut = await fetch(putUrl, {
+      method: "PUT",
+      headers: {
+        "Authorization": `token ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: "data: 인터넷 관리자 페이지에서 자료 데이터 업데이트",
+        content: base64Content,
+        sha: sha,
+        branch: branch
+      })
+    });
+
+    if (!resPut.ok) {
+      const errData = await resPut.json();
+      throw new Error(errData.message || "GitHub 데이터 업데이트 실패");
+    }
+
+    alert("인터넷 GitHub 서버로 최신 데이터가 성공적으로 반영되었습니다!\nNetlify 배포가 시작되며 약 1~2분 뒤 다른 사람들의 화면에도 적용됩니다.");
+  } catch (err) {
+    console.error(err);
+    alert("동기화 실패: " + err.message);
+  }
 }
 
 // Start application
