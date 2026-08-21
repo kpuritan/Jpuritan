@@ -355,10 +355,10 @@ function selectMainMenu(menuKey) {
   // Scroll to submenus nicely
   submenuContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-  // Automatically select the first subcategory if exists to update workspace immediately
+  // Automatically select the first subcategory if exists to update workspace immediately without scrolling down too far
   const allSubCats = buildFlatTree(menuKey, 0);
   if (allSubCats.length > 0) {
-    selectSubcategory(allSubCats[0].id);
+    selectSubcategory(allSubCats[0].id, false);
   } else {
     state.currentCategory = null;
     state.currentArticle = null;
@@ -372,7 +372,7 @@ function selectMainMenu(menuKey) {
 }
 
 // Select a subcategory folder
-function selectSubcategory(categoryId) {
+function selectSubcategory(categoryId, shouldScroll = true) {
   state.currentCategory = categoryId;
   state.currentArticle = null;
 
@@ -401,7 +401,9 @@ function selectSubcategory(categoryId) {
   document.getElementById('view-article-list').style.display = 'block';
   document.getElementById('view-article-detail').style.display = 'none';
 
-  workspaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (shouldScroll) {
+    workspaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 // Render Workspace Sidebar (Category list as a Tree with dual language)
