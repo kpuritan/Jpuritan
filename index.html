@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日本改革派神学と牧会 | Japan Reformed Theology & Ministry</title>
+  <meta name="description" content="聖書に立ち返り、福音によって教会を新たにする。日本改革派神学と牧会、聖書講解、歴史的教理教育、伝道と弟子道のための学術的・実践的リソースを提供します。">
+  <link rel="stylesheet" href="style.css">
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo" id="logo-home">
+      <div class="logo-icon">Ω</div>
+      <div class="logo-text">
+        <span class="logo-title">日本改革派神学と牧会</span>
+        <span class="logo-subtitle">Japan Reformed Theology & Ministry</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-admin" id="btn-admin-nav" onclick="openLoginModal()">
+        <i class="fa-solid fa-lock"></i> 管理者ログイン
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="hero-sec">
+    <div class="hero-content">
+      <h1 class="hero-tagline">
+        <span>聖書に立ち返り</span>
+        <span class="sub">福音によって教会を新たにする</span>
+      </h1>
+      <div class="hero-divider"></div>
+    </div>
+  </section>
+
+  <!-- MAIN 5 MENUS (BIG BUTTONS) -->
+  <section class="main-menu-grid" id="main-menu-sec">
+    <div class="menu-card" data-menu="sermon" onclick="selectMainMenu('sermon')">
+      <i class="fa-solid fa-book-open menu-icon"></i>
+      <div class="menu-title-jp">聖書講解</div>
+      <div class="menu-title-kr">성경강해</div>
+    </div>
+    <div class="menu-card" data-menu="catechism" onclick="selectMainMenu('catechism')">
+      <i class="fa-solid fa-scroll menu-icon"></i>
+      <div class="menu-title-jp">教理教育と復興</div>
+      <div class="menu-title-kr">교리교육과 부흥</div>
+    </div>
+    <div class="menu-card" data-menu="theology" onclick="selectMainMenu('theology')">
+      <i class="fa-solid fa-graduation-cap menu-icon"></i>
+      <div class="menu-title-jp">改革派神学</div>
+      <div class="menu-title-kr">개혁신학</div>
+    </div>
+    <div class="menu-card" data-menu="discipleship" onclick="selectMainMenu('discipleship')">
+      <i class="fa-solid fa-users-line menu-icon"></i>
+      <div class="menu-title-jp">伝道・弟子道</div>
+      <div class="menu-title-kr">전도·제자도</div>
+    </div>
+    <div class="menu-card" data-menu="pastor" onclick="selectMainMenu('pastor')">
+      <i class="fa-solid fa-user-tie menu-icon"></i>
+      <div class="menu-title-jp">牧会者のための10分神学</div>
+      <div class="menu-title-kr">목회자를 위한 10분 신학</div>
+      <div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">동영상 강의</div>
+    </div>
+  </section>
+
+  <!-- SUBMENU PANEL -->
+  <div class="submenu-container" id="submenu-sec">
+    <div class="submenu-panel">
+      <div class="submenu-title">
+        <span id="submenu-category-title">カテゴリー</span>
+        <span style="font-size: 0.8rem; color: var(--text-light); font-weight: normal;">
+          ※ 下記の細部フォルダを選択して資料を閲覧してください。
+        </span>
+      </div>
+      <div class="submenu-grid" id="submenu-items-container">
+        <!-- Dynmically Populated -->
+      </div>
+    </div>
+  </div>
+
+  <!-- THREE COLUMN SECTION (TODAY'S BLOCKS) -->
+  <section class="featured-section" id="featured-sec">
+    <div class="section-header">
+      <h2 class="section-title">今日の神学の恵み</h2>
+    </div>
+    <div class="three-column-grid">
+      <!-- 1. 오늘의 말씀 -->
+      <div class="featured-card">
+        <span class="card-tag"><i class="fa-solid fa-quote-left"></i> 今日の御言葉</span>
+        <div id="today-word-scripture" class="scripture-highlight">ヨハネの黙示録 2:10</div>
+        <div id="today-word-meditation" class="card-body">
+          「死に至るまで忠実であれ。そうすれば、命の冠を授けよう。」 試練の中でも主に寄り頼む信仰の大切さ。
+        </div>
+        <div class="meta-info">
+          <span>Daily Scripture</span>
+          <span>今日の日課</span>
+        </div>
+      </div>
+      
+      <!-- 2. 오늘의 설교 -->
+      <div class="featured-card">
+        <span class="card-tag"><i class="fa-solid fa-circle-play"></i> 今日の説教</span>
+        <h3 id="today-sermon-title" class="card-title">福音の再発見と教会の改革</h3>
+        <div class="card-body">
+          <p style="margin-bottom: 8px;"><strong>聖書本文:</strong> <span id="today-sermon-scripture">ローマの信徒への手紙 1:16-17</span></p>
+          <p><strong>説教者:</strong> <span id="today-sermon-preacher">清水 義人 牧師</span></p>
+        </div>
+        <button class="card-btn" onclick="viewTodaySermonDetail()">説教要旨を読む</button>
+      </div>
+
+      <!-- 3. 오늘의 신학 -->
+      <div class="featured-card">
+        <span class="card-tag"><i class="fa-solid fa-bookmark"></i> 今日の神学リソース</span>
+        <h3 id="today-theo-title" class="card-title">ウェストミンスター信仰告白の歴史的背景</h3>
+        <div id="today-theo-summary" class="card-body">
+          17世紀の英国ピューリタンたちが成し遂げた偉大な神学的遺産である信仰告白書の形成史の要約。
+        </div>
+        <button class="card-btn" onclick="viewTodayTheologyDetail()">資料を読む</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTICLE DISPLAY WORKSPACE -->
+  <section class="workspace-container" id="workspace-sec">
+    <div class="workspace-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar-nav">
+        <h3 class="sidebar-title" id="sidebar-category-header">カテゴリー</h3>
+        <ul class="sidebar-list" id="sidebar-categories-list">
+          <!-- Dynamically Populated -->
+        </ul>
+      </aside>
+      
+      <!-- Main Content -->
+      <main class="content-area">
+        <!-- 1. Article List View -->
+        <div id="view-article-list">
+          <div class="view-header">
+            <h2 class="view-title" id="list-title">記事一覧</h2>
+          </div>
+          <div class="article-list" id="articles-list-container">
+            <!-- Dynamically Populated -->
+          </div>
+        </div>
+
+        <!-- 2. Article Detail View -->
+        <div id="view-article-detail" style="display: none;">
+          <div class="view-header">
+            <span class="back-link" onclick="goBackToArticles()"><i class="fa-solid fa-arrow-left"></i> 一覧に戻る</span>
+            <h2 class="view-title" id="detail-title">記事タイトル</h2>
+            <div class="detail-meta">
+              <div class="detail-meta-item">著者: <strong id="detail-author">著者名</strong></div>
+              <div class="detail-meta-item">日付: <strong id="detail-date">2026-08-17</strong></div>
+            </div>
+          </div>
+          <div class="detail-scripture" id="detail-scripture-container">
+            <strong>御言葉:</strong> <span id="detail-scripture">聖句</span>
+          </div>
+          <div class="detail-content" id="detail-content">
+            記事の本文がここに表示されます。
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- ADMIN LOGIN MODAL -->
+  <div class="modal-overlay" id="login-modal">
+    <div class="modal-box">
+      <span class="modal-close" onclick="closeLoginModal()">&times;</span>
+      <h3 class="modal-title">管理者システムログイン</h3>
+      <div id="login-error" style="color: #c0392b; font-size: 0.85rem; text-align: center; margin-bottom: 1rem; display: none;">
+        IDまたはパスワードが正しくありません。
+      </div>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="login-username">管理者ID</label>
+          <input class="form-input" type="text" id="login-username" placeholder="admin" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="login-password">パスワード</label>
+          <input class="form-input" type="password" id="login-password" placeholder="••••" required>
+        </div>
+        <button class="btn-submit" type="submit">ログイン</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD CONTAINER -->
+  <section class="admin-dashboard-container" id="admin-dashboard-sec">
+    <div class="admin-header">
+      <div class="admin-title">
+        <i class="fa-solid fa-sliders-h"></i> 改革主義リソース・管理者パネル
+      </div>
+      <div class="admin-meta">
+        <span>ログイン中: <strong style="color: var(--accent-color);">Administrator</strong></span>
+        <button class="btn-logout" onclick="handleLogout()">
+          <i class="fa-solid fa-sign-out-alt"></i> ログアウト
+        </button>
+      </div>
+    </div>
+
+    <div class="admin-grid">
+      <!-- Admin Sidebar Menu -->
+      <aside class="admin-sidebar">
+        <ul class="admin-menu-list">
+          <li class="admin-menu-item" id="admin-menu-mainmenus" onclick="switchAdminTab('mainmenus')">
+            <i class="fa-solid fa-tags"></i> 大メニュー管理
+          </li>
+          <li class="admin-menu-item active" id="admin-menu-folders" onclick="switchAdminTab('folders')">
+            <i class="fa-solid fa-folder-open"></i> 細部フォルダ管理
+          </li>
+          <li class="admin-menu-item" id="admin-menu-write" onclick="switchAdminTab('write')">
+            <i class="fa-solid fa-pen-to-square"></i> 新規記事作成
+          </li>
+          <li class="admin-menu-item" id="admin-menu-articles" onclick="switchAdminTab('articles')">
+            <i class="fa-solid fa-list-check"></i> 記事管理一覧
+          </li>
+          <li class="admin-menu-item" id="admin-menu-featured" onclick="switchAdminTab('featured')">
+            <i class="fa-solid fa-star"></i> 「今日の３領域」管理
+          </li>
+          <li class="admin-menu-item" onclick="exitAdminView()" style="border-top: 1px solid var(--border-color); margin-top: 15px; color: var(--accent-color);">
+            <i class="fa-solid fa-globe"></i> ユーザーサイトに戻る
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Admin Main Content Area -->
+      <main class="admin-content">
+        <!-- TAB 1-1: MAIN MENUS (대메뉴 관리) -->
+        <div id="admin-tab-mainmenus" style="display: none;">
+          <h3 class="admin-section-title">大メニュー（メインカテゴリー）管理</h3>
+          <div class="category-manager-layout">
+            <!-- Add Main Menu Form -->
+            <div>
+              <h4 style="margin-bottom: 1rem; color: var(--primary-light);">新規大メニューの追加</h4>
+              <form onsubmit="handleAddMainMenu(event)">
+                <div class="form-group">
+                  <label class="form-label">大メニュー名 (日本語)</label>
+                  <input class="form-input" type="text" id="new-menu-name" placeholder="例: 改革派神学, 契約神学" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">アイコンクラス (FontAwesome)</label>
+                  <input class="form-input" type="text" id="new-menu-icon" value="fa-circle-chevron-right" required>
+                </div>
+                <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" id="new-menu-isvideo" style="cursor: pointer;">
+                  <label class="form-label" for="new-menu-isvideo" style="margin: 0; cursor: pointer;">動画講義専用レイアウト (YouTube)</label>
+                </div>
+                <button class="btn-submit" type="submit" style="margin-top: 0.5rem;">大メニューを作成</button>
+              </form>
+            </div>
+            <!-- Main Menu List -->
+            <div class="category-list-box">
+              <h4 style="margin-bottom: 1rem; color: var(--primary-light);">既存大メニュー一覧</h4>
+              <div class="category-tree-container" id="admin-mainmenus-container">
+                <!-- Dynamically Populated -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 1-2: FOLDERS / CATEGORIES -->
+        <div id="admin-tab-folders">
+          <h3 class="admin-section-title">細部フォルダ（サブカテゴリー）管理</h3>
+          <div class="category-manager-layout">
+            <!-- Add Folder Form -->
+            <div>
+              <h4 style="margin-bottom: 1rem; color: var(--primary-light);">新規フォルダの追加</h4>
+              <form onsubmit="handleAddCategory(event)">
+                <div class="form-group">
+                  <label class="form-label">親メニュー選択</label>
+                  <select class="form-input" id="new-cat-parent" required>
+                    <!-- Dynamically Populated -->
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">フォルダ（カテゴリー）名 (日本語)</label>
+                  <input class="form-input" type="text" id="new-cat-name" placeholder="例: 組織神学, キリスト論" required>
+                </div>
+                <button class="btn-submit" type="submit" style="margin-top: 0.5rem;">フォルダを作成</button>
+              </form>
+            </div>
+            <!-- Folder List -->
+            <div class="category-list-box">
+              <h4 style="margin-bottom: 1rem; color: var(--primary-light);">既存フォルダ一覧</h4>
+              <div class="form-group">
+                <label class="form-label">表示フィルター (親メニュー)</label>
+                <select class="form-input" id="filter-cat-parent" onchange="renderAdminCategoryList()">
+                  <option value="all">すべて表示</option>
+                  <option value="sermon">聖書講解 [성경강해]</option>
+                  <option value="catechism">教理教育 [교리교육]</option>
+                  <option value="discipleship">伝道・弟子道 [전도·제자도]</option>
+                  <option value="revitalization">教会再生 [교회재생]</option>
+                  <option value="pastor">牧会者のための10分神学 [목회자를 위한 10분 신학]</option>
+                </select>
+              </div>
+              <div class="category-badges" id="admin-categories-container">
+                <!-- Dynamically Populated -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: WRITE / EDIT ARTICLE -->
+        <div id="admin-tab-write" style="display: none;">
+          <h3 class="admin-section-title" id="write-section-title">新規資料の作成・投稿</h3>
+          <form onsubmit="handleSaveArticle(event)">
+            <input type="hidden" id="edit-article-id" value="">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">大メニュー（親カテゴリ）</label>
+                <select class="form-input" id="art-parent-menu" onchange="updateWriteSubcategoryDropdown()" required>
+                  <option value="">-- 親メニューの選択 --</option>
+                  <!-- Dynamically Populated -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">細部フォルダ（サブカテゴリ）</label>
+                <select class="form-input" id="art-category-id" required>
+                  <option value="">-- 先に親メニューを選択してください --</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">タイトル</label>
+              <input class="form-input" type="text" id="art-title" placeholder="資料または説教のタイトルを入力" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">著者 / 説教者</label>
+                <input class="form-input" type="text" id="art-author" placeholder="例: ジョン・オーウェン、清水牧師" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">関連聖句（本文章など）</label>
+                <input class="form-input" type="text" id="art-scripture" placeholder="例: ローマの信徒への手紙 8:28 (任意)">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">YouTube動画リンク (동영상 링크 - 任意)</label>
+              <input class="form-input" type="text" id="art-video-url" placeholder="例: https://www.youtube.com/watch?v=xxxxxx">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">コンテンツ本文</label>
+              <textarea class="form-input textarea-content" id="art-content" placeholder="説教要旨、神学研究資料などの本文を入力してください..." required></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 1rem;">
+              <button class="btn-submit" type="submit" style="flex: 1;">保存して公開</button>
+              <button class="btn-submit" type="button" onclick="cancelWrite()" style="background-color: var(--text-light); width: 120px;">キャンセル</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- TAB 3: ARTICLE MANAGER LIST -->
+        <div id="admin-tab-articles" style="display: none;">
+          <h3 class="admin-section-title">登録済み記事資料의 관리</h3>
+          <div class="form-group">
+            <label class="form-label">親メニューフィルター</label>
+            <select class="form-input" id="filter-art-parent" onchange="renderAdminArticleList()" style="max-width: 300px;">
+              <option value="all">すべての親カテゴリ</option>
+              <!-- Dynamically Populated -->
+            </select>
+          </div>
+          <div class="admin-article-list" id="admin-articles-container">
+            <!-- Dynamically Populated -->
+          </div>
+        </div>
+
+        <!-- TAB 4: FEATURED CONTENT (TODAY'S 3 BLOCKS) -->
+        <div id="admin-tab-featured" style="display: none;">
+          <h3 class="admin-section-title">「今日の神学の恵み」（３分할 영역）編集</h3>
+          <form onsubmit="handleSaveFeatured(event)">
+            
+            <!-- 1. 오늘의 말씀 에디터 -->
+            <div style="border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; margin-bottom: 2rem; background-color: var(--bg-warm);">
+              <h4 style="color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 1rem;">
+                <i class="fa-solid fa-quote-left"></i> 1. 今日の御言葉 (오늘의 말씀)
+              </h4>
+              <div class="form-group">
+                <label class="form-label">聖句参照 (성경구절)</label>
+                <input class="form-input" type="text" id="feat-word-scripture" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">短い黙想 (짧은 묵상)</label>
+                <textarea class="form-input" id="feat-word-meditation" style="height: 100px;" required></textarea>
+              </div>
+            </div>
+
+            <!-- 2. 오늘의 설교 에디터 -->
+            <div style="border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; margin-bottom: 2rem; background-color: var(--bg-warm);">
+              <h4 style="color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 1rem;">
+                <i class="fa-solid fa-circle-play"></i> 2. 今日の説教 (오늘의 설교)
+              </h4>
+              <div class="form-group">
+                <label class="form-label">説教題 (설교 제목)</label>
+                <input class="form-input" type="text" id="feat-sermon-title" required>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">本文 (성경본문)</label>
+                  <input class="form-input" type="text" id="feat-sermon-scripture" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">説教者 (설교자)</label>
+                  <input class="form-input" type="text" id="feat-sermon-preacher" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">説教要旨/本文 (설교 내용 요약)</label>
+                <textarea class="form-input" id="feat-sermon-content" style="height: 120px;" required></textarea>
+              </div>
+            </div>
+
+            <!-- 3. 오늘의 신학 에디터 -->
+            <div style="border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; margin-bottom: 2rem; background-color: var(--bg-warm);">
+              <h4 style="color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 1rem;">
+                <i class="fa-solid fa-bookmark"></i> 3. 今日の神学リソース (오늘의 신학)
+              </h4>
+              <div class="form-group">
+                <label class="form-label">神学資料のタイトル (제목)</label>
+                <input class="form-input" type="text" id="feat-theo-title" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">資料要約 (요약 설명)</label>
+                <input class="form-input" type="text" id="feat-theo-summary" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">神学資料の本文 (상세 자료)</label>
+                <textarea class="form-input" id="feat-theo-content" style="height: 150px;" required></textarea>
+              </div>
+            </div>
+
+            <button class="btn-submit" type="submit" style="max-width: 250px; display: block; margin: 0 auto;">
+              ３領域データを保存・更新
+            </button>
+          </form>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col-about">
+        <h3>日本改革派神学と牧会</h3>
+        <p style="margin-top: 10px; line-height: 1.6; font-size: 0.85rem;">
+          当サイトは、ウェストミンスター信仰告白をはじめとする歴史的改革派信仰の基準に従い、純粋な福音の宣布、正しい教理の回復、教会再生、そして聖書に基づく健全な牧会生活をサポートするためのリソースを提供します。
+        </p>
+      </div>
+      <div class="footer-col-links">
+        <h4>主要ナビゲーション</h4>
+        <ul class="footer-links-list">
+          <li><a href="#" onclick="selectMainMenu('sermon')">聖書講解 [성경강해]</a></li>
+          <li><a href="#" onclick="selectMainMenu('catechism')">教理教育と復興 [교리교육과 부흥]</a></li>
+          <li><a href="#" onclick="selectMainMenu('theology')">改革派神学 [개혁신학]</a></li>
+          <li><a href="#" onclick="selectMainMenu('discipleship')">伝道・弟子道 [전도·제자도]</a></li>
+          <li><a href="#" onclick="selectMainMenu('pastor')">牧会者のための10分神学 [목회자를 위한 10분 신학]</a></li>
+        </ul>
+      </div>
+      <div class="footer-col-links">
+        <h4>神学的遺産</h4>
+        <ul class="footer-links-list">
+          <li><a href="https://www.wscal.edu/" target="_blank">Westminster Seminary CA</a></li>
+          <li><a href="https://wts.edu/" target="_blank">Westminster Theological Seminary</a></li>
+          <li><a href="https://www.prts.edu/" target="_blank">Puritan Reformed Seminary</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>
+        &copy; 2026 日本改革派神学と牧会. All Rights Reserved.
+      </div>
+      <div>
+        Designed under the visual benchmark of <strong style="color: var(--accent-color);">WSCAL</strong>.
+      </div>
+    </div>
+  </footer>
+
+  <!-- CORE LOGIC AND DATA -->
+  <script src="app.js"></script>
+</body>
+</html>
