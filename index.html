@@ -156,6 +156,7 @@
             <div class="detail-meta">
               <div class="detail-meta-item">著者: <strong id="detail-author">著者名</strong></div>
               <div class="detail-meta-item">日付: <strong id="detail-date">2026-08-17</strong></div>
+              <div class="detail-meta-item"><i class="fa-regular fa-eye"></i> 閲覧数: <strong id="detail-views">0</strong></div>
             </div>
           </div>
           <div class="detail-scripture" id="detail-scripture-container">
@@ -223,6 +224,9 @@
           </li>
           <li class="admin-menu-item" id="admin-menu-featured" onclick="switchAdminTab('featured')">
             <i class="fa-solid fa-star"></i> 「今日の３領域」管理
+          </li>
+          <li class="admin-menu-item" id="admin-menu-stats" onclick="switchAdminTab('stats')">
+            <i class="fa-solid fa-chart-line"></i> 統計と分析 (통계 및 분석)
           </li>
           <li class="admin-menu-item" onclick="exitAdminView()" style="border-top: 1px solid var(--border-color); margin-top: 15px; color: var(--accent-color);">
             <i class="fa-solid fa-globe"></i> ユーザーサイトに戻る
@@ -450,6 +454,43 @@
               ３領域データを保存・更新
             </button>
           </form>
+        </div>
+
+        <!-- TAB 5: STATS (통계 관리) -->
+        <div id="admin-tab-stats" style="display: none;">
+          <h3 class="admin-section-title">総合資料統計と照会分析 (종합 자료 통계 및 조회 분석)</h3>
+          <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+            <div class="stats-card" style="background-color: var(--bg-warm); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; text-align: center;">
+              <div style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">全記事数 (전체 글 수)</div>
+              <div id="stats-total-articles" style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">0</div>
+            </div>
+            <div class="stats-card" style="background-color: var(--bg-warm); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; text-align: center;">
+              <div style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">累計閲覧数 (누적 조회수)</div>
+              <div id="stats-total-views" style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">0</div>
+            </div>
+            <div class="stats-card" style="background-color: var(--bg-warm); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; text-align: center;">
+              <div style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">平均閲覧数 (평균 조회수)</div>
+              <div id="stats-avg-views" style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">0</div>
+            </div>
+          </div>
+          
+          <h4 style="margin-bottom: 1rem; color: var(--primary-light); border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">資料別閲覧ランキング (자료별 조회수 랭킹)</h4>
+          <div style="overflow-x: auto;">
+            <table class="stats-table" style="width: 100%; border-collapse: collapse; background-color: white; border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color);">
+              <thead>
+                <tr style="background-color: var(--primary-color); color: white; text-align: left;">
+                  <th style="padding: 12px 15px; font-weight: 500;">タイトル (제목)</th>
+                  <th style="padding: 12px 15px; font-weight: 500; width: 180px;">カテゴリ (카테고리)</th>
+                  <th style="padding: 12px 15px; font-weight: 500; width: 120px;">著者 (작성자)</th>
+                  <th style="padding: 12px 15px; font-weight: 500; width: 120px;">投稿日 (게시날짜)</th>
+                  <th style="padding: 12px 15px; font-weight: 500; width: 100px; text-align: right;">閲覧数 (조회수)</th>
+                </tr>
+              </thead>
+              <tbody id="stats-ranking-body">
+                <!-- Dynamically Populated -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </main>
     </div>

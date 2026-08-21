@@ -48,6 +48,18 @@ function initApp() {
   state.articles = JSON.parse(localStorage.getItem('wscal_articles_v6'));
   state.featured = JSON.parse(localStorage.getItem('wscal_featured_v6'));
 
+  // Ensure every article has a views field
+  let updatedArticles = false;
+  state.articles.forEach(art => {
+    if (art.views === undefined) {
+      art.views = Math.floor(Math.random() * 45) + 5; // Seed mock views (5 to 50)
+      updatedArticles = true;
+    }
+  });
+  if (updatedArticles) {
+    saveArticles();
+  }
+
   // Render Dynamic Elements
   renderMainMenuCards();
   renderFeaturedBlocks();
@@ -513,6 +525,10 @@ function viewArticleDetail(articleId) {
 
   state.currentArticle = article;
 
+  // Increment views
+  article.views = (article.views || 0) + 1;
+  saveArticles();
+
   document.getElementById('view-article-list').style.display = 'none';
   const detailView = document.getElementById('view-article-detail');
   detailView.style.display = 'block';
@@ -520,6 +536,7 @@ function viewArticleDetail(articleId) {
   document.getElementById('detail-title').textContent = article.title;
   document.getElementById('detail-author').textContent = article.author;
   document.getElementById('detail-date').textContent = article.createdAt;
+  document.getElementById('detail-views').textContent = article.views;
 
   const scriptureContainer = document.getElementById('detail-scripture-container');
   if (article.scripture) {
@@ -719,6 +736,9 @@ function switchAdminTab(tabName) {
   document.getElementById('admin-tab-write').style.display = 'none';
   document.getElementById('admin-tab-articles').style.display = 'none';
   document.getElementById('admin-tab-featured').style.display = 'none';
+  if (document.getElementById('admin-tab-stats')) {
+    document.getElementById('admin-tab-stats').style.display = 'none';
+  }
 
   // Show selected section
   document.getElementById(`admin-tab-${tabName}`).style.display = 'block';
@@ -741,6 +761,9 @@ function switchAdminTab(tabName) {
     renderAdminArticleList();
   } else if (tabName === 'featured') {
     loadFeaturedToInputs();
+  } else if (tabName === 'stats') {
+    populateAllMenuDropdowns();
+    renderAdminStats();
   }
 }
 
@@ -1416,6 +1439,59 @@ function handleSaveFeatured(event) {
   alert("「今日の神学の恵み」領域データが保存・更新されました。");
   
   switchAdminTab('articles');
+}
+
+// Render Admin Statistics & Views Ranking
+function renderAdminStats() {
+  const totalArticlesEl = document.getElementById('stats-total-articles');
+  const totalViewsEl = document.getElementById('stats-total-views');
+  const avgViewsEl = document.getElementById('stats-avg-views');
+  const rankingBody = document.getElementById('stats-ranking-body');
+
+  if (!totalArticlesEl || !totalViewsEl || !avgViewsEl || !rankingBody) return;
+
+  const totalArticles = state.articles.length;
+  let totalViews = 0;
+
+  state.articles.forEach(art => {
+    totalViews += (art.views || 0);
+  });
+
+  const avgViews = totalArticles > 0 ? (totalViews / totalArticles).toFixed(1) : 0;
+
+  totalArticlesEl.textContent = totalArticles;
+  totalViewsEl.textContent = totalViews;
+  avgViewsEl.textContent = avgViews;
+
+  // Sort articles by views descending
+  const sortedArticles = [...state.articles].sort((a, b) => (b.views || 0) - (a.views || 0));
+
+  rankingBody.innerHTML = '';
+  if (sortedArticles.length === 0) {
+    rankingBody.innerHTML = `
+      <tr>
+        <td colspan="5" style="padding: 20px; text-align: center; color: var(--text-light);">등록된 기사가 없습니다.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  sortedArticles.forEach(art => {
+    const catObj = state.categories.find(c => c.id === art.categoryId);
+    const catName = catObj ? catObj.nameJp : '미지정';
+    const views = art.views || 0;
+
+    const tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid var(--border-color)';
+    tr.innerHTML = `
+      <td style="padding: 12px 15px; font-weight: 500; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${art.title}</td>
+      <td style="padding: 12px 15px; color: var(--text-light);">${catName}</td>
+      <td style="padding: 12px 15px;">${art.author}</td>
+      <td style="padding: 12px 15px; color: var(--text-light); font-size: 0.85rem;">${art.createdAt || ''}</td>
+      <td style="padding: 12px 15px; text-align: right; font-weight: 700; color: var(--accent-color);">${views}</td>
+    `;
+    rankingBody.appendChild(tr);
+  });
 }
 
 // Start application
