@@ -842,9 +842,11 @@ function handleLogout() {
   document.getElementById('main-menu-sec').style.display = 'grid';
   document.getElementById('featured-sec').style.display = 'block';
   
-  // Reset menus
+  // Reset menus and restore display modes
   document.querySelectorAll('.menu-card').forEach(c => c.classList.remove('active'));
+  document.getElementById('submenu-sec').style.display = '';
   document.getElementById('submenu-sec').classList.remove('active');
+  document.getElementById('workspace-sec').style.display = '';
   document.getElementById('workspace-sec').classList.remove('active');
 }
 
