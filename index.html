@@ -288,8 +288,27 @@
                   <input class="form-input" type="text" id="new-menu-name" placeholder="例: 改革派神学, 契約神学" required>
                 </div>
                 <div class="form-group">
-                  <label class="form-label">アイコンクラス (FontAwesome)</label>
-                  <input class="form-input" type="text" id="new-menu-icon" value="fa-circle-chevron-right" required>
+                  <label class="form-label">アイコンの選択 (画像)</label>
+                  <select class="form-input" id="new-menu-icon" required style="cursor: pointer; padding: 6px 12px; font-size: 0.95rem; border-radius: 4px; border: 1px solid var(--border-color); background-color: white;">
+                    <option value="fa-circle-chevron-right">➡️ 基本矢印 (Default)</option>
+                    <option value="fa-book">📖 閉じた本 (주석/독서)</option>
+                    <option value="fa-book-open">📖 開いた本 (교리/학습)</option>
+                    <option value="fa-scroll">📜 聖書/巻물 (성경/두루마리)</option>
+                    <option value="fa-hands-praying">🙏 祈り/敬虔 (기도/경건)</option>
+                    <option value="fa-church">⛪ 教会/礼拝 (교회/예배)</option>
+                    <option value="fa-graduation-cap">🎓 学位帽/神学 (학사모/신학)</option>
+                    <option value="fa-users">👥 人々/交わり (사람들/교제)</option>
+                    <option value="fa-user-tie">👔 牧会者/人物 (목회자/인물)</option>
+                    <option value="fa-video">📹 映像講義 (영상 강의)</option>
+                    <option value="fa-microphone">🎙️ 説教/マイク (설교/오디오)</option>
+                    <option value="fa-file-lines">📄 書類/文書 (종이/문서)</option>
+                    <option value="fa-pen-nib">✍️ 記録/ペン (글쓰기/기록)</option>
+                    <option value="fa-calendar-days">📅 カレンダー (달력/행사)</option>
+                    <option value="fa-star">⭐ 重要/星 (중요/추천)</option>
+                    <option value="fa-map">🗺️ 地図/宣教 (지도/선교)</option>
+                    <option value="fa-heart">❤️ ハート/愛 (사랑/하트)</option>
+                    <option value="fa-lightbulb">💡 電球/アイデア (아이디어/전구)</option>
+                  </select>
                 </div>
                 <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
                   <input type="checkbox" id="new-menu-isvideo" style="cursor: pointer;">
