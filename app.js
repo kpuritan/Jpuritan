@@ -3,7 +3,7 @@
 // ==========================================
 // 1. Initial Seed Data Configuration (v6 with Dynamic Main Menus & Video Support)
 // ==========================================
-const DEFAULT_MAIN_MENUS = [{"id":"sermon","nameJp":"聖書講解","nameKr":"성경강해","icon":"fa-book-open"},{"id":"catechism","nameJp":"教理教育と復興","nameKr":"교리교육과 부흥","icon":"fa-scroll"},{"id":"theology","nameJp":"改革派神学","nameKr":"개혁신학","icon":"fa-graduation-cap"},{"id":"discipleship","nameJp":"伝道・弟子道","nameKr":"전도·제자도","icon":"fa-users-line"},{"id":"pastor","nameJp":"牧会者のための10分神学","nameKr":"목회자를 위한 10분 신학","icon":"fa-user-tie","isVideo":true}];
+const DEFAULT_MAIN_MENUS = [{"id":"sermon","nameJp":"聖書講解","nameKr":"성경강해","icon":"fa-book-open"},{"id":"catechism","nameJp":"教理教育と復興","nameKr":"교리교육과 부흥","icon":"fa-scroll"},{"id":"theology","nameJp":"改革派神学","nameKr":"개혁신학","icon":"fa-graduation-cap"},{"id":"discipleship","nameJp":"伝道・弟子道","nameKr":"전도·제자도","icon":"fa-users-line"},{"id":"pastor","nameJp":"牧会者のための<br>10分神学","nameKr":"목회자를 위한<br>10분 신학","icon":"fa-user-tie","isVideo":true}];
 
 const DEFAULT_CATEGORIES = [{"id":"cat_sermon_1","parentId":"sermon","nameJp":"ローマの信徒への手紙 講解説教","nameKr":"로마서 강해설교"},{"id":"cat_sermon_1_sub1","parentId":"cat_sermon_1","nameJp":"ローマ書 1〜8章 講義","nameKr":"로마서 1~8장 강의"},{"id":"cat_sermon_1_sub1_detail","parentId":"cat_sermon_1_sub1","nameJp":"第1章：福音の力","nameKr":"제1장: 복음의 능력"},{"id":"cat_sermon_2","parentId":"sermon","nameJp":"マタイによる福音書 講解","nameKr":"마태복음 강해"},{"id":"cat_cat_1","parentId":"catechism","nameJp":"ウェストミンスター小教理問答","nameKr":"웨스트민스터 소교리문답"},{"id":"cat_cat_1_sub1","parentId":"cat_cat_1","nameJp":"第1問〜第38問 (序論・神と創造)","nameKr":"제1문~제38문 (서론·하나님과 창조)"},{"id":"cat_cat_2","parentId":"catechism","nameJp":"ウェストミンスター大教理問答","nameKr":"웨스트민스터 대교리문답"},{"id":"cat_cat_3","parentId":"catechism","nameJp":"ウェストミンスター信仰告白","nameKr":"웨스트민스터 신앙고백"},{"id":"cat_cat_4","parentId":"catechism","nameJp":"ハイデルベルク信仰問答","nameKr":"ハイデルベルク信仰問答"},{"id":"cat_theo_1","parentId":"theology","nameJp":"改革派神学入門","nameKr":"개혁신학 입문"},{"id":"cat_theo_2","parentId":"theology","nameJp":"契約神学と歴史","nameKr":"언약신학과 역사"},{"id":"cat_disc_1","parentId":"discipleship","nameJp":"福音宣教と個人の伝道","nameKr":"복음 선교와 개인 전도"},{"id":"cat_disc_2","parentId":"discipleship","nameJp":"弟子道と敬虔な生活","nameKr":"제자도와 경건한 생활"},{"id":"cat_pastor_1","parentId":"pastor","nameJp":"10分で学ぶキリスト論","nameKr":"10분으로 배우는 기독론"},{"id":"cat_pastor_2","parentId":"pastor","nameJp":"10分で学ぶ救済論","nameKr":"10분으로 배우는 구원론"}];
 
@@ -24,7 +24,11 @@ let state = {
   currentArticle: null,    // Selected article object
   isAdmin: false,
   adminTab: 'folders',     // 'folders', 'mainmenus', 'write', 'articles', 'featured'
-  editArticleId: null      // If editing an article, stores ID
+  editArticleId: null,     // If editing an article, stores ID
+  pagination: {
+    currentPage: 1,
+    pageSize: 10
+  }
 };
 
 // Initialize App
@@ -95,6 +99,7 @@ async function initApp() {
   // Render Dynamic Elements
   renderMainMenuCards();
   renderFeaturedBlocks();
+  renderRecentArticles();
 
   // Check login state
   if (sessionStorage.getItem('wscal_admin_logged') === 'true') {
@@ -342,6 +347,7 @@ function selectMainMenu(menuKey) {
   state.currentMenu = menuKey;
   state.currentCategory = null;
   state.currentArticle = null;
+  state.pagination.currentPage = 1;
 
   // Toggle visual active state
   document.querySelectorAll('.menu-card').forEach(card => {
@@ -404,9 +410,10 @@ function selectMainMenu(menuKey) {
 }
 
 // Select a subcategory folder
-function selectSubcategory(categoryId, shouldScroll = true) {
+function selectSubcategory(categoryId, shouldScroll = false) {
   state.currentCategory = categoryId;
   state.currentArticle = null;
+  state.pagination.currentPage = 1;
 
   // Render Sidebar and Article list in the Workspace
   renderWorkspaceSidebar();
@@ -474,7 +481,7 @@ function renderWorkspaceSidebar() {
   });
 }
 
-// Render Article List (Supports Grid Video Gallery for Pastor Theology)
+// Render Article List (Supports Grid Video Gallery for Pastor Theology and Pagination)
 function renderArticlesList() {
   const container = document.getElementById('articles-list-container');
   const listTitle = document.getElementById('list-title');
@@ -497,12 +504,60 @@ function renderArticlesList() {
     return;
   }
 
+  // 1. Pagination calculation
+  const totalCount = filteredArticles.length;
+  const pageSize = state.pagination.pageSize;
+  const totalPages = Math.ceil(totalCount / pageSize);
+
+  // Validate current page range
+  if (state.pagination.currentPage > totalPages) {
+    state.pagination.currentPage = totalPages;
+  }
+  if (state.pagination.currentPage < 1) {
+    state.pagination.currentPage = 1;
+  }
+
+  const startIndex = (state.pagination.currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const pagedArticles = filteredArticles.slice(startIndex, endIndex);
+
   // Check if current menu is "pastor" (목회자를 위한 10분 신학) for visual grid gallery setting
   const isPastorMenu = state.currentMenu === 'pastor';
 
+  // 2. Render Page Size Selector & Total count
+  const headerWrapper = document.createElement('div');
+  headerWrapper.className = 'article-list-header-controls';
+  headerWrapper.style.display = 'flex';
+  headerWrapper.style.justifyContent = 'space-between';
+  headerWrapper.style.alignItems = 'center';
+  headerWrapper.style.marginBottom = '1.5rem';
+  headerWrapper.style.width = '100%';
+  headerWrapper.style.flexWrap = 'wrap';
+  headerWrapper.style.gap = '10px';
+
+  headerWrapper.innerHTML = `
+    <div class="articles-total-count" style="font-size: 0.9rem; color: var(--text-light);">
+      全 <strong>${totalCount}</strong> 件の資料 (ページ ${state.pagination.currentPage} / ${totalPages})
+    </div>
+    <div class="page-size-selector-wrapper" style="display: flex; align-items: center; gap: 8px;">
+      <span style="font-size: 0.85rem; color: var(--text-light);">表示件数:</span>
+      <select class="form-input page-size-select" style="padding: 4px 8px; font-size: 0.85rem; width: auto; margin: 0; height: auto;" onchange="changePageSize(this.value)">
+        <option value="5" ${pageSize === 5 ? 'selected' : ''}>5件</option>
+        <option value="10" ${pageSize === 10 ? 'selected' : ''}>10件</option>
+        <option value="15" ${pageSize === 15 ? 'selected' : ''}>15件</option>
+        <option value="20" ${pageSize === 20 ? 'selected' : ''}>20件</option>
+      </select>
+    </div>
+  `;
+  container.appendChild(headerWrapper);
+
+  // 3. Render articles list/grid inside items wrapper
+  const itemsWrapper = document.createElement('div');
+  itemsWrapper.className = isPastorMenu ? 'video-gallery-grid' : 'article-list';
+  container.appendChild(itemsWrapper);
+
   if (isPastorMenu) {
-    container.className = 'video-gallery-grid';
-    filteredArticles.forEach(art => {
+    pagedArticles.forEach(art => {
       const card = document.createElement('div');
       card.className = 'video-card';
       card.onclick = () => viewArticleDetail(art.id);
@@ -510,7 +565,7 @@ function renderArticlesList() {
       const youtubeId = getYouTubeId(art.videoUrl);
       const thumbUrl = youtubeId 
         ? `https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg` 
-        : 'hero_bg.jpg'; // Fallback to hero background if no video
+        : 'hero_bg.jpg';
 
       card.innerHTML = `
         <div class="video-thumbnail-container">
@@ -527,16 +582,14 @@ function renderArticlesList() {
           </div>
         </div>
       `;
-      container.appendChild(card);
+      itemsWrapper.appendChild(card);
     });
   } else {
-    container.className = 'article-list';
-    filteredArticles.forEach(art => {
+    pagedArticles.forEach(art => {
       const card = document.createElement('div');
       card.className = 'article-item-card';
       card.onclick = () => viewArticleDetail(art.id);
       
-      // Indicate video badge in plain list if video is attached
       const hasVideoBadge = art.videoUrl ? '<span style="color: var(--accent-color); margin-left: 8px;"><i class="fa-solid fa-circle-play"></i> 動画</span>' : '';
 
       card.innerHTML = `
@@ -547,8 +600,41 @@ function renderArticlesList() {
           <span><i class="fa-regular fa-calendar"></i> 日付: ${art.createdAt}</span>
         </div>
       `;
-      container.appendChild(card);
+      itemsWrapper.appendChild(card);
     });
+  }
+
+  // 4. Render Pagination Controls
+  if (totalPages > 1) {
+    const paginationControls = document.createElement('div');
+    paginationControls.className = 'pagination-controls';
+    
+    // Prev Button
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'btn-pagination';
+    prevBtn.disabled = state.pagination.currentPage === 1;
+    prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
+    prevBtn.onclick = () => changePage(state.pagination.currentPage - 1);
+    paginationControls.appendChild(prevBtn);
+    
+    // Page Number Buttons
+    for (let i = 1; i <= totalPages; i++) {
+      const pageBtn = document.createElement('button');
+      pageBtn.className = `btn-pagination ${state.pagination.currentPage === i ? 'active' : ''}`;
+      pageBtn.textContent = i;
+      pageBtn.onclick = () => changePage(i);
+      paginationControls.appendChild(pageBtn);
+    }
+    
+    // Next Button
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'btn-pagination';
+    nextBtn.disabled = state.pagination.currentPage === totalPages;
+    nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+    nextBtn.onclick = () => changePage(state.pagination.currentPage + 1);
+    paginationControls.appendChild(nextBtn);
+    
+    container.appendChild(paginationControls);
   }
 }
 
@@ -1334,6 +1420,7 @@ function handleSaveArticle(event) {
   }
 
   saveArticles();
+  renderRecentArticles();
   resetWriteForm();
   switchAdminTab('articles');
 }
@@ -1435,6 +1522,7 @@ function handleDeleteArticle(artId) {
   if (confirm(`資料「${art.title}」を完全に削除しますか？`)) {
     state.articles = state.articles.filter(a => a.id !== artId);
     saveArticles();
+    renderRecentArticles();
     renderAdminArticleList();
   }
 }
@@ -1611,6 +1699,150 @@ async function syncDataToGithub() {
   } catch (err) {
     console.error(err);
     alert("동기화 실패: " + err.message);
+  }
+}
+
+// ==========================================
+// 7. Pagination Helper Functions
+// ==========================================
+function changePage(pageNum) {
+  state.pagination.currentPage = pageNum;
+  renderArticlesList();
+  
+  // Scroll smoothly back to workspace start after page transition
+  const workspaceSec = document.getElementById('workspace-sec');
+  if (workspaceSec) {
+    workspaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function changePageSize(size) {
+  state.pagination.pageSize = parseInt(size, 10);
+  state.pagination.currentPage = 1;
+  renderArticlesList();
+}
+
+// ==========================================
+// 8. Recent Articles & Navigation helper
+// ==========================================
+function renderRecentArticles() {
+  const container = document.getElementById('recent-articles-list');
+  if (!container) return;
+  
+  container.innerHTML = '';
+  
+  // Sort articles by date descending
+  const recentArticles = [...state.articles]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 10);
+    
+  if (recentArticles.length === 0) {
+    container.innerHTML = '<li style="color: var(--text-light); font-size: 0.85rem; padding: 10px;">更新された記事がありません。</li>';
+    return;
+  }
+  
+  recentArticles.forEach(art => {
+    const li = document.createElement('li');
+    li.style.cursor = 'pointer';
+    li.style.padding = '8px 10px';
+    li.style.borderBottom = '1px solid var(--border-color)';
+    li.style.transition = 'var(--transition-smooth)';
+    
+    li.innerHTML = `
+      <div style="font-weight: 500; color: var(--primary-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.85rem;" title="${art.title}">
+        ${art.title}
+      </div>
+      <div style="font-size: 0.75rem; color: var(--text-light); display: flex; justify-content: space-between; margin-top: 4px;">
+        <span>${art.author}</span>
+        <span>${art.createdAt}</span>
+      </div>
+    `;
+    
+    li.onclick = () => showArticleDirectly(art.id);
+    
+    li.onmouseenter = () => {
+      li.style.backgroundColor = 'var(--bg-warm)';
+    };
+    li.onmouseleave = () => {
+      li.style.backgroundColor = 'transparent';
+    };
+    
+    container.appendChild(li);
+  });
+}
+
+function showArticleDirectly(artId) {
+  const art = state.articles.find(a => a.id === artId);
+  if (!art) return;
+  
+  // Find category
+  const catObj = state.categories.find(c => c.id === art.categoryId);
+  if (!catObj) return;
+  
+  // Find root parent menu
+  const rootMenus = state.mainMenus.map(m => m.id);
+  let parentMenu = catObj.parentId;
+  let tempCat = catObj;
+  while (tempCat && !rootMenus.includes(tempCat.parentId)) {
+    tempCat = state.categories.find(c => c.id === tempCat.parentId);
+  }
+  if (tempCat) {
+    parentMenu = tempCat.parentId;
+  }
+  
+  // Select menu & subcat & render
+  selectMainMenu(parentMenu);
+  selectSubcategory(art.categoryId, false);
+  viewArticleDetail(artId);
+}
+
+// ==========================================
+// 9. BGM Floating Player Logic
+// ==========================================
+let bgmIframe = null;
+let isBgmPlaying = false;
+
+function toggleBgm() {
+  const btn = document.getElementById('bgm-toggle-btn');
+  if (!btn) return;
+  
+  const icon = btn.querySelector('i');
+  const text = btn.querySelector('.bgm-text');
+  
+  if (!isBgmPlaying) {
+    // Play (embed YouTube iframe hidden)
+    if (!bgmIframe) {
+      bgmIframe = document.createElement('iframe');
+      bgmIframe.id = 'youtube-bgm';
+      bgmIframe.style.display = 'none';
+      bgmIframe.width = '0';
+      bgmIframe.height = '0';
+      bgmIframe.src = 'https://www.youtube.com/embed/mI6UF7ZEnYQ?autoplay=1&loop=1&playlist=mI6UF7ZEnYQ';
+      bgmIframe.allow = 'autoplay';
+      document.body.appendChild(bgmIframe);
+    } else {
+      bgmIframe.src = 'https://www.youtube.com/embed/mI6UF7ZEnYQ?autoplay=1&loop=1&playlist=mI6UF7ZEnYQ';
+    }
+    isBgmPlaying = true;
+    btn.classList.add('playing');
+    icon.className = 'fa-solid fa-volume-high';
+    text.textContent = 'BGM ON';
+  } else {
+    // Pause/Stop (blank src)
+    if (bgmIframe) {
+      bgmIframe.src = '';
+    }
+    isBgmPlaying = false;
+    btn.classList.remove('playing');
+    icon.className = 'fa-solid fa-volume-xmark';
+    text.textContent = 'BGM OFF';
+  }
+}
+
+function toggleSidebarBox(boxId) {
+  const box = document.getElementById(boxId);
+  if (box) {
+    box.classList.toggle('active');
   }
 }
 

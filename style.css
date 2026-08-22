@@ -423,7 +423,7 @@ header {
    Article Display Workspace (List and Detail)
    ========================================== */
 .workspace-container {
-  max-width: 1200px;
+  max-width: 1350px;
   margin: 2rem auto 4rem auto;
   padding: 0 1.5rem;
   display: none;
@@ -436,8 +436,8 @@ header {
 
 .workspace-layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 2rem;
+  grid-template-columns: 240px 1fr 280px;
+  gap: 1.5rem;
 }
 
 /* Sidebar List */
@@ -1299,5 +1299,171 @@ footer {
   width: 100%;
   height: 100%;
   border: none;
+}
+
+/* ==========================================
+   Right Sidebar Layout and Styles
+   ========================================== */
+.sidebar-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-self: start;
+}
+
+.sidebar-box {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1.2rem;
+}
+
+.sidebar-box.collapsible .sidebar-title {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: var(--primary-color);
+  font-weight: 700;
+  user-select: none;
+}
+
+.sidebar-box.collapsible.active .sidebar-title {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.sidebar-box .sidebar-content {
+  transition: max-height 0.3s ease;
+  overflow: hidden;
+}
+
+.sidebar-box.collapsible:not(.active) .sidebar-content {
+  display: none;
+}
+
+.sidebar-box.collapsible .toggle-icon {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+  color: var(--text-light);
+}
+
+.sidebar-box.collapsible:not(.active) .toggle-icon {
+  transform: rotate(-90deg);
+}
+
+.heritage-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.heritage-list li {
+  font-size: 0.82rem;
+  color: var(--text-dark);
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border-color);
+  line-height: 1.35;
+}
+
+.heritage-list li:last-child {
+  border-bottom: none;
+}
+
+/* ==========================================
+   BGM Floating Button Styles
+   ========================================== */
+.bgm-float-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: var(--primary-color);
+  color: var(--text-white);
+  border: none;
+  border-radius: 30px;
+  padding: 10px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.bgm-float-btn:hover {
+  background-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+.bgm-float-btn.playing {
+  background-color: var(--accent-color);
+  animation: bgmPulse 2s infinite;
+}
+
+@keyframes bgmPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(192, 41, 43, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(192, 41, 43, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(192, 41, 43, 0);
+  }
+}
+
+/* ==========================================
+   Pagination Controls
+   ========================================== */
+.pagination-controls {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-pagination {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 35px;
+  height: 35px;
+}
+
+.btn-pagination:hover:not(:disabled) {
+  background-color: var(--bg-warm);
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-pagination.active {
+  background-color: var(--primary-color);
+  color: var(--text-white);
+  border-color: var(--primary-color);
+  font-weight: bold;
+}
+
+.btn-pagination:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 

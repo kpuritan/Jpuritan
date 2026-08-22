@@ -26,8 +26,8 @@
     },
     {
       "id": "pastor",
-      "nameJp": "牧会者のための10分神学",
-      "nameKr": "목회자를 위한 10분 신학",
+      "nameJp": "牧会者のための<br>10分神学",
+      "nameKr": "목회자를 위한<br>10분 신학",
       "icon": "fa-user-tie",
       "isVideo": true
     }
