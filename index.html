@@ -170,21 +170,8 @@
       
       <!-- Right Sidebar (Latest Articles & Theological Institution) -->
       <aside class="sidebar-right" id="right-sidebar">
-        <!-- 최근 업데이트 소식 (Latest Articles) -->
-        <div class="sidebar-box recent-updates collapsible active" id="box-latest-articles">
-          <h3 class="sidebar-title" onclick="toggleSidebarBox('box-latest-articles')">
-            <span><i class="fa-solid fa-clock-rotate-left"></i> Latest Articles</span>
-            <i class="fa-solid fa-chevron-down toggle-icon"></i>
-          </h3>
-          <div class="sidebar-content">
-            <ul class="sidebar-list" id="recent-articles-list">
-              <!-- app.js에서 동적 생성 -->
-            </ul>
-          </div>
-        </div>
-        
         <!-- 신학적 유산 (Theological Institution) -->
-        <div class="sidebar-box theological-heritage collapsible active" id="box-theological-institutions">
+        <div class="sidebar-box theological-heritage collapsible" id="box-theological-institutions">
           <h3 class="sidebar-title" onclick="toggleSidebarBox('box-theological-institutions')">
             <span><i class="fa-solid fa-building-columns"></i> Theological Institution</span>
             <i class="fa-solid fa-chevron-down toggle-icon"></i>
@@ -198,6 +185,19 @@
               <li>Covenant Theological Seminary</li>
               <li>Puritan Reformed Theological Seminary</li>
               <li>Calvin Theological Seminary</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 최근 업데이트 소식 (Latest Articles) -->
+        <div class="sidebar-box recent-updates collapsible active" id="box-latest-articles">
+          <h3 class="sidebar-title" onclick="toggleSidebarBox('box-latest-articles')">
+            <span><i class="fa-solid fa-clock-rotate-left"></i> Latest Articles</span>
+            <i class="fa-solid fa-chevron-down toggle-icon"></i>
+          </h3>
+          <div class="sidebar-content">
+            <ul class="sidebar-list" id="recent-articles-list">
+              <!-- app.js에서 동적 생성 -->
             </ul>
           </div>
         </div>
