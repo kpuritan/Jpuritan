@@ -235,7 +235,7 @@
       </div>
       <div class="admin-meta" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
         <span style="font-size: 0.85rem; color: var(--text-light);">GitHub Token: <input type="password" id="admin-github-token" placeholder="GitHub 토큰 입력" style="padding: 4px 8px; font-size: 0.8rem; border-radius: 4px; border: 1px solid var(--border-color); width: 120px;" onchange="saveGithubToken()"></span>
-        <button class="btn-logout" onclick="syncDataToGithub()" style="background-color: #27ae60; color: white;">
+        <button id="btn-github-sync" class="btn-logout" onclick="syncDataToGithub()" style="background-color: #27ae60; color: white;">
           <i class="fa-solid fa-cloud-arrow-up"></i> 인터넷 배포 반영 (GitHub 동기화)
         </button>
         <span>ログイン중: <strong style="color: var(--accent-color);">Administrator</strong></span>
@@ -580,6 +580,23 @@
   </button>
 
   <!-- CORE LOGIC AND DATA -->
+  <!-- Firebase SDK and Configuration -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBGCdG5Lw3tFseMVqAto2yov6g4kjaS5ws",
+      authDomain: "jpuritan-47764.firebaseapp.com",
+      projectId: "jpuritan-47764",
+      storageBucket: "jpuritan-47764.firebasestorage.app",
+      messagingSenderId: "206921720208",
+      appId: "1:206921720208:web:e2f3cf42197d878eea1315",
+      measurementId: "G-1ZND74C8EJ"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+
   <script src="app.js"></script>
 </body>
 </html>

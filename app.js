@@ -88,12 +88,31 @@ async function initApp() {
   let updatedArticles = false;
   state.articles.forEach(art => {
     if (art.views === undefined) {
-      art.views = Math.floor(Math.random() * 45) + 5; // Seed mock views (5 to 50)
+      art.views = 0; // New articles start at 0 views
       updatedArticles = true;
     }
   });
   if (updatedArticles) {
     saveArticles();
+  }
+
+  // Fetch real-time views from Firestore if available
+  if (typeof db !== 'undefined') {
+    try {
+      const snapshot = await db.collection('article_views').get();
+      const firestoreViews = {};
+      snapshot.forEach(doc => {
+        firestoreViews[doc.id] = doc.data().views || 0;
+      });
+      state.articles.forEach(art => {
+        if (firestoreViews[art.id] !== undefined) {
+          art.views = firestoreViews[art.id];
+        }
+      });
+      saveArticles();
+    } catch (err) {
+      console.warn("Failed to sync views with Firestore:", err);
+    }
   }
 
   // Render Dynamic Elements
@@ -649,6 +668,22 @@ function viewArticleDetail(articleId) {
   article.views = (article.views || 0) + 1;
   saveArticles();
 
+  if (typeof db !== 'undefined') {
+    try {
+      db.collection('article_views').doc(articleId).get().then(doc => {
+        if (doc.exists) {
+          doc.ref.update({ views: firebase.firestore.FieldValue.increment(1) });
+        } else {
+          doc.ref.set({ views: article.views });
+        }
+      }).catch(err => {
+        console.warn("Error updating views in Firestore: ", err);
+      });
+    } catch (err) {
+      console.warn("Failed to increment views in Firestore", err);
+    }
+  }
+
   document.getElementById('view-article-list').style.display = 'none';
   const detailView = document.getElementById('view-article-detail');
   detailView.style.display = 'block';
@@ -899,6 +934,7 @@ function populateAllMenuDropdowns() {
   // 1. Folder creation parent menu dropdown (new-cat-parent)
   const newCatParent = document.getElementById('new-cat-parent');
   if (newCatParent) {
+    const val = newCatParent.value;
     newCatParent.innerHTML = '';
     state.mainMenus.forEach(menu => {
       const opt = document.createElement('option');
@@ -906,6 +942,9 @@ function populateAllMenuDropdowns() {
       opt.textContent = menu.nameJp;
       newCatParent.appendChild(opt);
     });
+    if (val) {
+      newCatParent.value = val;
+    }
   }
 
   // 2. Folder list filter parent dropdown (filter-cat-parent)
@@ -1114,6 +1153,7 @@ function moveMainMenuDown(menuId) {
 function populateParentDropdown() {
   const select = document.getElementById('new-cat-parent');
   if (!select) return;
+  const val = select.value;
   select.innerHTML = '';
   
   state.mainMenus.forEach(root => {
@@ -1135,6 +1175,9 @@ function populateParentDropdown() {
       select.appendChild(opt);
     });
   });
+  if (val) {
+    select.value = val;
+  }
 }
 
 function renderAdminCategoryList() {
@@ -1629,6 +1672,14 @@ function saveGithubToken() {
 }
 
 async function syncDataToGithub() {
+  const tokenInput = document.getElementById('admin-github-token');
+  if (tokenInput) {
+    const tokenVal = tokenInput.value.trim();
+    if (tokenVal) {
+      localStorage.setItem('wscal_github_token', tokenVal);
+    }
+  }
+
   const token = localStorage.getItem('wscal_github_token') || '';
   if (!token) {
     alert("먼저 GitHub Token을 입력해 주세요.");
@@ -1637,6 +1688,19 @@ async function syncDataToGithub() {
 
   const confirmSync = confirm("현재 브라우저에 저장된 최신 폴더 및 글 정보들을 인터넷 깃허브(GitHub)에 반영하시겠습니까?\n반영 후 약 1~2분 뒤에 실시간 사이트에 배포가 완료됩니다.");
   if (!confirmSync) return;
+
+  const syncBtn = document.getElementById('btn-github-sync');
+  const originalBtnHtml = syncBtn ? syncBtn.innerHTML : '';
+  const originalBtnBg = syncBtn ? syncBtn.style.backgroundColor : '';
+
+  if (syncBtn) {
+    syncBtn.disabled = true;
+    syncBtn.style.backgroundColor = '#95a5a6';
+    syncBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 동기화 진행 중...';
+  }
+  if (tokenInput) {
+    tokenInput.disabled = true;
+  }
 
   const dataToSync = {
     mainMenus: JSON.parse(localStorage.getItem('wscal_mainmenus_v6')),
@@ -1695,10 +1759,40 @@ async function syncDataToGithub() {
       throw new Error(errData.message || "GitHub 데이터 업데이트 실패");
     }
 
-    alert("인터넷 GitHub 서버로 최신 데이터가 성공적으로 반영되었습니다!\nNetlify 배포가 시작되며 약 1~2분 뒤 다른 사람들의 화면에도 적용됩니다.");
+    if (tokenInput) {
+      tokenInput.value = ''; // Clear token from screen for security
+    }
+
+    if (syncBtn) {
+      syncBtn.style.backgroundColor = '#2ecc71';
+      syncBtn.innerHTML = '<i class="fa-solid fa-check"></i> 동기화 완료!';
+    }
+
+    alert("인터넷 GitHub 서버로 최신 데이터가 성공적으로 반영되었습니다!\n배포가 시작되며 약 1~2분 뒤 다른 사람들의 화면에도 적용됩니다.");
+
+    setTimeout(() => {
+      if (syncBtn) {
+        syncBtn.disabled = false;
+        syncBtn.style.backgroundColor = originalBtnBg;
+        syncBtn.innerHTML = originalBtnHtml;
+      }
+      if (tokenInput) {
+        tokenInput.disabled = false;
+      }
+    }, 3000);
+
   } catch (err) {
     console.error(err);
     alert("동기화 실패: " + err.message);
+
+    if (syncBtn) {
+      syncBtn.disabled = false;
+      syncBtn.style.backgroundColor = originalBtnBg;
+      syncBtn.innerHTML = originalBtnHtml;
+    }
+    if (tokenInput) {
+      tokenInput.disabled = false;
+    }
   }
 }
 
