@@ -939,7 +939,7 @@ function populateAllMenuDropdowns() {
     state.mainMenus.forEach(menu => {
       const opt = document.createElement('option');
       opt.value = menu.id;
-      opt.textContent = menu.nameJp;
+      opt.textContent = `${menu.nameJp} (${menu.nameKr || ''})`;
       newCatParent.appendChild(opt);
     });
     if (val) {
@@ -955,7 +955,7 @@ function populateAllMenuDropdowns() {
     state.mainMenus.forEach(menu => {
       const opt = document.createElement('option');
       opt.value = menu.id;
-      opt.textContent = menu.nameJp;
+      opt.textContent = `${menu.nameJp} (${menu.nameKr || ''})`;
       filterCatParent.appendChild(opt);
     });
     filterCatParent.value = val;
@@ -969,7 +969,7 @@ function populateAllMenuDropdowns() {
     state.mainMenus.forEach(menu => {
       const opt = document.createElement('option');
       opt.value = menu.id;
-      opt.textContent = menu.nameJp;
+      opt.textContent = `${menu.nameJp} (${menu.nameKr || ''})`;
       artParentMenu.appendChild(opt);
     });
     artParentMenu.value = val;
@@ -983,7 +983,7 @@ function populateAllMenuDropdowns() {
     state.mainMenus.forEach(menu => {
       const opt = document.createElement('option');
       opt.value = menu.id;
-      opt.textContent = menu.nameJp;
+      opt.textContent = `${menu.nameJp} (${menu.nameKr || ''})`;
       filterArtParent.appendChild(opt);
     });
     filterArtParent.value = val;
@@ -1011,7 +1011,7 @@ function renderAdminMainMenuList() {
 
     div.innerHTML = `
       <div class="category-node-info" style="display: flex; align-items: center; gap: 8px; font-weight: 600; line-height: 1.35;">
-        <i class="fa-solid ${iconClass}"></i> ${menu.nameJp} ${isVideoLabel}
+        <i class="fa-solid ${iconClass}"></i> ${menu.nameJp} <span style="font-size: 0.8rem; color: var(--text-light); font-weight: normal; margin-left: 5px;">(${menu.nameKr || ''})</span> ${isVideoLabel}
       </div>
       <div class="category-node-actions">
         <button class="btn-tree-action move-up" onclick="moveMainMenuUp('${menu.id}')" title="上に移動"><i class="fa-solid fa-arrow-up"></i></button>
@@ -1161,7 +1161,7 @@ function populateParentDropdown() {
     const optGroup = document.createElement('option');
     optGroup.value = root.id;
     optGroup.style.fontWeight = 'bold';
-    optGroup.textContent = `▶ ${root.nameJp}`;
+    optGroup.textContent = `▶ ${root.nameJp} (${root.nameKr || ''})`;
     select.appendChild(optGroup);
     
     // Add nested children recursively
@@ -1171,7 +1171,7 @@ function populateParentDropdown() {
       opt.value = c.id;
       // Using non-breaking space for visual indent tree
       const indent = '\u00A0\u00A0'.repeat(c.depth + 1);
-      opt.textContent = `${indent}└ ${c.nameJp}`;
+      opt.textContent = `${indent}└ ${c.nameJp} (${c.nameKr || ''})`;
       select.appendChild(opt);
     });
   });
@@ -1227,7 +1227,7 @@ function renderAdminCategoryList() {
       div.className = `category-tree-node depth-indent-${node.depth}`;
       div.innerHTML = `
         <div class="category-node-info" style="display: flex; align-items: center; gap: 8px; font-weight: 600; line-height: 1.35;">
-          <i class="fa-regular fa-folder-open"></i> ${node.nameJp}
+          <i class="fa-regular fa-folder-open"></i> ${node.nameJp} <span style="font-size: 0.8rem; color: var(--text-light); font-weight: normal; margin-left: 5px;">(${node.nameKr || ''})</span>
         </div>
         <div class="category-node-actions">
           <button class="btn-tree-action move-up" onclick="moveCategoryUp('${node.id}')" title="上に移動"><i class="fa-solid fa-arrow-up"></i></button>
@@ -1399,7 +1399,7 @@ function updateWriteSubcategoryDropdown() {
     const opt = document.createElement('option');
     opt.value = c.id;
     const indent = '\u00A0\u00A0'.repeat(c.depth);
-    opt.textContent = `${indent}${c.depth > 0 ? '└ ' : ''}${c.nameJp}`;
+    opt.textContent = `${indent}${c.depth > 0 ? '└ ' : ''}${c.nameJp} (${c.nameKr || ''})`;
     selectCat.appendChild(opt);
   });
 }
