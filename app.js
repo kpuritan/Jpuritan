@@ -1911,11 +1911,11 @@ function toggleBgm() {
       bgmIframe.style.display = 'none';
       bgmIframe.width = '0';
       bgmIframe.height = '0';
-      bgmIframe.src = 'https://www.youtube.com/embed/mI6UF7ZEnYQ?autoplay=1&loop=1&playlist=mI6UF7ZEnYQ';
+      bgmIframe.src = 'https://www.youtube.com/embed/f742p7mQ0Ic?autoplay=1&loop=1&playlist=f742p7mQ0Ic';
       bgmIframe.allow = 'autoplay';
       document.body.appendChild(bgmIframe);
     } else {
-      bgmIframe.src = 'https://www.youtube.com/embed/mI6UF7ZEnYQ?autoplay=1&loop=1&playlist=mI6UF7ZEnYQ';
+      bgmIframe.src = 'https://www.youtube.com/embed/f742p7mQ0Ic?autoplay=1&loop=1&playlist=f742p7mQ0Ic';
     }
     isBgmPlaying = true;
     btn.classList.add('playing');
