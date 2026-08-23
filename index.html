@@ -238,6 +238,9 @@
         <button id="btn-github-sync" class="btn-logout" onclick="syncDataToGithub()" style="background-color: #27ae60; color: white;">
           <i class="fa-solid fa-cloud-arrow-up"></i> 인터넷 배포 반영 (GitHub 동기화)
         </button>
+        <button class="btn-logout" onclick="resetLocalDataToServer()" style="background-color: #e74c3c; color: white;">
+          <i class="fa-solid fa-rotate"></i> 로컬 캐시 초기화 (서버 동기화)
+        </button>
         <span>ログイン중: <strong style="color: var(--accent-color);">Administrator</strong></span>
         <button class="btn-logout" onclick="handleLogout()">
           <i class="fa-solid fa-sign-out-alt"></i> ログアウト
@@ -384,7 +387,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label">細部フォルダ（サブカテゴリ）</label>
-                <select class="form-input" id="art-category-id" required>
+                <select class="form-input" id="art-category-id" onchange="handleCategoryChange()" required>
                   <option value="">-- 先に親メニューを選択してください --</option>
                 </select>
               </div>
@@ -410,13 +413,17 @@
               <label class="form-label">YouTube動画リンク (동영상 링크 - 任意)</label>
               <input class="form-input" type="text" id="art-video-url" placeholder="例: https://www.youtube.com/watch?v=xxxxxx">
             </div>
+            <div class="form-group" id="art-photo-group" style="display: none;">
+              <label class="form-label">プロフィール写真URL (프로필 사진 URL - 任意)</label>
+              <input class="form-input" type="text" id="art-photo-url" placeholder="例: images/profile.jpg または画像URL">
+            </div>
             <div class="form-group" style="display: none;">
               <label class="form-label">投稿日 (게시날짜)</label>
               <input class="form-input" type="date" id="art-date" required>
             </div>
 
             <div class="form-group">
-              <label class="form-label">コンテンツ本文</label>
+              <label class="form-label" id="art-content-label">コンテンツ本文</label>
               <textarea class="form-input textarea-content" id="art-content" placeholder="説教要旨、神学研究資料などの本文を入力してください..." required></textarea>
             </div>
 
@@ -430,14 +437,29 @@
         <!-- TAB 3: ARTICLE MANAGER LIST -->
         <div id="admin-tab-articles" style="display: none;">
           <h3 class="admin-section-title">登録済み記事資料의 관리</h3>
-          <div class="form-group">
-            <label class="form-label">親メニューフィルター</label>
-            <select class="form-input" id="filter-art-parent" onchange="renderAdminArticleList()" style="max-width: 300px;">
-              <option value="all">すべての親カテゴリ</option>
-              <!-- Dynamically Populated -->
-            </select>
+          <div class="form-row" style="display: flex; gap: 15px; margin-bottom: 1rem; align-items: flex-end;">
+            <div class="form-group" style="margin: 0; flex: 1;">
+              <label class="form-label">親メニューフィルター</label>
+              <select class="form-input" id="filter-art-parent" onchange="resetAdminArticlesPage(); renderAdminArticleList()" style="max-width: 100%;">
+                <option value="all">すべての親カテゴリ</option>
+                <!-- Dynamically Populated -->
+              </select>
+            </div>
+            <div class="form-group" style="margin: 0; width: 150px;">
+              <label class="form-label">表示件数</label>
+              <select class="form-input" id="admin-art-pagesize" onchange="changeAdminPageSize(this.value)">
+                <option value="5">5件</option>
+                <option value="10" selected>10件</option>
+                <option value="15">15件</option>
+                <option value="20">20件</option>
+              </select>
+            </div>
           </div>
           <div class="admin-article-list" id="admin-articles-container">
+            <!-- Dynamically Populated -->
+          </div>
+          <!-- Pagination Controls for Admin -->
+          <div id="admin-articles-pagination" class="pagination-controls" style="margin-top: 1.5rem; justify-content: center;">
             <!-- Dynamically Populated -->
           </div>
         </div>

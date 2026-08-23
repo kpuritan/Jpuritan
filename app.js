@@ -25,7 +25,12 @@ let state = {
   isAdmin: false,
   adminTab: 'folders',     // 'folders', 'mainmenus', 'write', 'articles', 'featured'
   editArticleId: null,     // If editing an article, stores ID
+  collapsedCategories: {}, // Map of categoryId to boolean indicating if it is collapsed
   pagination: {
+    currentPage: 1,
+    pageSize: 10
+  },
+  adminPagination: {
     currentPage: 1,
     pageSize: 10
   }
@@ -48,18 +53,7 @@ async function initApp() {
         localStorage.setItem('wscal_articles_v6', JSON.stringify(serverData.articles));
         localStorage.setItem('wscal_featured_v6', JSON.stringify(serverData.featured));
       } else {
-        if (!localStorage.getItem('wscal_mainmenus_v6')) {
-          localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(serverData.mainMenus));
-        }
-        if (!localStorage.getItem('wscal_categories_v6')) {
-          localStorage.setItem('wscal_categories_v6', JSON.stringify(serverData.categories));
-        }
-        if (!localStorage.getItem('wscal_articles_v6')) {
-          localStorage.setItem('wscal_articles_v6', JSON.stringify(serverData.articles));
-        }
-        if (!localStorage.getItem('wscal_featured_v6')) {
-          localStorage.setItem('wscal_featured_v6', JSON.stringify(serverData.featured));
-        }
+        mergeServerData(serverData);
       }
     }
   } catch (err) {
@@ -83,6 +77,8 @@ async function initApp() {
   state.categories = JSON.parse(localStorage.getItem('wscal_categories_v6'));
   state.articles = JSON.parse(localStorage.getItem('wscal_articles_v6'));
   state.featured = JSON.parse(localStorage.getItem('wscal_featured_v6'));
+
+  initializeCollapsedStates();
 
   // Ensure every article has a views field
   let updatedArticles = false;
@@ -361,12 +357,101 @@ function getAllDescendantCategoryIds(catId) {
   return ids;
 }
 
+// Initialize categories collapse states
+function initializeCollapsedStates() {
+  state.collapsedCategories = {};
+  state.categories.forEach(cat => {
+    const hasChildren = state.categories.some(c => c.parentId === cat.id);
+    if (hasChildren) {
+      state.collapsedCategories[cat.id] = true; // Collapse by default if has children
+    }
+  });
+}
+
+// Recursive check if any ancestor of a category is collapsed
+function isAnyAncestorCollapsed(catId) {
+  const cat = state.categories.find(c => c.id === catId);
+  if (!cat) return false;
+
+  const rootMenus = ['sermon', 'catechism', 'theology', 'discipleship', 'pastor', 'menu_1787468975888'];
+  if (rootMenus.includes(cat.parentId)) {
+    return false;
+  }
+
+  const parent = state.categories.find(c => c.id === cat.parentId);
+  if (!parent) return false;
+
+  if (state.collapsedCategories[parent.id] === true) {
+    return true;
+  }
+  return isAnyAncestorCollapsed(parent.id);
+}
+
+// Smart merge server data into local storage to avoid overriding admin modifications
+function mergeServerData(serverData) {
+  // 1. Merge Main Menus
+  const localMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v6')) || [];
+  serverData.mainMenus.forEach(sm => {
+    if (!localMenus.some(lm => lm.id === sm.id)) {
+      localMenus.push(sm);
+    }
+  });
+  localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(localMenus));
+
+  // 2. Merge Categories
+  const localCats = JSON.parse(localStorage.getItem('wscal_categories_v6')) || [];
+  serverData.categories.forEach(sc => {
+    if (!localCats.some(lc => lc.id === sc.id)) {
+      localCats.push(sc);
+    }
+  });
+  localStorage.setItem('wscal_categories_v6', JSON.stringify(localCats));
+
+  // 3. Merge Articles
+  const localArts = JSON.parse(localStorage.getItem('wscal_articles_v6')) || [];
+  serverData.articles.forEach(sa => {
+    if (!localArts.some(la => la.id === sa.id)) {
+      localArts.push(sa);
+    }
+  });
+  localStorage.setItem('wscal_articles_v6', JSON.stringify(localArts));
+
+  // 4. Merge Featured
+  if (!localStorage.getItem('wscal_featured_v6')) {
+    localStorage.setItem('wscal_featured_v6', JSON.stringify(serverData.featured));
+  }
+}
+
+// Force reset local data to server state
+async function resetLocalDataToServer() {
+  if (confirm("경고: 로컬 캐시를 초기화하면 아직 반영(인터넷 배포)하지 않은 수정 내역이 모두 사라지고 서버의 최신 데이터로 변경됩니다. 계속하시겠습니까?")) {
+    try {
+      const res = await fetch('./data.json?t=' + Date.now());
+      if (res.ok) {
+        const serverData = await res.json();
+        localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(serverData.mainMenus));
+        localStorage.setItem('wscal_categories_v6', JSON.stringify(serverData.categories));
+        localStorage.setItem('wscal_articles_v6', JSON.stringify(serverData.articles));
+        localStorage.setItem('wscal_featured_v6', JSON.stringify(serverData.featured));
+        alert("성공적으로 서버 최신 데이터와 동기화(초기화)했습니다. 페이지를 새로고침합니다.");
+        location.reload();
+      } else {
+        alert("서버의 data.json 파일을 가져오는데 실패했습니다.");
+      }
+    } catch (err) {
+      alert("서버 연결 실패: " + err.message);
+    }
+  }
+}
+
 // Select main menu cards (4 big buttons)
 function selectMainMenu(menuKey) {
   state.currentMenu = menuKey;
   state.currentCategory = null;
   state.currentArticle = null;
   state.pagination.currentPage = 1;
+
+  initializeCollapsedStates();
 
   // Toggle visual active state
   document.querySelectorAll('.menu-card').forEach(card => {
@@ -434,6 +519,23 @@ function selectSubcategory(categoryId, shouldScroll = false) {
   state.currentArticle = null;
   state.pagination.currentPage = 1;
 
+  // Expand the folder itself if it has children
+  const hasChildren = state.categories.some(c => c.parentId === categoryId);
+  if (hasChildren) {
+    state.collapsedCategories[categoryId] = false;
+  }
+
+  // Ensure all ancestor paths are expanded
+  const catObj = state.categories.find(c => c.id === categoryId);
+  if (catObj) {
+    let pId = catObj.parentId;
+    while (pId) {
+      state.collapsedCategories[pId] = false;
+      const parent = state.categories.find(c => c.id === pId);
+      pId = parent ? parent.parentId : null;
+    }
+  }
+
   // Render Sidebar and Article list in the Workspace
   renderWorkspaceSidebar();
   renderArticlesList();
@@ -477,25 +579,55 @@ function renderWorkspaceSidebar() {
   sidebarList.innerHTML = '';
 
   flatTree.forEach(cat => {
+    // Skip rendering if any ancestor is collapsed
+    if (isAnyAncestorCollapsed(cat.id)) {
+      return;
+    }
+
+    const hasChildren = state.categories.some(c => c.parentId === cat.id);
+    const isCollapsed = !!state.collapsedCategories[cat.id];
+
     const li = document.createElement('li');
-    // Assign depth-specific classes for indent
     li.className = `sidebar-item depth-${cat.depth} ${cat.id === state.currentCategory ? 'active' : ''}`;
     li.style.display = 'flex';
     li.style.flexDirection = 'row';
     li.style.alignItems = 'center';
+    li.style.justifyContent = 'space-between';
     li.style.lineHeight = '1.3';
-    // Indent dynamically using inline style padding-left to prevent static 12px override
     li.style.padding = `10px 12px 10px ${12 + cat.depth * 18}px`;
+    li.style.cursor = 'pointer';
     
-    // Toggle folder icon depending on depth or state
+    // Toggle arrow icon if the category has subcategories
+    let toggleIcon = '';
+    if (hasChildren) {
+      const arrowIconClass = isCollapsed ? 'fa-chevron-right' : 'fa-chevron-down';
+      toggleIcon = `<i class="fa-solid ${arrowIconClass} sidebar-toggle-icon" style="margin-right: 8px; font-size: 0.8rem; color: var(--text-light); width: 12px;"></i>`;
+    } else {
+      toggleIcon = `<span style="display: inline-block; width: 12px; margin-right: 8px;"></span>`;
+    }
+
     const iconClass = cat.id === state.currentCategory ? 'fa-folder-open' : 'fa-folder';
     
     li.innerHTML = `
-      <div style="display: flex; align-items: center; font-weight: 500;">
-        <i class="fa-regular ${iconClass}" style="margin-right: 8px;"></i> ${cat.nameJp}
+      <div style="display: flex; align-items: center; font-weight: 500; flex-grow: 1;">
+        ${toggleIcon}
+        <i class="fa-regular ${iconClass}" style="margin-right: 8px;"></i>
+        <span>${cat.nameJp}</span>
       </div>
     `;
-    li.onclick = () => selectSubcategory(cat.id);
+
+    li.onclick = (e) => {
+      // If clicking the toggle arrow icon, only toggle the collapse state
+      if (e.target.classList.contains('sidebar-toggle-icon')) {
+        e.stopPropagation();
+        state.collapsedCategories[cat.id] = !state.collapsedCategories[cat.id];
+        renderWorkspaceSidebar();
+        return;
+      }
+      
+      selectSubcategory(cat.id);
+    };
+
     sidebarList.appendChild(li);
   });
 }
@@ -508,7 +640,8 @@ function renderArticlesList() {
   const currentCatObj = state.categories.find(c => c.id === state.currentCategory);
   listTitle.textContent = currentCatObj ? `${currentCatObj.nameJp} の資料一覧` : '資料一覧';
 
-  const filteredArticles = state.articles.filter(art => art.categoryId === state.currentCategory);
+  const descendantIds = getAllDescendantCategoryIds(state.currentCategory);
+  const filteredArticles = state.articles.filter(art => descendantIds.includes(art.categoryId));
   container.innerHTML = '';
 
   if (filteredArticles.length === 0) {
@@ -571,8 +704,9 @@ function renderArticlesList() {
   container.appendChild(headerWrapper);
 
   // 3. Render articles list/grid inside items wrapper
+  const isServantMenu = state.currentCategory === 'cat_1787469050463';
   const itemsWrapper = document.createElement('div');
-  itemsWrapper.className = isPastorMenu ? 'video-gallery-grid' : 'article-list';
+  itemsWrapper.className = isPastorMenu ? 'video-gallery-grid' : (isServantMenu ? 'profile-list' : 'article-list');
   container.appendChild(itemsWrapper);
 
   if (isPastorMenu) {
@@ -599,6 +733,27 @@ function renderArticlesList() {
             <span><i class="fa-regular fa-user"></i> ${art.author}</span>
             <span><i class="fa-regular fa-calendar"></i> ${art.createdAt}</span>
           </div>
+        </div>
+      `;
+      itemsWrapper.appendChild(card);
+    });
+  } else if (isServantMenu) {
+    pagedArticles.forEach(art => {
+      const card = document.createElement('div');
+      card.className = 'profile-card';
+      card.onclick = () => viewArticleDetail(art.id);
+      card.style.cursor = 'pointer';
+      
+      const photoUrl = art.photoUrl || 'hero_bg.jpg';
+
+      card.innerHTML = `
+        <div class="profile-photo-wrapper">
+          <img class="profile-photo" src="${photoUrl}" alt="${art.title}" loading="lazy">
+        </div>
+        <div class="profile-info">
+          <h3 class="profile-name">${art.title}</h3>
+          <div class="profile-title">${art.author}</div>
+          <div class="profile-history">${art.content}</div>
         </div>
       `;
       itemsWrapper.appendChild(card);
@@ -719,10 +874,27 @@ function viewArticleDetail(articleId) {
     contentArea.appendChild(embedWrapper);
   }
 
-  const textBody = document.createElement('div');
-  textBody.style.whiteSpace = 'pre-wrap';
-  textBody.textContent = article.content;
-  contentArea.appendChild(textBody);
+  if (article.categoryId === 'cat_1787469050463') {
+    const profileBody = document.createElement('div');
+    profileBody.innerHTML = `
+      <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem;">
+        <div style="width: 150px; height: 200px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); flex-shrink: 0; margin: 0 auto;">
+          <img src="${article.photoUrl || 'hero_bg.jpg'}" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div style="flex-grow: 1; min-width: 250px;">
+          <h2 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 0.5rem;">${article.title}</h2>
+          <p style="color: var(--accent-color); font-weight: 500; margin-bottom: 1rem;">${article.author}</p>
+          <div style="white-space: pre-wrap; line-height: 1.7; color: var(--text-dark);">${article.content}</div>
+        </div>
+      </div>
+    `;
+    contentArea.appendChild(profileBody);
+  } else {
+    const textBody = document.createElement('div');
+    textBody.style.whiteSpace = 'pre-wrap';
+    textBody.textContent = article.content;
+    contentArea.appendChild(textBody);
+  }
 
   document.getElementById('workspace-sec').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -1387,13 +1559,17 @@ function updateWriteSubcategoryDropdown() {
   
   selectCat.innerHTML = '<option value="">-- 細部フォルダの選択 --</option>';
 
-  if (!parentMenu) return;
+  if (!parentMenu) {
+    handleCategoryChange();
+    return;
+  }
 
   // Build tree of categories belonging under this root menu
   const flatTree = buildFlatTree(parentMenu, 0);
   
   if (flatTree.length === 0) {
     selectCat.innerHTML = '<option value="">(親メニュー内に登録されたフォルダがありません)</option>';
+    handleCategoryChange();
     return;
   }
 
@@ -1404,6 +1580,25 @@ function updateWriteSubcategoryDropdown() {
     opt.textContent = `${indent}${c.depth > 0 ? '└ ' : ''}${c.nameJp} (${c.nameKr || ''})`;
     selectCat.appendChild(opt);
   });
+
+  handleCategoryChange();
+}
+
+function handleCategoryChange() {
+  const categoryId = document.getElementById('art-category-id').value;
+  const photoGroup = document.getElementById('art-photo-group');
+  const contentLabel = document.getElementById('art-content-label');
+  const contentInput = document.getElementById('art-content');
+  
+  if (categoryId === 'cat_1787469050463') {
+    if (photoGroup) photoGroup.style.display = 'block';
+    if (contentLabel) contentLabel.textContent = '이력사항 및 소개 (経歴・プロフィール)';
+    if (contentInput) contentInput.placeholder = '섬기는 이의 경력, 소개글 등을 입력하십시오...';
+  } else {
+    if (photoGroup) photoGroup.style.display = 'none';
+    if (contentLabel) contentLabel.textContent = 'コンテンツ本文';
+    if (contentInput) contentInput.placeholder = '説教要旨、神学研究資料などの本文を入力してください...';
+  }
 }
 
 function resetWriteForm() {
@@ -1416,8 +1611,12 @@ function resetWriteForm() {
   document.getElementById('art-author').value = '';
   document.getElementById('art-scripture').value = '';
   document.getElementById('art-video-url').value = '';
+  if (document.getElementById('art-photo-url')) {
+    document.getElementById('art-photo-url').value = '';
+  }
   document.getElementById('art-content').value = '';
   document.getElementById('art-date').value = new Date().toISOString().split('T')[0];
+  handleCategoryChange();
 }
 
 function handleSaveArticle(event) {
@@ -1429,6 +1628,7 @@ function handleSaveArticle(event) {
   const author = document.getElementById('art-author').value.trim();
   const scripture = document.getElementById('art-scripture').value.trim();
   const videoUrl = document.getElementById('art-video-url').value.trim();
+  const photoUrl = document.getElementById('art-photo-url') ? document.getElementById('art-photo-url').value.trim() : '';
   const content = document.getElementById('art-content').value.trim();
   const date = document.getElementById('art-date').value;
 
@@ -1445,6 +1645,7 @@ function handleSaveArticle(event) {
       state.articles[artIdx].author = author;
       state.articles[artIdx].scripture = scripture;
       state.articles[artIdx].videoUrl = videoUrl;
+      state.articles[artIdx].photoUrl = photoUrl;
       state.articles[artIdx].content = content;
       state.articles[artIdx].createdAt = date;
       alert("記事を修正・保存しました。");
@@ -1457,6 +1658,7 @@ function handleSaveArticle(event) {
       author: author,
       scripture: scripture,
       videoUrl: videoUrl,
+      photoUrl: photoUrl,
       content: content,
       createdAt: date
     };
@@ -1475,11 +1677,31 @@ function cancelWrite() {
   switchAdminTab('articles');
 }
 
+/* Pagination actions for Admin */
+function changeAdminPage(pageNum) {
+  state.adminPagination.currentPage = pageNum;
+  renderAdminArticleList();
+}
+
+function changeAdminPageSize(size) {
+  state.adminPagination.pageSize = parseInt(size, 10);
+  state.adminPagination.currentPage = 1;
+  renderAdminArticleList();
+}
+
+function resetAdminArticlesPage() {
+  state.adminPagination.currentPage = 1;
+}
+
 /* 6C. Article Manager List */
 function renderAdminArticleList() {
   const parentFilter = document.getElementById('filter-art-parent').value;
   const container = document.getElementById('admin-articles-container');
+  const paginationContainer = document.getElementById('admin-articles-pagination');
   container.innerHTML = '';
+  if (paginationContainer) {
+    paginationContainer.innerHTML = '';
+  }
 
   let list = state.articles;
 
@@ -1494,12 +1716,30 @@ function renderAdminArticleList() {
     return;
   }
 
+  // 1. Pagination calculation
+  const totalCount = list.length;
+  const pageSize = state.adminPagination.pageSize || 10;
+  const totalPages = Math.ceil(totalCount / pageSize);
+
+  // Validate current page range
+  if (state.adminPagination.currentPage > totalPages) {
+    state.adminPagination.currentPage = totalPages;
+  }
+  if (state.adminPagination.currentPage < 1) {
+    state.adminPagination.currentPage = 1;
+  }
+
+  const startIndex = (state.adminPagination.currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const pagedList = list.slice(startIndex, endIndex);
+
   const parentLabels = {};
   state.mainMenus.forEach(m => {
     parentLabels[m.id] = m.nameJp;
   });
 
-  list.forEach(art => {
+  // 2. Render paged articles
+  pagedList.forEach(art => {
     const catObj = state.categories.find(c => c.id === art.categoryId);
     const catName = catObj ? catObj.nameJp : '不明なフォルダ';
     const parentLabel = catObj ? (parentLabels[catObj.parentId] || 'サブフォルダ') : '不明';
@@ -1520,6 +1760,34 @@ function renderAdminArticleList() {
     `;
     container.appendChild(item);
   });
+
+  // 3. Render Pagination Controls
+  if (totalPages > 1 && paginationContainer) {
+    // Prev Button
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'btn-pagination';
+    prevBtn.disabled = state.adminPagination.currentPage === 1;
+    prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
+    prevBtn.onclick = () => changeAdminPage(state.adminPagination.currentPage - 1);
+    paginationContainer.appendChild(prevBtn);
+    
+    // Page Number Buttons
+    for (let i = 1; i <= totalPages; i++) {
+      const pageBtn = document.createElement('button');
+      pageBtn.className = `btn-pagination ${state.adminPagination.currentPage === i ? 'active' : ''}`;
+      pageBtn.textContent = i;
+      pageBtn.onclick = () => changeAdminPage(i);
+      paginationContainer.appendChild(pageBtn);
+    }
+    
+    // Next Button
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'btn-pagination';
+    nextBtn.disabled = state.adminPagination.currentPage === totalPages;
+    nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+    nextBtn.onclick = () => changeAdminPage(state.adminPagination.currentPage + 1);
+    paginationContainer.appendChild(nextBtn);
+  }
 }
 
 function loadArticleToEdit(artId) {
@@ -1556,8 +1824,12 @@ function loadArticleToEdit(artId) {
   document.getElementById('art-author').value = art.author;
   document.getElementById('art-scripture').value = art.scripture || '';
   document.getElementById('art-video-url').value = art.videoUrl || '';
+  if (document.getElementById('art-photo-url')) {
+    document.getElementById('art-photo-url').value = art.photoUrl || '';
+  }
   document.getElementById('art-content').value = art.content;
   document.getElementById('art-date').value = art.createdAt || new Date().toISOString().split('T')[0];
+  handleCategoryChange();
 }
 
 function handleDeleteArticle(artId) {
