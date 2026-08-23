@@ -1,6 +1,13 @@
 {
   "mainMenus": [
     {
+      "id": "menu_1787468975888",
+      "nameJp": "Home section",
+      "nameKr": "Home section",
+      "icon": "fa-users",
+      "isVideo": false
+    },
+    {
       "id": "sermon",
       "nameJp": "聖書講解",
       "nameKr": "성경강해",
@@ -30,13 +37,6 @@
       "nameKr": "목회자를 위한<br>10분 신학",
       "icon": "fa-user-tie",
       "isVideo": true
-    },
-    {
-      "id": "menu_1787468975888",
-      "nameJp": "Home section",
-      "nameKr": "Home section",
-      "icon": "fa-users",
-      "isVideo": false
     }
   ],
   "categories": [
