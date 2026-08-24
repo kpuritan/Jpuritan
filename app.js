@@ -2443,16 +2443,7 @@ function toggleSidebarBox(boxId) {
 initApp();
 
 function startBgmAuto() {
-  // 1. Try playing immediately (might get blocked by browser autoplay policy)
-  try {
-    if (!isBgmPlaying) {
-      toggleBgm();
-    }
-  } catch (e) {
-    console.log("Autoplay blocked, waiting for interaction.");
-  }
-
-  // 2. Add fallback event listeners to play on first user interaction
+  // Add fallback event listeners to play on first user interaction (browser autoplay policy compliant)
   const triggerAutoPlay = () => {
     if (!isBgmPlaying) {
       console.log("User interaction detected. Starting BGM.");
