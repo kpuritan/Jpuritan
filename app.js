@@ -38,23 +38,38 @@ let state = {
   }
 };
 
-// Initialize App
+// Timeout Wrapper for Promises (prevent Firestore hangs)
+function withTimeout(promise, ms) {
+  let timeoutId;
+  const timeoutPromise = new Promise((_, reject) => {
+    timeoutId = setTimeout(() => {
+      reject(new Error("Timeout after " + ms + "ms"));
+    }, ms);
+  });
+  return Promise.race([promise, timeoutPromise]).finally(() => {
+    clearTimeout(timeoutId);
+  });
+}
+
 // Initialize App
 async function initApp() {
+  console.log("Initializing App...");
+  let isDbOffline = false;
+
   // 1. Try to fetch all initial configuration and lists from Firestore
   if (typeof db !== 'undefined') {
     try {
-      await checkAndMigrateAllDataToFirestore();
+      await withTimeout(checkAndMigrateAllDataToFirestore(), 2000);
     } catch (migErr) {
-      console.warn("Auto-migration check failed, proceeding to app loading anyway:", migErr);
+      console.warn("Auto-migration check failed or timed out:", migErr);
     }
     try {
       console.log("Fetching live configurations from Firestore Realtime DB...");
-      const [menusSnap, catsSnap, featuredSnap] = await Promise.all([
+      const [menusSnap, catsSnap, featuredSnap] = await withTimeout(Promise.all([
         db.collection('mainMenus').get(),
         db.collection('categories').get(),
         db.collection('featured').doc('main').get()
-      ]);
+      ]), 2500);
 
       // A. Main Menus
       const liveMenus = [];
@@ -95,16 +110,18 @@ async function initApp() {
       console.log("Live configurations synced successfully.");
     } catch (err) {
       console.warn("Failed to retrieve live data from Firestore, loading local fallback: ", err);
-      loadLocalDataFallback();
+      isDbOffline = true;
+      await loadLocalDataFallback();
     }
   } else {
-    loadLocalDataFallback();
+    isDbOffline = true;
+    await loadLocalDataFallback();
   }
 
   initializeCollapsedStates();
 
-  // Load articles dynamically via realtime Firestore subscription (0-sec delay onSnapshot)
-  if (typeof db !== 'undefined') {
+  // Load articles dynamically via realtime Firestore subscription
+  if (typeof db !== 'undefined' && !isDbOffline) {
     listenArticles();
   } else {
     loadArticlesFallback();
@@ -279,15 +296,38 @@ function loadArticlesFallback() {
   }
 }
 
-function loadLocalDataFallback() {
-  if (!localStorage.getItem('wscal_mainmenus_v6')) {
-    localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(DEFAULT_MAIN_MENUS));
+async function loadLocalDataFallback() {
+  console.log("Loading local fallbacks (checking data.json)...");
+  let fetchedData = null;
+  try {
+    const res = await fetch('./data.json?t=' + Date.now());
+    if (res.ok) {
+      fetchedData = await res.json();
+      console.log("Successfully loaded fallback configuration from data.json");
+    }
+  } catch (err) {
+    console.warn("Failed to fetch data.json for local fallback, using DEFAULT hardcoded arrays:", err);
   }
-  if (!localStorage.getItem('wscal_categories_v6')) {
-    localStorage.setItem('wscal_categories_v6', JSON.stringify(DEFAULT_CATEGORIES));
-  }
-  if (!localStorage.getItem('wscal_featured_v6')) {
-    localStorage.setItem('wscal_featured_v6', JSON.stringify(DEFAULT_FEATURED));
+
+  if (fetchedData) {
+    if (fetchedData.mainMenus) localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(fetchedData.mainMenus));
+    if (fetchedData.categories) localStorage.setItem('wscal_categories_v6', JSON.stringify(fetchedData.categories));
+    if (fetchedData.featured) localStorage.setItem('wscal_featured_v6', JSON.stringify(fetchedData.featured));
+    if (fetchedData.articles) localStorage.setItem('wscal_articles_v6', JSON.stringify(fetchedData.articles));
+  } else {
+    // If even data.json fails, use hardcoded defaults
+    if (!localStorage.getItem('wscal_mainmenus_v6')) {
+      localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(DEFAULT_MAIN_MENUS));
+    }
+    if (!localStorage.getItem('wscal_categories_v6')) {
+      localStorage.setItem('wscal_categories_v6', JSON.stringify(DEFAULT_CATEGORIES));
+    }
+    if (!localStorage.getItem('wscal_featured_v6')) {
+      localStorage.setItem('wscal_featured_v6', JSON.stringify(DEFAULT_FEATURED));
+    }
+    if (!localStorage.getItem('wscal_articles_v6')) {
+      localStorage.setItem('wscal_articles_v6', JSON.stringify(DEFAULT_ARTICLES));
+    }
   }
 
   state.mainMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v6'));
@@ -1193,7 +1233,7 @@ async function handleLogin(event) {
     // Check Session Lock in Firestore
     if (typeof db !== 'undefined') {
       try {
-        const lockDoc = await db.collection('system').doc('sessionLock').get();
+        const lockDoc = await withTimeout(db.collection('system').doc('sessionLock').get(), 2000);
         if (lockDoc.exists) {
           const lockData = lockDoc.data();
           if (lockData && lockData.isLocked) {
@@ -1206,10 +1246,10 @@ async function handleLogin(event) {
         }
         
         // Acquire Lock
-        await db.collection('system').doc('sessionLock').set({
+        await withTimeout(db.collection('system').doc('sessionLock').set({
           isLocked: true,
           lastActive: Date.now()
-        });
+        }), 2000);
       } catch (err) {
         console.warn("Failed to query session lock, allowing login as fallback:", err);
       }
