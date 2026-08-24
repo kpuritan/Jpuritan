@@ -35,7 +35,8 @@ let state = {
   adminPagination: {
     currentPage: 1,
     pageSize: 10
-  }
+  },
+  isDbOffline: false // Skip DB queries if Firestore is unreachable/slow
 };
 
 // Timeout Wrapper for Promises (prevent Firestore hangs)
@@ -163,6 +164,7 @@ async function initApp() {
       listenArticles();
     } catch (err) {
       console.warn("Failed to retrieve live data from Firestore, keeping local/data.json fallback: ", err);
+      state.isDbOffline = true;
       // Fallback: apply the data.json we fetched earlier
       loadLocalStorageOnly();
       initializeCollapsedStates();
@@ -170,6 +172,8 @@ async function initApp() {
       renderFeaturedBlocks();
       loadArticlesFallback();
     }
+  } else {
+    state.isDbOffline = true;
   }
 
   // Check login state
@@ -1271,10 +1275,10 @@ async function handleLogin(event) {
   const pass = document.getElementById('login-password').value;
 
   if (user === 'admin' && pass === '1234') {
-    // Check Session Lock in Firestore
-    if (typeof db !== 'undefined') {
+    // Check Session Lock in Firestore ONLY if DB is online
+    if (typeof db !== 'undefined' && !state.isDbOffline) {
       try {
-        const lockDoc = await withTimeout(db.collection('system').doc('sessionLock').get(), 2000);
+        const lockDoc = await withTimeout(db.collection('system').doc('sessionLock').get(), 1000);
         if (lockDoc.exists) {
           const lockData = lockDoc.data();
           if (lockData && lockData.isLocked) {
@@ -1290,7 +1294,7 @@ async function handleLogin(event) {
         await withTimeout(db.collection('system').doc('sessionLock').set({
           isLocked: true,
           lastActive: Date.now()
-        }), 2000);
+        }), 1000);
       } catch (err) {
         console.warn("Failed to query session lock, allowing login as fallback:", err);
       }
