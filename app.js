@@ -123,6 +123,7 @@ async function initApp() {
   }
 
   console.log("App initialized successfully with data (v6).", state);
+  startBgmAuto();
 }
 
 // Save back to LocalStorage
@@ -2216,3 +2217,29 @@ function toggleSidebarBox(boxId) {
 
 // Start application
 window.onload = initApp;
+
+function startBgmAuto() {
+  // 1. Try playing immediately (might get blocked by browser autoplay policy)
+  try {
+    if (!isBgmPlaying) {
+      toggleBgm();
+    }
+  } catch (e) {
+    console.log("Autoplay blocked, waiting for interaction.");
+  }
+
+  // 2. Add fallback event listeners to play on first user interaction
+  const triggerAutoPlay = () => {
+    if (!isBgmPlaying) {
+      console.log("User interaction detected. Starting BGM.");
+      toggleBgm();
+    }
+    document.removeEventListener('click', triggerAutoPlay);
+    document.removeEventListener('pointerdown', triggerAutoPlay);
+    document.removeEventListener('touchstart', triggerAutoPlay);
+  };
+
+  document.addEventListener('click', triggerAutoPlay);
+  document.addEventListener('pointerdown', triggerAutoPlay);
+  document.addEventListener('touchstart', triggerAutoPlay);
+}
