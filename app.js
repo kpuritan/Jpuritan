@@ -927,8 +927,18 @@ function renderArticlesList() {
   const currentCatObj = state.categories.find(c => c.id === state.currentCategory);
   listTitle.textContent = currentCatObj ? `${currentCatObj.nameJp} の資料一覧` : '資料一覧';
 
-  const descendantIds = getAllDescendantCategoryIds(state.currentCategory);
+    const descendantIds = getAllDescendantCategoryIds(state.currentCategory);
   const filteredArticles = state.articles.filter(art => descendantIds.includes(art.categoryId));
+  
+  // Sort by custom position ascending, then by date descending
+  filteredArticles.sort((a, b) => {
+    const posA = a.position !== undefined ? a.position : 999999;
+    const posB = b.position !== undefined ? b.position : 999999;
+    if (posA !== posB) return posA - posB;
+    const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+    if (dateCompare !== 0) return dateCompare;
+    return b.id.localeCompare(a.id);
+  });
   container.innerHTML = '';
 
   if (filteredArticles.length === 0) {
@@ -1476,16 +1486,29 @@ function populateAllMenuDropdowns() {
     artParentMenu.value = val;
   }
 
-  // 4. Article manager filter dropdown (filter-art-parent)
+    // 4. Article manager filter dropdown (filter-art-parent) - supports deep category filter
   const filterArtParent = document.getElementById('filter-art-parent');
   if (filterArtParent) {
     const val = filterArtParent.value || 'all';
-    filterArtParent.innerHTML = '<option value="all">すべての親カテゴリ</option>';
+    filterArtParent.innerHTML = '<option value="all">모든 카테고리/폴더 (すべてのフォルダ)</option>';
+    
     state.mainMenus.forEach(menu => {
-      const opt = document.createElement('option');
-      opt.value = menu.id;
-      opt.textContent = `${menu.nameJp} (${menu.nameKr || ''})`;
-      filterArtParent.appendChild(opt);
+      // Main menu option
+      const optMenu = document.createElement('option');
+      optMenu.value = menu.id;
+      optMenu.textContent = `[대메뉴] ${menu.nameJp} (${menu.nameKr || ''})`;
+      optMenu.style.fontWeight = 'bold';
+      filterArtParent.appendChild(optMenu);
+      
+      // All child folders under this main menu
+      const flatTree = buildFlatTree(menu.id, 0);
+      flatTree.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        const indent = '\u00A0\u00A0\u00A0\u00A0'.repeat(c.depth + 1);
+        opt.textContent = `${indent}└ ${c.nameJp} (${c.nameKr || ''})`;
+        filterArtParent.appendChild(opt);
+      });
     });
     filterArtParent.value = val;
   }
@@ -2084,12 +2107,28 @@ function renderAdminArticleList() {
     paginationContainer.innerHTML = '';
   }
 
-  let list = state.articles;
+    let list = [...state.articles]; // Clone to prevent mutation
 
   if (parentFilter !== 'all') {
-    // Get all nested child folder IDs recursively
     const descendantIds = getAllDescendantCategoryIds(parentFilter);
-    list = state.articles.filter(art => descendantIds.includes(art.categoryId));
+    list = list.filter(art => descendantIds.includes(art.categoryId));
+    
+    // Sort by custom position within the selected folder
+    list.sort((a, b) => {
+      const posA = a.position !== undefined ? a.position : 999999;
+      const posB = b.position !== undefined ? b.position : 999999;
+      if (posA !== posB) return posA - posB;
+      const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+      if (dateCompare !== 0) return dateCompare;
+      return b.id.localeCompare(a.id);
+    });
+  } else {
+    // Sort globally by date descending
+    list.sort((a, b) => {
+      const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+      if (dateCompare !== 0) return dateCompare;
+      return b.id.localeCompare(a.id);
+    });
   }
 
   if (list.length === 0) {
@@ -2125,10 +2164,20 @@ function renderAdminArticleList() {
     const catName = catObj ? catObj.nameJp : '不明なフォルダ';
     const parentLabel = catObj ? (parentLabels[catObj.parentId] || 'サブフォルダ') : '不明';
 
-    const item = document.createElement('div');
+        const item = document.createElement('div');
     item.className = 'admin-article-item';
+    
+    const showOrderButtons = parentFilter !== 'all';
+    const orderControls = showOrderButtons ? `
+      <div class="admin-article-order-controls" style="display: flex; flex-direction: column; gap: 2px; margin-right: 12px; align-items: center; justify-content: center; flex-shrink: 0;">
+        <button class="btn-mini-order" onclick="event.stopPropagation(); moveArticle('${art.id}', 'up')" title="위로"><i class="fa-solid fa-chevron-up"></i></button>
+        <button class="btn-mini-order" onclick="event.stopPropagation(); moveArticle('${art.id}', 'down')" title="아래로"><i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+    ` : '';
+
     item.innerHTML = `
-      <div class="admin-article-info">
+      ${orderControls}
+      <div class="admin-article-info" style="flex-grow: 1;">
         <span class="admin-article-title">${art.title} ${art.videoUrl ? '<span style="color: var(--accent-color); font-size: 0.85rem;"><i class="fa-solid fa-circle-play"></i> Video</span>' : ''}</span>
         <span class="admin-article-meta">
           フォルダ: <strong>${catName}</strong> (${parentLabel}) | 著者: ${art.author} | 登録日: ${art.createdAt}
@@ -2708,3 +2757,68 @@ async function syncDataJsonToGitHub() {
   }
 }
 
+
+// Move article position up or down within its category (folder)
+async function moveArticle(artId, direction) {
+  const art = state.articles.find(a => a.id === artId);
+  if (!art) return;
+  
+  // Find all articles in the same category
+  const catArticles = state.articles.filter(a => a.categoryId === art.categoryId);
+  
+  // Sort them by their current sorting order
+  catArticles.sort((a, b) => {
+    const posA = a.position !== undefined ? a.position : 999999;
+    const posB = b.position !== undefined ? b.position : 999999;
+    if (posA !== posB) return posA - posB;
+    const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+    if (dateCompare !== 0) return dateCompare;
+    return b.id.localeCompare(a.id);
+  });
+  
+  // Find index of the article in this sorted sub-list
+  const idx = catArticles.findIndex(a => a.id === artId);
+  if (idx === -1) return;
+  
+  let swapIdx = -1;
+  if (direction === 'up' && idx > 0) {
+    swapIdx = idx - 1;
+  } else if (direction === 'down' && idx < catArticles.length - 1) {
+    swapIdx = idx + 1;
+  }
+  
+  if (swapIdx !== -1) {
+    // Assign sequential positions to all articles in this category to ensure they have integer positions
+    catArticles.forEach((a, i) => {
+      a.position = i;
+    });
+    
+    // Swap positions of idx and swapIdx
+    const tempPos = catArticles[idx].position;
+    catArticles[idx].position = catArticles[swapIdx].position;
+    catArticles[swapIdx].position = tempPos;
+    
+    // Save locally
+    saveArticles();
+    
+    // Sync with Firestore
+    if (typeof db !== 'undefined') {
+      try {
+        await Promise.all([
+          db.collection('articles').doc(catArticles[idx].id).update({ position: catArticles[idx].position }),
+          db.collection('articles').doc(catArticles[swapIdx].id).update({ position: catArticles[swapIdx].position })
+        ]);
+        console.log("Article positions synced with Firestore successfully.");
+      } catch (err) {
+        console.warn("Failed to sync positions to Firestore:", err);
+      }
+    }
+    
+    // Refresh lists
+    renderRecentArticles();
+    if (state.currentCategory) {
+      renderArticlesList();
+    }
+    renderAdminArticleList();
+  }
+}
