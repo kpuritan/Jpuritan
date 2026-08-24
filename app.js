@@ -67,10 +67,17 @@ function loadLocalStorageOnly() {
     localStorage.setItem('wscal_articles_v6', JSON.stringify(DEFAULT_ARTICLES));
   }
 
-  state.mainMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v6'));
-  state.categories = JSON.parse(localStorage.getItem('wscal_categories_v6'));
-  state.featured = JSON.parse(localStorage.getItem('wscal_featured_v6'));
-  state.articles = JSON.parse(localStorage.getItem('wscal_articles_v6'));
+  try {
+    state.mainMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v6')) || [];
+    state.categories = JSON.parse(localStorage.getItem('wscal_categories_v6')) || [];
+    state.featured = JSON.parse(localStorage.getItem('wscal_featured_v6')) || {};
+    state.articles = JSON.parse(localStorage.getItem('wscal_articles_v6')) || [];
+  } catch (e) {
+    state.mainMenus = [];
+    state.categories = [];
+    state.featured = {};
+    state.articles = [];
+  }
 }
 
 // Initialize App
@@ -95,7 +102,17 @@ async function initApp() {
             if (fileData.mainMenus) localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(fileData.mainMenus));
       if (fileData.categories) localStorage.setItem('wscal_categories_v6', JSON.stringify(fileData.categories));
       if (fileData.featured) localStorage.setItem('wscal_featured_v6', JSON.stringify(fileData.featured));
-      if (fileData.articles && !localStorage.getItem('wscal_articles_v6')) {
+            let hasCachedArts = false;
+      const cachedArts = localStorage.getItem('wscal_articles_v6');
+      if (cachedArts) {
+        try {
+          const parsed = JSON.parse(cachedArts);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            hasCachedArts = true;
+          }
+        } catch (e) {}
+      }
+      if (fileData.articles && !hasCachedArts) {
         localStorage.setItem('wscal_articles_v6', JSON.stringify(fileData.articles));
       }
 
@@ -360,7 +377,17 @@ async function loadLocalDataFallback() {
         if (fetchedData.mainMenus) localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(fetchedData.mainMenus));
     if (fetchedData.categories) localStorage.setItem('wscal_categories_v6', JSON.stringify(fetchedData.categories));
     if (fetchedData.featured) localStorage.setItem('wscal_featured_v6', JSON.stringify(fetchedData.featured));
-    if (fetchedData.articles && !localStorage.getItem('wscal_articles_v6')) {
+        let hasCachedArts = false;
+    const cachedArts = localStorage.getItem('wscal_articles_v6');
+    if (cachedArts) {
+      try {
+        const parsed = JSON.parse(cachedArts);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          hasCachedArts = true;
+        }
+      } catch (e) {}
+    }
+    if (fetchedData.articles && !hasCachedArts) {
       localStorage.setItem('wscal_articles_v6', JSON.stringify(fetchedData.articles));
     }
   } else {
@@ -2822,3 +2849,5 @@ async function moveArticle(artId, direction) {
     renderAdminArticleList();
   }
 }
+
+
