@@ -1997,7 +1997,7 @@ function saveGithubToken() {
   localStorage.setItem('wscal_github_token', token);
 }
 
-async function syncDataToGithub() {
+async function syncDataToGithub(retryCount = 3, isRetry = false) {
   const tokenInput = document.getElementById('admin-github-token');
   if (tokenInput) {
     const tokenVal = tokenInput.value.trim();
@@ -2012,8 +2012,10 @@ async function syncDataToGithub() {
     return;
   }
 
-  const confirmSync = confirm("현재 브라우저에 저장된 최신 폴더 및 글 정보들을 인터넷 깃허브(GitHub)에 반영하시겠습니까?\n반영 후 약 1~2분 뒤에 실시간 사이트에 배포가 완료됩니다.");
-  if (!confirmSync) return;
+  if (!isRetry) {
+    const confirmSync = confirm("현재 브라우저에 저장된 최신 폴더 및 글 정보들을 인터넷 깃허브(GitHub)에 반영하시겠습니까?\n반영 후 약 1~2분 뒤에 실시간 사이트에 배포가 완료됩니다.");
+    if (!confirmSync) return;
+  }
 
   const syncBtn = document.getElementById('btn-github-sync');
   const originalBtnHtml = syncBtn ? syncBtn.innerHTML : '';
@@ -2134,6 +2136,16 @@ async function syncDataToGithub() {
         branch: branch
       })
     });
+
+    if (resPut.status === 409) {
+      if (retryCount > 0) {
+        console.warn("다른 관리자의 변경 사항이 감지되었습니다. 1초 후 자동 병합하여 재시도합니다... 남은 재시도: ", retryCount);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        return syncDataToGithub(retryCount - 1, true);
+      } else {
+        throw new Error("동시 접속자가 많아 배포가 지연되고 있습니다. 1분 후 다시 시도해 주세요.");
+      }
+    }
 
     if (!resPut.ok) {
       const errData = await resPut.json();
