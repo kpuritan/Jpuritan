@@ -51,20 +51,73 @@ function withTimeout(promise, ms) {
   });
 }
 
+// Synchronously load data from localStorage (or defaults) and update state instantly
+function loadLocalStorageOnly() {
+  if (!localStorage.getItem('wscal_mainmenus_v6')) {
+    localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(DEFAULT_MAIN_MENUS));
+  }
+  if (!localStorage.getItem('wscal_categories_v6')) {
+    localStorage.setItem('wscal_categories_v6', JSON.stringify(DEFAULT_CATEGORIES));
+  }
+  if (!localStorage.getItem('wscal_featured_v6')) {
+    localStorage.setItem('wscal_featured_v6', JSON.stringify(DEFAULT_FEATURED));
+  }
+  if (!localStorage.getItem('wscal_articles_v6')) {
+    localStorage.setItem('wscal_articles_v6', JSON.stringify(DEFAULT_ARTICLES));
+  }
+
+  state.mainMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v6'));
+  state.categories = JSON.parse(localStorage.getItem('wscal_categories_v6'));
+  state.featured = JSON.parse(localStorage.getItem('wscal_featured_v6'));
+  state.articles = JSON.parse(localStorage.getItem('wscal_articles_v6'));
+}
+
 // Initialize App
 async function initApp() {
   console.log("Initializing App...");
-  let isDbOffline = false;
 
-  // 1. Try to fetch all initial configuration and lists from Firestore
-  if (typeof db !== 'undefined') {
-    try {
-      await withTimeout(checkAndMigrateAllDataToFirestore(), 2000);
-    } catch (migErr) {
-      console.warn("Auto-migration check failed or timed out:", migErr);
+  // 1. Render instantly using LocalStorage (Zero delay UI load)
+  loadLocalStorageOnly();
+  initializeCollapsedStates();
+  renderMainMenuCards();
+  renderFeaturedBlocks();
+  loadArticlesFallback();
+
+  // 2. Fetch data.json in the background to update LocalStorage (Non-blocking)
+  let fileData = null;
+  try {
+    const res = await fetch('./data.json?t=' + Date.now());
+    if (res.ok) {
+      fileData = await res.json();
+      console.log("Successfully fetched data.json in background.");
+
+      if (fileData.mainMenus) localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(fileData.mainMenus));
+      if (fileData.categories) localStorage.setItem('wscal_categories_v6', JSON.stringify(fileData.categories));
+      if (fileData.featured) localStorage.setItem('wscal_featured_v6', JSON.stringify(fileData.featured));
+      if (fileData.articles) localStorage.setItem('wscal_articles_v6', JSON.stringify(fileData.articles));
+
+      // If DB is offline or not loaded yet, immediately apply the updated data.json
+      if (typeof db === 'undefined') {
+        loadLocalStorageOnly();
+        initializeCollapsedStates();
+        renderMainMenuCards();
+        renderFeaturedBlocks();
+        loadArticlesFallback();
+      }
     }
+  } catch (err) {
+    console.warn("Background fetch of data.json failed:", err);
+  }
+
+  // 3. Sync with Firestore in the background
+  if (typeof db !== 'undefined') {
+    // Run Firestore migration in the background
+    withTimeout(checkAndMigrateAllDataToFirestore(), 3000).catch(err => {
+      console.warn("Background migration check failed/timed out:", err);
+    });
+
     try {
-      console.log("Fetching live configurations from Firestore Realtime DB...");
+      console.log("Fetching live configurations from Firestore in background...");
       const [menusSnap, catsSnap, featuredSnap] = await withTimeout(Promise.all([
         db.collection('mainMenus').get(),
         db.collection('categories').get(),
@@ -83,8 +136,6 @@ async function initApp() {
         });
         state.mainMenus = liveMenus;
         localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(liveMenus));
-      } else {
-        state.mainMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v6')) || DEFAULT_MAIN_MENUS;
       }
 
       // B. Categories
@@ -94,8 +145,6 @@ async function initApp() {
         liveCats.sort((a, b) => (a.position || 0) - (b.position || 0));
         state.categories = liveCats;
         localStorage.setItem('wscal_categories_v6', JSON.stringify(liveCats));
-      } else {
-        state.categories = JSON.parse(localStorage.getItem('wscal_categories_v6')) || DEFAULT_CATEGORIES;
       }
 
       // C. Featured
@@ -103,33 +152,25 @@ async function initApp() {
         const liveFeat = featuredSnap.data();
         state.featured = liveFeat;
         localStorage.setItem('wscal_featured_v6', JSON.stringify(liveFeat));
-      } else {
-        state.featured = JSON.parse(localStorage.getItem('wscal_featured_v6')) || DEFAULT_FEATURED;
       }
-      
-      console.log("Live configurations synced successfully.");
+
+      console.log("Firestore background configurations synced. Re-rendering...");
+      initializeCollapsedStates();
+      renderMainMenuCards();
+      renderFeaturedBlocks();
+
+      // Start live articles listener since DB is healthy
+      listenArticles();
     } catch (err) {
-      console.warn("Failed to retrieve live data from Firestore, loading local fallback: ", err);
-      isDbOffline = true;
-      await loadLocalDataFallback();
+      console.warn("Failed to retrieve live data from Firestore, keeping local/data.json fallback: ", err);
+      // Fallback: apply the data.json we fetched earlier
+      loadLocalStorageOnly();
+      initializeCollapsedStates();
+      renderMainMenuCards();
+      renderFeaturedBlocks();
+      loadArticlesFallback();
     }
-  } else {
-    isDbOffline = true;
-    await loadLocalDataFallback();
   }
-
-  initializeCollapsedStates();
-
-  // Load articles dynamically via realtime Firestore subscription
-  if (typeof db !== 'undefined' && !isDbOffline) {
-    listenArticles();
-  } else {
-    loadArticlesFallback();
-  }
-
-  // Render Dynamic Elements
-  renderMainMenuCards();
-  renderFeaturedBlocks();
 
   // Check login state
   if (sessionStorage.getItem('wscal_admin_logged') === 'true') {
@@ -138,7 +179,7 @@ async function initApp() {
     startSessionHeartbeat();
   }
 
-  console.log("App initialized successfully with live database mode.", state);
+  console.log("App initialization background tasks registered.");
   startBgmAuto();
 }
 
