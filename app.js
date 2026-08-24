@@ -37,84 +37,68 @@ let state = {
 };
 
 // Initialize App
+// Initialize App
 async function initApp() {
-  try {
-    // Fetch latest shared data from server
-    const res = await fetch('./data.json?t=' + Date.now());
-    if (res.ok) {
-      const serverData = await res.json();
-      const isLogged = sessionStorage.getItem('wscal_admin_logged') === 'true';
-      
-      // If NOT logged in (general user), always use latest server data.
-      // If logged in (admin), only seed if local storage is empty to prevent overwriting ongoing unsaved modifications.
-      if (!isLogged) {
-        localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(serverData.mainMenus));
-        localStorage.setItem('wscal_categories_v6', JSON.stringify(serverData.categories));
-        localStorage.setItem('wscal_articles_v6', JSON.stringify(serverData.articles));
-        localStorage.setItem('wscal_featured_v6', JSON.stringify(serverData.featured));
-      } else {
-        mergeServerData(serverData);
-      }
-    }
-  } catch (err) {
-    console.warn("Failed to fetch data.json, falling back to local storage or defaults", err);
-    // Fallback if network offline
-    if (!localStorage.getItem('wscal_mainmenus_v6')) {
-      localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(DEFAULT_MAIN_MENUS));
-    }
-    if (!localStorage.getItem('wscal_categories_v6')) {
-      localStorage.setItem('wscal_categories_v6', JSON.stringify(DEFAULT_CATEGORIES));
-    }
-    if (!localStorage.getItem('wscal_articles_v6')) {
-      localStorage.setItem('wscal_articles_v6', JSON.stringify(DEFAULT_ARTICLES));
-    }
-    if (!localStorage.getItem('wscal_featured_v6')) {
-      localStorage.setItem('wscal_featured_v6', JSON.stringify(DEFAULT_FEATURED));
-    }
-  }
+  // 1. Try to fetch all initial configuration and lists from Firestore
+  if (typeof db !== 'undefined') {
+    try {
+      console.log("Fetching live configurations from Firestore Realtime DB...");
+      const [menusSnap, catsSnap, featuredSnap] = await Promise.all([
+        db.collection('mainMenus').get(),
+        db.collection('categories').get(),
+        db.collection('featured').doc('main').get()
+      ]);
 
-  state.mainMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v6'));
-  state.categories = JSON.parse(localStorage.getItem('wscal_categories_v6'));
-  state.articles = JSON.parse(localStorage.getItem('wscal_articles_v6'));
-  state.featured = JSON.parse(localStorage.getItem('wscal_featured_v6'));
+      // A. Main Menus
+      const liveMenus = [];
+      menusSnap.forEach(doc => liveMenus.push(doc.data()));
+      if (liveMenus.length > 0) {
+        state.mainMenus = liveMenus;
+        localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(liveMenus));
+      } else {
+        state.mainMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v6')) || DEFAULT_MAIN_MENUS;
+      }
+
+      // B. Categories
+      const liveCats = [];
+      catsSnap.forEach(doc => liveCats.push(doc.data()));
+      if (liveCats.length > 0) {
+        state.categories = liveCats;
+        localStorage.setItem('wscal_categories_v6', JSON.stringify(liveCats));
+      } else {
+        state.categories = JSON.parse(localStorage.getItem('wscal_categories_v6')) || DEFAULT_CATEGORIES;
+      }
+
+      // C. Featured
+      if (featuredSnap.exists) {
+        const liveFeat = featuredSnap.data();
+        state.featured = liveFeat;
+        localStorage.setItem('wscal_featured_v6', JSON.stringify(liveFeat));
+      } else {
+        state.featured = JSON.parse(localStorage.getItem('wscal_featured_v6')) || DEFAULT_FEATURED;
+      }
+      
+      console.log("Live configurations synced successfully.");
+    } catch (err) {
+      console.warn("Failed to retrieve live data from Firestore, loading local fallback: ", err);
+      loadLocalDataFallback();
+    }
+  } else {
+    loadLocalDataFallback();
+  }
 
   initializeCollapsedStates();
 
-  // Ensure every article has a views field
-  let updatedArticles = false;
-  state.articles.forEach(art => {
-    if (art.views === undefined) {
-      art.views = 0; // New articles start at 0 views
-      updatedArticles = true;
-    }
-  });
-  if (updatedArticles) {
-    saveArticles();
-  }
-
-  // Fetch real-time views from Firestore if available
+  // Load articles dynamically via realtime Firestore subscription (0-sec delay onSnapshot)
   if (typeof db !== 'undefined') {
-    try {
-      const snapshot = await db.collection('article_views').get();
-      const firestoreViews = {};
-      snapshot.forEach(doc => {
-        firestoreViews[doc.id] = doc.data().views || 0;
-      });
-      state.articles.forEach(art => {
-        if (firestoreViews[art.id] !== undefined) {
-          art.views = firestoreViews[art.id];
-        }
-      });
-      saveArticles();
-    } catch (err) {
-      console.warn("Failed to sync views with Firestore:", err);
-    }
+    listenArticles();
+  } else {
+    loadArticlesFallback();
   }
 
   // Render Dynamic Elements
   renderMainMenuCards();
   renderFeaturedBlocks();
-  renderRecentArticles();
 
   // Check login state
   if (sessionStorage.getItem('wscal_admin_logged') === 'true') {
@@ -122,22 +106,64 @@ async function initApp() {
     showAdminDashboard();
   }
 
-  console.log("App initialized successfully with data (v6).", state);
+  console.log("App initialized successfully with live database mode.", state);
   startBgmAuto();
 }
 
-// Save back to LocalStorage
-function saveMainMenus() {
-  localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(state.mainMenus));
+function loadLocalDataFallback() {
+  if (!localStorage.getItem('wscal_mainmenus_v6')) {
+    localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(DEFAULT_MAIN_MENUS));
+  }
+  if (!localStorage.getItem('wscal_categories_v6')) {
+    localStorage.setItem('wscal_categories_v6', JSON.stringify(DEFAULT_CATEGORIES));
+  }
+  if (!localStorage.getItem('wscal_featured_v6')) {
+    localStorage.setItem('wscal_featured_v6', JSON.stringify(DEFAULT_FEATURED));
+  }
+
+  state.mainMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v6'));
+  state.categories = JSON.parse(localStorage.getItem('wscal_categories_v6'));
+  state.featured = JSON.parse(localStorage.getItem('wscal_featured_v6'));
 }
-function saveCategories() {
+
+// Save back to LocalStorage
+// Save back to LocalStorage & Firestore Realtime DB
+async function saveMainMenus() {
+  localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(state.mainMenus));
+  if (typeof db !== 'undefined') {
+    try {
+      for (const item of state.mainMenus) {
+        await db.collection('mainMenus').doc(item.id).set(item);
+      }
+    } catch (e) {
+      console.warn("Failed to sync mainMenus with Firestore:", e);
+    }
+  }
+}
+async function saveCategories() {
   localStorage.setItem('wscal_categories_v6', JSON.stringify(state.categories));
+  if (typeof db !== 'undefined') {
+    try {
+      for (const item of state.categories) {
+        await db.collection('categories').doc(item.id).set(item);
+      }
+    } catch (e) {
+      console.warn("Failed to sync categories with Firestore:", e);
+    }
+  }
 }
 function saveArticles() {
   localStorage.setItem('wscal_articles_v6', JSON.stringify(state.articles));
 }
-function saveFeatured() {
+async function saveFeatured() {
   localStorage.setItem('wscal_featured_v6', JSON.stringify(state.featured));
+  if (typeof db !== 'undefined') {
+    try {
+      await db.collection('featured').doc('main').set(state.featured);
+    } catch (e) {
+      console.warn("Failed to sync featured with Firestore:", e);
+    }
+  }
 }
 
 // Render Dynamic Main Menu Cards & Footer Navigation Links
@@ -1620,7 +1646,7 @@ function resetWriteForm() {
   handleCategoryChange();
 }
 
-function handleSaveArticle(event) {
+async function handleSaveArticle(event) {
   event.preventDefault();
   
   const articleId = document.getElementById('edit-article-id').value;
@@ -1638,37 +1664,50 @@ function handleSaveArticle(event) {
     return;
   }
 
+  const finalId = articleId || 'art_' + Date.now();
+  const artData = {
+    categoryId: categoryId,
+    title: title,
+    author: author,
+    scripture: scripture,
+    videoUrl: videoUrl,
+    photoUrl: photoUrl,
+    content: content,
+    createdAt: date,
+    views: 0
+  };
+
+  // If editing, preserve views
+  if (articleId) {
+    const oldArt = state.articles.find(a => a.id === articleId);
+    if (oldArt) {
+      artData.views = oldArt.views || 0;
+    }
+  }
+
+  // 1. Local backup
   if (articleId) {
     const artIdx = state.articles.findIndex(a => a.id === articleId);
     if (artIdx !== -1) {
-      state.articles[artIdx].categoryId = categoryId;
-      state.articles[artIdx].title = title;
-      state.articles[artIdx].author = author;
-      state.articles[artIdx].scripture = scripture;
-      state.articles[artIdx].videoUrl = videoUrl;
-      state.articles[artIdx].photoUrl = photoUrl;
-      state.articles[artIdx].content = content;
-      state.articles[artIdx].createdAt = date;
-      alert("記事を修正・保存しました。");
+      state.articles[artIdx] = { id: finalId, ...artData };
     }
   } else {
-    const newArt = {
-      id: 'art_' + Date.now(),
-      categoryId: categoryId,
-      title: title,
-      author: author,
-      scripture: scripture,
-      videoUrl: videoUrl,
-      photoUrl: photoUrl,
-      content: content,
-      createdAt: date
-    };
-    state.articles.push(newArt);
-    alert("新規記事を公開しました。");
+    state.articles.push({ id: finalId, ...artData });
+  }
+  saveArticles();
+
+  // 2. Sync with Firestore Realtime DB
+  if (typeof db !== 'undefined') {
+    try {
+      await db.collection('articles').doc(finalId).set(artData);
+      console.log("Article synced with Firestore successfully:", finalId);
+    } catch (err) {
+      console.error("Failed to sync article with Firestore:", err);
+      alert("클라우드 DB 저장 실패 (보안 규칙 설정을 완료했는지 확인해 주세요): " + err.message);
+    }
   }
 
-  saveArticles();
-  renderRecentArticles();
+  alert(articleId ? "記事を修正・保存しました。" : "新規記事を公開しました。");
   resetWriteForm();
   switchAdminTab('articles');
 }
@@ -1833,15 +1872,27 @@ function loadArticleToEdit(artId) {
   handleCategoryChange();
 }
 
-function handleDeleteArticle(artId) {
+async function handleDeleteArticle(artId) {
   const art = state.articles.find(a => a.id === artId);
   if (!art) return;
 
   if (confirm(`資料「${art.title}」を完全に削除しますか？`)) {
+    // 1. Local delete
     state.articles = state.articles.filter(a => a.id !== artId);
     saveArticles();
     renderRecentArticles();
     renderAdminArticleList();
+
+    // 2. Firestore delete
+    if (typeof db !== 'undefined') {
+      try {
+        await db.collection('articles').doc(artId).delete();
+        console.log("Article deleted from Firestore successfully:", artId);
+      } catch (err) {
+        console.error("Failed to delete article from Firestore:", err);
+        alert("클라우드 DB 삭제 실패: " + err.message);
+      }
+    }
   }
 }
 
