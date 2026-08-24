@@ -14,6 +14,8 @@ const DEFAULT_FEATURED = {"todaysWord":{"scripture":"ヨハネの黙示録 2章 
 // ==========================================
 // 2. Application State Management
 // ==========================================
+let sessionHeartbeatInterval = null;
+
 let state = {
   mainMenus: [],
   categories: [],
@@ -104,6 +106,7 @@ async function initApp() {
   if (sessionStorage.getItem('wscal_admin_logged') === 'true') {
     state.isAdmin = true;
     showAdminDashboard();
+    startSessionHeartbeat();
   }
 
   console.log("App initialized successfully with live database mode.", state);
@@ -1013,14 +1016,40 @@ function closeLoginModal() {
   document.getElementById('login-error').style.display = 'none';
 }
 
-function handleLogin(event) {
+async function handleLogin(event) {
   event.preventDefault();
   const user = document.getElementById('login-username').value;
   const pass = document.getElementById('login-password').value;
 
   if (user === 'admin' && pass === '1234') {
+    // Check Session Lock in Firestore
+    if (typeof db !== 'undefined') {
+      try {
+        const lockDoc = await db.collection('system').doc('sessionLock').get();
+        if (lockDoc.exists) {
+          const lockData = lockDoc.data();
+          if (lockData && lockData.isLocked) {
+            const elapsed = Date.now() - (lockData.lastActive || 0);
+            if (elapsed < 30 * 60 * 1000) { // 30 mins active window check
+              alert("현재 다른 관리자가 접속하여 작업 중입니다. 중복 로그인을 방지하기 위해 접속이 제한됩니다. 잠시 후 다시 시도해 주세요.");
+              return;
+            }
+          }
+        }
+        
+        // Acquire Lock
+        await db.collection('system').doc('sessionLock').set({
+          isLocked: true,
+          lastActive: Date.now()
+        });
+      } catch (err) {
+        console.warn("Failed to query session lock, allowing login as fallback:", err);
+      }
+    }
+
     state.isAdmin = true;
     sessionStorage.setItem('wscal_admin_logged', 'true');
+    startSessionHeartbeat();
     closeLoginModal();
     showAdminDashboard();
   } else {
@@ -1028,9 +1057,23 @@ function handleLogin(event) {
   }
 }
 
-function handleLogout() {
+async function handleLogout() {
   state.isAdmin = false;
   sessionStorage.removeItem('wscal_admin_logged');
+  stopSessionHeartbeat();
+
+  // Release Lock in Firestore
+  if (typeof db !== 'undefined') {
+    try {
+      await db.collection('system').doc('sessionLock').set({
+        isLocked: false,
+        lastActive: 0
+      });
+      console.log("Session lock released successfully.");
+    } catch (err) {
+      console.warn("Failed to release session lock on logout:", err);
+    }
+  }
   
   // Hide Admin UI & Show User UI
   document.getElementById('admin-dashboard-sec').classList.remove('active');
@@ -2455,3 +2498,41 @@ async function handlePhotoUpload(input) {
 
   reader.readAsDataURL(file);
 }
+
+// ==========================================
+// 10. Single Session Lock & Heartbeat Helpers
+// ==========================================
+function startSessionHeartbeat() {
+  if (sessionHeartbeatInterval) clearInterval(sessionHeartbeatInterval);
+  
+  // Update lastActive timestamp every 1 minute
+  sessionHeartbeatInterval = setInterval(async () => {
+    if (state.isAdmin && typeof db !== 'undefined') {
+      try {
+        await db.collection('system').doc('sessionLock').update({
+          lastActive: Date.now()
+        });
+        console.log("Session heartbeat updated.");
+      } catch (err) {
+        console.warn("Failed to update session heartbeat:", err);
+      }
+    }
+  }, 60 * 1000);
+}
+
+function stopSessionHeartbeat() {
+  if (sessionHeartbeatInterval) {
+    clearInterval(sessionHeartbeatInterval);
+    sessionHeartbeatInterval = null;
+  }
+}
+
+// Release lock if browser tab/window is closed
+window.addEventListener('beforeunload', () => {
+  if (state.isAdmin && typeof db !== 'undefined') {
+    db.collection('system').doc('sessionLock').set({
+      isLocked: false,
+      lastActive: 0
+    });
+  }
+});
