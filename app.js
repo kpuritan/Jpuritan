@@ -56,6 +56,12 @@ async function initApp() {
       const liveMenus = [];
       menusSnap.forEach(doc => liveMenus.push(doc.data()));
       if (liveMenus.length > 0) {
+        const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'discipleship', 'pastor'];
+        liveMenus.sort((a, b) => {
+          const posA = a.position !== undefined ? a.position : defaultMenuIds.indexOf(a.id);
+          const posB = b.position !== undefined ? b.position : defaultMenuIds.indexOf(b.id);
+          return posA - posB;
+        });
         state.mainMenus = liveMenus;
         localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(liveMenus));
       } else {
@@ -66,6 +72,7 @@ async function initApp() {
       const liveCats = [];
       catsSnap.forEach(doc => liveCats.push(doc.data()));
       if (liveCats.length > 0) {
+        liveCats.sort((a, b) => (a.position || 0) - (b.position || 0));
         state.categories = liveCats;
         localStorage.setItem('wscal_categories_v6', JSON.stringify(liveCats));
       } else {
@@ -118,11 +125,15 @@ async function initApp() {
 async function checkAndMigrateAllDataToFirestore() {
   if (typeof db === 'undefined') return;
   try {
-    const menusSnap = await db.collection('mainMenus').limit(1).get();
+    const menusSnap = await db.collection('mainMenus').get();
     const articlesSnap = await db.collection('articles').limit(1).get();
+    const catsLimitSnap = await db.collection('categories').limit(5).get();
     
-    if (menusSnap.empty || articlesSnap.empty) {
-      console.log("Firestore database is empty. Fetching data.json for auto-migration...");
+    const hasPositionInMenus = !menusSnap.empty && menusSnap.docs.every(doc => doc.data().position !== undefined);
+    const hasPositionInCats = catsLimitSnap.empty ? true : catsLimitSnap.docs.every(doc => doc.data().position !== undefined);
+    
+    if (menusSnap.empty || articlesSnap.empty || !hasPositionInMenus || !hasPositionInCats) {
+      console.log("Firestore database is empty or missing position fields. Fetching data.json for auto-migration...");
       const res = await fetch('./data.json?t=' + Date.now());
       if (!res.ok) {
         console.warn("Failed to fetch data.json for auto-migration");
@@ -131,19 +142,20 @@ async function checkAndMigrateAllDataToFirestore() {
       const fileData = await res.json();
       
       // A. mainMenus
-      if (menusSnap.empty && fileData.mainMenus && fileData.mainMenus.length > 0) {
-        console.log("Migrating mainMenus...");
+      if ((menusSnap.empty || !hasPositionInMenus) && fileData.mainMenus && fileData.mainMenus.length > 0) {
+        console.log("Migrating mainMenus with positions...");
+        let idx = 0;
         for (const item of fileData.mainMenus) {
-          await db.collection('mainMenus').doc(item.id).set(item);
+          await db.collection('mainMenus').doc(item.id).set({ ...item, position: idx++ });
         }
       }
       
       // B. categories
-      const catsSnap = await db.collection('categories').limit(1).get();
-      if (catsSnap.empty && fileData.categories && fileData.categories.length > 0) {
-        console.log("Migrating categories...");
+      if ((catsLimitSnap.empty || !hasPositionInCats) && fileData.categories && fileData.categories.length > 0) {
+        console.log("Migrating categories with positions...");
+        let idx = 0;
         for (const item of fileData.categories) {
-          await db.collection('categories').doc(item.id).set(item);
+          await db.collection('categories').doc(item.id).set({ ...item, position: idx++ });
         }
       }
       
@@ -165,6 +177,10 @@ async function checkAndMigrateAllDataToFirestore() {
         }
       }
       console.log("Auto-migration to Firestore completed successfully!");
+      
+      // Force reload to let local storage and app state sync with the newly migrated Firestore data
+      alert("데이터베이스 순서 초기화가 완료되었습니다. 페이지를 새로고침합니다.");
+      window.location.reload();
     }
   } catch (err) {
     console.error("Migration to Firestore failed:", err);
@@ -259,8 +275,9 @@ async function saveMainMenus() {
   localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(state.mainMenus));
   if (typeof db !== 'undefined') {
     try {
+      let idx = 0;
       for (const item of state.mainMenus) {
-        await db.collection('mainMenus').doc(item.id).set(item);
+        await db.collection('mainMenus').doc(item.id).set({ ...item, position: idx++ });
       }
     } catch (e) {
       console.warn("Failed to sync mainMenus with Firestore:", e);
@@ -271,8 +288,9 @@ async function saveCategories() {
   localStorage.setItem('wscal_categories_v6', JSON.stringify(state.categories));
   if (typeof db !== 'undefined') {
     try {
+      let idx = 0;
       for (const item of state.categories) {
-        await db.collection('categories').doc(item.id).set(item);
+        await db.collection('categories').doc(item.id).set({ ...item, position: idx++ });
       }
     } catch (e) {
       console.warn("Failed to sync categories with Firestore:", e);
