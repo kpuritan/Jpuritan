@@ -2183,9 +2183,14 @@ function toggleBgm() {
     if (!bgmIframe) {
       bgmIframe = document.createElement('iframe');
       bgmIframe.id = 'youtube-bgm';
-      bgmIframe.style.display = 'none';
-      bgmIframe.width = '0';
-      bgmIframe.height = '0';
+      bgmIframe.style.position = 'fixed';
+      bgmIframe.style.bottom = '0';
+      bgmIframe.style.right = '0';
+      bgmIframe.style.width = '1px';
+      bgmIframe.style.height = '1px';
+      bgmIframe.style.opacity = '0.01';
+      bgmIframe.style.pointerEvents = 'none';
+      bgmIframe.style.border = 'none';
       bgmIframe.src = 'https://www.youtube.com/embed/f742p7mQ0Ic?autoplay=1&loop=1&playlist=f742p7mQ0Ic';
       bgmIframe.allow = 'autoplay';
       document.body.appendChild(bgmIframe);
