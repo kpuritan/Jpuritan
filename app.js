@@ -1990,7 +1990,7 @@ async function syncDataToGithub() {
   const branch = "main";
 
   try {
-    // 1. Get current data.json file SHA
+    // 1. Get current data.json file SHA & content for smart merge
     const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`;
     const resGet = await fetch(getUrl, {
       headers: {
@@ -2005,7 +2005,62 @@ async function syncDataToGithub() {
     const fileInfo = await resGet.json();
     const sha = fileInfo.sha;
 
-    // 2. Encode JSON safely as base64 supporting multi-byte chars
+    // 2. Decode server data.json safely supporting multi-byte chars
+    let serverData = null;
+    try {
+      const decodedContent = atob(fileInfo.content.replace(/\s/g, ''));
+      const bytes = new Uint8Array(decodedContent.length);
+      for (let i = 0; i < decodedContent.length; i++) {
+        bytes[i] = decodedContent.charCodeAt(i);
+      }
+      serverData = JSON.parse(new TextDecoder().decode(bytes));
+    } catch (decodeErr) {
+      console.warn("Failed to parse remote server data, skipping merge: ", decodeErr);
+    }
+
+    // 3. Smart Merge: If serverData loaded successfully, merge non-existing elements to prevent dataloss
+    if (serverData) {
+      // A. Merge Articles
+      const serverArticles = serverData.articles || [];
+      let localArticles = dataToSync.articles || [];
+      let mergedArticles = [...localArticles];
+      serverArticles.forEach(sa => {
+        if (!mergedArticles.some(la => la.id === sa.id)) {
+          mergedArticles.push(sa); // Pull in remote articles to prevent overwriting
+        }
+      });
+      dataToSync.articles = mergedArticles;
+      localStorage.setItem('wscal_articles_v6', JSON.stringify(mergedArticles));
+      state.articles = mergedArticles;
+
+      // B. Merge Categories
+      const serverCategories = serverData.categories || [];
+      let localCategories = dataToSync.categories || [];
+      let mergedCategories = [...localCategories];
+      serverCategories.forEach(sc => {
+        if (!mergedCategories.some(lc => lc.id === sc.id)) {
+          mergedCategories.push(sc);
+        }
+      });
+      dataToSync.categories = mergedCategories;
+      localStorage.setItem('wscal_categories_v6', JSON.stringify(mergedCategories));
+      state.categories = mergedCategories;
+
+      // C. Merge Main Menus
+      const serverMenus = serverData.mainMenus || [];
+      let localMenus = dataToSync.mainMenus || [];
+      let mergedMenus = [...localMenus];
+      serverMenus.forEach(sm => {
+        if (!mergedMenus.some(lm => lm.id === sm.id)) {
+          mergedMenus.push(sm);
+        }
+      });
+      dataToSync.mainMenus = mergedMenus;
+      localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(mergedMenus));
+      state.mainMenus = mergedMenus;
+    }
+
+    // 4. Encode final merged JSON safely as base64 supporting multi-byte chars
     const utf8Bytes = new TextEncoder().encode(JSON.stringify(dataToSync, null, 2));
     let binaryString = "";
     for (let i = 0; i < utf8Bytes.length; i++) {
