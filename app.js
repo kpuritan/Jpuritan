@@ -92,10 +92,12 @@ async function initApp() {
       fileData = await res.json();
       console.log("Successfully fetched data.json in background.");
 
-      if (fileData.mainMenus) localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(fileData.mainMenus));
+            if (fileData.mainMenus) localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(fileData.mainMenus));
       if (fileData.categories) localStorage.setItem('wscal_categories_v6', JSON.stringify(fileData.categories));
       if (fileData.featured) localStorage.setItem('wscal_featured_v6', JSON.stringify(fileData.featured));
-      if (fileData.articles) localStorage.setItem('wscal_articles_v6', JSON.stringify(fileData.articles));
+      if (fileData.articles && !localStorage.getItem('wscal_articles_v6')) {
+        localStorage.setItem('wscal_articles_v6', JSON.stringify(fileData.articles));
+      }
 
       // If DB is offline or not loaded yet, immediately apply the updated data.json
       if (typeof db === 'undefined') {
@@ -113,7 +115,7 @@ async function initApp() {
   // 3. Sync with Firestore in the background
   if (typeof db !== 'undefined') {
     // Run Firestore migration in the background
-    withTimeout(checkAndMigrateAllDataToFirestore(), 3000).catch(err => {
+    withTimeout(checkAndMigrateAllDataToFirestore(), 10000).catch(err => {
       console.warn("Background migration check failed/timed out:", err);
     });
 
@@ -123,7 +125,7 @@ async function initApp() {
         db.collection('mainMenus').get(),
         db.collection('categories').get(),
         db.collection('featured').doc('main').get()
-      ]), 2500);
+      ]), 10000);
 
       // A. Main Menus
       const liveMenus = [];
@@ -355,10 +357,12 @@ async function loadLocalDataFallback() {
   }
 
   if (fetchedData) {
-    if (fetchedData.mainMenus) localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(fetchedData.mainMenus));
+        if (fetchedData.mainMenus) localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(fetchedData.mainMenus));
     if (fetchedData.categories) localStorage.setItem('wscal_categories_v6', JSON.stringify(fetchedData.categories));
     if (fetchedData.featured) localStorage.setItem('wscal_featured_v6', JSON.stringify(fetchedData.featured));
-    if (fetchedData.articles) localStorage.setItem('wscal_articles_v6', JSON.stringify(fetchedData.articles));
+    if (fetchedData.articles && !localStorage.getItem('wscal_articles_v6')) {
+      localStorage.setItem('wscal_articles_v6', JSON.stringify(fetchedData.articles));
+    }
   } else {
     // If even data.json fails, use hardcoded defaults
     if (!localStorage.getItem('wscal_mainmenus_v6')) {
@@ -2630,4 +2634,77 @@ window.addEventListener('beforeunload', () => {
   }
 });
 
+
+
+// Sync compiled data.json to GitHub repository asynchronously (Hybrid Static CMS sync)
+async function syncDataJsonToGitHub() {
+  const token = localStorage.getItem('wscal_github_token') || '';
+  if (!token) {
+    console.log("No GitHub token found, skipping data.json sync to GitHub.");
+    return;
+  }
+
+  try {
+    console.log("Syncing data.json to GitHub repository in background...");
+    const owner = "kpuritan";
+    const repo = "Jpuritan";
+    const branch = "main";
+    
+    // 1. Get current SHA of data.json
+    const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data.json`;
+    const resGet = await fetch(getUrl, {
+      headers: {
+        "Authorization": `token ${token}`
+      }
+    });
+    
+    let sha = "";
+    if (resGet.ok) {
+      const fileInfo = await resGet.json();
+      sha = fileInfo.sha;
+    } else {
+      console.warn("Could not retrieve data.json SHA from GitHub, attempting create.");
+    }
+    
+    // 2. Prepare the new data.json content
+    const dataObj = {
+      mainMenus: state.mainMenus,
+      categories: state.categories,
+      featured: state.featured,
+      articles: state.articles
+    };
+    
+    const jsonStr = JSON.stringify(dataObj, null, 2);
+    // Base64 encode using btoa with UTF-8 support
+    const base64Content = btoa(unescape(encodeURIComponent(jsonStr)));
+    
+    // 3. Commit back to GitHub
+    const body = {
+      message: "data: sync data.json via admin panel",
+      content: base64Content,
+      branch: branch
+    };
+    if (sha) {
+      body.sha = sha;
+    }
+    
+    const resPut = await fetch(getUrl, {
+      method: "PUT",
+      headers: {
+        "Authorization": `token ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+    
+    if (resPut.ok) {
+      console.log("Successfully synced data.json to GitHub repository.");
+    } else {
+      const errData = await resPut.json();
+      console.warn("GitHub data.json sync failed:", errData.message);
+    }
+  } catch (err) {
+    console.error("Error syncing data.json to GitHub:", err);
+  }
+}
 
