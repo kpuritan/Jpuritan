@@ -2303,3 +2303,81 @@ function startBgmAuto() {
   document.addEventListener('pointerdown', triggerAutoPlay);
   document.addEventListener('touchstart', triggerAutoPlay);
 }
+
+async function handlePhotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const token = localStorage.getItem('wscal_github_token') || '';
+  if (!token) {
+    alert("사진을 직접 업로드하려면 먼저 상단에 GitHub Token을 입력해 주세요.");
+    input.value = '';
+    return;
+  }
+
+  const statusDiv = document.getElementById('art-photo-upload-status');
+  if (statusDiv) {
+    statusDiv.style.display = 'block';
+    statusDiv.style.color = 'var(--text-light)';
+    statusDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 사진을 GitHub 서버에 업로드 중입니다... 잠시만 기다려 주세요.';
+  }
+
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    try {
+      const base64Data = e.target.result.split(',')[1];
+      const ext = file.name.split('.').pop().toLowerCase() || 'jpg';
+      const fileName = 'photo_' + Date.now() + '.' + ext;
+      
+      const owner = "kpuritan";
+      const repo = "Jpuritan";
+      const branch = "main";
+      
+      const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/images/${fileName}`;
+      const resPut = await fetch(putUrl, {
+        method: "PUT",
+        headers: {
+          "Authorization": `token ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: "media: upload profile photo via admin panel",
+          content: base64Data,
+          branch: branch
+        })
+      });
+
+      if (!resPut.ok) {
+        const errData = await resPut.json();
+        throw new Error(errData.message || "GitHub 이미지 업로드 실패");
+      }
+
+      // Populate input with relative path
+      const targetUrlInput = document.getElementById('art-photo-url');
+      if (targetUrlInput) {
+        targetUrlInput.value = 'images/' + fileName;
+      }
+
+      if (statusDiv) {
+        statusDiv.style.color = '#2ecc71';
+        statusDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> 업로드 성공! 사진 경로가 자동으로 입력되었습니다.';
+      }
+    } catch (err) {
+      console.error(err);
+      alert("사진 업로드 실패: " + err.message);
+      if (statusDiv) {
+        statusDiv.style.display = 'none';
+      }
+    } finally {
+      input.value = ''; // Reset file input
+    }
+  };
+
+  reader.onerror = function() {
+    alert("파일을 읽는 도중 오류가 발생했습니다.");
+    if (statusDiv) statusDiv.style.display = 'none';
+    input.value = '';
+  };
+
+  reader.readAsDataURL(file);
+}
