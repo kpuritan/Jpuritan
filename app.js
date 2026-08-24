@@ -135,7 +135,14 @@ async function checkAndMigrateAllDataToFirestore() {
       console.warn("Failed to fetch data.json for auto-migration");
       return;
     }
-    const fileData = await res.json();
+    let fileData;
+    try {
+      fileData = await res.json();
+    } catch (parseErr) {
+      console.error("data.json parsing failed:", parseErr);
+      alert("관리자 파일(data.json)의 형식이 잘못되어 데이터를 동기화할 수 없습니다. 쉼표나 따옴표 등 JSON 문법 오류를 확인해 주세요.");
+      return;
+    }
     
     // A. mainMenus
     const menusSnap = await db.collection('mainMenus').get();
@@ -1264,7 +1271,7 @@ function showAdminDashboard() {
   // Show Admin Dashboard Container
   document.getElementById('admin-dashboard-sec').classList.add('active');
 
-  // Load saved GitHub token into input
+  // Load saved GitHub token into photo upload input
   const savedToken = localStorage.getItem('wscal_github_token') || '';
   const tokenInput = document.getElementById('admin-github-token');
   if (tokenInput) {
@@ -2196,213 +2203,7 @@ function renderAdminStats() {
   });
 }
 
-function saveGithubToken() {
-  const token = document.getElementById('admin-github-token').value.trim();
-  localStorage.setItem('wscal_github_token', token);
-}
 
-async function syncDataToGithub(retryCount = 3, isRetry = false) {
-  const tokenInput = document.getElementById('admin-github-token');
-  if (tokenInput) {
-    const tokenVal = tokenInput.value.trim();
-    if (tokenVal) {
-      localStorage.setItem('wscal_github_token', tokenVal);
-    }
-  }
-
-  const token = localStorage.getItem('wscal_github_token') || '';
-  if (!token) {
-    alert("먼저 GitHub Token을 입력해 주세요.");
-    return;
-  }
-
-  if (!isRetry) {
-    const confirmSync = confirm("현재 브라우저에 저장된 최신 폴더 및 글 정보들을 인터넷 깃허브(GitHub)에 반영하시겠습니까?\n반영 후 약 1~2분 뒤에 실시간 사이트에 배포가 완료됩니다.");
-    if (!confirmSync) return;
-  }
-
-  const syncBtn = document.getElementById('btn-github-sync');
-  const originalBtnHtml = syncBtn ? syncBtn.innerHTML : '';
-  const originalBtnBg = syncBtn ? syncBtn.style.backgroundColor : '';
-
-  if (syncBtn) {
-    syncBtn.disabled = true;
-    syncBtn.style.backgroundColor = '#95a5a6';
-    syncBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 동기화 진행 중...';
-  }
-  if (tokenInput) {
-    tokenInput.disabled = true;
-  }
-
-  const dataToSync = {
-    mainMenus: JSON.parse(localStorage.getItem('wscal_mainmenus_v6')),
-    categories: JSON.parse(localStorage.getItem('wscal_categories_v6')),
-    articles: JSON.parse(localStorage.getItem('wscal_articles_v6')),
-    featured: JSON.parse(localStorage.getItem('wscal_featured_v6'))
-  };
-
-  const owner = "kpuritan";
-  const repo = "Jpuritan";
-  const path = "data.json";
-  const branch = "main";
-
-  try {
-    // 1. Get current data.json file SHA & content for smart merge
-    const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`;
-    const resGet = await fetch(getUrl, {
-      headers: {
-        "Authorization": `token ${token}`
-      }
-    });
-
-    if (!resGet.ok) {
-      throw new Error("GitHub에서 기존 data.json 정보를 가져오는 데 실패했습니다. 토큰 권한을 확인해주세요.");
-    }
-
-    const fileInfo = await resGet.json();
-    const sha = fileInfo.sha;
-
-    // 2. Decode server data.json safely supporting multi-byte chars
-    let serverData = null;
-    try {
-      const decodedContent = atob(fileInfo.content.replace(/\s/g, ''));
-      const bytes = new Uint8Array(decodedContent.length);
-      for (let i = 0; i < decodedContent.length; i++) {
-        bytes[i] = decodedContent.charCodeAt(i);
-      }
-      serverData = JSON.parse(new TextDecoder().decode(bytes));
-    } catch (decodeErr) {
-      console.warn("Failed to parse remote server data, skipping merge: ", decodeErr);
-    }
-
-    // 3. Smart Merge: If serverData loaded successfully, merge non-existing elements to prevent dataloss
-    if (serverData) {
-      // A. Merge Articles
-      const serverArticles = serverData.articles || [];
-      let localArticles = dataToSync.articles || [];
-      let mergedArticles = [...localArticles];
-      serverArticles.forEach(sa => {
-        if (!mergedArticles.some(la => la.id === sa.id)) {
-          mergedArticles.push(sa); // Pull in remote articles to prevent overwriting
-        }
-      });
-      dataToSync.articles = mergedArticles;
-      localStorage.setItem('wscal_articles_v6', JSON.stringify(mergedArticles));
-      state.articles = mergedArticles;
-
-      // B. Merge Categories
-      const serverCategories = serverData.categories || [];
-      let localCategories = dataToSync.categories || [];
-      let mergedCategories = [...localCategories];
-      serverCategories.forEach(sc => {
-        if (!mergedCategories.some(lc => lc.id === sc.id)) {
-          mergedCategories.push(sc);
-        }
-      });
-      dataToSync.categories = mergedCategories;
-      localStorage.setItem('wscal_categories_v6', JSON.stringify(mergedCategories));
-      state.categories = mergedCategories;
-
-      // C. Merge Main Menus
-      const serverMenus = serverData.mainMenus || [];
-      let localMenus = dataToSync.mainMenus || [];
-      let mergedMenus = [...localMenus];
-      serverMenus.forEach(sm => {
-        if (!mergedMenus.some(lm => lm.id === sm.id)) {
-          mergedMenus.push(sm);
-        }
-      });
-      dataToSync.mainMenus = mergedMenus;
-      localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(mergedMenus));
-      state.mainMenus = mergedMenus;
-    }
-
-    // 4. Encode final merged JSON safely as base64 supporting multi-byte chars
-    const utf8Bytes = new TextEncoder().encode(JSON.stringify(dataToSync, null, 2));
-    let binaryString = "";
-    for (let i = 0; i < utf8Bytes.length; i++) {
-      binaryString += String.fromCharCode(utf8Bytes[i]);
-    }
-    const base64Content = btoa(binaryString);
-
-    // 3. Put request to update data.json
-    const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-    const resPut = await fetch(putUrl, {
-      method: "PUT",
-      headers: {
-        "Authorization": `token ${token}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message: "data: 인터넷 관리자 페이지에서 자료 데이터 업데이트",
-        content: base64Content,
-        sha: sha,
-        branch: branch
-      })
-    });
-
-    if (resPut.status === 409) {
-      if (retryCount > 0) {
-        console.warn("다른 관리자의 변경 사항이 감지되었습니다. 1초 후 자동 병합하여 재시도합니다... 남은 재시도: ", retryCount);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        return syncDataToGithub(retryCount - 1, true);
-      } else {
-        throw new Error("동시 접속자가 많아 배포가 지연되고 있습니다. 1분 후 다시 시도해 주세요.");
-      }
-    }
-
-    if (!resPut.ok) {
-      const errData = await resPut.json();
-      throw new Error(errData.message || "GitHub 데이터 업데이트 실패");
-    }
-
-    if (tokenInput) {
-      tokenInput.value = ''; // Clear token from screen for security
-    }
-
-    if (syncBtn) {
-      syncBtn.style.backgroundColor = '#2ecc71';
-      syncBtn.innerHTML = '<i class="fa-solid fa-check"></i> 동기화 완료!';
-    }
-
-    // Refresh UI elements immediately with newly merged data
-    renderRecentArticles();
-    if (state.isAdmin) {
-      if (state.adminTab === 'articles') {
-        renderAdminArticleList();
-      }
-      renderAdminStats();
-    } else {
-      renderArticlesList();
-    }
-
-    alert("인터넷 GitHub 서버로 최신 데이터가 성공적으로 반영되었습니다!\n배포가 시작되며 약 1~2분 뒤 다른 사람들의 화면에도 적용됩니다.");
-
-    setTimeout(() => {
-      if (syncBtn) {
-        syncBtn.disabled = false;
-        syncBtn.style.backgroundColor = originalBtnBg;
-        syncBtn.innerHTML = originalBtnHtml;
-      }
-      if (tokenInput) {
-        tokenInput.disabled = false;
-      }
-    }, 3000);
-
-  } catch (err) {
-    console.error(err);
-    alert("동기화 실패: " + err.message);
-
-    if (syncBtn) {
-      syncBtn.disabled = false;
-      syncBtn.style.backgroundColor = originalBtnBg;
-      syncBtn.innerHTML = originalBtnHtml;
-    }
-    if (tokenInput) {
-      tokenInput.disabled = false;
-    }
-  }
-}
 
 // ==========================================
 // 7. Pagination Helper Functions
@@ -2586,9 +2387,15 @@ async function handlePhotoUpload(input) {
   const file = input.files[0];
   if (!file) return;
 
-  const token = localStorage.getItem('wscal_github_token') || '';
+  let token = localStorage.getItem('wscal_github_token') || '';
+  const tokenInput = document.getElementById('admin-github-token');
+  if (tokenInput && tokenInput.value.trim()) {
+    token = tokenInput.value.trim();
+    localStorage.setItem('wscal_github_token', token);
+  }
+
   if (!token) {
-    alert("사진을 직접 업로드하려면 먼저 상단에 GitHub Token을 입력해 주세요.");
+    alert("사진을 직접 업로드하려면 먼저 사진 파일 선택 버튼 아래에 GitHub Token을 입력해 주세요.");
     input.value = '';
     return;
   }
