@@ -43,7 +43,11 @@ let state = {
 async function initApp() {
   // 1. Try to fetch all initial configuration and lists from Firestore
   if (typeof db !== 'undefined') {
-    await checkAndMigrateAllDataToFirestore();
+    try {
+      await checkAndMigrateAllDataToFirestore();
+    } catch (migErr) {
+      console.warn("Auto-migration check failed, proceeding to app loading anyway:", migErr);
+    }
     try {
       console.log("Fetching live configurations from Firestore Realtime DB...");
       const [menusSnap, catsSnap, featuredSnap] = await Promise.all([
