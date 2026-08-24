@@ -43,6 +43,7 @@ let state = {
 async function initApp() {
   // 1. Try to fetch all initial configuration and lists from Firestore
   if (typeof db !== 'undefined') {
+    await checkAndMigrateAllDataToFirestore();
     try {
       console.log("Fetching live configurations from Firestore Realtime DB...");
       const [menusSnap, catsSnap, featuredSnap] = await Promise.all([
@@ -111,6 +112,129 @@ async function initApp() {
 
   console.log("App initialized successfully with live database mode.", state);
   startBgmAuto();
+}
+
+// Check and migrate data.json to Firestore if Firestore is empty
+async function checkAndMigrateAllDataToFirestore() {
+  if (typeof db === 'undefined') return;
+  try {
+    const menusSnap = await db.collection('mainMenus').limit(1).get();
+    const articlesSnap = await db.collection('articles').limit(1).get();
+    
+    if (menusSnap.empty || articlesSnap.empty) {
+      console.log("Firestore database is empty. Fetching data.json for auto-migration...");
+      const res = await fetch('./data.json?t=' + Date.now());
+      if (!res.ok) {
+        console.warn("Failed to fetch data.json for auto-migration");
+        return;
+      }
+      const fileData = await res.json();
+      
+      // A. mainMenus
+      if (menusSnap.empty && fileData.mainMenus && fileData.mainMenus.length > 0) {
+        console.log("Migrating mainMenus...");
+        for (const item of fileData.mainMenus) {
+          await db.collection('mainMenus').doc(item.id).set(item);
+        }
+      }
+      
+      // B. categories
+      const catsSnap = await db.collection('categories').limit(1).get();
+      if (catsSnap.empty && fileData.categories && fileData.categories.length > 0) {
+        console.log("Migrating categories...");
+        for (const item of fileData.categories) {
+          await db.collection('categories').doc(item.id).set(item);
+        }
+      }
+      
+      // C. featured
+      const featSnap = await db.collection('featured').doc('main').get();
+      if (!featSnap.exists && fileData.featured) {
+        console.log("Migrating featured...");
+        await db.collection('featured').doc('main').set(fileData.featured);
+      }
+      
+      // D. articles
+      if (articlesSnap.empty && fileData.articles && fileData.articles.length > 0) {
+        console.log("Migrating articles...");
+        for (const item of fileData.articles) {
+          const artId = item.id;
+          const artData = { ...item };
+          delete artData.id;
+          await db.collection('articles').doc(artId).set(artData);
+        }
+      }
+      console.log("Auto-migration to Firestore completed successfully!");
+    }
+  } catch (err) {
+    console.error("Migration to Firestore failed:", err);
+  }
+}
+
+// Load articles dynamically via realtime Firestore subscription
+function listenArticles() {
+  if (typeof db === 'undefined') {
+    loadArticlesFallback();
+    return;
+  }
+  
+  db.collection('articles').onSnapshot(snapshot => {
+    console.log("Firestore articles snapshot received.");
+    const articles = [];
+    snapshot.forEach(doc => {
+      articles.push({ id: doc.id, ...doc.data() });
+    });
+    
+    // Sort articles by createdAt descending, then by id descending (secondary sort)
+    // This resolves the "자료 순서가 약간 뒤죽박죽 됐는데여" issue
+    articles.sort((a, b) => {
+      const dateA = a.createdAt || '';
+      const dateB = b.createdAt || '';
+      const dateCompare = dateB.localeCompare(dateA);
+      if (dateCompare !== 0) return dateCompare;
+      return b.id.localeCompare(a.id);
+    });
+    
+    state.articles = articles;
+    saveArticles();
+    
+    // Trigger UI updates
+    renderRecentArticles();
+    if (state.currentCategory) {
+      renderArticlesList();
+    }
+    if (state.isAdmin) {
+      renderAdminArticleList();
+    }
+  }, err => {
+    console.warn("Firestore subscription failed, falling back to local storage:", err);
+    loadArticlesFallback();
+  });
+}
+
+// Fallback logic when Firebase/Firestore is offline or unavailable
+function loadArticlesFallback() {
+  if (!localStorage.getItem('wscal_articles_v6')) {
+    localStorage.setItem('wscal_articles_v6', JSON.stringify(DEFAULT_ARTICLES));
+  }
+  state.articles = JSON.parse(localStorage.getItem('wscal_articles_v6'));
+  
+  // Sort articles locally
+  state.articles.sort((a, b) => {
+    const dateA = a.createdAt || '';
+    const dateB = b.createdAt || '';
+    const dateCompare = dateB.localeCompare(dateA);
+    if (dateCompare !== 0) return dateCompare;
+    return b.id.localeCompare(a.id);
+  });
+
+  renderRecentArticles();
+  if (state.currentCategory) {
+    renderArticlesList();
+  }
+  if (state.isAdmin) {
+    renderAdminArticleList();
+  }
 }
 
 function loadLocalDataFallback() {
