@@ -125,65 +125,80 @@ async function initApp() {
 async function checkAndMigrateAllDataToFirestore() {
   if (typeof db === 'undefined') return;
   try {
+    console.log("Checking Firestore data status for incremental migration...");
+    const res = await fetch('./data.json?t=' + Date.now());
+    if (!res.ok) {
+      console.warn("Failed to fetch data.json for auto-migration");
+      return;
+    }
+    const fileData = await res.json();
+    
+    // A. mainMenus
     const menusSnap = await db.collection('mainMenus').get();
-    const articlesSnap = await db.collection('articles').limit(1).get();
-    const catsLimitSnap = await db.collection('categories').limit(5).get();
-    
-    const hasPositionInMenus = !menusSnap.empty && menusSnap.docs.every(doc => doc.data().position !== undefined);
-    const hasPositionInCats = catsLimitSnap.empty ? true : catsLimitSnap.docs.every(doc => doc.data().position !== undefined);
-    
-    if (menusSnap.empty || articlesSnap.empty || !hasPositionInMenus || !hasPositionInCats) {
-      console.log("Firestore database is empty or missing position fields. Fetching data.json for auto-migration...");
-      const res = await fetch('./data.json?t=' + Date.now());
-      if (!res.ok) {
-        console.warn("Failed to fetch data.json for auto-migration");
-        return;
-      }
-      const fileData = await res.json();
-      
-      // A. mainMenus
-      if ((menusSnap.empty || !hasPositionInMenus) && fileData.mainMenus && fileData.mainMenus.length > 0) {
-        console.log("Migrating mainMenus with positions...");
-        let idx = 0;
-        for (const item of fileData.mainMenus) {
-          await db.collection('mainMenus').doc(item.id).set({ ...item, position: idx++ });
+    let migratedMenus = false;
+    let menuIdx = 0;
+    if (fileData.mainMenus && fileData.mainMenus.length > 0) {
+      for (const item of fileData.mainMenus) {
+        const docSnap = menusSnap.docs.find(d => d.id === item.id);
+        if (!docSnap || docSnap.data().position === undefined) {
+          await db.collection('mainMenus').doc(item.id).set({ ...item, position: menuIdx });
+          migratedMenus = true;
         }
+        menuIdx++;
       }
-      
-      // B. categories
-      if ((catsLimitSnap.empty || !hasPositionInCats) && fileData.categories && fileData.categories.length > 0) {
-        console.log("Migrating categories with positions...");
-        let idx = 0;
-        for (const item of fileData.categories) {
-          await db.collection('categories').doc(item.id).set({ ...item, position: idx++ });
+    }
+    
+    // B. categories
+    const catsSnap = await db.collection('categories').get();
+    let migratedCats = false;
+    let catIdx = 0;
+    if (fileData.categories && fileData.categories.length > 0) {
+      for (const item of fileData.categories) {
+        const docSnap = catsSnap.docs.find(d => d.id === item.id);
+        if (!docSnap || docSnap.data().position === undefined) {
+          await db.collection('categories').doc(item.id).set({ ...item, position: catIdx });
+          migratedCats = true;
         }
+        catIdx++;
       }
-      
-      // C. featured
-      const featSnap = await db.collection('featured').doc('main').get();
-      if (!featSnap.exists && fileData.featured) {
-        console.log("Migrating featured...");
-        await db.collection('featured').doc('main').set(fileData.featured);
-      }
-      
-      // D. articles
-      if (articlesSnap.empty && fileData.articles && fileData.articles.length > 0) {
-        console.log("Migrating articles...");
-        for (const item of fileData.articles) {
+    }
+    
+    // C. featured
+    const featSnap = await db.collection('featured').doc('main').get();
+    let migratedFeatured = false;
+    if (!featSnap.exists && fileData.featured) {
+      console.log("Migrating featured...");
+      await db.collection('featured').doc('main').set(fileData.featured);
+      migratedFeatured = true;
+    }
+    
+    // D. articles
+    const dbArticlesSnap = await db.collection('articles').get();
+    const dbArticleIds = dbArticlesSnap.docs.map(doc => doc.id);
+    let migratedArticlesCount = 0;
+    
+    if (fileData.articles && fileData.articles.length > 0) {
+      for (const item of fileData.articles) {
+        if (!dbArticleIds.includes(item.id)) {
           const artId = item.id;
           const artData = { ...item };
           delete artData.id;
           await db.collection('articles').doc(artId).set(artData);
+          migratedArticlesCount++;
         }
       }
-      console.log("Auto-migration to Firestore completed successfully!");
-      
-      // Force reload to let local storage and app state sync with the newly migrated Firestore data
-      alert("데이터베이스 순서 초기화가 완료되었습니다. 페이지를 새로고침합니다.");
+    }
+    
+    if (migratedArticlesCount > 0) {
+      console.log(`Successfully migrated ${migratedArticlesCount} missing articles to Firestore!`);
+    }
+    
+    if (migratedMenus || migratedCats || migratedFeatured || migratedArticlesCount > 0) {
+      alert("데이터 복구 및 순서 동기화가 완료되었습니다. 페이지를 새로고침합니다.");
       window.location.reload();
     }
   } catch (err) {
-    console.error("Migration to Firestore failed:", err);
+    console.error("Migration/Recovery to Firestore failed:", err);
   }
 }
 
