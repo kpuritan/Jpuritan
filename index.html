@@ -38,34 +38,9 @@
     </div>
   </section>
 
-  <!-- MAIN 5 MENUS (BIG BUTTONS) -->
+  <!-- MAIN MENUS (DYNAMICALLY POPULATED) -->
   <section class="main-menu-grid" id="main-menu-sec">
-    <div class="menu-card" data-menu="sermon" onclick="selectMainMenu('sermon')">
-      <i class="fa-solid fa-book-open menu-icon"></i>
-      <div class="menu-title-jp">聖書講解</div>
-      <div class="menu-title-kr">성경강해</div>
-    </div>
-    <div class="menu-card" data-menu="catechism" onclick="selectMainMenu('catechism')">
-      <i class="fa-solid fa-scroll menu-icon"></i>
-      <div class="menu-title-jp">教理教育と復興</div>
-      <div class="menu-title-kr">교리교육과 부흥</div>
-    </div>
-    <div class="menu-card" data-menu="theology" onclick="selectMainMenu('theology')">
-      <i class="fa-solid fa-graduation-cap menu-icon"></i>
-      <div class="menu-title-jp">改革派神学</div>
-      <div class="menu-title-kr">개혁신학</div>
-    </div>
-    <div class="menu-card" data-menu="discipleship" onclick="selectMainMenu('discipleship')">
-      <i class="fa-solid fa-users-line menu-icon"></i>
-      <div class="menu-title-jp">伝道・弟子道</div>
-      <div class="menu-title-kr">전도·제자도</div>
-    </div>
-    <div class="menu-card" data-menu="pastor" onclick="selectMainMenu('pastor')">
-      <i class="fa-solid fa-user-tie menu-icon"></i>
-      <div class="menu-title-jp">牧会者のための10分神学</div>
-      <div class="menu-title-kr">목회자를 위한 10분 신학</div>
-      <div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">동영상 강의</div>
-    </div>
+    <!-- Dynamically Populated via app.js -->
   </section>
 
   <!-- SUBMENU PANEL -->
@@ -640,6 +615,6 @@
     const db = firebase.firestore();
   </script>
 
-  <script src="app.js?v=6.9"></script>
+  <script src="app.js?v=7.0"></script>
 </body>
 </html>

@@ -2435,8 +2435,8 @@ function toggleSidebarBox(boxId) {
   }
 }
 
-// Start application
-window.onload = initApp;
+// Start application immediately
+initApp();
 
 function startBgmAuto() {
   // 1. Try playing immediately (might get blocked by browser autoplay policy)
