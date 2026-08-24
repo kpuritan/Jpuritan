@@ -2098,6 +2098,17 @@ async function syncDataToGithub() {
       syncBtn.innerHTML = '<i class="fa-solid fa-check"></i> 동기화 완료!';
     }
 
+    // Refresh UI elements immediately with newly merged data
+    renderRecentArticles();
+    if (state.isAdmin) {
+      if (state.adminTab === 'articles') {
+        renderAdminArticleList();
+      }
+      renderAdminStats();
+    } else {
+      renderArticlesList();
+    }
+
     alert("인터넷 GitHub 서버로 최신 데이터가 성공적으로 반영되었습니다!\n배포가 시작되며 약 1~2분 뒤 다른 사람들의 화면에도 적용됩니다.");
 
     setTimeout(() => {
