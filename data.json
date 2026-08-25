@@ -1,438 +1,438 @@
 {
   "mainMenus": [
     {
-      "nameJp": "Home section",
       "id": "menu_1787468975888",
-      "isVideo": false,
-      "icon": "fa-users",
       "nameKr": "Home section",
-      "position": 0
+      "position": 0,
+      "nameJp": "Home section",
+      "icon": "fa-users",
+      "isVideo": false
     },
     {
-      "nameKr": "성경강해",
       "position": 1,
-      "icon": "fa-book-open",
+      "nameJp": "聖書講解",
       "id": "sermon",
-      "nameJp": "聖書講解"
+      "icon": "fa-book-open",
+      "nameKr": "성경강해"
     },
     {
-      "id": "catechism",
-      "nameKr": "교리교육과 부흥",
+      "position": 2,
       "icon": "fa-scroll",
       "nameJp": "教理教育と復興",
-      "position": 2
+      "id": "catechism",
+      "nameKr": "교리교육과 부흥"
     },
     {
       "id": "theology",
-      "icon": "fa-graduation-cap",
       "nameJp": "改革派神学",
+      "nameKr": "개혁신학",
       "position": 3,
-      "nameKr": "개혁신학"
+      "icon": "fa-graduation-cap"
     },
     {
-      "nameJp": "伝道・弟子道",
+      "position": 4,
       "id": "discipleship",
-      "nameKr": "전도·제자도",
+      "nameJp": "伝道・弟子道",
       "icon": "fa-users-line",
-      "position": 4
+      "nameKr": "전도·제자도"
     },
     {
-      "position": 5,
       "id": "pastor",
-      "nameKr": "목회자를 위한<br>10분 신학",
-      "nameJp": "牧会者のための<br>10分神学",
       "icon": "fa-user-tie",
-      "isVideo": true
+      "position": 5,
+      "isVideo": true,
+      "nameKr": "목회자를 위한<br>10분 신학",
+      "nameJp": "牧会者のための<br>10分神学"
     }
   ],
   "categories": [
     {
-      "parentId": "sermon",
-      "nameKr": "신명기",
+      "nameJp": "申命記",
       "id": "cat_sermon_1",
-      "position": 0,
-      "nameJp": "申命記"
-    },
-    {
-      "nameKr": "루츠기",
-      "id": "cat_sermon_2",
       "parentId": "sermon",
+      "position": 0,
+      "nameKr": "신명기"
+    },
+    {
       "nameJp": "ルツ記",
-      "position": 1
+      "id": "cat_sermon_2",
+      "position": 1,
+      "nameKr": "루츠기",
+      "parentId": "sermon"
     },
     {
-      "id": "cat_cat_1",
-      "nameKr": "웨스트민스터 소교리문답서",
-      "parentId": "catechism",
+      "position": 2,
       "nameJp": "ウェストミンスター小教理問答書",
-      "position": 2
+      "parentId": "catechism",
+      "id": "cat_cat_1",
+      "nameKr": "웨스트민스터 소교리문답서"
     },
     {
+      "id": "cat_cat_2",
       "nameKr": "웨스트민스터 대교리문답서",
       "position": 3,
       "parentId": "catechism",
-      "nameJp": "ウェストミンスター大教理問答書",
-      "id": "cat_cat_2"
+      "nameJp": "ウェストミンスター大教理問答書"
     },
     {
       "position": 4,
-      "id": "cat_cat_3",
-      "nameKr": "웨스트민스터 신앙고백",
+      "nameJp": "ウェストミンスター信仰告白",
       "parentId": "catechism",
-      "nameJp": "ウェストミンスター信仰告白"
+      "id": "cat_cat_3",
+      "nameKr": "웨스트민스터 신앙고백"
     },
     {
-      "nameJp": "ハイデルベルク信仰問答",
       "id": "cat_cat_4",
-      "parentId": "catechism",
+      "nameKr": "하이델베르크 신앙문답",
       "position": 5,
-      "nameKr": "하이델베르크 신앙문답"
+      "parentId": "catechism",
+      "nameJp": "ハイデルベルク信仰問答"
     },
     {
       "position": 6,
-      "nameKr": "신론",
+      "nameJp": "神論",
       "parentId": "theology",
-      "id": "cat_theo_1",
-      "nameJp": "神論"
+      "nameKr": "신론",
+      "id": "cat_theo_1"
     },
     {
       "nameJp": "人間論",
-      "parentId": "theology",
       "position": 7,
-      "id": "cat_theo_2",
-      "nameKr": "인간론"
+      "parentId": "theology",
+      "nameKr": "인간론",
+      "id": "cat_theo_2"
     },
     {
-      "nameJp": "伝導",
       "parentId": "discipleship",
-      "id": "cat_disc_1",
+      "nameKr": "전도",
       "position": 8,
-      "nameKr": "전도"
+      "nameJp": "伝導",
+      "id": "cat_disc_1"
     },
     {
-      "parentId": "discipleship",
+      "nameJp": "弟子",
       "id": "cat_disc_2",
+      "parentId": "discipleship",
       "position": 9,
-      "nameKr": "제자도",
-      "nameJp": "弟子"
+      "nameKr": "제자도"
     },
     {
       "nameKr": "10분으로 배우는 기독론",
       "parentId": "pastor",
-      "position": 10,
       "id": "cat_pastor_1",
+      "position": 10,
       "nameJp": "10分で学ぶキリスト論"
     },
     {
-      "id": "cat_pastor_2",
-      "nameJp": "10分で学ぶ救済論",
-      "parentId": "pastor",
       "nameKr": "10분으로 배우는 구원론",
+      "id": "cat_pastor_2",
+      "parentId": "pastor",
+      "nameJp": "10分で学ぶ救済論",
       "position": 11
     },
     {
-      "position": 12,
       "id": "cat_1787326092381",
       "parentId": "sermon",
-      "nameKr": "사사기",
-      "nameJp": "士師"
+      "nameJp": "士師",
+      "position": 12,
+      "nameKr": "사사기"
     },
     {
-      "nameKr": "누가복음",
-      "id": "cat_1787326100562",
-      "nameJp": "ルカによる福音書",
+      "parentId": "sermon",
       "position": 13,
-      "parentId": "sermon"
+      "nameJp": "ルカによる福音書",
+      "id": "cat_1787326100562",
+      "nameKr": "누가복음"
     },
     {
-      "nameKr": "사도행전",
+      "position": 14,
       "id": "cat_1787326106992",
       "parentId": "sermon",
-      "nameJp": "使徒行伝",
-      "position": 14
+      "nameKr": "사도행전",
+      "nameJp": "使徒行伝"
     },
     {
-      "nameKr": "에페소",
+      "id": "cat_1787326111431",
+      "parentId": "sermon",
       "nameJp": "エペソ",
       "position": 15,
-      "id": "cat_1787326111431",
-      "parentId": "sermon"
+      "nameKr": "에페소"
     },
     {
       "nameKr": "유다서",
-      "id": "cat_1787326117294",
       "position": 16,
       "parentId": "sermon",
+      "id": "cat_1787326117294",
       "nameJp": "ユダ"
     },
     {
-      "nameJp": "教会復興の事例",
       "position": 17,
+      "nameJp": "教会復興の事例",
+      "parentId": "catechism",
       "id": "cat_1787326434135",
-      "nameKr": "교회부흥의 사례",
-      "parentId": "catechism"
+      "nameKr": "교회부흥의 사례"
     },
     {
-      "id": "cat_1787326465395",
       "nameKr": "기독론",
-      "nameJp": "キリスト論",
       "position": 18,
-      "parentId": "theology"
+      "id": "cat_1787326465395",
+      "parentId": "theology",
+      "nameJp": "キリスト論"
     },
     {
-      "parentId": "theology",
       "nameKr": "구제론",
       "position": 19,
       "id": "cat_1787326474174",
+      "parentId": "theology",
       "nameJp": "救済論"
     },
     {
-      "parentId": "theology",
       "nameKr": "교회론",
-      "position": 20,
+      "id": "cat_1787326480670",
+      "parentId": "theology",
       "nameJp": "教会論",
-      "id": "cat_1787326480670"
+      "position": 20
     },
     {
-      "id": "cat_1787326486869",
+      "position": 21,
       "nameJp": "終末論",
       "parentId": "theology",
-      "position": 21,
-      "nameKr": "종말론"
+      "nameKr": "종말론",
+      "id": "cat_1787326486869"
     },
     {
-      "position": 22,
+      "nameJp": "歴史神学",
       "nameKr": "역사신학",
       "parentId": "theology",
-      "id": "cat_1787326493464",
-      "nameJp": "歴史神学"
+      "position": 22,
+      "id": "cat_1787326493464"
     },
     {
       "nameKr": "종교개혁사",
-      "position": 23,
-      "parentId": "cat_1787326493464",
       "id": "cat_1787326510501",
-      "nameJp": "宗教改革史"
+      "nameJp": "宗教改革史",
+      "position": 23,
+      "parentId": "cat_1787326493464"
     },
     {
-      "position": 24,
+      "id": "cat_1787326540446",
+      "nameKr": "청교도 역사",
       "nameJp": "清教徒の歴史",
       "parentId": "cat_1787326493464",
-      "nameKr": "청교도 역사",
-      "id": "cat_1787326540446"
+      "position": 24
     },
     {
       "id": "cat_1787326555731",
       "nameJp": "近代教会の歴史",
-      "position": 25,
+      "parentId": "cat_1787326493464",
       "nameKr": "근대 교회 역사",
-      "parentId": "cat_1787326493464"
+      "position": 25
     },
     {
       "nameJp": "機関の目的",
       "id": "cat_1787469045280",
-      "nameKr": "기관 목적",
       "position": 26,
+      "nameKr": "기관 목적",
       "parentId": "menu_1787468975888"
     },
     {
       "nameKr": "섬기는 이들",
-      "parentId": "menu_1787468975888",
-      "nameJp": "仕える",
       "id": "cat_1787469050463",
-      "position": 27
-    },
-    {
-      "nameKr": "contact",
-      "nameJp": "contact",
-      "id": "cat_1787469061107",
-      "position": 28,
+      "position": 27,
+      "nameJp": "仕える",
       "parentId": "menu_1787468975888"
     },
     {
-      "id": "cat_1787469558824",
-      "parentId": "cat_1787326100562",
-      "position": 29,
-      "nameKr": "누가복음 1장",
-      "nameJp": "ルカによる福音書 1章"
+      "nameKr": "contact",
+      "position": 28,
+      "parentId": "menu_1787468975888",
+      "nameJp": "contact",
+      "id": "cat_1787469061107"
     },
     {
-      "nameKr": "누가복음 2장",
-      "id": "cat_1787469574296",
+      "nameJp": "ルカによる福音書 1章",
+      "id": "cat_1787469558824",
+      "position": 29,
+      "nameKr": "누가복음 1장",
+      "parentId": "cat_1787326100562"
+    },
+    {
       "position": 30,
+      "id": "cat_1787469574296",
       "parentId": "cat_1787326100562",
+      "nameKr": "누가복음 2장",
       "nameJp": "ルカによる福音書第2章"
     },
     {
-      "nameKr": "누가복음 3장",
-      "parentId": "cat_1787326100562",
       "nameJp": "ルカによる福音書第3章",
       "id": "cat_1787469581341",
-      "position": 31
-    },
-    {
-      "id": "cat_1787469652569",
-      "nameKr": "누가복음 4장",
-      "nameJp": "ルカによる福音書第4章",
-      "position": 32,
-      "parentId": "cat_1787326100562"
+      "parentId": "cat_1787326100562",
+      "position": 31,
+      "nameKr": "누가복음 3장"
     },
     {
       "parentId": "cat_1787326100562",
+      "nameKr": "누가복음 4장",
+      "position": 32,
+      "id": "cat_1787469652569",
+      "nameJp": "ルカによる福音書第4章"
+    },
+    {
       "position": 33,
       "nameJp": "ルカによる福音書第5章",
-      "nameKr": "누가복음 5장",
-      "id": "cat_1787469660301"
+      "parentId": "cat_1787326100562",
+      "id": "cat_1787469660301",
+      "nameKr": "누가복음 5장"
     },
     {
-      "nameJp": "ルカによる福音書第6章",
+      "id": "cat_1787469667662",
+      "nameKr": "누가복음 6장",
       "parentId": "cat_1787326100562",
       "position": 34,
-      "id": "cat_1787469667662",
-      "nameKr": "누가복음 6장"
+      "nameJp": "ルカによる福音書第6章"
     },
     {
-      "nameKr": "누가복음 7장",
+      "id": "cat_1787470047025",
+      "nameJp": "ルカによる福音書第7章",
       "position": 35,
       "parentId": "cat_1787326100562",
-      "id": "cat_1787470047025",
-      "nameJp": "ルカによる福音書第7章"
+      "nameKr": "누가복음 7장"
     },
     {
-      "id": "cat_1787470053990",
       "nameKr": "누가복음 8장",
-      "nameJp": "ルカによる福音書8章",
       "position": 36,
+      "nameJp": "ルカによる福音書8章",
+      "id": "cat_1787470053990",
       "parentId": "cat_1787326100562"
     },
     {
-      "nameKr": "누가복음 9장",
+      "position": 37,
       "parentId": "cat_1787326100562",
+      "nameKr": "누가복음 9장",
       "id": "cat_1787470068569",
-      "nameJp": "ルカによる福音書第9章",
-      "position": 37
+      "nameJp": "ルカによる福音書第9章"
     },
     {
       "nameKr": "누가복음 10장",
       "id": "cat_1787470080741",
-      "parentId": "cat_1787326100562",
       "position": 38,
-      "nameJp": "ルカによる福音書 10章"
-    },
-    {
-      "nameJp": "ルカによる福音書 11章",
-      "position": 39,
-      "parentId": "cat_1787326100562",
-      "id": "cat_1787470087502",
-      "nameKr": "누가복음 11장"
-    },
-    {
-      "id": "cat_1787470093928",
-      "nameJp": "ルカによる福音書 12章",
-      "nameKr": "누가복음 12장",
-      "parentId": "cat_1787326100562",
-      "position": 40
-    },
-    {
-      "nameKr": "누가복음 13장",
-      "position": 41,
-      "nameJp": "ルカ13",
-      "id": "cat_1787470102954",
+      "nameJp": "ルカによる福音書 10章",
       "parentId": "cat_1787326100562"
     },
     {
-      "position": 42,
+      "nameJp": "ルカによる福音書 11章",
+      "id": "cat_1787470087502",
+      "parentId": "cat_1787326100562",
+      "nameKr": "누가복음 11장",
+      "position": 39
+    },
+    {
+      "position": 40,
+      "nameJp": "ルカによる福音書 12章",
+      "parentId": "cat_1787326100562",
+      "nameKr": "누가복음 12장",
+      "id": "cat_1787470093928"
+    },
+    {
+      "parentId": "cat_1787326100562",
+      "nameJp": "ルカ13",
+      "position": 41,
+      "id": "cat_1787470102954",
+      "nameKr": "누가복음 13장"
+    },
+    {
       "nameKr": "누가복음 14장",
       "id": "cat_1787470109320",
+      "position": 42,
       "parentId": "cat_1787326100562",
       "nameJp": "ルカ14"
     },
     {
-      "nameKr": "누가복음 15장",
       "id": "cat_1787470114130",
-      "position": 43,
+      "nameJp": "ルカによる福音書 15章",
+      "nameKr": "누가복음 15장",
       "parentId": "cat_1787326100562",
-      "nameJp": "ルカによる福音書 15章"
+      "position": 43
     },
     {
-      "parentId": "cat_1787326100562",
-      "position": 44,
+      "id": "cat_1787470120143",
       "nameKr": "누가복음 16장",
+      "position": 44,
       "nameJp": "ルカ16",
-      "id": "cat_1787470120143"
+      "parentId": "cat_1787326100562"
     },
     {
-      "nameJp": "ルカによる福音書 17章",
       "position": 45,
-      "nameKr": "누가복음 17장",
       "parentId": "cat_1787326100562",
-      "id": "cat_1787470125825"
+      "nameJp": "ルカによる福音書 17章",
+      "id": "cat_1787470125825",
+      "nameKr": "누가복음 17장"
     },
     {
-      "nameKr": "누가복음 18장",
       "nameJp": "ルカによる福音書 18章",
-      "position": 46,
+      "id": "cat_1787470131699",
       "parentId": "cat_1787326100562",
-      "id": "cat_1787470131699"
+      "position": 46,
+      "nameKr": "누가복음 18장"
     },
     {
       "nameJp": "ルカによる福音書 19章",
-      "nameKr": "누가복음 19장",
-      "parentId": "cat_1787326100562",
+      "id": "cat_1787470137013",
       "position": 47,
-      "id": "cat_1787470137013"
+      "nameKr": "누가복음 19장",
+      "parentId": "cat_1787326100562"
     },
     {
-      "id": "cat_1787470142274",
       "nameJp": "ルカによる福音書 20章",
-      "nameKr": "누가복음 20장",
+      "id": "cat_1787470142274",
       "parentId": "cat_1787326100562",
-      "position": 48
+      "position": 48,
+      "nameKr": "누가복음 20장"
     },
     {
-      "parentId": "cat_1787326100562",
-      "position": 49,
       "id": "cat_1787470147688",
+      "position": 49,
+      "parentId": "cat_1787326100562",
       "nameJp": "ルカによる福音書 21章",
       "nameKr": "누가복음 21장"
     },
     {
       "id": "cat_1787470148419",
+      "nameJp": "ルカによる福音書 22章",
       "position": 50,
-      "parentId": "cat_1787326100562",
       "nameKr": "누가복음 22장",
-      "nameJp": "ルカによる福音書 22章"
+      "parentId": "cat_1787326100562"
     },
     {
+      "nameKr": "누가복음 23장",
+      "position": 51,
       "parentId": "cat_1787326100562",
       "nameJp": "ルカによる福音書 23章",
-      "id": "cat_1787470154312",
-      "position": 51,
-      "nameKr": "누가복음 23장"
+      "id": "cat_1787470154312"
     },
     {
-      "parentId": "cat_1787326100562",
       "id": "cat_1787470171532",
       "position": 52,
       "nameJp": "ルカによる福音書 24章",
+      "parentId": "cat_1787326100562",
       "nameKr": "누가복음 24장"
     }
   ],
   "featured": {
-    "todaysTheology": {
-      "content": "ウェストミンスター信仰告白（1647年）は、英国議会の要請によりロンドンのウェストミンスター寺院に召集された、神学者や議員ら約150名による精緻な聖書研究と神学的論争의 결실입니다.\n\n당시 영국 교회의 대격동 가운데 그들이 원했던 것은 '교회의 순결'과 '성경적 질서'의 확립이었습니다. 수년에 걸친 철저한 회의와 기도를 통해 완성된 이 고백서는 역사적 개혁주의 신학의 가장 성숙한 요약으로 평가받습니다. 오늘날 교리적 무관심 시대에, 이 신앙고백은 성경 전체를 체계적으로 이해하기 위한 확실한 길잡이를 제공합니다.",
-      "title": "ウェストミンスター信仰告白의 역사적 배경",
-      "summary": "17세기 영국 청교도들이 이룩한 위대한 신학적 유산인 신앙고백서의 형성사 요약."
-    },
     "todaysWord": {
       "meditation": "「死に至るまで忠実であれ。そうすれば、命의 冠を授けよう。」\n인생의 가장 큰 고난이나 죽음의 공포조차도, 그리스도 안에 있는 승리의 약속을 빼앗을 수 없습니다. 어떠한 시련 속에서도 주 예수의 진실하심에 의지하고 확고한 충성을 유지하는 은혜를 오늘 기도합시다.",
       "scripture": "ヨハネの黙示録 2章 10節"
     },
     "todaysSermon": {
-      "preacher": "清水 義人 牧師",
-      "scripture": "ローマの信徒への手紙 1章 16-17節",
+      "content": "教会の歴史において、真の霊的覚醒と改革は常に「福音의 재발견」으로부터 시작되었습니다.\n\n사도 바울이 로마 교회에 힘차게 선포했던 것처럼, 복음은 '믿는 모든 자에게 구원을 주시는 하나님의 능력'입니다. 이것은 초신자를 위한 입문용 메시지일 뿐만 아니라, 모든 그리스도인이 평생에 걸쳐 깊이 파고들어야 할 하나님의 의의 계시입니다.\n\n현대 교회가 세속화의 물결에 직면할 때, 해결책은 프로그램이나 인간적인 방법의 도입이 아닙니다. 성경으로 돌아가 그리스도 안에서 '오직 믿음으로 말미암는 의'의 압도적인 은혜와 위엄을 재발견하는 것입니다. 복음의 순수한 선포만이 영혼을 살리고 교회를 내면으로부터 성결로 인도합니다.",
       "title": "福音의 再発見と教会の改革",
-      "content": "教会の歴史において、真の霊的覚醒と改革は常に「福音의 재발견」으로부터 시작되었습니다.\n\n사도 바울이 로마 교회에 힘차게 선포했던 것처럼, 복음은 '믿는 모든 자에게 구원을 주시는 하나님의 능력'입니다. 이것은 초신자를 위한 입문용 메시지일 뿐만 아니라, 모든 그리스도인이 평생에 걸쳐 깊이 파고들어야 할 하나님의 의의 계시입니다.\n\n현대 교회가 세속화의 물결에 직면할 때, 해결책은 프로그램이나 인간적인 방법의 도입이 아닙니다. 성경으로 돌아가 그리스도 안에서 '오직 믿음으로 말미암는 의'의 압도적인 은혜와 위엄을 재발견하는 것입니다. 복음의 순수한 선포만이 영혼을 살리고 교회를 내면으로부터 성결로 인도합니다."
+      "preacher": "清水 義人 牧師",
+      "scripture": "ローマの信徒への手紙 1章 16-17節"
+    },
+    "todaysTheology": {
+      "summary": "17세기 영국 청교도들이 이룩한 위대한 신학적 유산인 신앙고백서의 형성사 요약.",
+      "content": "ウェストミンスター信仰告白（1647年）は、英国議会の要請によりロンドンのウェストミンスター寺院に召集された、神学者や議員ら約150名による精緻な聖書研究と神学的論争의 결실입니다.\n\n당시 영국 교회의 대격동 가운데 그들이 원했던 것은 '교회의 순결'과 '성경적 질서'의 확립이었습니다. 수년에 걸친 철저한 회의와 기도를 통해 완성된 이 고백서는 역사적 개혁주의 신학의 가장 성숙한 요약으로 평가받습니다. 오늘날 교리적 무관심 시대에, 이 신앙고백은 성경 전체를 체계적으로 이해하기 위한 확실한 길잡이를 제공합니다.",
+      "title": "ウェストミンスター信仰告白의 역사적 배경"
     }
   },
   "articles": [
