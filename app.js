@@ -1974,8 +1974,25 @@ function handleCategoryChange() {
   const authorInput = document.getElementById('art-author');
   const scriptureLabel = document.getElementById('art-scripture-label');
   const scriptureInput = document.getElementById('art-scripture');
+  const authorScriptureRow = document.getElementById('art-author-scripture-row');
+
+  // Reset to default settings
+  if (photoGroup) photoGroup.style.display = 'none';
+  if (titleGroup) titleGroup.style.display = 'block';
+  if (titleInput) titleInput.setAttribute('required', 'required');
+  if (videoGroup) videoGroup.style.display = 'block';
+  if (authorScriptureRow) authorScriptureRow.style.display = 'flex';
+  if (authorInput) authorInput.setAttribute('required', 'required');
+  
+  if (authorLabel) authorLabel.textContent = '著者 / 説教者';
+  if (authorInput) authorInput.placeholder = '例: ジョン・オーウェン、清水牧師';
+  if (scriptureLabel) scriptureLabel.textContent = '関連聖句（本文章など）';
+  if (scriptureInput) scriptureInput.placeholder = '例: ローマの信徒への手紙 8:28 (任意)';
+  if (contentLabel) contentLabel.textContent = 'コンテンツ本文';
+  if (contentInput) contentInput.placeholder = '説教要旨、神学研究資料などの本文を入力してください...';
 
   if (categoryId === 'cat_1787469050463') {
+    // 섬기는 이들 (Servants)
     if (photoGroup) photoGroup.style.display = 'block';
     if (contentLabel) contentLabel.textContent = '경력 및 소개 (経歴・プロフィール)';
     if (contentInput) contentInput.placeholder = '섬기는 이의 약력, 소개글 등을 입력하십시오...';
@@ -1989,20 +2006,16 @@ function handleCategoryChange() {
     
     if (scriptureLabel) scriptureLabel.textContent = '직분 (職分)';
     if (scriptureInput) scriptureInput.placeholder = '예시: 담임목사, 협동목사, 시무장로';
-  } else {
-    if (photoGroup) photoGroup.style.display = 'none';
-    if (contentLabel) contentLabel.textContent = 'コンテンツ本文';
-    if (contentInput) contentInput.placeholder = '説教要旨、神学研究資料などの本文を入力してください...';
+  } else if (categoryId === 'cat_1787469045280') {
+    // 기관 목적 (Organization Purpose)
+    if (contentLabel) contentLabel.textContent = '주요 내용 (主要内容)';
+    if (contentInput) contentInput.placeholder = '기관의 목적 및 소개글을 입력해 주세요...';
     
-    if (titleGroup) titleGroup.style.display = 'block';
-    if (titleInput) titleInput.setAttribute('required', 'required');
-    if (videoGroup) videoGroup.style.display = 'block';
-    
-    if (authorLabel) authorLabel.textContent = '著者 / 説教者';
-    if (authorInput) authorInput.placeholder = '例: ジョン・オーウェン、清水牧師';
-    
-    if (scriptureLabel) scriptureLabel.textContent = '関連聖句（本文章など）';
-    if (scriptureInput) scriptureInput.placeholder = '例: ローマの信徒への手紙 8:28 (任意)';
+    if (titleGroup) titleGroup.style.display = 'none';
+    if (titleInput) titleInput.removeAttribute('required');
+    if (videoGroup) videoGroup.style.display = 'none';
+    if (authorScriptureRow) authorScriptureRow.style.display = 'none';
+    if (authorInput) authorInput.removeAttribute('required');
   }
 }
 
@@ -2037,18 +2050,27 @@ async function handleSaveArticle(event) {
   const content = document.getElementById('art-content').value.trim();
   const date = document.getElementById('art-date').value;
 
-  const isServantMenu = categoryId === 'cat_1787469050463';
+    const isServantMenu = categoryId === 'cat_1787469050463';
+  const isPurposeMenu = categoryId === 'cat_1787469045280';
+  
   if (isServantMenu) {
     // For servants, Author input acts as 'Name' (db title) and Scripture input acts as 'Position' (db author)
     title = author;      // Name goes to title
     author = scripture;  // Position goes to author
     scripture = '';      // Empty scripture
     videoUrl = '';       // Empty youtube url
+  } else if (isPurposeMenu) {
+    title = '기관 목적';  // Default title
+    author = '관리자';    // Default author
+    scripture = '';
+    videoUrl = '';
   }
 
-  if (!categoryId || !title || !content || !author || !date) {
+    if (!categoryId || !title || !content || !author || !date) {
     if (isServantMenu) {
       alert("이름, 직분, 소개글은 필수 입력 항목입니다.");
+    } else if (isPurposeMenu) {
+      alert("주요 내용은 필수 입력 항목입니다.");
     } else {
       alert("親メニュー、細부폴더、타이틀、저자、등록일, 그리고 본문은 필수 입력 항목입니다.");
     }
@@ -2277,11 +2299,18 @@ function loadArticleToEdit(artId) {
   updateWriteSubcategoryDropdown();
   document.getElementById('art-category-id').value = art.categoryId;
   
-    const isServantMenu = art.categoryId === 'cat_1787469050463';
+      const isServantMenu = art.categoryId === 'cat_1787469050463';
+  const isPurposeMenu = art.categoryId === 'cat_1787469045280';
+  
   if (isServantMenu) {
     document.getElementById('art-title').value = '';
     document.getElementById('art-author').value = art.title; // Name goes to Name input
     document.getElementById('art-scripture').value = art.author; // Position goes to Position input
+    document.getElementById('art-video-url').value = '';
+  } else if (isPurposeMenu) {
+    document.getElementById('art-title').value = '';
+    document.getElementById('art-author').value = '';
+    document.getElementById('art-scripture').value = '';
     document.getElementById('art-video-url').value = '';
   } else {
     document.getElementById('art-title').value = art.title;
@@ -2849,5 +2878,6 @@ async function moveArticle(artId, direction) {
     renderAdminArticleList();
   }
 }
+
 
 
