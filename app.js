@@ -160,10 +160,11 @@ async function initApp() {
 
     try {
       console.log("Fetching live configurations from Firestore in background...");
-      const [menusSnap, catsSnap, featuredSnap] = await withTimeout(Promise.all([
+      const [menusSnap, catsSnap, featuredSnap, articlesSnap] = await withTimeout(Promise.all([
         db.collection('mainMenus').get(),
         db.collection('categories').get(),
-        db.collection('featured').doc('main').get()
+        db.collection('featured').doc('main').get(),
+        db.collection('articles').get() // One-time fetch of all articles in background to prevent rollback
       ]), 10000);
 
       // A. Main Menus
@@ -194,6 +195,22 @@ async function initApp() {
         const liveFeat = featuredSnap.data();
         state.featured = liveFeat;
         localStorage.setItem('wscal_featured_v6', JSON.stringify(liveFeat));
+      }
+
+      // D. Articles (One-time Sync to prevent cache rollback on reload)
+      const liveArticles = [];
+      articlesSnap.forEach(doc => liveArticles.push({ id: doc.id, ...doc.data() }));
+      if (liveArticles.length > 0) {
+        liveArticles.sort((a, b) => {
+          const posA = a.position !== undefined ? a.position : 999999;
+          const posB = b.position !== undefined ? b.position : 999999;
+          if (posA !== posB) return posA - posB;
+          const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+          if (dateCompare !== 0) return dateCompare;
+          return b.id.localeCompare(a.id);
+        });
+        state.articles = liveArticles;
+        saveArticles();
       }
 
       console.log("Firestore background configurations synced. Re-rendering...");
@@ -243,10 +260,11 @@ async function connectAdminFirestore() {
   });
 
   try {
-    const [menusSnap, catsSnap, featuredSnap] = await withTimeout(Promise.all([
+    const [menusSnap, catsSnap, featuredSnap, articlesSnap] = await withTimeout(Promise.all([
       db.collection('mainMenus').get(),
       db.collection('categories').get(),
-      db.collection('featured').doc('main').get()
+      db.collection('featured').doc('main').get(),
+      db.collection('articles').get() // One-time fetch of all articles on startup to prevent rollback
     ]), 10000);
 
     // A. Main Menus
@@ -277,6 +295,22 @@ async function connectAdminFirestore() {
       const liveFeat = featuredSnap.data();
       state.featured = liveFeat;
       localStorage.setItem('wscal_featured_v6', JSON.stringify(liveFeat));
+    }
+
+    // D. Articles (One-time Sync to prevent cache rollback on reload)
+    const liveArticles = [];
+    articlesSnap.forEach(doc => liveArticles.push({ id: doc.id, ...doc.data() }));
+    if (liveArticles.length > 0) {
+      liveArticles.sort((a, b) => {
+        const posA = a.position !== undefined ? a.position : 999999;
+        const posB = b.position !== undefined ? b.position : 999999;
+        if (posA !== posB) return posA - posB;
+        const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+        if (dateCompare !== 0) return dateCompare;
+        return b.id.localeCompare(a.id);
+      });
+      state.articles = liveArticles;
+      saveArticles();
     }
 
     console.log("Admin: Firestore sync complete. Re-rendering...");
