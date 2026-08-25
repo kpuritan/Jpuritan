@@ -381,47 +381,10 @@ async function checkAndMigrateAllDataToFirestore() {
   }
 }
 
-// Load articles dynamically via realtime Firestore subscription
+// Load articles dynamically (Switched to ultra-fast local cached loading to eliminate startup lag)
 function listenArticles() {
-  if (typeof db === 'undefined') {
-    loadArticlesFallback();
-    return;
-  }
-  
-  db.collection('articles').onSnapshot(snapshot => {
-    console.log("Firestore articles snapshot received.");
-    const articles = [];
-    snapshot.forEach(doc => {
-      articles.push({ id: doc.id, ...doc.data() });
-    });
-    
-    // Sort articles by createdAt descending, then by id descending (secondary sort)
-    // This resolves the "자료 순서가 약간 뒤죽박죽 됐는데여" issue
-    articles.sort((a, b) => {
-      const dateA = a.createdAt || '';
-      const dateB = b.createdAt || '';
-      const dateCompare = dateB.localeCompare(dateA);
-      if (dateCompare !== 0) return dateCompare;
-      return b.id.localeCompare(a.id);
-    });
-    
-    state.articles = articles;
-    saveArticles();
-    
-    // Trigger UI updates
-    renderRecentArticles();
-    if (state.currentCategory) {
-      renderArticlesList();
-    }
-    if (state.isAdmin) {
-      renderAdminArticleList();
-    }
-    hideDbLoadingOverlay(); // Unblock UI once data is fully synced
-  }, err => {
-    console.warn("Firestore subscription failed, falling back to local storage:", err);
-    hideDbLoadingOverlay(); // Unblock UI on snapshot error
-    loadArticlesFallback();
-  });
+  console.log("listenArticles: Loading articles from local cache to bypass heavy query.");
+  loadArticlesFallback();
 }
 
 // Fallback logic when Firebase/Firestore is offline or unavailable
@@ -2374,9 +2337,30 @@ function renderAdminArticleList() {
   }
 }
 
-function loadArticleToEdit(artId) {
-  const art = state.articles.find(a => a.id === artId);
+async function loadArticleToEdit(artId) {
+  let art = state.articles.find(a => a.id === artId);
   if (!art) return;
+
+  // Lazy load the latest content from Firestore just for this article to prevent data mismatch
+  if (typeof db !== 'undefined' && !state.isDbOffline) {
+    showDbLoadingOverlay();
+    try {
+      const doc = await withTimeout(db.collection('articles').doc(artId).get(), 5000);
+      if (doc.exists) {
+        const liveData = doc.data();
+        const artIdx = state.articles.findIndex(a => a.id === artId);
+        if (artIdx !== -1) {
+          state.articles[artIdx] = { id: artId, ...liveData };
+          art = state.articles[artIdx];
+        }
+        console.log(`Successfully lazy loaded article content for editing: ${artId}`);
+      }
+    } catch (err) {
+      console.warn("Failed to lazy load article from Firestore, using local fallback:", err);
+    } finally {
+      hideDbLoadingOverlay();
+    }
+  }
 
   state.editArticleId = artId;
   
