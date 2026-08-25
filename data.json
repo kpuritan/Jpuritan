@@ -896,15 +896,16 @@
     },
     {
       "id": "art_1787590682558",
-      "categoryId": "cat_1787469050463",
-      "title": "김홍만(﻿金洪晩)",
-      "author": "だいひょう",
       "scripture": "",
-      "videoUrl": "",
-      "photoUrl": "images/photo_1787590660698.png",
-      "content": "- Seokyeong University | Seoul, South Korea (B.A.)\n\n- Chongshin Theological Seminary | Seoul, South Korea (M.Div.)\n\n- Alliance Theological Seminary (M.P.S.)\n\n- Reformed Theological Seminary (D.Miss., Ph.D.)",
       "createdAt": "2026-08-24",
-      "views": 0
+      "categoryId": "cat_1787469050463",
+      "author": "だいひょう",
+      "title": "김홍만(﻿金洪晩)",
+      "photoUrl": "images/photo_1787590660698.png",
+      "views": 0,
+      "content": "- Seokyeong University | Seoul, South Korea (B.A.)\n\n- Chongshin Theological Seminary | Seoul, South Korea (M.Div.)\n\n- Alliance Theological Seminary (M.P.S.)\n\n- Reformed Theological Seminary (D.Miss., Ph.D.)",
+      "videoUrl": "",
+      "position": 1
     },
     {
       "id": "art_1787575416202",
