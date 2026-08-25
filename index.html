@@ -13,11 +13,32 @@
 
   <!-- HEADER -->
   <header>
-    <div class="logo" id="logo-home">
-      <div class="logo-icon">Ω</div>
-      <div class="logo-text">
-        <span class="logo-title">日本改革派神学と牧会</span>
-        <span class="logo-subtitle">Japan Reformed Theology & Ministry</span>
+    <div class="logo" id="logo-home" style="display: flex; align-items: center; gap: 14px;">
+      <!-- 강단·성경·십자가 심볼 로고 (SVG) -->
+      <div class="logo-icon-svg" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; flex-shrink: 0;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="46" height="46">
+          <!-- 열린 성경책 -->
+          <path d="M 28 22 C 38 16 48 22 50 24 C 52 22 62 16 72 22 L 72 32 C 62 26 52 32 50 30 C 48 32 38 26 28 32 Z" fill="#C5A059" stroke="#C5A059" stroke-width="1"/>
+          <path d="M 50 24 L 50 30" stroke="#0A1C36" stroke-width="1.5"/>
+          <!-- 강단 상판 -->
+          <path d="M 20 36 L 80 36 L 76 42 L 24 42 Z" fill="#C5A059"/>
+          <!-- 강단 몸체 (사다리꼴) -->
+          <path d="M 26 44 L 74 44 L 66 82 L 34 82 Z" fill="#0A1C36" stroke="#C5A059" stroke-width="2.5" stroke-linejoin="round"/>
+          <!-- 십자가 (몸체 중앙) -->
+          <path d="M 50 50 L 50 74 M 42 58 L 58 58" stroke="#C5A059" stroke-width="3.5" stroke-linecap="round"/>
+          <!-- 강단 받침대 -->
+          <rect x="28" y="84" width="44" height="5" fill="#C5A059" rx="1"/>
+        </svg>
+      </div>
+      <div class="logo-text" style="display: flex; flex-direction: column; justify-content: center;">
+        <div class="logo-title-wrap" style="display: flex; flex-direction: column; font-family: var(--font-serif); font-size: 1.15rem; font-weight: 700; color: var(--text-white); line-height: 1.25; letter-spacing: 0.5px;">
+          <span>日本</span>
+          <span>改革派神学</span>
+          <span>と牧会</span>
+        </div>
+        <span class="logo-subtitle" style="font-size: 0.65rem; color: var(--accent-color); font-weight: 500; letter-spacing: 1px; margin-top: 4px; text-transform: uppercase;">
+          Japan Reformed Theology & Ministry
+        </span>
       </div>
     </div>
     <div class="header-actions">
