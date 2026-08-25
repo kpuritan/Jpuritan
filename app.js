@@ -490,6 +490,7 @@ async function saveMainMenus() {
       console.warn("Failed to sync mainMenus with Firestore:", e);
     }
   }
+  syncDataJsonToGitHub();
 }
 async function saveCategories() {
   localStorage.setItem('wscal_categories_v6', JSON.stringify(state.categories));
@@ -503,6 +504,7 @@ async function saveCategories() {
       console.warn("Failed to sync categories with Firestore:", e);
     }
   }
+  syncDataJsonToGitHub();
 }
 function saveArticles() {
   localStorage.setItem('wscal_articles_v6', JSON.stringify(state.articles));
@@ -516,6 +518,7 @@ async function saveFeatured() {
       console.warn("Failed to sync featured with Firestore:", e);
     }
   }
+  syncDataJsonToGitHub();
 }
 
 // Render Dynamic Main Menu Cards & Footer Navigation Links
@@ -2194,6 +2197,9 @@ async function handleSaveArticle(event) {
     }
   }
 
+  // 3. Sync compiled data.json to GitHub
+  syncDataJsonToGitHub();
+
   alert(articleId ? "記事を修正・保存しました。" : "新規記事を公開しました。");
   resetWriteForm();
   switchAdminTab('articles');
@@ -2421,6 +2427,9 @@ async function handleDeleteArticle(artId) {
         alert("클라우드 DB 삭제 실패: " + err.message);
       }
     }
+
+    // 3. Sync compiled data.json to GitHub
+    syncDataJsonToGitHub();
   }
 }
 
@@ -2943,6 +2952,9 @@ async function moveArticle(artId, direction) {
         console.warn("Failed to sync positions to Firestore:", err);
       }
     }
+
+    // Sync compiled data.json to GitHub
+    syncDataJsonToGitHub();
     
     // Refresh lists
     renderRecentArticles();
