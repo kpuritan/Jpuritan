@@ -965,8 +965,8 @@ function selectSubcategory(categoryId, shouldScroll = false) {
   const workspaceSec = document.getElementById('workspace-sec');
   workspaceSec.classList.add('active');
 
-  // IF THERE IS ONLY 1 ARTICLE IN THIS CATEGORY, REDIRECT DIRECTLY TO DETAIL!
-  if (filteredArticles.length === 1) {
+  // IF THIS CATEGORY IS "기관의 목적" (cat_1787469045280) AND HAS AT LEAST 1 ARTICLE, REDIRECT DIRECTLY TO DETAIL!
+  if (categoryId === 'cat_1787469045280' && filteredArticles.length > 0) {
     renderArticlesList(); // Render in background just in case
     viewArticleDetail(filteredArticles[0].id);
   } else {
