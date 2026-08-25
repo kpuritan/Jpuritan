@@ -1,4 +1,4 @@
-﻿// Reformed & Puritan Japanese Hub - Core JavaScript Logic
+// Reformed & Puritan Japanese Hub - Core JavaScript Logic
 
 // ==========================================
 // 1. Initial Seed Data Configuration (v6 with Dynamic Main Menus & Video Support)
@@ -82,6 +82,9 @@ function loadLocalStorageOnly() {
 
 // Initialize App
 async function initApp() {
+  if (sessionStorage.getItem('wscal_admin_logged') === 'true') {
+    state.isAdmin = true;
+  }
   console.log("Initializing App...");
 
   // 1. Render instantly using LocalStorage (Zero delay UI load)
@@ -112,12 +115,12 @@ async function initApp() {
           }
         } catch (e) {}
       }
-      if (fileData.articles && !hasCachedArts) {
+      if (fileData.articles && (!hasCachedArts || !state.isAdmin)) {
         localStorage.setItem('wscal_articles_v6', JSON.stringify(fileData.articles));
       }
 
       // If DB is offline or not loaded yet, immediately apply the updated data.json
-      if (typeof db === 'undefined') {
+      if (typeof db === 'undefined' || !state.isAdmin) {
         loadLocalStorageOnly();
         initializeCollapsedStates();
         renderMainMenuCards();
@@ -130,7 +133,7 @@ async function initApp() {
   }
 
   // 3. Sync with Firestore in the background
-  if (typeof db !== 'undefined') {
+  if (typeof db !== 'undefined' && state.isAdmin) {
     // Run Firestore migration in the background
     withTimeout(checkAndMigrateAllDataToFirestore(), 10000).catch(err => {
       console.warn("Background migration check failed/timed out:", err);
@@ -204,6 +207,68 @@ async function initApp() {
 
   console.log("App initialization background tasks registered.");
   startBgmAuto();
+}
+
+// Connect and sync with Firestore for admin tasks
+async function connectAdminFirestore() {
+  if (typeof db === 'undefined') return;
+  state.isDbOffline = false;
+
+  console.log("Admin logged in. Connecting to Firestore for live data...");
+  
+  // Run Firestore migration/check in the background
+  withTimeout(checkAndMigrateAllDataToFirestore(), 10000).catch(err => {
+    console.warn("Migration check failed/timed out:", err);
+  });
+
+  try {
+    const [menusSnap, catsSnap, featuredSnap] = await withTimeout(Promise.all([
+      db.collection('mainMenus').get(),
+      db.collection('categories').get(),
+      db.collection('featured').doc('main').get()
+    ]), 10000);
+
+    // A. Main Menus
+    const liveMenus = [];
+    menusSnap.forEach(doc => liveMenus.push(doc.data()));
+    if (liveMenus.length > 0) {
+      const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'discipleship', 'pastor'];
+      liveMenus.sort((a, b) => {
+        const posA = a.position !== undefined ? a.position : defaultMenuIds.indexOf(a.id);
+        const posB = b.position !== undefined ? b.position : defaultMenuIds.indexOf(b.id);
+        return posA - posB;
+      });
+      state.mainMenus = liveMenus;
+      localStorage.setItem('wscal_mainmenus_v6', JSON.stringify(liveMenus));
+    }
+
+    // B. Categories
+    const liveCats = [];
+    catsSnap.forEach(doc => liveCats.push(doc.data()));
+    if (liveCats.length > 0) {
+      liveCats.sort((a, b) => (a.position || 0) - (b.position || 0));
+      state.categories = liveCats;
+      localStorage.setItem('wscal_categories_v6', JSON.stringify(liveCats));
+    }
+
+    // C. Featured
+    if (featuredSnap.exists) {
+      const liveFeat = featuredSnap.data();
+      state.featured = liveFeat;
+      localStorage.setItem('wscal_featured_v6', JSON.stringify(liveFeat));
+    }
+
+    console.log("Admin: Firestore sync complete. Re-rendering...");
+    initializeCollapsedStates();
+    renderMainMenuCards();
+    renderFeaturedBlocks();
+
+    // Start live articles listener
+    listenArticles();
+  } catch (err) {
+    console.warn("Admin: Failed to retrieve live data from Firestore:", err);
+    state.isDbOffline = true;
+  }
 }
 
 // Check and migrate data.json to Firestore if Firestore is empty
@@ -1150,11 +1215,18 @@ function viewArticleDetail(articleId) {
   if (typeof db !== 'undefined') {
     try {
       db.collection('article_views').doc(articleId).get().then(doc => {
+        let liveViews = article.views;
         if (doc.exists) {
-          doc.ref.update({ views: firebase.firestore.FieldValue.increment(1) });
+          const remoteViews = (doc.data().views || 0) + 1;
+          doc.ref.update({ views: remoteViews });
+          liveViews = remoteViews;
         } else {
           doc.ref.set({ views: article.views });
+          liveViews = article.views;
         }
+        document.getElementById('detail-views').textContent = liveViews;
+        article.views = liveViews;
+        saveArticles();
       }).catch(err => {
         console.warn("Error updating views in Firestore: ", err);
       });
@@ -1346,6 +1418,7 @@ async function handleLogin(event) {
     startSessionHeartbeat();
     closeLoginModal();
     showAdminDashboard();
+    connectAdminFirestore();
   } else {
     document.getElementById('login-error').style.display = 'block';
   }
