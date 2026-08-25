@@ -36,7 +36,8 @@ let state = {
     currentPage: 1,
     pageSize: 10
   },
-  isDbOffline: false // Skip DB queries if Firestore is unreachable/slow
+  isDbOffline: false, // Skip DB queries if Firestore is unreachable/slow
+  isDbLoading: false  // Blocks UI when syncing Firestore data
 };
 
 // Timeout Wrapper for Promises (prevent Firestore hangs)
@@ -50,6 +51,23 @@ function withTimeout(promise, ms) {
   return Promise.race([promise, timeoutPromise]).finally(() => {
     clearTimeout(timeoutId);
   });
+}
+
+// Show/Hide Firebase Data Synchronization Overlay
+function showDbLoadingOverlay() {
+  state.isDbLoading = true;
+  const overlay = document.getElementById('admin-db-loading-overlay');
+  if (overlay) {
+    overlay.style.display = 'flex';
+  }
+}
+
+function hideDbLoadingOverlay() {
+  state.isDbLoading = false;
+  const overlay = document.getElementById('admin-db-loading-overlay');
+  if (overlay) {
+    overlay.style.display = 'none';
+  }
 }
 
 // Synchronously load data from localStorage (or defaults) and update state instantly
@@ -134,6 +152,7 @@ async function initApp() {
 
   // 3. Sync with Firestore in the background
   if (typeof db !== 'undefined' && state.isAdmin) {
+    showDbLoadingOverlay(); // Block UI while syncing in admin view
     // Run Firestore migration in the background
     withTimeout(checkAndMigrateAllDataToFirestore(), 10000).catch(err => {
       console.warn("Background migration check failed/timed out:", err);
@@ -187,6 +206,7 @@ async function initApp() {
     } catch (err) {
       console.warn("Failed to retrieve live data from Firestore, keeping local/data.json fallback: ", err);
       state.isDbOffline = true;
+      hideDbLoadingOverlay(); // Unblock UI on error
       // Fallback: apply the data.json we fetched earlier
       loadLocalStorageOnly();
       initializeCollapsedStates();
@@ -213,6 +233,7 @@ async function initApp() {
 async function connectAdminFirestore() {
   if (typeof db === 'undefined') return;
   state.isDbOffline = false;
+  showDbLoadingOverlay(); // Block UI while connecting/loading in admin view
 
   console.log("Admin logged in. Connecting to Firestore for live data...");
   
@@ -268,6 +289,7 @@ async function connectAdminFirestore() {
   } catch (err) {
     console.warn("Admin: Failed to retrieve live data from Firestore:", err);
     state.isDbOffline = true;
+    hideDbLoadingOverlay(); // Unblock UI on error
   }
 }
 
@@ -394,14 +416,17 @@ function listenArticles() {
     if (state.isAdmin) {
       renderAdminArticleList();
     }
+    hideDbLoadingOverlay(); // Unblock UI once data is fully synced
   }, err => {
     console.warn("Firestore subscription failed, falling back to local storage:", err);
+    hideDbLoadingOverlay(); // Unblock UI on snapshot error
     loadArticlesFallback();
   });
 }
 
 // Fallback logic when Firebase/Firestore is offline or unavailable
 function loadArticlesFallback() {
+  hideDbLoadingOverlay(); // Ensure overlay is dismissed when falling back
   if (!localStorage.getItem('wscal_articles_v6')) {
     localStorage.setItem('wscal_articles_v6', JSON.stringify(DEFAULT_ARTICLES));
   }
