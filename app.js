@@ -1397,8 +1397,9 @@ async function handleLogin(event) {
           if (lockData && lockData.isLocked) {
             const elapsed = Date.now() - (lockData.lastActive || 0);
             if (elapsed < 30 * 60 * 1000) { // 30 mins active window check
-              alert("현재 다른 관리자가 접속하여 작업 중입니다. 중복 로그인을 방지하기 위해 접속이 제한됩니다. 잠시 후 다시 시도해 주세요.");
-              return;
+              // 다중 로그인 허용을 위해 중복 로그인 차단 비활성화
+              // alert("현재 다른 관리자가 접속하여 작업 중입니다. 중복 로그인을 방지하기 위해 접속이 제한됩니다. 잠시 후 다시 시도해 주세요.");
+              // return;
             }
           }
         }
