@@ -940,9 +940,11 @@ function selectSubcategory(categoryId, shouldScroll = false) {
     }
   }
 
-  // Render Sidebar and Article list in the Workspace
+  // Render Sidebar in the Workspace
   renderWorkspaceSidebar();
-  renderArticlesList();
+
+  // Find articles belonging to this specific subcategory
+  const filteredArticles = state.articles.filter(art => art.categoryId === categoryId);
 
   // Hide Hero, featured & show Workspace
   document.getElementById('hero-sec').style.display = 'none';
@@ -962,8 +964,16 @@ function selectSubcategory(categoryId, shouldScroll = false) {
   // Show Workspace Container
   const workspaceSec = document.getElementById('workspace-sec');
   workspaceSec.classList.add('active');
-  document.getElementById('view-article-list').style.display = 'block';
-  document.getElementById('view-article-detail').style.display = 'none';
+
+  // IF THERE IS ONLY 1 ARTICLE IN THIS CATEGORY, REDIRECT DIRECTLY TO DETAIL!
+  if (filteredArticles.length === 1) {
+    renderArticlesList(); // Render in background just in case
+    viewArticleDetail(filteredArticles[0].id);
+  } else {
+    renderArticlesList();
+    document.getElementById('view-article-list').style.display = 'block';
+    document.getElementById('view-article-detail').style.display = 'none';
+  }
 
   if (shouldScroll) {
     workspaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
