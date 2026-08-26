@@ -609,7 +609,8 @@ document.getElementById('logo-home').addEventListener('click', () => {
   // Show Main Elements
   document.getElementById('hero-sec').style.display = 'block';
   document.getElementById('main-menu-sec').style.display = 'grid';
-  document.getElementById('featured-sec').style.display = 'block';
+  const featSec = document.getElementById('featured-sec');
+  if (featSec) featSec.style.display = 'block';
 
   // Smooth scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -948,7 +949,8 @@ function selectSubcategory(categoryId, shouldScroll = false) {
 
   // Hide Hero, featured & show Workspace
   document.getElementById('hero-sec').style.display = 'none';
-  document.getElementById('featured-sec').style.display = 'none';
+  const featSec = document.getElementById('featured-sec');
+  if (featSec) featSec.style.display = 'none';
   
   // Update submenu items active state
   document.querySelectorAll('.submenu-item').forEach(item => {
@@ -1359,6 +1361,7 @@ function goBackToArticles() {
 // 4. Featured ("Today's Blocks") Rendering & Actions
 // ==========================================
 function renderFeaturedBlocks() {
+  if (!document.getElementById('today-word-scripture')) return;
   document.getElementById('today-word-scripture').textContent = state.featured.todaysWord.scripture;
   document.getElementById('today-word-meditation').textContent = state.featured.todaysWord.meditation;
 
@@ -1503,7 +1506,8 @@ async function handleLogout() {
   // Reload homepage layout
   document.getElementById('hero-sec').style.display = 'block';
   document.getElementById('main-menu-sec').style.display = 'grid';
-  document.getElementById('featured-sec').style.display = 'block';
+  const featSec = document.getElementById('featured-sec');
+  if (featSec) featSec.style.display = 'block';
   
   // Reset menus and restore display modes
   document.querySelectorAll('.menu-card').forEach(c => c.classList.remove('active'));
