@@ -1,4 +1,4 @@
-﻿/* 
+/* 
    Reformed & Puritan Japanese Website Stylesheet
    Benchmarked: Westminster Seminary California
    Theme: Deep Navy, Classic Gold, Warm Off-white
@@ -1383,10 +1383,23 @@ footer {
 
 .heritage-list li {
   font-size: 0.82rem;
-  color: var(--text-dark);
   padding: 6px 0;
   border-bottom: 1px dashed var(--border-color);
   line-height: 1.35;
+}
+
+.heritage-list li a {
+  color: var(--text-dark);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.heritage-list li a:hover {
+  color: var(--accent-color);
+  padding-left: 3px;
 }
 
 .heritage-list li:last-child {
