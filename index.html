@@ -380,8 +380,52 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" id="art-content-label">コンテンツ本文 <span style="font-size: 0.8rem; color: var(--accent-color); font-weight: normal;">(HTMLタグ・書式対応)</span></label>
-              <textarea class="form-input textarea-content" id="art-content" placeholder="説教要旨、神学研究資料などの本文を入力してください (HTMLタグも自由に使用可能です)..." required></textarea>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
+                <label class="form-label" id="art-content-label" style="margin-bottom: 0;">コンテンツ本文</label>
+                <div class="editor-mode-switch" style="display: flex; gap: 4px;">
+                  <button type="button" class="btn-editor-mode active" id="btn-mode-text" onclick="setEditorMode('text')">
+                    <i class="fa-solid fa-align-left"></i> 기본 텍스트
+                  </button>
+                  <button type="button" class="btn-editor-mode" id="btn-mode-html" onclick="setEditorMode('html')">
+                    <i class="fa-solid fa-code"></i> &lt;/&gt; HTML 블록
+                  </button>
+                  <button type="button" class="btn-editor-mode" id="btn-mode-preview" onclick="toggleEditorPreview()">
+                    <i class="fa-solid fa-eye"></i> 실시간 미리보기
+                  </button>
+                </div>
+              </div>
+
+              <!-- HTML Helper Toolbar (티스토리 스타일) -->
+              <div class="editor-quick-toolbar" id="editor-quick-toolbar">
+                <button type="button" class="btn-tool-item" onclick="insertHtmlSnippet('heading')" title="소제목 추가">
+                  <i class="fa-solid fa-heading"></i> 소제목
+                </button>
+                <button type="button" class="btn-tool-item" onclick="insertHtmlSnippet('quote')" title="인용구 블록">
+                  <i class="fa-solid fa-quote-left"></i> 인용구
+                </button>
+                <button type="button" class="btn-tool-item" onclick="insertHtmlSnippet('table')" title="표(Table) 추가">
+                  <i class="fa-solid fa-table"></i> 표(Table)
+                </button>
+                <button type="button" class="btn-tool-item" onclick="insertHtmlSnippet('tailwind')" title="Tailwind 비주얼 템플릿">
+                  <i class="fa-brands fa-css3-alt"></i> Tailwind 템플릿
+                </button>
+                <button type="button" class="btn-tool-item" onclick="insertHtmlSnippet('bold')" title="굵게">
+                  <i class="fa-solid fa-bold"></i>
+                </button>
+                <button type="button" class="btn-tool-item" onclick="insertHtmlSnippet('highlight')" title="하이라이트">
+                  <i class="fa-solid fa-highlighter"></i>
+                </button>
+              </div>
+
+              <textarea class="form-input textarea-content" id="art-content" placeholder="설교 요지, 신학 연구자료 또는 HTML 코드를 입력하세요..." oninput="updateEditorPreviewIfActive()" required></textarea>
+
+              <!-- Live Preview Box -->
+              <div id="editor-preview-container" style="display: none; margin-top: 10px; border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; background: #ffffff;">
+                <div style="font-size: 0.85rem; font-weight: bold; color: var(--accent-color); margin-bottom: 0.8rem; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px;">
+                  <i class="fa-solid fa-eye"></i> 실시간 렌더링 미리보기 (Live Preview)
+                </div>
+                <div id="editor-preview-content" class="article-body-html" style="min-height: 100px;"></div>
+              </div>
             </div>
 
             <div style="display: flex; gap: 10px; margin-top: 1rem;">
@@ -597,6 +641,6 @@
     <p style="font-size: 0.9rem; color: #d1d5db; max-width: 450px; line-height: 1.5;">전체 글과 설교 데이터를 불러오는 중입니다.<br>동기화 완료 전까지 관리자 화면 조작이 잠시 차단됩니다.</p>
   </div>
 
-  <script src="app.js?v=8.6"></script>
+  <script src="app.js?v=8.7"></script>
 </body>
 </html>

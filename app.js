@@ -2308,7 +2308,158 @@ async function handleSaveArticle(event) {
 
 function cancelWrite() {
   resetWriteForm();
+  if (isEditorPreviewOpen) toggleEditorPreview();
+  setEditorMode('text');
   switchAdminTab('articles');
+}
+
+// ==========================================
+// Tistory-style HTML Block & Toolbar Helpers
+// ==========================================
+let currentEditorMode = 'text';
+let isEditorPreviewOpen = false;
+
+function setEditorMode(mode) {
+  currentEditorMode = mode;
+  const contentArea = document.getElementById('art-content');
+  const btnText = document.getElementById('btn-mode-text');
+  const btnHtml = document.getElementById('btn-mode-html');
+  const toolbar = document.getElementById('editor-quick-toolbar');
+  
+  if (!contentArea || !btnText || !btnHtml) return;
+
+  if (mode === 'html') {
+    btnHtml.classList.add('active');
+    btnText.classList.remove('active');
+    contentArea.classList.add('code-mode');
+    contentArea.placeholder = "HTML/CSS 코드를 직접 입력하세요 (<!DOCTYPE html>, <div>, Tailwind 등 전체 지원)...";
+    if (toolbar) toolbar.style.display = 'flex';
+  } else {
+    btnText.classList.add('active');
+    btnHtml.classList.remove('active');
+    contentArea.classList.remove('code-mode');
+    contentArea.placeholder = "설교 요지, 신학 연구자료 등의 본문을 입력하세요...";
+  }
+  updateEditorPreviewIfActive();
+}
+
+function insertHtmlSnippet(type) {
+  const textarea = document.getElementById('art-content');
+  if (!textarea) return;
+
+  // Auto switch to HTML mode when clicking toolbar
+  if (currentEditorMode !== 'html') {
+    setEditorMode('html');
+  }
+
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selected = textarea.value.substring(start, end);
+  let snippet = '';
+
+  switch (type) {
+    case 'heading':
+      snippet = `\n<h2 style="font-size: 1.4rem; font-weight: bold; color: #1e3a8a; margin: 1.5rem 0 0.8rem 0; border-left: 4px solid #c5a059; padding-left: 10px;">${selected || '소제목을 입력하세요'}</h2>\n`;
+      break;
+    case 'quote':
+      snippet = `\n<blockquote style="border-left: 4px solid #c5a059; padding: 12px 18px; margin: 1.2rem 0; background: rgba(197, 160, 89, 0.08); border-radius: 0 6px 6px 0; font-style: italic;">\n  ${selected || '신학자 또는 성경 인용구를 입력하세요'}\n</blockquote>\n`;
+      break;
+    case 'table':
+      snippet = `\n<table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">\n  <thead>\n    <tr style="background: #f1f5f9;">\n      <th style="border: 1px solid #cbd5e1; padding: 8px 12px;">구분</th>\n      <th style="border: 1px solid #cbd5e1; padding: 8px 12px;">내용</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td style="border: 1px solid #cbd5e1; padding: 8px 12px;">항목 1</td>\n      <td style="border: 1px solid #cbd5e1; padding: 8px 12px;">설명 1</td>\n    </tr>\n  </tbody>\n</table>\n`;
+      break;
+    case 'tailwind':
+      snippet = `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 p-6 font-sans">
+  <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8 border border-slate-100">
+    <div class="inline-block px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-semibold tracking-wider uppercase mb-4">
+      Theological Visual
+    </div>
+    <h1 class="text-2xl font-bold text-slate-800 mb-3">제목을 입력하세요</h1>
+    <p class="text-slate-600 leading-relaxed mb-6">여기에 카드 본문 내용을 입력하세요.</p>
+    <div class="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 text-sm text-indigo-900">
+      "성경 구절 또는 묵상 구절을 적어주세요"
+    </div>
+  </div>
+</body>
+</html>`;
+      break;
+    case 'bold':
+      snippet = `<strong>${selected || '굵은 글씨'}</strong>`;
+      break;
+    case 'highlight':
+      snippet = `<span style="background-color: #fef08a; padding: 2px 4px; border-radius: 3px;">${selected || '강조할 텍스트'}</span>`;
+      break;
+    default:
+      snippet = selected;
+  }
+
+  // Insert snippet
+  textarea.focus();
+  const textBefore = textarea.value.substring(0, start);
+  const textAfter = textarea.value.substring(end);
+  textarea.value = textBefore + snippet + textAfter;
+  textarea.selectionStart = textarea.selectionEnd = start + snippet.length;
+
+  updateEditorPreviewIfActive();
+}
+
+function toggleEditorPreview() {
+  isEditorPreviewOpen = !isEditorPreviewOpen;
+  const container = document.getElementById('editor-preview-container');
+  const btn = document.getElementById('btn-mode-preview');
+  if (!container || !btn) return;
+
+  if (isEditorPreviewOpen) {
+    container.style.display = 'block';
+    btn.classList.add('active');
+    updateEditorPreview();
+  } else {
+    container.style.display = 'none';
+    btn.classList.remove('active');
+  }
+}
+
+function updateEditorPreviewIfActive() {
+  if (isEditorPreviewOpen) {
+    updateEditorPreview();
+  }
+}
+
+function updateEditorPreview() {
+  const content = document.getElementById('art-content').value;
+  const previewDiv = document.getElementById('editor-preview-content');
+  if (!previewDiv) return;
+
+  previewDiv.innerHTML = '';
+  if (isFullHtmlDoc(content)) {
+    const iframe = document.createElement('iframe');
+    iframe.style.width = '100%';
+    iframe.style.border = 'none';
+    iframe.style.minHeight = '350px';
+    iframe.style.borderRadius = '6px';
+    iframe.setAttribute('scrolling', 'no');
+    iframe.onload = function() {
+      try {
+        const doc = iframe.contentWindow.document;
+        const resize = () => {
+          if (doc && doc.body) {
+            iframe.style.height = (Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight) + 20) + 'px';
+          }
+        };
+        resize();
+        setTimeout(resize, 500);
+      } catch(e){}
+    };
+    iframe.srcdoc = content;
+    previewDiv.appendChild(iframe);
+  } else {
+    previewDiv.innerHTML = formatArticleContent(content) || '<span style="color:#94a3b8; font-style:italic;">작성된 내용이 여기에 실시간으로 표시됩니다.</span>';
+  }
 }
 
 /* Pagination actions for Admin */
@@ -2524,6 +2675,11 @@ async function loadArticleToEdit(artId) {
     document.getElementById('art-photo-url').value = art.photoUrl || '';
   }
   document.getElementById('art-content').value = art.content;
+  if (isFullHtmlDoc(art.content) || /<\/?([a-z0-9]+)(?:\s+[^>]*|\s*)>/i.test(art.content)) {
+    setEditorMode('html');
+  } else {
+    setEditorMode('text');
+  }
   document.getElementById('art-date').value = art.createdAt || new Date().toISOString().split('T')[0];
   handleCategoryChange();
 }
