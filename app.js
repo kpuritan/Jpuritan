@@ -1307,6 +1307,20 @@ function viewArticleDetail(articleId) {
     contentArea.appendChild(embedWrapper);
   }
 
+// Check if content is a full HTML document (with <!DOCTYPE, <html>, <head>, <script>, or Tailwind)
+function isFullHtmlDoc(content) {
+  if (!content) return false;
+  const trimmed = content.trim().toLowerCase();
+  return (
+    trimmed.startsWith('<!doctype html') ||
+    trimmed.startsWith('<html') ||
+    trimmed.includes('<head') ||
+    trimmed.includes('<script') ||
+    trimmed.includes('<style') ||
+    trimmed.includes('cdn.tailwindcss.com')
+  );
+}
+
 // Format article content: supports raw HTML tags or plain text with preserved line breaks
 function formatArticleContent(content) {
   if (!content) return '';
@@ -1340,6 +1354,39 @@ function formatArticleContent(content) {
       </div>
     `;
     contentArea.appendChild(profileBody);
+  } else if (isFullHtmlDoc(article.content)) {
+    // Full HTML document (Tailwind, scripts, custom styles) -> render in seamless auto-resizing iframe
+    const iframe = document.createElement('iframe');
+    iframe.className = 'article-doc-iframe';
+    iframe.style.width = '100%';
+    iframe.style.border = 'none';
+    iframe.style.minHeight = '500px';
+    iframe.style.borderRadius = '8px';
+    iframe.style.display = 'block';
+    iframe.setAttribute('scrolling', 'no');
+
+    iframe.onload = function() {
+      try {
+        const doc = iframe.contentWindow.document;
+        const autoResize = () => {
+          if (doc && doc.body) {
+            const h = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
+            if (h > 50) {
+              iframe.style.height = (h + 40) + 'px';
+            }
+          }
+        };
+        autoResize();
+        setTimeout(autoResize, 300);
+        setTimeout(autoResize, 1000);
+        setTimeout(autoResize, 2500);
+      } catch (err) {
+        console.warn("Iframe auto-resize warning:", err);
+      }
+    };
+
+    iframe.srcdoc = article.content;
+    contentArea.appendChild(iframe);
   } else {
     const textBody = document.createElement('div');
     textBody.className = 'article-body-html';
