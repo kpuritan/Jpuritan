@@ -1714,5 +1714,100 @@ footer {
   border-radius: 0 0 6px 6px !important;
 }
 
+/* ==========================================
+   Tistory-style Mode Dropdown & WYSIWYG Styles
+   ========================================== */
+.tistory-mode-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.tistory-mode-btn {
+  background: #2b2b2b;
+  color: #ffffff;
+  border: 1px solid #1a1a1a;
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.tistory-mode-btn:hover {
+  background: #3f3f3f;
+}
+
+.tistory-mode-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 6px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  min-width: 130px;
+  overflow: hidden;
+}
+
+.tistory-mode-menu.show {
+  display: block;
+}
+
+.tistory-mode-item {
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  color: #334155;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.15s ease;
+}
+
+.tistory-mode-item:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.tistory-mode-item.active {
+  background: #f8fafc;
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.editor-wysiwyg-box {
+  min-height: 380px;
+  max-height: 650px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 0 0 6px 6px;
+  padding: 1.5rem;
+  background: #ffffff;
+  color: var(--text-dark);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  outline: none;
+}
+
+.editor-wysiwyg-box:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.2);
+}
+
+.editor-wysiwyg-box:empty:before {
+  content: attr(placeholder);
+  color: #94a3b8;
+  font-style: italic;
+  pointer-events: none;
+}
+
 
 

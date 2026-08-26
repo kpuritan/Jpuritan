@@ -379,47 +379,72 @@
               <input class="form-input" type="date" id="art-date" required>
             </div>
 
-            <div class="form-group">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
-                <label class="form-label" id="art-content-label" style="margin-bottom: 0;">コンテンツ本文</label>
-                <div class="editor-mode-switch" style="display: flex; gap: 4px;">
-                  <button type="button" class="btn-editor-mode active" id="btn-mode-text" onclick="setEditorMode('text')">
-                    <i class="fa-solid fa-align-left"></i> 기본 텍스트
+            <div class="form-group" style="position: relative;">
+              <!-- Tistory Style Header & Mode Selector -->
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                <label class="form-label" id="art-content-label" style="margin-bottom: 0; font-weight: bold;">
+                  <i class="fa-solid fa-file-pen"></i> 本文エディタ (본문 에디터)
+                </label>
+                
+                <!-- Tistory Mode Dropdown -->
+                <div class="tistory-mode-wrapper" id="tistory-mode-wrapper">
+                  <button type="button" class="tistory-mode-btn" id="tistory-current-mode-btn" onclick="toggleTistoryModeDropdown()">
+                    <span id="tistory-mode-text">기본모드</span> <i class="fa-solid fa-chevron-down" id="tistory-mode-arrow" style="font-size: 0.75rem; margin-left: 4px;"></i>
                   </button>
-                  <button type="button" class="btn-editor-mode" id="btn-mode-html" onclick="setEditorMode('html')">
-                    <i class="fa-solid fa-code"></i> &lt;/&gt; HTML 블록
-                  </button>
-                  <button type="button" class="btn-editor-mode" id="btn-mode-preview" onclick="toggleEditorPreview()">
-                    <i class="fa-solid fa-eye"></i> 실시간 미리보기
-                  </button>
+                  <div class="tistory-mode-menu" id="tistory-mode-menu">
+                    <div class="tistory-mode-item active" id="mode-opt-basic" onclick="selectTistoryMode('basic')">
+                      <i class="fa-solid fa-pen-to-square"></i> 기본모드
+                    </div>
+                    <div class="tistory-mode-item" id="mode-opt-markdown" onclick="selectTistoryMode('markdown')">
+                      <i class="fa-brands fa-markdown"></i> 마크다운
+                    </div>
+                    <div class="tistory-mode-item" id="mode-opt-html" onclick="selectTistoryMode('html')">
+                      <i class="fa-solid fa-code"></i> HTML
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <!-- HTML Helper Toolbar (티스토리 스타일) -->
+              <!-- Tistory Formatting Toolbar (기본모드용) -->
               <div class="editor-quick-toolbar" id="editor-quick-toolbar">
-                <button type="button" class="btn-tool-item" onclick="insertHtmlSnippet('heading')" title="소제목 추가">
-                  <i class="fa-solid fa-heading"></i> 소제목
-                </button>
-                <button type="button" class="btn-tool-item" onclick="insertHtmlSnippet('quote')" title="인용구 블록">
-                  <i class="fa-solid fa-quote-left"></i> 인용구
-                </button>
-                <button type="button" class="btn-tool-item" onclick="insertHtmlSnippet('table')" title="표(Table) 추가">
-                  <i class="fa-solid fa-table"></i> 표(Table)
-                </button>
-                <button type="button" class="btn-tool-item" onclick="insertHtmlSnippet('tailwind')" title="Tailwind 비주얼 템플릿">
-                  <i class="fa-brands fa-css3-alt"></i> Tailwind 템플릿
-                </button>
-                <button type="button" class="btn-tool-item" onclick="insertHtmlSnippet('bold')" title="굵게">
+                <button type="button" class="btn-tool-item" onclick="execEditorCmd('bold')" title="굵게 (Ctrl+B)">
                   <i class="fa-solid fa-bold"></i>
                 </button>
-                <button type="button" class="btn-tool-item" onclick="insertHtmlSnippet('highlight')" title="하이라이트">
-                  <i class="fa-solid fa-highlighter"></i>
+                <button type="button" class="btn-tool-item" onclick="execEditorCmd('italic')" title="기울임 (Ctrl+I)">
+                  <i class="fa-solid fa-italic"></i>
+                </button>
+                <button type="button" class="btn-tool-item" onclick="execEditorCmd('underline')" title="밑줄 (Ctrl+U)">
+                  <i class="fa-solid fa-underline"></i>
+                </button>
+                <button type="button" class="btn-tool-item" onclick="execEditorCmd('strikeThrough')" title="취소선">
+                  <i class="fa-solid fa-strikethrough"></i>
+                </button>
+                <span style="color: #cbd5e1; margin: 0 2px;">|</span>
+                <button type="button" class="btn-tool-item" onclick="insertWysiwygHeading('h2')" title="소제목 H2">
+                  <i class="fa-solid fa-heading"></i> 제목
+                </button>
+                <button type="button" class="btn-tool-item" onclick="insertWysiwygQuote()" title="인용구">
+                  <i class="fa-solid fa-quote-left"></i> 인용구
+                </button>
+                <button type="button" class="btn-tool-item" onclick="insertWysiwygTable()" title="표 삽입">
+                  <i class="fa-solid fa-table"></i> 표
+                </button>
+                <button type="button" class="btn-tool-item" onclick="insertWysiwygLink()" title="링크 삽입">
+                  <i class="fa-solid fa-link"></i> 링크
+                </button>
+                <span style="color: #cbd5e1; margin: 0 2px;">|</span>
+                <button type="button" class="btn-tool-item" onclick="insertHtmlSnippet('tailwind')" title="Tailwind 비주얼 템플릿 삽입" style="color: #6366f1; font-weight: 500;">
+                  <i class="fa-brands fa-css3-alt"></i> Tailwind 템플릿
                 </button>
               </div>
 
-              <textarea class="form-input textarea-content" id="art-content" placeholder="설교 요지, 신학 연구자료 또는 HTML 코드를 입력하세요..." oninput="updateEditorPreviewIfActive()" required></textarea>
+              <!-- 1. 기본모드용 WYSIWYG 에디터 -->
+              <div id="art-editor-wysiwyg" class="editor-wysiwyg-box" contenteditable="true" placeholder="내용을 입력하세요..." oninput="syncWysiwygToTextarea()"></div>
 
-              <!-- Live Preview Box -->
+              <!-- 2. HTML / 마크다운 모드용 코드 텍스트에리어 -->
+              <textarea class="form-input textarea-content code-mode" id="art-content" style="display: none; min-height: 400px;" placeholder="HTML/마크다운 코드를 입력하세요..." oninput="updateEditorPreviewIfActive()"></textarea>
+
+              <!-- Live Preview Box (HTML/마크다운 모드용) -->
               <div id="editor-preview-container" style="display: none; margin-top: 10px; border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; background: #ffffff;">
                 <div style="font-size: 0.85rem; font-weight: bold; color: var(--accent-color); margin-bottom: 0.8rem; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px;">
                   <i class="fa-solid fa-eye"></i> 실시간 렌더링 미리보기 (Live Preview)
@@ -641,6 +666,6 @@
     <p style="font-size: 0.9rem; color: #d1d5db; max-width: 450px; line-height: 1.5;">전체 글과 설교 데이터를 불러오는 중입니다.<br>동기화 완료 전까지 관리자 화면 조작이 잠시 차단됩니다.</p>
   </div>
 
-  <script src="app.js?v=8.7"></script>
+  <script src="app.js?v=8.8"></script>
 </body>
 </html>

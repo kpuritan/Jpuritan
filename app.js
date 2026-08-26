@@ -2211,13 +2211,23 @@ function resetWriteForm() {
     document.getElementById('art-photo-url').value = '';
   }
   document.getElementById('art-content').value = '';
+  const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+  if (wysiwygBox) wysiwygBox.innerHTML = '';
   document.getElementById('art-date').value = new Date().toISOString().split('T')[0];
+  if (typeof selectTistoryMode === 'function') selectTistoryMode('basic');
   handleCategoryChange();
 }
 
 async function handleSaveArticle(event) {
   event.preventDefault();
   
+  if (typeof currentTistoryMode !== 'undefined' && currentTistoryMode === 'basic') {
+    const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+    if (wysiwygBox) {
+      document.getElementById('art-content').value = wysiwygBox.innerHTML.trim();
+    }
+  }
+
   const articleId = document.getElementById('edit-article-id').value;
   const categoryId = document.getElementById('art-category-id').value;
   let title = document.getElementById('art-title').value.trim();
@@ -2308,49 +2318,148 @@ async function handleSaveArticle(event) {
 
 function cancelWrite() {
   resetWriteForm();
-  if (isEditorPreviewOpen) toggleEditorPreview();
-  setEditorMode('text');
   switchAdminTab('articles');
 }
 
 // ==========================================
-// Tistory-style HTML Block & Toolbar Helpers
+// Tistory-style Mode Dropdown & Dual Editor Helpers
 // ==========================================
-let currentEditorMode = 'text';
+let currentTistoryMode = 'basic'; // 'basic' | 'markdown' | 'html'
 let isEditorPreviewOpen = false;
 
-function setEditorMode(mode) {
-  currentEditorMode = mode;
-  const contentArea = document.getElementById('art-content');
-  const btnText = document.getElementById('btn-mode-text');
-  const btnHtml = document.getElementById('btn-mode-html');
-  const toolbar = document.getElementById('editor-quick-toolbar');
-  
-  if (!contentArea || !btnText || !btnHtml) return;
+function toggleTistoryModeDropdown() {
+  const menu = document.getElementById('tistory-mode-menu');
+  if (menu) menu.classList.toggle('show');
+}
 
-  if (mode === 'html') {
-    btnHtml.classList.add('active');
-    btnText.classList.remove('active');
-    contentArea.classList.add('code-mode');
-    contentArea.placeholder = "HTML/CSS 코드를 직접 입력하세요 (<!DOCTYPE html>, <div>, Tailwind 등 전체 지원)...";
-    if (toolbar) toolbar.style.display = 'flex';
-  } else {
-    btnText.classList.add('active');
-    btnHtml.classList.remove('active');
-    contentArea.classList.remove('code-mode');
-    contentArea.placeholder = "설교 요지, 신학 연구자료 등의 본문을 입력하세요...";
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  const wrapper = document.getElementById('tistory-mode-wrapper');
+  const menu = document.getElementById('tistory-mode-menu');
+  if (wrapper && menu && !wrapper.contains(e.target)) {
+    menu.classList.remove('show');
   }
+});
+
+function selectTistoryMode(mode) {
+  const prevMode = currentTistoryMode;
+  currentTistoryMode = mode;
+
+  const menu = document.getElementById('tistory-mode-menu');
+  if (menu) menu.classList.remove('show');
+
+  const modeText = document.getElementById('tistory-mode-text');
+  const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+  const codeTextarea = document.getElementById('art-content');
+  const toolbar = document.getElementById('editor-quick-toolbar');
+  const previewContainer = document.getElementById('editor-preview-container');
+
+  // Update active states in dropdown
+  document.querySelectorAll('.tistory-mode-item').forEach(item => item.classList.remove('active'));
+  const activeItem = document.getElementById(`mode-opt-${mode}`);
+  if (activeItem) activeItem.classList.add('active');
+
+  // Sync content between editors
+  if (prevMode === 'basic') {
+    if (wysiwygBox && codeTextarea) {
+      codeTextarea.value = wysiwygBox.innerHTML;
+    }
+  } else {
+    if (codeTextarea && wysiwygBox) {
+      wysiwygBox.innerHTML = codeTextarea.value;
+    }
+  }
+
+  if (mode === 'basic') {
+    if (modeText) modeText.textContent = '기본모드';
+    if (wysiwygBox) wysiwygBox.style.display = 'block';
+    if (codeTextarea) codeTextarea.style.display = 'none';
+    if (toolbar) toolbar.style.display = 'flex';
+    if (previewContainer) previewContainer.style.display = 'none';
+  } else if (mode === 'html') {
+    if (modeText) modeText.textContent = 'HTML';
+    if (wysiwygBox) wysiwygBox.style.display = 'none';
+    if (codeTextarea) {
+      codeTextarea.style.display = 'block';
+      codeTextarea.placeholder = "HTML/CSS 코드를 직접 입력하세요 (<!DOCTYPE html>, <div>, Tailwind 등 전체 지원)...";
+    }
+    if (toolbar) toolbar.style.display = 'flex';
+  } else if (mode === 'markdown') {
+    if (modeText) modeText.textContent = '마크다운';
+    if (wysiwygBox) wysiwygBox.style.display = 'none';
+    if (codeTextarea) {
+      codeTextarea.style.display = 'block';
+      codeTextarea.placeholder = "마크다운 문법(# 제목, **굵게**, - 목록 등)으로 작성하세요...";
+    }
+    if (toolbar) toolbar.style.display = 'none';
+  }
+
   updateEditorPreviewIfActive();
 }
 
+function syncWysiwygToTextarea() {
+  const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+  const codeTextarea = document.getElementById('art-content');
+  if (wysiwygBox && codeTextarea) {
+    codeTextarea.value = wysiwygBox.innerHTML;
+  }
+}
+
+function execEditorCmd(cmd, value = null) {
+  if (currentTistoryMode !== 'basic') selectTistoryMode('basic');
+  const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+  if (!wysiwygBox) return;
+  wysiwygBox.focus();
+  document.execCommand(cmd, false, value);
+  syncWysiwygToTextarea();
+}
+
+function insertWysiwygHeading(tag) {
+  if (currentTistoryMode !== 'basic') selectTistoryMode('basic');
+  const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+  if (!wysiwygBox) return;
+  wysiwygBox.focus();
+  const headingHtml = `<h2 style="font-size: 1.4rem; font-weight: bold; color: #1e3a8a; margin: 1.5rem 0 0.8rem 0; border-left: 4px solid #c5a059; padding-left: 10px;">소제목을 입력하세요</h2><p><br></p>`;
+  document.execCommand('insertHTML', false, headingHtml);
+  syncWysiwygToTextarea();
+}
+
+function insertWysiwygQuote() {
+  if (currentTistoryMode !== 'basic') selectTistoryMode('basic');
+  const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+  if (!wysiwygBox) return;
+  wysiwygBox.focus();
+  const quoteHtml = `<blockquote style="border-left: 4px solid #c5a059; padding: 12px 18px; margin: 1.2rem 0; background: rgba(197, 160, 89, 0.08); border-radius: 0 6px 6px 0; font-style: italic;">신학자 또는 성경 인용구를 입력하세요</blockquote><p><br></p>`;
+  document.execCommand('insertHTML', false, quoteHtml);
+  syncWysiwygToTextarea();
+}
+
+function insertWysiwygTable() {
+  if (currentTistoryMode !== 'basic') selectTistoryMode('basic');
+  const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+  if (!wysiwygBox) return;
+  wysiwygBox.focus();
+  const tableHtml = `<table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;"><thead><tr style="background: #f1f5f9;"><th style="border: 1px solid #cbd5e1; padding: 8px 12px;">구분</th><th style="border: 1px solid #cbd5e1; padding: 8px 12px;">내용</th></tr></thead><tbody><tr><td style="border: 1px solid #cbd5e1; padding: 8px 12px;">항목 1</td><td style="border: 1px solid #cbd5e1; padding: 8px 12px;">설명 1</td></tr></tbody></table><p><br></p>`;
+  document.execCommand('insertHTML', false, tableHtml);
+  syncWysiwygToTextarea();
+}
+
+function insertWysiwygLink() {
+  const url = prompt("연결할 URL 링크를 입력하세요:", "https://");
+  if (url) {
+    execEditorCmd('createLink', url);
+  }
+}
+
 function insertHtmlSnippet(type) {
+  if (currentTistoryMode === 'basic') {
+    if (type === 'tailwind') {
+      selectTistoryMode('html');
+    }
+  }
+
   const textarea = document.getElementById('art-content');
   if (!textarea) return;
-
-  // Auto switch to HTML mode when clicking toolbar
-  if (currentEditorMode !== 'html') {
-    setEditorMode('html');
-  }
 
   const start = textarea.selectionStart;
   const end = textarea.selectionEnd;
@@ -2358,15 +2467,6 @@ function insertHtmlSnippet(type) {
   let snippet = '';
 
   switch (type) {
-    case 'heading':
-      snippet = `\n<h2 style="font-size: 1.4rem; font-weight: bold; color: #1e3a8a; margin: 1.5rem 0 0.8rem 0; border-left: 4px solid #c5a059; padding-left: 10px;">${selected || '소제목을 입력하세요'}</h2>\n`;
-      break;
-    case 'quote':
-      snippet = `\n<blockquote style="border-left: 4px solid #c5a059; padding: 12px 18px; margin: 1.2rem 0; background: rgba(197, 160, 89, 0.08); border-radius: 0 6px 6px 0; font-style: italic;">\n  ${selected || '신학자 또는 성경 인용구를 입력하세요'}\n</blockquote>\n`;
-      break;
-    case 'table':
-      snippet = `\n<table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">\n  <thead>\n    <tr style="background: #f1f5f9;">\n      <th style="border: 1px solid #cbd5e1; padding: 8px 12px;">구분</th>\n      <th style="border: 1px solid #cbd5e1; padding: 8px 12px;">내용</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td style="border: 1px solid #cbd5e1; padding: 8px 12px;">항목 1</td>\n      <td style="border: 1px solid #cbd5e1; padding: 8px 12px;">설명 1</td>\n    </tr>\n  </tbody>\n</table>\n`;
-      break;
     case 'tailwind':
       snippet = `<!DOCTYPE html>
 <html lang="ko">
@@ -2388,39 +2488,31 @@ function insertHtmlSnippet(type) {
 </body>
 </html>`;
       break;
-    case 'bold':
-      snippet = `<strong>${selected || '굵은 글씨'}</strong>`;
-      break;
-    case 'highlight':
-      snippet = `<span style="background-color: #fef08a; padding: 2px 4px; border-radius: 3px;">${selected || '강조할 텍스트'}</span>`;
-      break;
     default:
       snippet = selected;
   }
 
-  // Insert snippet
   textarea.focus();
   const textBefore = textarea.value.substring(0, start);
   const textAfter = textarea.value.substring(end);
   textarea.value = textBefore + snippet + textAfter;
   textarea.selectionStart = textarea.selectionEnd = start + snippet.length;
 
+  const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+  if (wysiwygBox) wysiwygBox.innerHTML = textarea.value;
   updateEditorPreviewIfActive();
 }
 
 function toggleEditorPreview() {
   isEditorPreviewOpen = !isEditorPreviewOpen;
   const container = document.getElementById('editor-preview-container');
-  const btn = document.getElementById('btn-mode-preview');
-  if (!container || !btn) return;
+  if (!container) return;
 
   if (isEditorPreviewOpen) {
     container.style.display = 'block';
-    btn.classList.add('active');
     updateEditorPreview();
   } else {
     container.style.display = 'none';
-    btn.classList.remove('active');
   }
 }
 
@@ -2674,11 +2766,14 @@ async function loadArticleToEdit(artId) {
   if (document.getElementById('art-photo-url')) {
     document.getElementById('art-photo-url').value = art.photoUrl || '';
   }
-  document.getElementById('art-content').value = art.content;
-  if (isFullHtmlDoc(art.content) || /<\/?([a-z0-9]+)(?:\s+[^>]*|\s*)>/i.test(art.content)) {
-    setEditorMode('html');
+  const content = art.content || '';
+  document.getElementById('art-content').value = content;
+  const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+  if (wysiwygBox) wysiwygBox.innerHTML = content;
+  if (isFullHtmlDoc(content)) {
+    selectTistoryMode('html');
   } else {
-    setEditorMode('text');
+    selectTistoryMode('basic');
   }
   document.getElementById('art-date').value = art.createdAt || new Date().toISOString().split('T')[0];
   handleCategoryChange();
