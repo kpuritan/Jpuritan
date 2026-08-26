@@ -1305,6 +1305,24 @@ function viewArticleDetail(articleId) {
     contentArea.appendChild(embedWrapper);
   }
 
+// Format article content: supports raw HTML tags or plain text with preserved line breaks
+function formatArticleContent(content) {
+  if (!content) return '';
+  // Check if content contains HTML tags (e.g. <p>, <br>, <div>, <b>, <span>, <table>, <img>, <iframe>, <a>, <h1>~<h6>, etc.)
+  const hasHtml = /<\/?([a-z0-9]+)(?:\s+[^>]*|\s*)>/i.test(content);
+  if (hasHtml) {
+    return content;
+  } else {
+    return content
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;")
+      .replace(/\n/g, "<br>");
+  }
+}
+
   if (article.categoryId === 'cat_1787469050463') {
     const profileBody = document.createElement('div');
     profileBody.innerHTML = `
@@ -1315,15 +1333,15 @@ function viewArticleDetail(articleId) {
         <div style="flex-grow: 1; min-width: 250px;">
           <h2 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 0.5rem;">${article.title}</h2>
           <p style="color: var(--accent-color); font-weight: 500; margin-bottom: 1rem;">${article.author}</p>
-          <div style="white-space: pre-wrap; line-height: 1.7; color: var(--text-dark);">${article.content}</div>
+          <div class="article-body-html" style="line-height: 1.8; color: var(--text-dark);">${formatArticleContent(article.content)}</div>
         </div>
       </div>
     `;
     contentArea.appendChild(profileBody);
   } else {
     const textBody = document.createElement('div');
-    textBody.style.whiteSpace = 'pre-wrap';
-    textBody.textContent = article.content;
+    textBody.className = 'article-body-html';
+    textBody.innerHTML = formatArticleContent(article.content);
     contentArea.appendChild(textBody);
   }
 

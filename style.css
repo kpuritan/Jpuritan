@@ -1569,5 +1569,80 @@ footer {
   }
 }
 
+/* ==========================================
+   Rich HTML Article Body Styles
+   ========================================== */
+.article-body-html {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--text-dark);
+  word-break: break-word;
+}
+
+.article-body-html p {
+  margin-bottom: 1.2rem;
+}
+
+.article-body-html img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin: 1.2rem 0;
+  display: block;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.article-body-html iframe {
+  max-width: 100%;
+  border-radius: 6px;
+  margin: 1.2rem 0;
+}
+
+.article-body-html table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+.article-body-html th, 
+.article-body-html td {
+  border: 1px solid var(--border-color);
+  padding: 10px 14px;
+  text-align: left;
+}
+
+.article-body-html th {
+  background-color: var(--bg-light);
+  font-weight: 600;
+}
+
+.article-body-html blockquote {
+  border-left: 4px solid var(--accent-color);
+  padding: 12px 20px;
+  margin: 1.5rem 0;
+  background-color: rgba(197, 160, 89, 0.08);
+  border-radius: 0 6px 6px 0;
+}
+
+.article-body-html ul, 
+.article-body-html ol {
+  padding-left: 1.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.article-body-html li {
+  margin-bottom: 0.4rem;
+}
+
+.article-body-html a {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.article-body-html a:hover {
+  color: var(--accent-color);
+}
+
 
 
