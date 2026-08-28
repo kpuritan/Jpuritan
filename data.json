@@ -1,20 +1,6 @@
 ﻿{
     "mainMenus":  [
                       {
-                          "id":  "catechism",
-                          "nameKr":  "교리교육과 부흥",
-                          "nameJp":  "教理教育と復興",
-                          "icon":  "fa-scroll",
-                          "position":  2
-                      },
-                      {
-                          "id":  "discipleship",
-                          "nameKr":  "전도·제자도",
-                          "nameJp":  "伝道・弟子道",
-                          "icon":  "fa-users-line",
-                          "position":  4
-                      },
-                      {
                           "id":  "menu_1787468975888",
                           "icon":  "fa-users",
                           "position":  0,
@@ -23,12 +9,32 @@
                           "isVideo":  false
                       },
                       {
-                          "id":  "menu_1787810374050",
-                          "isVideo":  false,
-                          "icon":  "fa-circle-chevron-right",
-                          "position":  6,
-                          "nameJp":  "改革派神学校",
-                          "nameKr":  "개혁파 신학교"
+                          "id":  "sermon",
+                          "nameKr":  "성경강해",
+                          "nameJp":  "聖書講解",
+                          "icon":  "fa-book-open",
+                          "position":  1
+                      },
+                      {
+                          "id":  "catechism",
+                          "nameKr":  "교리교육과 부흥",
+                          "nameJp":  "教理教育と復興",
+                          "icon":  "fa-scroll",
+                          "position":  2
+                      },
+                      {
+                          "id":  "theology",
+                          "position":  3,
+                          "icon":  "fa-graduation-cap",
+                          "nameKr":  "개혁신학",
+                          "nameJp":  "改革派神学"
+                      },
+                      {
+                          "id":  "discipleship",
+                          "nameKr":  "전도·제자도",
+                          "nameJp":  "伝道・弟子道",
+                          "icon":  "fa-users-line",
+                          "position":  4
                       },
                       {
                           "id":  "pastor",
@@ -39,18 +45,12 @@
                           "position":  5
                       },
                       {
-                          "id":  "sermon",
-                          "nameKr":  "성경강해",
-                          "nameJp":  "聖書講解",
-                          "icon":  "fa-book-open",
-                          "position":  1
-                      },
-                      {
-                          "id":  "theology",
-                          "position":  3,
-                          "icon":  "fa-graduation-cap",
-                          "nameKr":  "개혁신학",
-                          "nameJp":  "改革派神学"
+                          "id":  "menu_1787810374050",
+                          "isVideo":  false,
+                          "icon":  "fa-circle-chevron-right",
+                          "position":  6,
+                          "nameJp":  "改革派神学校",
+                          "nameKr":  "개혁파 신학교"
                       }
                   ],
     "categories":  [

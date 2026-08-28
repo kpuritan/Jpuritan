@@ -90,6 +90,14 @@ function loadLocalStorageOnly() {
     state.categories = JSON.parse(localStorage.getItem('wscal_categories_v6')) || [];
     state.featured = JSON.parse(localStorage.getItem('wscal_featured_v6')) || {};
     state.articles = JSON.parse(localStorage.getItem('wscal_articles_v6')) || [];
+
+    const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'discipleship', 'pastor', 'menu_1787810374050'];
+    state.mainMenus.sort((a, b) => {
+      const posA = a.position !== undefined ? a.position : defaultMenuIds.indexOf(a.id);
+      const posB = b.position !== undefined ? b.position : defaultMenuIds.indexOf(b.id);
+      return (posA >= 0 ? posA : 999) - (posB >= 0 ? posB : 999);
+    });
+    state.categories.sort((a, b) => (a.position || 0) - (b.position || 0));
   } catch (e) {
     state.mainMenus = [];
     state.categories = [];
