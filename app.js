@@ -91,7 +91,7 @@ function loadLocalStorageOnly() {
     state.featured = JSON.parse(localStorage.getItem('wscal_featured_v6')) || {};
     state.articles = JSON.parse(localStorage.getItem('wscal_articles_v6')) || [];
 
-    const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'discipleship', 'pastor', 'menu_1787810374050'];
+    const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'discipleship', 'pastor'];
     state.mainMenus.sort((a, b) => {
       const posA = a.position !== undefined ? a.position : defaultMenuIds.indexOf(a.id);
       const posB = b.position !== undefined ? b.position : defaultMenuIds.indexOf(b.id);
