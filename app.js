@@ -255,14 +255,50 @@ async function initApp() {
       showAdminDashboard(savedTab);
     } else {
       returnToUserSite();
+      restoreLastUserState();
     }
   } else {
     renderHomepageQuickAdminBar();
     updateAdminNavAndFloatingButtons();
+    restoreLastUserState();
   }
 
   console.log("App initialization background tasks registered.");
   startBgmAuto();
+}
+
+// Restore last viewed category, article, or menu upon page reload
+function restoreLastUserState() {
+  const savedMenu = sessionStorage.getItem('wscal_user_menu');
+  const savedCat = sessionStorage.getItem('wscal_user_category');
+  const savedArt = sessionStorage.getItem('wscal_user_article');
+
+  if (savedArt) {
+    const art = state.articles.find(a => a.id === savedArt);
+    if (art) {
+      selectSubcategory(art.categoryId, false);
+      viewArticleDetail(savedArt);
+      return true;
+    }
+  }
+
+  if (savedCat) {
+    const cat = state.categories.find(c => c.id === savedCat);
+    if (cat) {
+      selectSubcategory(savedCat, false);
+      return true;
+    }
+  }
+
+  if (savedMenu) {
+    const menu = state.mainMenus.find(m => m.id === savedMenu);
+    if (menu) {
+      selectMainMenu(savedMenu);
+      return true;
+    }
+  }
+
+  return false;
 }
 
 // Connect and sync with Firestore for admin tasks
@@ -613,6 +649,11 @@ function renderMainMenuCards() {
 
 // Click Home Logo
 document.getElementById('logo-home').addEventListener('click', () => {
+  // Clear saved user view states
+  sessionStorage.removeItem('wscal_user_menu');
+  sessionStorage.removeItem('wscal_user_category');
+  sessionStorage.removeItem('wscal_user_article');
+
   // If admin dashboard is open, close it and return to user view while maintaining admin session
   const adminSec = document.getElementById('admin-dashboard-sec');
   if (adminSec && adminSec.classList.contains('active')) {
@@ -888,6 +929,10 @@ function selectMainMenu(menuKey) {
   state.currentArticle = null;
   state.pagination.currentPage = 1;
 
+  sessionStorage.setItem('wscal_user_menu', menuKey);
+  sessionStorage.removeItem('wscal_user_category');
+  sessionStorage.removeItem('wscal_user_article');
+
   initializeCollapsedStates();
 
   // Toggle visual active state
@@ -956,6 +1001,30 @@ function selectSubcategory(categoryId, shouldScroll = false) {
   state.currentArticle = null;
   state.pagination.currentPage = 1;
 
+  // Infer and set parent menu if missing
+  const catObj = state.categories.find(c => c.id === categoryId);
+  if (catObj && !state.currentMenu) {
+    let pId = catObj.parentId;
+    while (pId && !state.mainMenus.some(m => m.id === pId)) {
+      const parent = state.categories.find(c => c.id === pId);
+      pId = parent ? parent.parentId : null;
+    }
+    if (pId) state.currentMenu = pId;
+  }
+
+  if (state.currentMenu) {
+    sessionStorage.setItem('wscal_user_menu', state.currentMenu);
+    document.querySelectorAll('.menu-card').forEach(card => {
+      if (card.dataset.menu === state.currentMenu) {
+        card.classList.add('active');
+      } else {
+        card.classList.remove('active');
+      }
+    });
+  }
+  sessionStorage.setItem('wscal_user_category', categoryId);
+  sessionStorage.removeItem('wscal_user_article');
+
   // Expand the folder itself if it has children
   const hasChildren = state.categories.some(c => c.parentId === categoryId);
   if (hasChildren) {
@@ -963,7 +1032,6 @@ function selectSubcategory(categoryId, shouldScroll = false) {
   }
 
   // Ensure all ancestor paths are expanded
-  const catObj = state.categories.find(c => c.id === categoryId);
   if (catObj) {
     let pId = catObj.parentId;
     while (pId) {
@@ -1188,8 +1256,6 @@ function renderArticlesList() {
           <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
           <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
           <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
-          <button class="btn-inline-admin" onclick="moveArticle('${art.id}', 'up')" title="一つ上に移動 (위로)"><i class="fa-solid fa-arrow-up"></i></button>
-          <button class="btn-inline-admin" onclick="moveArticle('${art.id}', 'down')" title="一つ下に移動 (아래로)"><i class="fa-solid fa-arrow-down"></i></button>
           <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
         </div>
       ` : '';
@@ -1233,8 +1299,6 @@ function renderArticlesList() {
           <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
           <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
           <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
-          <button class="btn-inline-admin" onclick="moveArticle('${art.id}', 'up')" title="一つ上に移動 (위로)"><i class="fa-solid fa-arrow-up"></i></button>
-          <button class="btn-inline-admin" onclick="moveArticle('${art.id}', 'down')" title="一つ下に移動 (아래로)"><i class="fa-solid fa-arrow-down"></i></button>
           <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
         </div>
       ` : '';
@@ -1272,8 +1336,6 @@ function renderArticlesList() {
           <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
           <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
           <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
-          <button class="btn-inline-admin" onclick="moveArticle('${art.id}', 'up')" title="一つ上に移動 (위로)"><i class="fa-solid fa-arrow-up"></i></button>
-          <button class="btn-inline-admin" onclick="moveArticle('${art.id}', 'down')" title="一つ下に移動 (아래로)"><i class="fa-solid fa-arrow-down"></i></button>
           <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
         </div>
       ` : '';
@@ -1407,6 +1469,8 @@ function viewArticleDetail(articleId) {
   if (!article) return;
 
   state.currentArticle = article;
+  sessionStorage.setItem('wscal_user_article', articleId);
+  sessionStorage.setItem('wscal_user_category', article.categoryId);
 
   // Increment views
   article.views = (article.views || 0) + 1;
