@@ -1698,8 +1698,15 @@ async function handleLogin(event) {
     sessionStorage.setItem('wscal_admin_logged', 'true');
     startSessionHeartbeat();
     closeLoginModal();
-    showAdminDashboard();
+    updateAdminNavAndFloatingButtons();
     connectAdminFirestore();
+
+    // Refresh current view in-place so admin action bars appear immediately
+    if (state.currentCategory) {
+      renderArticlesList();
+    } else if (state.currentArticle) {
+      viewArticleDetail(state.currentArticle.id);
+    }
   } else {
     document.getElementById('login-error').style.display = 'block';
   }
