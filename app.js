@@ -604,7 +604,12 @@ function renderMainMenuCards() {
 
 // Click Home Logo
 document.getElementById('logo-home').addEventListener('click', () => {
-  if (state.isAdmin) return; // Ignore if in admin view
+  // If admin dashboard is open, close it and return to user view while maintaining admin session
+  const adminSec = document.getElementById('admin-dashboard-sec');
+  if (adminSec && adminSec.classList.contains('active')) {
+    returnToUserSite();
+    return;
+  }
   
   // Reset navigation states
   state.currentMenu = null;
@@ -621,6 +626,8 @@ document.getElementById('logo-home').addEventListener('click', () => {
   document.getElementById('main-menu-sec').style.display = 'grid';
   const featSec = document.getElementById('featured-sec');
   if (featSec) featSec.style.display = 'block';
+
+  renderHomepageQuickAdminBar();
 
   // Smooth scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1761,8 +1768,37 @@ function showAdminDashboard() {
   switchAdminTab('folders');
 }
 
+function returnToUserSite() {
+  // Close admin dashboard container, but keep state.isAdmin = true
+  document.getElementById('admin-dashboard-sec').classList.remove('active');
+  
+  // Restore user layout
+  document.getElementById('hero-sec').style.display = 'block';
+  document.getElementById('main-menu-sec').style.display = 'grid';
+  const featSec = document.getElementById('featured-sec');
+  if (featSec) featSec.style.display = 'block';
+
+  // Ensure quick admin bar is displayed
+  renderHomepageQuickAdminBar();
+
+  // If a category was selected, show the workspace list with admin buttons
+  if (state.currentCategory) {
+    document.getElementById('workspace-sec').style.display = 'grid';
+    document.getElementById('workspace-sec').classList.add('active');
+    renderArticlesList();
+  } else {
+    // Show top homepage view
+    document.querySelectorAll('.menu-card').forEach(c => c.classList.remove('active'));
+    document.getElementById('submenu-sec').classList.remove('active');
+    document.getElementById('workspace-sec').classList.remove('active');
+  }
+
+  // Smooth scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function exitAdminView() {
-  handleLogout();
+  returnToUserSite();
 }
 
 // ==========================================

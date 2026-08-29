@@ -216,8 +216,11 @@
           <li class="admin-menu-item" id="admin-menu-stats" onclick="switchAdminTab('stats')">
             <i class="fa-solid fa-chart-line"></i> 統計と分析 (통계 및 분석)
           </li>
-          <li class="admin-menu-item" onclick="exitAdminView()" style="border-top: 1px solid var(--border-color); margin-top: 15px; color: var(--accent-color);">
-            <i class="fa-solid fa-globe"></i> ユーザーサイトに戻る
+          <li class="admin-menu-item" onclick="returnToUserSite()" style="border-top: 1px solid var(--border-color); margin-top: 15px; color: var(--accent-color); font-weight: bold;">
+            <i class="fa-solid fa-globe"></i> ユーザーサイトを見る (사이트 보기)
+          </li>
+          <li class="admin-menu-item" onclick="handleLogout()" style="color: #ef4444;">
+            <i class="fa-solid fa-right-from-bracket"></i> ログアウト (로그아웃)
           </li>
         </ul>
       </aside>
