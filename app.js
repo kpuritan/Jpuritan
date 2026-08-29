@@ -2981,6 +2981,12 @@ async function loadArticleToEdit(artId) {
   let art = state.articles.find(a => a.id === artId);
   if (!art) return;
 
+  // Open admin dashboard view first
+  showAdminDashboard();
+  switchAdminTab('write');
+  document.getElementById('write-section-title').innerHTML = '<i class="fa-solid fa-edit"></i> 記事・資料の修正編集 (글 수정/편집)';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
   // Lazy load the latest content from Firestore just for this article to prevent data mismatch
   if (typeof db !== 'undefined' && !state.isDbOffline) {
     showDbLoadingOverlay();
@@ -3003,9 +3009,6 @@ async function loadArticleToEdit(artId) {
   }
 
   state.editArticleId = artId;
-  
-  switchAdminTab('write');
-  document.getElementById('write-section-title').innerHTML = '<i class="fa-solid fa-edit"></i> 記事・資料の修正編集';
   
   const catObj = state.categories.find(c => c.id === art.categoryId);
   
