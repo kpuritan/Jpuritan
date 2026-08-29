@@ -1213,37 +1213,109 @@ function renderArticlesList() {
     });
   }
 
-  // 4. Render Pagination Controls
+  // 4. Render Smart Pagination Controls
   if (totalPages > 1) {
     const paginationControls = document.createElement('div');
     paginationControls.className = 'pagination-controls';
-    
-    // Prev Button
-    const prevBtn = document.createElement('button');
-    prevBtn.className = 'btn-pagination';
-    prevBtn.disabled = state.pagination.currentPage === 1;
-    prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
-    prevBtn.onclick = () => changePage(state.pagination.currentPage - 1);
-    paginationControls.appendChild(prevBtn);
-    
-    // Page Number Buttons
-    for (let i = 1; i <= totalPages; i++) {
-      const pageBtn = document.createElement('button');
-      pageBtn.className = `btn-pagination ${state.pagination.currentPage === i ? 'active' : ''}`;
-      pageBtn.textContent = i;
-      pageBtn.onclick = () => changePage(i);
-      paginationControls.appendChild(pageBtn);
-    }
-    
-    // Next Button
-    const nextBtn = document.createElement('button');
-    nextBtn.className = 'btn-pagination';
-    nextBtn.disabled = state.pagination.currentPage === totalPages;
-    nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
-    nextBtn.onclick = () => changePage(state.pagination.currentPage + 1);
-    paginationControls.appendChild(nextBtn);
-    
+    renderPaginationButtons(paginationControls, state.pagination.currentPage, totalPages, (p) => changePage(p));
     container.appendChild(paginationControls);
+  }
+}
+
+// Render Smart Sliding Window Pagination (Supports Max 5 Visible Numbers, Ellipsis, Prev/Next, Jump)
+function renderPaginationButtons(container, currentPage, totalPages, onPageChange) {
+  container.innerHTML = '';
+  if (totalPages <= 1) return;
+
+  // First Jump Button (<<) if past page 3
+  if (currentPage > 3 && totalPages > 5) {
+    const firstBtn = document.createElement('button');
+    firstBtn.className = 'btn-pagination';
+    firstBtn.title = '最初のページ (처음)';
+    firstBtn.innerHTML = '<i class="fa-solid fa-angles-left"></i>';
+    firstBtn.onclick = () => onPageChange(1);
+    container.appendChild(firstBtn);
+  }
+
+  // Prev Button (<)
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'btn-pagination';
+  prevBtn.disabled = currentPage === 1;
+  prevBtn.title = '前のページ (이전)';
+  prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
+  prevBtn.onclick = () => onPageChange(currentPage - 1);
+  container.appendChild(prevBtn);
+
+  // Calculate visible range (Max 5 numbered buttons)
+  const maxButtons = 5;
+  let startPage = Math.max(1, currentPage - 2);
+  let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+
+  if (endPage - startPage + 1 < maxButtons) {
+    startPage = Math.max(1, endPage - maxButtons + 1);
+  }
+
+  // First page shortcut with ellipsis
+  if (startPage > 1) {
+    const page1Btn = document.createElement('button');
+    page1Btn.className = `btn-pagination ${currentPage === 1 ? 'active' : ''}`;
+    page1Btn.textContent = '1';
+    page1Btn.onclick = () => onPageChange(1);
+    container.appendChild(page1Btn);
+
+    if (startPage > 2) {
+      const dots = document.createElement('span');
+      dots.className = 'pagination-dots';
+      dots.textContent = '...';
+      container.appendChild(dots);
+    }
+  }
+
+  // Numbered buttons
+  for (let i = startPage; i <= endPage; i++) {
+    if (i === 1 && startPage > 1) continue;
+    if (i === totalPages && endPage < totalPages) continue;
+
+    const pageBtn = document.createElement('button');
+    pageBtn.className = `btn-pagination ${currentPage === i ? 'active' : ''}`;
+    pageBtn.textContent = i;
+    pageBtn.onclick = () => onPageChange(i);
+    container.appendChild(pageBtn);
+  }
+
+  // Last page shortcut with ellipsis
+  if (endPage < totalPages) {
+    if (endPage < totalPages - 1) {
+      const dots = document.createElement('span');
+      dots.className = 'pagination-dots';
+      dots.textContent = '...';
+      container.appendChild(dots);
+    }
+
+    const lastBtn = document.createElement('button');
+    lastBtn.className = `btn-pagination ${currentPage === totalPages ? 'active' : ''}`;
+    lastBtn.textContent = totalPages;
+    lastBtn.onclick = () => onPageChange(totalPages);
+    container.appendChild(lastBtn);
+  }
+
+  // Next Button (>)
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn-pagination';
+  nextBtn.disabled = currentPage === totalPages;
+  nextBtn.title = '次のページ (다음)';
+  nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+  nextBtn.onclick = () => onPageChange(currentPage + 1);
+  container.appendChild(nextBtn);
+
+  // Last Jump Button (>>) if far from end
+  if (currentPage < totalPages - 2 && totalPages > 5) {
+    const lastJumpBtn = document.createElement('button');
+    lastJumpBtn.className = 'btn-pagination';
+    lastJumpBtn.title = '最後のページ (끝)';
+    lastJumpBtn.innerHTML = '<i class="fa-solid fa-angles-right"></i>';
+    lastJumpBtn.onclick = () => onPageChange(totalPages);
+    container.appendChild(lastJumpBtn);
   }
 }
 
@@ -2673,32 +2745,9 @@ function renderAdminArticleList() {
     container.appendChild(item);
   });
 
-  // 3. Render Pagination Controls
+  // 3. Render Smart Pagination Controls
   if (totalPages > 1 && paginationContainer) {
-    // Prev Button
-    const prevBtn = document.createElement('button');
-    prevBtn.className = 'btn-pagination';
-    prevBtn.disabled = state.adminPagination.currentPage === 1;
-    prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
-    prevBtn.onclick = () => changeAdminPage(state.adminPagination.currentPage - 1);
-    paginationContainer.appendChild(prevBtn);
-    
-    // Page Number Buttons
-    for (let i = 1; i <= totalPages; i++) {
-      const pageBtn = document.createElement('button');
-      pageBtn.className = `btn-pagination ${state.adminPagination.currentPage === i ? 'active' : ''}`;
-      pageBtn.textContent = i;
-      pageBtn.onclick = () => changeAdminPage(i);
-      paginationContainer.appendChild(pageBtn);
-    }
-    
-    // Next Button
-    const nextBtn = document.createElement('button');
-    nextBtn.className = 'btn-pagination';
-    nextBtn.disabled = state.adminPagination.currentPage === totalPages;
-    nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
-    nextBtn.onclick = () => changeAdminPage(state.adminPagination.currentPage + 1);
-    paginationContainer.appendChild(nextBtn);
+    renderPaginationButtons(paginationContainer, state.adminPagination.currentPage, totalPages, (p) => changeAdminPage(p));
   }
 }
 

@@ -430,20 +430,6 @@
                            "nameJp":  "伝道小冊子",
                            "nameKr":  "전도 소책자",
                            "parentId":  "discipleship"
-                       },
-                       {
-                           "id":  "cat_1787879656046",
-                           "nameKr":  "청교도 역사",
-                           "parentId":  "menu_1787468975888",
-                           "nameJp":  "清教徒歴史",
-                           "position":  55
-                       },
-                       {
-                           "id":  "cat_1787900403550",
-                           "nameKr":  "청교도 역사",
-                           "nameJp":  "清教徒歴史",
-                           "position":  56,
-                           "parentId":  "menu_1787468975888"
                        }
                    ],
     "featured":  {

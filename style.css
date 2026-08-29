@@ -1497,6 +1497,17 @@ footer {
   cursor: not-allowed;
 }
 
+.pagination-dots {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  color: var(--text-light);
+  font-weight: bold;
+  font-size: 0.9rem;
+  user-select: none;
+}
+
 /* Profile layout for "섬기는 이들" (Servants) */
 .profile-list {
   display: flex;
