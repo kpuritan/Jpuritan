@@ -244,10 +244,9 @@ async function initApp() {
     state.isDbOffline = true;
   }
 
-  // Check login state
+  // Check login state (Keep session active and render homepage by default)
   if (sessionStorage.getItem('wscal_admin_logged') === 'true') {
     state.isAdmin = true;
-    showAdminDashboard();
     startSessionHeartbeat();
   }
   renderHomepageQuickAdminBar();
