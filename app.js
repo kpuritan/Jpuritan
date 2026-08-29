@@ -2049,20 +2049,98 @@ function renderAdminMainMenuList() {
 
     div.innerHTML = `
       <div class="category-node-info" style="display: flex; align-items: center; gap: 8px; font-weight: 600; line-height: 1.35;">
-        <i class="fa-solid ${iconClass}"></i> ${menu.nameJp} <span style="font-size: 0.8rem; color: var(--text-light); font-weight: normal; margin-left: 5px;">(${menu.nameKr || ''})</span> ${isVideoLabel}
+        <span class="drag-handle-cat" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
+        <i class="fa-solid ${iconClass}" style="color: var(--accent-color);"></i> ${menu.nameJp} <span style="font-size: 0.8rem; color: var(--text-light); font-weight: normal; margin-left: 5px;">(${menu.nameKr || ''})</span> ${isVideoLabel}
       </div>
       <div class="category-node-actions">
-        <button class="btn-tree-action move-up" onclick="moveMainMenuUp('${menu.id}')" title="上に移動"><i class="fa-solid fa-arrow-up"></i></button>
-        <button class="btn-tree-action move-down" onclick="moveMainMenuDown('${menu.id}')" title="下に移動"><i class="fa-solid fa-arrow-down"></i></button>
-        <button class="btn-tree-action edit-name" onclick="renameMainMenu('${menu.id}')" title="名前の変更"><i class="fa-solid fa-pen"></i></button>
-        <button class="btn-tree-action delete-node" onclick="handleDeleteMainMenu('${menu.id}')" title="削除"><i class="fa-regular fa-trash-can"></i></button>
+        <button class="btn-tree-action edit-name" onclick="renameMainMenu('${menu.id}')" title="名前の変更 (대메뉴명 수정)"><i class="fa-solid fa-pen"></i></button>
+        <button class="btn-tree-action delete-node" onclick="handleDeleteMainMenu('${menu.id}')" title="削除 (삭제)"><i class="fa-regular fa-trash-can"></i></button>
       </div>
     `;
+    attachMainMenuDragEvents(div, menu.id);
     container.appendChild(div);
   });
 }
 
-// Add a new Main Menu
+// ==========================================
+// MAIN MENU DRAG AND DROP REORDERING
+// ==========================================
+let draggedMainMenuId = null;
+
+function attachMainMenuDragEvents(nodeEl, menuId) {
+  nodeEl.setAttribute('draggable', 'true');
+  nodeEl.dataset.menuId = menuId;
+
+  nodeEl.addEventListener('dragstart', (e) => {
+    draggedMainMenuId = menuId;
+    nodeEl.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', menuId);
+  });
+
+  nodeEl.addEventListener('dragend', () => {
+    nodeEl.classList.remove('dragging');
+    document.querySelectorAll('.category-tree-node.drag-over').forEach(el => el.classList.remove('drag-over'));
+  });
+
+  nodeEl.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (!nodeEl.classList.contains('drag-over') && draggedMainMenuId !== menuId) {
+      nodeEl.classList.add('drag-over');
+    }
+  });
+
+  nodeEl.addEventListener('dragleave', () => {
+    nodeEl.classList.remove('drag-over');
+  });
+
+  nodeEl.addEventListener('drop', async (e) => {
+    e.preventDefault();
+    nodeEl.classList.remove('drag-over');
+    if (!draggedMainMenuId || draggedMainMenuId === menuId) return;
+
+    await reorderMainMenuByDrag(draggedMainMenuId, menuId);
+    draggedMainMenuId = null;
+  });
+}
+
+async function reorderMainMenuByDrag(sourceId, targetId) {
+  const fromIdx = state.mainMenus.findIndex(m => m.id === sourceId);
+  const toIdx = state.mainMenus.findIndex(m => m.id === targetId);
+
+  if (fromIdx !== -1 && toIdx !== -1) {
+    const [moved] = state.mainMenus.splice(fromIdx, 1);
+    state.mainMenus.splice(toIdx, 0, moved);
+
+    // Assign integer positions to maintain exact order
+    state.mainMenus.forEach((m, idx) => {
+      m.position = idx;
+    });
+
+    saveMainMenus();
+
+    // Sync positions with Firestore
+    if (typeof db !== 'undefined') {
+      try {
+        const batch = db.batch();
+        state.mainMenus.forEach(m => {
+          const docRef = db.collection('mainMenus').doc(m.id);
+          batch.update(docRef, { position: m.position });
+        });
+        await batch.commit();
+        console.log("Main menus positions synced with Firestore successfully.");
+      } catch (err) {
+        console.warn("Failed to sync main menu positions to Firestore:", err);
+      }
+    }
+
+    syncDataJsonToGitHub();
+    renderMainMenuCards();
+    populateAllMenuDropdowns();
+    renderAdminMainMenuList();
+  }
+}
 async function handleAddMainMenu(event) {
   event.preventDefault();
   const name = document.getElementById('new-menu-name').value.trim();
@@ -2157,35 +2235,7 @@ function handleDeleteMainMenu(menuId) {
   }
 }
 
-// Re-order main menus (Up)
-function moveMainMenuUp(menuId) {
-  const idx = state.mainMenus.findIndex(m => m.id === menuId);
-  if (idx > 0) {
-    const temp = state.mainMenus[idx];
-    state.mainMenus[idx] = state.mainMenus[idx - 1];
-    state.mainMenus[idx - 1] = temp;
 
-    saveMainMenus();
-    renderMainMenuCards();
-    populateAllMenuDropdowns();
-    renderAdminMainMenuList();
-  }
-}
-
-// Re-order main menus (Down)
-function moveMainMenuDown(menuId) {
-  const idx = state.mainMenus.findIndex(m => m.id === menuId);
-  if (idx !== -1 && idx < state.mainMenus.length - 1) {
-    const temp = state.mainMenus[idx];
-    state.mainMenus[idx] = state.mainMenus[idx + 1];
-    state.mainMenus[idx + 1] = temp;
-
-    saveMainMenus();
-    renderMainMenuCards();
-    populateAllMenuDropdowns();
-    renderAdminMainMenuList();
-  }
-}
 
 /* 6A. Folder (Category) Manager with Tree Support */
 function populateParentDropdown() {
