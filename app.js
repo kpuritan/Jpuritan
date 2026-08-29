@@ -251,6 +251,7 @@ async function initApp() {
     startSessionHeartbeat();
   }
   renderHomepageQuickAdminBar();
+  updateAdminNavAndFloatingButtons();
 
   console.log("App initialization background tasks registered.");
   startBgmAuto();
@@ -1741,6 +1742,7 @@ async function handleLogout() {
   document.getElementById('workspace-sec').classList.remove('active');
 
   renderHomepageQuickAdminBar();
+  updateAdminNavAndFloatingButtons();
   if (state.currentCategory) {
     renderArticlesList();
   }
@@ -1752,10 +1754,12 @@ function showAdminDashboard() {
   document.getElementById('main-menu-sec').style.display = 'none';
   document.getElementById('submenu-sec').style.display = 'none';
   document.getElementById('workspace-sec').style.display = 'none';
-  document.getElementById('btn-admin-nav').style.display = 'none';
 
   // Show Admin Dashboard Container
   document.getElementById('admin-dashboard-sec').classList.add('active');
+
+  // Update nav and floating toggle buttons
+  updateAdminNavAndFloatingButtons();
 
   // Load saved GitHub token into photo upload input
   const savedToken = localStorage.getItem('wscal_github_token') || '';
@@ -1778,8 +1782,9 @@ function returnToUserSite() {
   const featSec = document.getElementById('featured-sec');
   if (featSec) featSec.style.display = 'block';
 
-  // Ensure quick admin bar is displayed
+  // Ensure quick admin bar and toggle buttons are displayed
   renderHomepageQuickAdminBar();
+  updateAdminNavAndFloatingButtons();
 
   // If a category was selected, show the workspace list with admin buttons
   if (state.currentCategory) {
@@ -1799,6 +1804,81 @@ function returnToUserSite() {
 
 function exitAdminView() {
   returnToUserSite();
+}
+
+// Toggle between Admin Dashboard and User Site View
+function toggleAdminModeView() {
+  if (!state.isAdmin) {
+    openLoginModal();
+    return;
+  }
+  const adminSec = document.getElementById('admin-dashboard-sec');
+  if (adminSec && adminSec.classList.contains('active')) {
+    returnToUserSite();
+  } else {
+    showAdminDashboard();
+  }
+}
+
+function handleNavAdminClick() {
+  if (!state.isAdmin) {
+    openLoginModal();
+  } else {
+    toggleAdminModeView();
+  }
+}
+
+// Update Header Nav button and Floating toggle button based on state and current view
+function updateAdminNavAndFloatingButtons() {
+  const navBtn = document.getElementById('btn-admin-nav');
+  const floatBtn = document.getElementById('floating-admin-toggle-btn');
+  const adminSec = document.getElementById('admin-dashboard-sec');
+  const isAdminViewActive = adminSec && adminSec.classList.contains('active');
+
+  if (!state.isAdmin) {
+    // Logged out
+    if (navBtn) {
+      navBtn.style.display = 'block';
+      navBtn.className = 'btn-admin';
+      navBtn.style.background = '';
+      navBtn.style.color = '';
+      navBtn.style.fontWeight = '';
+      navBtn.innerHTML = '<i class="fa-solid fa-lock"></i> <span id="btn-admin-nav-text">管理者ログイン</span>';
+    }
+    if (floatBtn) {
+      floatBtn.style.display = 'none';
+    }
+    return;
+  }
+
+  // Logged in
+  if (floatBtn) {
+    floatBtn.style.display = 'flex';
+    if (isAdminViewActive) {
+      floatBtn.className = 'floating-admin-toggle-btn admin-view-active';
+      floatBtn.innerHTML = '<i class="fa-solid fa-globe"></i> <span>サイトを見る (홈페이지)</span>';
+    } else {
+      floatBtn.className = 'floating-admin-toggle-btn';
+      floatBtn.innerHTML = '<i class="fa-solid fa-sliders"></i> <span>管理パネル (관리자 박스)</span>';
+    }
+  }
+
+  if (navBtn) {
+    navBtn.style.display = 'block';
+    if (isAdminViewActive) {
+      navBtn.className = 'btn-admin btn-switch-view';
+      navBtn.style.background = 'rgba(255, 255, 255, 0.15)';
+      navBtn.style.color = '#ffffff';
+      navBtn.style.fontWeight = '600';
+      navBtn.innerHTML = '<i class="fa-solid fa-globe"></i> <span>サイトを見る (사이트 보기)</span>';
+    } else {
+      navBtn.className = 'btn-admin';
+      navBtn.style.background = 'var(--accent-color)';
+      navBtn.style.color = '#0A1C36';
+      navBtn.style.fontWeight = 'bold';
+      navBtn.innerHTML = '<i class="fa-solid fa-sliders"></i> <span>管理パネル (관리자 패널)</span>';
+    }
+  }
 }
 
 // ==========================================

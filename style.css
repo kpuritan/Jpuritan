@@ -2014,5 +2014,61 @@ footer {
   pointer-events: none;
 }
 
+/* Floating View Toggle Button between User Site and Admin Panel */
+.floating-admin-toggle-btn {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 99998;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #0A1C36 0%, #1e293b 100%);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 2px solid var(--accent-color);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.floating-admin-toggle-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  background: var(--accent-color);
+  color: #0A1C36;
+  border-color: #0A1C36;
+}
+
+.floating-admin-toggle-btn.admin-view-active {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  border-color: #93c5fd;
+}
+
+.btn-switch-view {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-switch-view:hover {
+  background: var(--accent-color);
+  color: #0A1C36;
+  border-color: var(--accent-color);
+}
+
+
 
 

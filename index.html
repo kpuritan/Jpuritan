@@ -40,8 +40,8 @@
       </div>
     </div>
     <div class="header-actions">
-      <button class="btn-admin" id="btn-admin-nav" onclick="openLoginModal()">
-        <i class="fa-solid fa-lock"></i> 管理者ログイン
+      <button class="btn-admin" id="btn-admin-nav" onclick="handleNavAdminClick()">
+        <i class="fa-solid fa-lock"></i> <span id="btn-admin-nav-text">管理者ログイン</span>
       </button>
     </div>
   </header>
@@ -186,8 +186,11 @@
       <div class="admin-title">
         <i class="fa-solid fa-sliders-h"></i> 改革主義リソース・管理者パネル
       </div>
-      <div class="admin-meta" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-        <span>ログイン중: <strong style="color: var(--accent-color);">Administrator</strong></span>
+      <div class="admin-meta" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <button class="btn-switch-view" onclick="returnToUserSite()" title="ユーザーサイトへ戻る">
+          <i class="fa-solid fa-globe"></i> ユーザーサイトを見る (사이트 보기)
+        </button>
+        <span style="font-size: 0.88rem;">ログイン중: <strong style="color: var(--accent-color);">Administrator</strong></span>
         <button class="btn-logout" onclick="handleLogout()">
           <i class="fa-solid fa-sign-out-alt"></i> ログアウト
         </button>
@@ -642,6 +645,12 @@
   <button id="bgm-toggle-btn" class="bgm-float-btn" onclick="toggleBgm()">
     <i class="fa-solid fa-volume-xmark" style="margin-right: 6px;"></i>
     <span class="bgm-text">BGM OFF</span>
+  </button>
+
+  <!-- FLOATING ADMIN VIEW TOGGLE BUTTON (USER SITE <-> ADMIN PANEL) -->
+  <button id="floating-admin-toggle-btn" class="floating-admin-toggle-btn" onclick="toggleAdminModeView()" title="管理者パネル ↔ ユーザーサイト切替">
+    <i class="fa-solid fa-repeat"></i>
+    <span id="floating-admin-toggle-text">管理パネルへ</span>
   </button>
 
   <!-- CORE LOGIC AND DATA -->
