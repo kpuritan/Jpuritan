@@ -1919,20 +1919,18 @@ function switchAdminTab(tabName) {
     }
   });
 
-  // Hide all sections
-  if (document.getElementById('admin-tab-mainmenus')) {
-    document.getElementById('admin-tab-mainmenus').style.display = 'none';
-  }
-  document.getElementById('admin-tab-folders').style.display = 'none';
-  document.getElementById('admin-tab-write').style.display = 'none';
-  document.getElementById('admin-tab-articles').style.display = 'none';
-  document.getElementById('admin-tab-featured').style.display = 'none';
-  if (document.getElementById('admin-tab-stats')) {
-    document.getElementById('admin-tab-stats').style.display = 'none';
-  }
+  // Hide all sections safely
+  const allTabs = ['mainmenus', 'folders', 'write', 'articles', 'stats'];
+  allTabs.forEach(t => {
+    const el = document.getElementById(`admin-tab-${t}`);
+    if (el) el.style.display = 'none';
+  });
 
   // Show selected section
-  document.getElementById(`admin-tab-${tabName}`).style.display = 'block';
+  const targetEl = document.getElementById(`admin-tab-${tabName}`);
+  if (targetEl) {
+    targetEl.style.display = 'block';
+  }
 
   // Load section-specific datasets
   if (tabName === 'mainmenus') {
@@ -1950,8 +1948,6 @@ function switchAdminTab(tabName) {
   } else if (tabName === 'articles') {
     populateAllMenuDropdowns();
     renderAdminArticleList();
-  } else if (tabName === 'featured') {
-    loadFeaturedToInputs();
   } else if (tabName === 'stats') {
     populateAllMenuDropdowns();
     renderAdminStats();
