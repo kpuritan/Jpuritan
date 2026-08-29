@@ -39,7 +39,10 @@
         </span>
       </div>
     </div>
-    <div class="header-actions">
+    <div class="header-actions" id="header-actions" style="display: flex; align-items: center; gap: 8px;">
+      <button class="btn-admin" id="btn-toggle-view" onclick="toggleAdminModeView()" style="display: none;">
+        <i class="fa-solid fa-sliders"></i> <span id="btn-toggle-view-text">管理パネル</span>
+      </button>
       <button class="btn-admin" id="btn-admin-nav" onclick="handleNavAdminClick()">
         <i class="fa-solid fa-lock"></i> <span id="btn-admin-nav-text">管理者ログイン</span>
       </button>
@@ -647,11 +650,7 @@
     <span class="bgm-text">BGM OFF</span>
   </button>
 
-  <!-- FLOATING ADMIN VIEW TOGGLE BUTTON (USER SITE <-> ADMIN PANEL) -->
-  <button id="floating-admin-toggle-btn" class="floating-admin-toggle-btn" onclick="toggleAdminModeView()" title="管理者パネル ↔ ユーザーサイト切替">
-    <i class="fa-solid fa-repeat"></i>
-    <span id="floating-admin-toggle-text">管理パネルへ</span>
-  </button>
+
 
   <!-- CORE LOGIC AND DATA -->
   <!-- Firebase SDK and Configuration -->

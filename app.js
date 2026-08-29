@@ -1827,10 +1827,10 @@ function handleNavAdminClick() {
   }
 }
 
-// Update Header Nav button and Floating toggle button based on state and current view
+// Update Header Nav button and Toggle button based on state and current view
 function updateAdminNavAndFloatingButtons() {
+  const toggleBtn = document.getElementById('btn-toggle-view');
   const navBtn = document.getElementById('btn-admin-nav');
-  const floatBtn = document.getElementById('floating-admin-toggle-btn');
   const adminSec = document.getElementById('admin-dashboard-sec');
   const isAdminViewActive = adminSec && adminSec.classList.contains('active');
 
@@ -1839,36 +1839,48 @@ function updateAdminNavAndFloatingButtons() {
   if (topBar) topBar.remove();
 
   if (!state.isAdmin) {
-    // Logged out: show login button in header, hide floating switcher
+    // Logged out: hide toggle button, show login button
+    if (toggleBtn) {
+      toggleBtn.style.display = 'none';
+    }
     if (navBtn) {
-      navBtn.style.display = 'block';
+      navBtn.style.display = 'inline-flex';
       navBtn.className = 'btn-admin';
       navBtn.style.background = '';
       navBtn.style.color = '';
+      navBtn.style.border = '';
       navBtn.style.fontWeight = '';
       navBtn.innerHTML = '<i class="fa-solid fa-lock"></i> <span>管理者ログイン</span>';
-    }
-    if (floatBtn) {
-      floatBtn.style.display = 'none';
     }
     return;
   }
 
-  // Logged in: show dedicated floating switcher at bottom-left
-  if (floatBtn) {
-    floatBtn.style.display = 'flex';
+  // Logged in:
+  // 1. View Switch Button in Header (Next to Logout)
+  if (toggleBtn) {
+    toggleBtn.style.display = 'inline-flex';
     if (isAdminViewActive) {
-      floatBtn.className = 'floating-admin-toggle-btn admin-view-active';
-      floatBtn.innerHTML = '<i class="fa-solid fa-globe"></i> <span>サイトを見る (홈페이지)</span>';
+      toggleBtn.className = 'btn-admin btn-switch-view';
+      toggleBtn.style.background = 'rgba(255, 255, 255, 0.15)';
+      toggleBtn.style.color = '#ffffff';
+      toggleBtn.style.border = '1px solid rgba(255, 255, 255, 0.3)';
+      toggleBtn.style.fontWeight = '600';
+      toggleBtn.innerHTML = '<i class="fa-solid fa-globe"></i> <span>サイトを見る (사이트 보기)</span>';
+      toggleBtn.title = 'ユーザーサイトに戻る';
     } else {
-      floatBtn.className = 'floating-admin-toggle-btn';
-      floatBtn.innerHTML = '<i class="fa-solid fa-sliders"></i> <span>管理パネル (관리자 박스)</span>';
+      toggleBtn.className = 'btn-admin';
+      toggleBtn.style.background = 'var(--accent-color)';
+      toggleBtn.style.color = '#0A1C36';
+      toggleBtn.style.border = '1px solid var(--accent-color)';
+      toggleBtn.style.fontWeight = 'bold';
+      toggleBtn.innerHTML = '<i class="fa-solid fa-sliders"></i> <span>管理パネル (관리자 박스)</span>';
+      toggleBtn.title = '管理者パネルを開く';
     }
   }
 
-  // Header button becomes a simple Logout button
+  // 2. Logout Button in Header
   if (navBtn) {
-    navBtn.style.display = 'block';
+    navBtn.style.display = 'inline-flex';
     navBtn.className = 'btn-admin';
     navBtn.style.background = 'rgba(239, 68, 68, 0.15)';
     navBtn.style.color = '#fca5a5';
