@@ -1813,6 +1813,200 @@ footer {
   box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.2);
 }
 
+/* ==========================================
+   INLINE ADMIN CONTROLS & DRAG-AND-DROP REORDERING
+   ========================================== */
+.card-inline-admin-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border-color);
+  flex-wrap: wrap;
+}
+
+.btn-inline-admin {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-warm);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-inline-admin:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+.btn-inline-admin.btn-inline-edit {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+.btn-inline-admin.btn-inline-edit:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+.btn-inline-admin.btn-inline-delete {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+}
+.btn-inline-admin.btn-inline-delete:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+}
+
+.btn-inline-admin.btn-inline-move {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #166534;
+}
+.btn-inline-admin.btn-inline-move:hover {
+  background: #dcfce7;
+  border-color: #86efac;
+}
+
+/* Drag Handle */
+.drag-handle {
+  cursor: grab;
+  padding: 4px 8px;
+  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+.drag-handle:hover {
+  color: var(--accent-color);
+  background: rgba(197, 160, 89, 0.15);
+}
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+/* Drag and drop state */
+.article-item-card.dragging,
+.video-card.dragging,
+.profile-card.dragging {
+  opacity: 0.45;
+  border: 2px dashed var(--accent-color) !important;
+  transform: scale(0.99);
+}
+
+.article-item-card.drag-over,
+.video-card.drag-over,
+.profile-card.drag-over {
+  border-top: 3px solid var(--accent-color) !important;
+  background: #fffdf5 !important;
+}
+
+/* Detail View Admin Header Action Bar */
+.detail-admin-action-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.25rem;
+  padding: 10px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  flex-wrap: wrap;
+}
+
+/* Quick Admin Floating Bar on Homepage */
+.homepage-quick-admin-bar {
+  background: linear-gradient(135deg, #0A1C36 0%, #1e293b 100%);
+  color: #f8fafc;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--accent-color);
+  font-size: 0.85rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+.homepage-quick-admin-bar a,
+.homepage-quick-admin-bar button {
+  color: #ffffff;
+  font-size: 0.82rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.1);
+  padding: 4px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: all 0.2s ease;
+}
+.homepage-quick-admin-bar button:hover {
+  background: var(--accent-color);
+  color: #0A1C36;
+  font-weight: 600;
+}
+
+/* Modal for Moving Article Folder */
+.quick-folder-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  backdrop-filter: blur(2px);
+}
+.quick-folder-modal {
+  background: #ffffff;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 480px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  border: 1px solid var(--border-color);
+}
+.quick-folder-modal h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.15rem;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.quick-folder-modal select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  background: #fff;
+}
+.quick-folder-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+
 .editor-wysiwyg-box:empty:before {
   content: attr(placeholder);
   color: #94a3b8;

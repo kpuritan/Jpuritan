@@ -250,6 +250,7 @@ async function initApp() {
     showAdminDashboard();
     startSessionHeartbeat();
   }
+  renderHomepageQuickAdminBar();
 
   console.log("App initialization background tasks registered.");
   startBgmAuto();
@@ -1144,16 +1145,32 @@ function renderArticlesList() {
   itemsWrapper.className = isPastorMenu ? 'video-gallery-grid' : (isServantMenu ? 'profile-list' : 'article-list');
   container.appendChild(itemsWrapper);
 
+  container.appendChild(itemsWrapper);
+
   if (isPastorMenu) {
     pagedArticles.forEach(art => {
       const card = document.createElement('div');
       card.className = 'video-card';
-      card.onclick = () => viewArticleDetail(art.id);
+      card.onclick = (e) => {
+        if (e.target.closest('.card-inline-admin-bar')) return;
+        viewArticleDetail(art.id);
+      };
       
       const youtubeId = getYouTubeId(art.videoUrl);
       const thumbUrl = youtubeId 
         ? `https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg` 
         : 'hero_bg.jpg';
+
+      const adminToolbar = state.isAdmin ? `
+        <div class="card-inline-admin-bar" onclick="event.stopPropagation()">
+          <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
+          <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
+          <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
+          <button class="btn-inline-admin" onclick="moveArticle('${art.id}', 'up')" title="一つ上に移動 (위로)"><i class="fa-solid fa-arrow-up"></i></button>
+          <button class="btn-inline-admin" onclick="moveArticle('${art.id}', 'down')" title="一つ下に移動 (아래로)"><i class="fa-solid fa-arrow-down"></i></button>
+          <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
+        </div>
+      ` : '';
 
       card.innerHTML = `
         <div class="video-thumbnail-container">
@@ -1168,18 +1185,37 @@ function renderArticlesList() {
             <span><i class="fa-regular fa-user"></i> ${art.author}</span>
             <span><i class="fa-regular fa-calendar"></i> ${art.createdAt}</span>
           </div>
+          ${adminToolbar}
         </div>
       `;
+
+      if (state.isAdmin) {
+        attachArticleDragEvents(card, art.id);
+      }
       itemsWrapper.appendChild(card);
     });
   } else if (isServantMenu) {
     pagedArticles.forEach(art => {
       const card = document.createElement('div');
       card.className = 'profile-card';
-      card.onclick = () => viewArticleDetail(art.id);
+      card.onclick = (e) => {
+        if (e.target.closest('.card-inline-admin-bar')) return;
+        viewArticleDetail(art.id);
+      };
       card.style.cursor = 'pointer';
       
       const photoUrl = art.photoUrl || 'hero_bg.jpg';
+
+      const adminToolbar = state.isAdmin ? `
+        <div class="card-inline-admin-bar" onclick="event.stopPropagation()">
+          <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
+          <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
+          <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
+          <button class="btn-inline-admin" onclick="moveArticle('${art.id}', 'up')" title="一つ上に移動 (위로)"><i class="fa-solid fa-arrow-up"></i></button>
+          <button class="btn-inline-admin" onclick="moveArticle('${art.id}', 'down')" title="一つ下に移動 (아래로)"><i class="fa-solid fa-arrow-down"></i></button>
+          <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
+        </div>
+      ` : '';
 
       card.innerHTML = `
         <div class="profile-photo-wrapper">
@@ -1189,17 +1225,36 @@ function renderArticlesList() {
           <h3 class="profile-name">${art.title}</h3>
           <div class="profile-title">${art.author}</div>
           <div class="profile-history">${art.content}</div>
+          ${adminToolbar}
         </div>
       `;
+
+      if (state.isAdmin) {
+        attachArticleDragEvents(card, art.id);
+      }
       itemsWrapper.appendChild(card);
     });
   } else {
     pagedArticles.forEach(art => {
       const card = document.createElement('div');
       card.className = 'article-item-card';
-      card.onclick = () => viewArticleDetail(art.id);
+      card.onclick = (e) => {
+        if (e.target.closest('.card-inline-admin-bar')) return;
+        viewArticleDetail(art.id);
+      };
       
       const hasVideoBadge = art.videoUrl ? '<span style="color: var(--accent-color); margin-left: 8px;"><i class="fa-solid fa-circle-play"></i> 動画</span>' : '';
+
+      const adminToolbar = state.isAdmin ? `
+        <div class="card-inline-admin-bar" onclick="event.stopPropagation()">
+          <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
+          <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
+          <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
+          <button class="btn-inline-admin" onclick="moveArticle('${art.id}', 'up')" title="一つ上に移動 (위로)"><i class="fa-solid fa-arrow-up"></i></button>
+          <button class="btn-inline-admin" onclick="moveArticle('${art.id}', 'down')" title="一つ下に移動 (아래로)"><i class="fa-solid fa-arrow-down"></i></button>
+          <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
+        </div>
+      ` : '';
 
       card.innerHTML = `
         <h3 class="article-item-title">${art.title} ${hasVideoBadge}</h3>
@@ -1208,7 +1263,12 @@ function renderArticlesList() {
           ${art.scripture ? `<span><i class="fa-solid fa-bible"></i> 関連聖句: ${art.scripture}</span>` : ''}
           <span><i class="fa-regular fa-calendar"></i> 日付: ${art.createdAt}</span>
         </div>
+        ${adminToolbar}
       `;
+
+      if (state.isAdmin) {
+        attachArticleDragEvents(card, art.id);
+      }
       itemsWrapper.appendChild(card);
     });
   }
@@ -1356,6 +1416,35 @@ function viewArticleDetail(articleId) {
   document.getElementById('view-article-list').style.display = 'none';
   const detailView = document.getElementById('view-article-detail');
   detailView.style.display = 'block';
+
+  // Admin Quick Action Bar in Article Detail View
+  let adminDetailBar = document.getElementById('detail-admin-action-bar');
+  if (state.isAdmin) {
+    if (!adminDetailBar) {
+      adminDetailBar = document.createElement('div');
+      adminDetailBar.id = 'detail-admin-action-bar';
+      adminDetailBar.className = 'detail-admin-action-bar';
+      const detailHeader = document.querySelector('.article-detail-header') || detailView.firstChild;
+      detailView.insertBefore(adminDetailBar, detailHeader);
+    }
+    adminDetailBar.style.display = 'flex';
+    adminDetailBar.innerHTML = `
+      <span style="font-size: 0.85rem; font-weight: bold; color: var(--primary-color); display: inline-flex; align-items: center; gap: 5px;">
+        <i class="fa-solid fa-shield-halved"></i> 管理者クイック操作:
+      </span>
+      <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${article.id}')" title="記事編集">
+        <i class="fa-solid fa-pen-to-square"></i> この記事を修正・編集
+      </button>
+      <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${article.id}')" title="フォルダ移動">
+        <i class="fa-solid fa-folder-tree"></i> 別のフォルダへ移動
+      </button>
+      <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${article.id}')" title="記事削除">
+        <i class="fa-solid fa-trash-can"></i> 記事削除
+      </button>
+    `;
+  } else if (adminDetailBar) {
+    adminDetailBar.style.display = 'none';
+  }
 
   document.getElementById('detail-title').textContent = article.title;
   document.getElementById('detail-author').textContent = article.author;
@@ -1643,6 +1732,11 @@ async function handleLogout() {
   document.getElementById('submenu-sec').classList.remove('active');
   document.getElementById('workspace-sec').style.display = '';
   document.getElementById('workspace-sec').classList.remove('active');
+
+  renderHomepageQuickAdminBar();
+  if (state.currentCategory) {
+    renderArticlesList();
+  }
 }
 
 function showAdminDashboard() {
@@ -3394,6 +3488,241 @@ async function moveArticle(artId, direction) {
     }
     renderAdminArticleList();
   }
+}
+
+// ==========================================
+// DRAG AND DROP ARTICLE REORDERING
+// ==========================================
+let draggedArticleId = null;
+
+function attachArticleDragEvents(card, artId) {
+  card.setAttribute('draggable', 'true');
+  card.dataset.artId = artId;
+
+  card.addEventListener('dragstart', (e) => {
+    draggedArticleId = artId;
+    card.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', artId);
+  });
+
+  card.addEventListener('dragend', () => {
+    card.classList.remove('dragging');
+    document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+  });
+
+  card.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (!card.classList.contains('drag-over') && draggedArticleId !== artId) {
+      card.classList.add('drag-over');
+    }
+  });
+
+  card.addEventListener('dragleave', () => {
+    card.classList.remove('drag-over');
+  });
+
+  card.addEventListener('drop', async (e) => {
+    e.preventDefault();
+    card.classList.remove('drag-over');
+    if (!draggedArticleId || draggedArticleId === artId) return;
+
+    await reorderArticleByDrag(draggedArticleId, artId);
+    draggedArticleId = null;
+  });
+}
+
+async function reorderArticleByDrag(sourceId, targetId) {
+  const sourceArt = state.articles.find(a => a.id === sourceId);
+  const targetArt = state.articles.find(a => a.id === targetId);
+  if (!sourceArt || !targetArt) return;
+
+  const categoryId = targetArt.categoryId;
+  // If moving across categories by drag, update categoryId
+  if (sourceArt.categoryId !== categoryId) {
+    sourceArt.categoryId = categoryId;
+  }
+
+  const catArticles = state.articles.filter(a => a.categoryId === categoryId);
+
+  catArticles.sort((a, b) => {
+    const posA = a.position !== undefined ? a.position : 999999;
+    const posB = b.position !== undefined ? b.position : 999999;
+    if (posA !== posB) return posA - posB;
+    const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+    if (dateCompare !== 0) return dateCompare;
+    return b.id.localeCompare(a.id);
+  });
+
+  const fromIdx = catArticles.findIndex(a => a.id === sourceId);
+  const toIdx = catArticles.findIndex(a => a.id === targetId);
+
+  if (fromIdx !== -1 && toIdx !== -1) {
+    const [moved] = catArticles.splice(fromIdx, 1);
+    catArticles.splice(toIdx, 0, moved);
+
+    // Re-assign positions
+    catArticles.forEach((a, idx) => {
+      a.position = idx;
+    });
+
+    saveArticles();
+
+    if (typeof db !== 'undefined') {
+      try {
+        const batchPromises = catArticles.map(a => 
+          db.collection('articles').doc(a.id).update({ position: a.position, categoryId: a.categoryId })
+        );
+        await Promise.all(batchPromises);
+        console.log("Drag & drop positions synced with Firestore.");
+      } catch (err) {
+        console.warn("Failed to sync drag positions to Firestore:", err);
+      }
+    }
+
+    syncDataJsonToGitHub();
+    renderRecentArticles();
+    if (state.currentCategory) {
+      renderArticlesList();
+    }
+  }
+}
+
+// ==========================================
+// QUICK FOLDER / CATEGORY MOVE MODAL
+// ==========================================
+function openMoveFolderModal(artId) {
+  const art = state.articles.find(a => a.id === artId);
+  if (!art) return;
+
+  const existing = document.getElementById('quick-folder-modal-overlay');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'quick-folder-modal-overlay';
+  overlay.className = 'quick-folder-modal-overlay';
+  overlay.onclick = (e) => {
+    if (e.target === overlay) overlay.remove();
+  };
+
+  let optionsHtml = '';
+  state.mainMenus.forEach(menu => {
+    const menuCats = state.categories.filter(c => c.parentId === menu.id);
+    if (menuCats.length > 0) {
+      optionsHtml += `<optgroup label="[${menu.nameJp} / ${menu.nameKr}]">`;
+      menuCats.forEach(cat => {
+        const subCats = state.categories.filter(c => c.parentId === cat.id);
+        const isSelected = cat.id === art.categoryId ? 'selected' : '';
+        optionsHtml += `<option value="${cat.id}" ${isSelected}>&nbsp;&nbsp;📁 ${cat.nameJp} (${cat.nameKr})</option>`;
+        subCats.forEach(sub => {
+          const isSubSelected = sub.id === art.categoryId ? 'selected' : '';
+          optionsHtml += `<option value="${sub.id}" ${isSubSelected}>&nbsp;&nbsp;&nbsp;&nbsp;↳ 📄 ${sub.nameJp} (${sub.nameKr})</option>`;
+        });
+      });
+      optionsHtml += `</optgroup>`;
+    }
+  });
+
+  overlay.innerHTML = `
+    <div class="quick-folder-modal" onclick="event.stopPropagation()">
+      <h3><i class="fa-solid fa-folder-tree"></i> フォルダ・カテゴリーの移動</h3>
+      <p style="font-size: 0.88rem; color: var(--text-light); margin-bottom: 12px;">
+        移動対象: <strong style="color: var(--primary-color);">${art.title}</strong>
+      </p>
+      <label style="font-size: 0.85rem; font-weight: bold; display: block; margin-bottom: 6px; color: var(--text-dark);">
+        移動先フォルダを選択してください:
+      </label>
+      <select id="quick-move-target-folder">
+        ${optionsHtml}
+      </select>
+      <div class="quick-folder-modal-actions">
+        <button class="btn-secondary" onclick="document.getElementById('quick-folder-modal-overlay').remove()">キャンセル</button>
+        <button class="btn-primary" onclick="confirmMoveArticleFolder('${art.id}')"><i class="fa-solid fa-check"></i> このフォルダへ移動</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+}
+
+async function confirmMoveArticleFolder(artId) {
+  const select = document.getElementById('quick-move-target-folder');
+  if (!select) return;
+  const newCatId = select.value;
+  const art = state.articles.find(a => a.id === artId);
+  if (!art || !newCatId) return;
+
+  const oldCatId = art.categoryId;
+  if (oldCatId === newCatId) {
+    alert("同じフォルダが選択されています。(동일한 폴더가 선택되었습니다.)");
+    return;
+  }
+
+  art.categoryId = newCatId;
+  saveArticles();
+
+  if (typeof db !== 'undefined') {
+    try {
+      await db.collection('articles').doc(artId).update({ categoryId: newCatId });
+      console.log(`Article ${artId} category updated in Firestore to ${newCatId}`);
+    } catch (err) {
+      console.warn("Failed to update article category in Firestore:", err);
+    }
+  }
+
+  syncDataJsonToGitHub();
+
+  const overlay = document.getElementById('quick-folder-modal-overlay');
+  if (overlay) overlay.remove();
+
+  alert("フォルダ移動が完了しました。(폴더 이동이 완료되었습니다.)");
+  renderRecentArticles();
+  if (state.currentCategory) {
+    renderArticlesList();
+  }
+}
+
+// Render Top Floating Admin Bar for Quick Management
+function renderHomepageQuickAdminBar() {
+  let bar = document.getElementById('homepage-quick-admin-bar');
+  if (!state.isAdmin) {
+    if (bar) bar.style.display = 'none';
+    return;
+  }
+
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.id = 'homepage-quick-admin-bar';
+    bar.className = 'homepage-quick-admin-bar';
+    document.body.insertBefore(bar, document.body.firstChild);
+  }
+
+  bar.style.display = 'flex';
+  bar.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 8px; font-weight: 600;">
+      <i class="fa-solid fa-user-shield" style="color: var(--accent-color);"></i>
+      <span>管理者モード稼働中 (관리자 모드)</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <button onclick="switchToWriteTab()" title="新規記事作成">
+        <i class="fa-solid fa-plus"></i> 新規記事作成
+      </button>
+      <button onclick="showAdminDashboard()" title="管理者ダッシュボード">
+        <i class="fa-solid fa-sliders"></i> 管理画面を開く
+      </button>
+      <button onclick="logoutAdmin()" title="ログアウト" style="background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4);">
+        <i class="fa-solid fa-right-from-bracket"></i> ログアウト
+      </button>
+    </div>
+  `;
+}
+
+function switchToWriteTab() {
+  state.editArticleId = null;
+  showAdminDashboard();
+  switchAdminTab('write');
+  resetWriteForm();
 }
 
 
