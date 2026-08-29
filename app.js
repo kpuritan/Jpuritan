@@ -244,13 +244,22 @@ async function initApp() {
     state.isDbOffline = true;
   }
 
-  // Check login state (Keep session active and render homepage by default)
+  // Check login state and restore exact previous view (Admin Panel or User Site)
   if (sessionStorage.getItem('wscal_admin_logged') === 'true') {
     state.isAdmin = true;
     startSessionHeartbeat();
+    
+    const savedView = sessionStorage.getItem('wscal_current_view');
+    if (savedView === 'admin') {
+      const savedTab = sessionStorage.getItem('wscal_admin_tab') || 'folders';
+      showAdminDashboard(savedTab);
+    } else {
+      returnToUserSite();
+    }
+  } else {
+    renderHomepageQuickAdminBar();
+    updateAdminNavAndFloatingButtons();
   }
-  renderHomepageQuickAdminBar();
-  updateAdminNavAndFloatingButtons();
 
   console.log("App initialization background tasks registered.");
   startBgmAuto();
@@ -1721,6 +1730,8 @@ async function handleLogin(event) {
 async function handleLogout() {
   state.isAdmin = false;
   sessionStorage.removeItem('wscal_admin_logged');
+  sessionStorage.removeItem('wscal_current_view');
+  sessionStorage.removeItem('wscal_admin_tab');
   stopSessionHeartbeat();
 
   // Release Lock in Firestore
@@ -1760,7 +1771,10 @@ async function handleLogout() {
   }
 }
 
-function showAdminDashboard() {
+function showAdminDashboard(targetTab) {
+  // Remember view state
+  sessionStorage.setItem('wscal_current_view', 'admin');
+
   // Hide all user layouts
   document.getElementById('hero-sec').style.display = 'none';
   document.getElementById('main-menu-sec').style.display = 'none';
@@ -1780,11 +1794,15 @@ function showAdminDashboard() {
     tokenInput.value = savedToken;
   }
 
-  // Trigger default Admin Tab loading
-  switchAdminTab('folders');
+  // Trigger default/specified Admin Tab loading
+  const tabToOpen = targetTab || sessionStorage.getItem('wscal_admin_tab') || 'folders';
+  switchAdminTab(tabToOpen);
 }
 
 function returnToUserSite() {
+  // Remember view state
+  sessionStorage.setItem('wscal_current_view', 'user');
+
   // Close admin dashboard container, but keep state.isAdmin = true
   document.getElementById('admin-dashboard-sec').classList.remove('active');
   
@@ -1909,6 +1927,7 @@ function updateAdminNavAndFloatingButtons() {
 
 function switchAdminTab(tabName) {
   state.adminTab = tabName;
+  sessionStorage.setItem('wscal_admin_tab', tabName);
   
   // Tab indicators update
   document.querySelectorAll('.admin-menu-item').forEach(item => {
