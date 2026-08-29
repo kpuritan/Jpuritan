@@ -216,9 +216,6 @@
           <li class="admin-menu-item" id="admin-menu-articles" onclick="switchAdminTab('articles')">
             <i class="fa-solid fa-list-check"></i> 記事管理一覧
           </li>
-          <li class="admin-menu-item" id="admin-menu-featured" onclick="switchAdminTab('featured')">
-            <i class="fa-solid fa-star"></i> 「今日の３領域」管理
-          </li>
           <li class="admin-menu-item" id="admin-menu-stats" onclick="switchAdminTab('stats')">
             <i class="fa-solid fa-chart-line"></i> 統計と分析 (통계 및 분석)
           </li>
@@ -491,76 +488,6 @@
           <div id="admin-articles-pagination" class="pagination-controls" style="margin-top: 1.5rem; justify-content: center;">
             <!-- Dynamically Populated -->
           </div>
-        </div>
-
-        <!-- TAB 4: FEATURED CONTENT (TODAY'S 3 BLOCKS) -->
-        <div id="admin-tab-featured" style="display: none;">
-          <h3 class="admin-section-title">「今日の神学の恵み」（３分할 영역）編集</h3>
-          <form onsubmit="handleSaveFeatured(event)">
-            
-            <!-- 1. 오늘의 말씀 에디터 -->
-            <div style="border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; margin-bottom: 2rem; background-color: var(--bg-warm);">
-              <h4 style="color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 1rem;">
-                <i class="fa-solid fa-quote-left"></i> 1. 今日の御言葉 (오늘의 말씀)
-              </h4>
-              <div class="form-group">
-                <label class="form-label">聖句参照 (성경구절)</label>
-                <input class="form-input" type="text" id="feat-word-scripture" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label">短い黙想 (짧은 묵상)</label>
-                <textarea class="form-input" id="feat-word-meditation" style="height: 100px;" required></textarea>
-              </div>
-            </div>
-
-            <!-- 2. 오늘의 설교 에디터 -->
-            <div style="border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; margin-bottom: 2rem; background-color: var(--bg-warm);">
-              <h4 style="color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 1rem;">
-                <i class="fa-solid fa-circle-play"></i> 2. 今日の説教 (오늘의 설교)
-              </h4>
-              <div class="form-group">
-                <label class="form-label">説教題 (설교 제목)</label>
-                <input class="form-input" type="text" id="feat-sermon-title" required>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">本文 (성경본문)</label>
-                  <input class="form-input" type="text" id="feat-sermon-scripture" required>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">説教者 (설교자)</label>
-                  <input class="form-input" type="text" id="feat-sermon-preacher" required>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">説教要旨/本文 (설교 내용 요약)</label>
-                <textarea class="form-input" id="feat-sermon-content" style="height: 120px;" required></textarea>
-              </div>
-            </div>
-
-            <!-- 3. 오늘의 신학 에디터 -->
-            <div style="border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; margin-bottom: 2rem; background-color: var(--bg-warm);">
-              <h4 style="color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 1rem;">
-                <i class="fa-solid fa-bookmark"></i> 3. 今日の神学リソース (오늘의 신학)
-              </h4>
-              <div class="form-group">
-                <label class="form-label">神学資料のタイトル (제목)</label>
-                <input class="form-input" type="text" id="feat-theo-title" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label">資料要約 (요약 설명)</label>
-                <input class="form-input" type="text" id="feat-theo-summary" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label">神学資料の本文 (상세 자료)</label>
-                <textarea class="form-input" id="feat-theo-content" style="height: 150px;" required></textarea>
-              </div>
-            </div>
-
-            <button class="btn-submit" type="submit" style="max-width: 250px; display: block; margin: 0 auto;">
-              ３領域データを保存・更新
-            </button>
-          </form>
         </div>
 
         <!-- TAB 5: STATS (통계 관리) -->
