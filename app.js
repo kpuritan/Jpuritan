@@ -762,6 +762,12 @@ function buildFlatTree(parentId, depth = 0) {
   let list = [];
   // Sort categories by position to respect user's ordering
   const children = state.categories.filter(cat => cat.parentId === parentId);
+  children.sort((a, b) => {
+    const posA = a.position !== undefined ? a.position : 999999;
+    const posB = b.position !== undefined ? b.position : 999999;
+    if (posA !== posB) return posA - posB;
+    return a.id.localeCompare(b.id);
+  });
   children.forEach(child => {
     list.push({ ...child, depth: depth });
     list = list.concat(buildFlatTree(child.id, depth + 1));
@@ -2263,16 +2269,16 @@ function renderAdminCategoryList() {
       div.className = `category-tree-node depth-indent-${node.depth}`;
       div.innerHTML = `
         <div class="category-node-info" style="display: flex; align-items: center; gap: 8px; font-weight: 600; line-height: 1.35;">
-          <i class="fa-regular fa-folder-open"></i> ${node.nameJp} <span style="font-size: 0.8rem; color: var(--text-light); font-weight: normal; margin-left: 5px;">(${node.nameKr || ''})</span>
+          <span class="drag-handle-cat" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
+          <i class="fa-regular fa-folder-open" style="color: var(--accent-color);"></i> ${node.nameJp} <span style="font-size: 0.8rem; color: var(--text-light); font-weight: normal; margin-left: 5px;">(${node.nameKr || ''})</span>
         </div>
         <div class="category-node-actions">
-          <button class="btn-tree-action move-up" onclick="moveCategoryUp('${node.id}')" title="上に移動"><i class="fa-solid fa-arrow-up"></i></button>
-          <button class="btn-tree-action move-down" onclick="moveCategoryDown('${node.id}')" title="下に移動"><i class="fa-solid fa-arrow-down"></i></button>
-          <button class="btn-tree-action edit-name" onclick="renameCategory('${node.id}')" title="名前の変更"><i class="fa-solid fa-pen"></i></button>
-          <button class="btn-tree-action add-sub" onclick="prepareAddSubcategory('${node.id}')" title="下部フォルダ追加"><i class="fa-solid fa-plus"></i></button>
-          <button class="btn-tree-action delete-node" onclick="handleDeleteCategory('${node.id}')" title="フォルダ削除"><i class="fa-regular fa-trash-can"></i></button>
+          <button class="btn-tree-action edit-name" onclick="renameCategory('${node.id}')" title="名前の変更 (폴더명 수정)"><i class="fa-solid fa-pen"></i></button>
+          <button class="btn-tree-action add-sub" onclick="prepareAddSubcategory('${node.id}')" title="下部フォルダ追加 (하위 폴더 추가)"><i class="fa-solid fa-plus"></i></button>
+          <button class="btn-tree-action delete-node" onclick="handleDeleteCategory('${node.id}')" title="フォルダ削除 (폴더 삭제)"><i class="fa-regular fa-trash-can"></i></button>
         </div>
       `;
+      attachCategoryDragEvents(div, node.id);
       container.appendChild(div);
     });
   });
@@ -2333,52 +2339,102 @@ function handleDeleteCategory(catId) {
   }
 }
 
-// Tree node actions logic
-function moveCategoryUp(catId) {
-  const cat = state.categories.find(c => c.id === catId);
-  if (!cat) return;
-  
-  // Siblings sharing the same parent
-  const siblings = state.categories.filter(c => c.parentId === cat.parentId);
-  const idxInSiblings = siblings.findIndex(c => c.id === catId);
-  
-  if (idxInSiblings > 0) {
-    const prevSibling = siblings[idxInSiblings - 1];
-    
-    // Swap positions in main categories list
-    const idx1 = state.categories.findIndex(c => c.id === catId);
-    const idx2 = state.categories.findIndex(c => c.id === prevSibling.id);
-    
-    const temp = state.categories[idx1];
-    state.categories[idx1] = state.categories[idx2];
-    state.categories[idx2] = temp;
-    
-    saveCategories();
-    populateParentDropdown();
-    renderAdminCategoryList();
-  }
+// ==========================================
+// CATEGORY DRAG AND DROP REORDERING
+// ==========================================
+let draggedCatId = null;
+
+function attachCategoryDragEvents(nodeEl, catId) {
+  nodeEl.setAttribute('draggable', 'true');
+  nodeEl.dataset.catId = catId;
+
+  nodeEl.addEventListener('dragstart', (e) => {
+    draggedCatId = catId;
+    nodeEl.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', catId);
+  });
+
+  nodeEl.addEventListener('dragend', () => {
+    nodeEl.classList.remove('dragging');
+    document.querySelectorAll('.category-tree-node.drag-over').forEach(el => el.classList.remove('drag-over'));
+  });
+
+  nodeEl.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (!nodeEl.classList.contains('drag-over') && draggedCatId !== catId) {
+      nodeEl.classList.add('drag-over');
+    }
+  });
+
+  nodeEl.addEventListener('dragleave', () => {
+    nodeEl.classList.remove('drag-over');
+  });
+
+  nodeEl.addEventListener('drop', async (e) => {
+    e.preventDefault();
+    nodeEl.classList.remove('drag-over');
+    if (!draggedCatId || draggedCatId === catId) return;
+
+    await reorderCategoryByDrag(draggedCatId, catId);
+    draggedCatId = null;
+  });
 }
 
-function moveCategoryDown(catId) {
-  const cat = state.categories.find(c => c.id === catId);
-  if (!cat) return;
-  
-  const siblings = state.categories.filter(c => c.parentId === cat.parentId);
-  const idxInSiblings = siblings.findIndex(c => c.id === catId);
-  
-  if (idxInSiblings < siblings.length - 1) {
-    const nextSibling = siblings[idxInSiblings + 1];
-    
-    const idx1 = state.categories.findIndex(c => c.id === catId);
-    const idx2 = state.categories.findIndex(c => c.id === nextSibling.id);
-    
-    const temp = state.categories[idx1];
-    state.categories[idx1] = state.categories[idx2];
-    state.categories[idx2] = temp;
-    
+async function reorderCategoryByDrag(sourceId, targetId) {
+  const sourceCat = state.categories.find(c => c.id === sourceId);
+  const targetCat = state.categories.find(c => c.id === targetId);
+  if (!sourceCat || !targetCat) return;
+
+  // If dragged to a different parent, adopt the target's parent
+  if (sourceCat.parentId !== targetCat.parentId) {
+    sourceCat.parentId = targetCat.parentId;
+  }
+
+  const siblings = state.categories.filter(c => c.parentId === targetCat.parentId);
+  siblings.sort((a, b) => {
+    const posA = a.position !== undefined ? a.position : 999999;
+    const posB = b.position !== undefined ? b.position : 999999;
+    if (posA !== posB) return posA - posB;
+    return a.id.localeCompare(b.id);
+  });
+
+  const fromIdx = siblings.findIndex(c => c.id === sourceId);
+  const toIdx = siblings.findIndex(c => c.id === targetId);
+
+  if (fromIdx !== -1 && toIdx !== -1) {
+    const [moved] = siblings.splice(fromIdx, 1);
+    siblings.splice(toIdx, 0, moved);
+
+    // Assign integer positions
+    siblings.forEach((c, idx) => {
+      c.position = idx;
+    });
+
     saveCategories();
+
+    // Firestore batch update
+    if (typeof db !== 'undefined') {
+      try {
+        const batch = db.batch();
+        siblings.forEach(c => {
+          const docRef = db.collection('categories').doc(c.id);
+          batch.update(docRef, { position: c.position, parentId: c.parentId });
+        });
+        await batch.commit();
+        console.log("Categories positions synced with Firestore successfully.");
+      } catch (err) {
+        console.warn("Failed to sync category positions to Firestore:", err);
+      }
+    }
+
+    syncDataJsonToGitHub();
     populateParentDropdown();
+    populateAllMenuDropdowns();
     renderAdminCategoryList();
+    renderSidebarTree();
+    renderMainMenuCards();
   }
 }
 

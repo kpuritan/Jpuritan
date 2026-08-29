@@ -1132,12 +1132,41 @@ footer {
   padding: 8px 12px;
   border-radius: 4px;
   margin-bottom: 4px;
-  transition: var(--transition-smooth);
+  transition: all 0.15s ease;
+  user-select: none;
 }
 
 .category-tree-node:hover {
   border-color: var(--accent-color);
   background-color: #FAF9F5;
+}
+
+.category-tree-node.dragging {
+  opacity: 0.45;
+  border: 2px dashed var(--accent-color) !important;
+  background-color: #fefce8 !important;
+}
+
+.category-tree-node.drag-over {
+  border-top: 3px solid var(--accent-color) !important;
+  background-color: #fffdf5 !important;
+}
+
+.drag-handle-cat {
+  cursor: grab;
+  color: #94a3b8;
+  padding: 2px 6px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+.drag-handle-cat:hover {
+  color: var(--accent-color);
+  background: rgba(197, 160, 89, 0.15);
+}
+.drag-handle-cat:active {
+  cursor: grabbing;
 }
 
 .category-node-info {
