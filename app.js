@@ -1823,7 +1823,7 @@ function handleNavAdminClick() {
   if (!state.isAdmin) {
     openLoginModal();
   } else {
-    toggleAdminModeView();
+    handleLogout();
   }
 }
 
@@ -1834,15 +1834,19 @@ function updateAdminNavAndFloatingButtons() {
   const adminSec = document.getElementById('admin-dashboard-sec');
   const isAdminViewActive = adminSec && adminSec.classList.contains('active');
 
+  // Remove top admin floating bar if it exists
+  const topBar = document.getElementById('homepage-quick-admin-bar');
+  if (topBar) topBar.remove();
+
   if (!state.isAdmin) {
-    // Logged out
+    // Logged out: show login button in header, hide floating switcher
     if (navBtn) {
       navBtn.style.display = 'block';
       navBtn.className = 'btn-admin';
       navBtn.style.background = '';
       navBtn.style.color = '';
       navBtn.style.fontWeight = '';
-      navBtn.innerHTML = '<i class="fa-solid fa-lock"></i> <span id="btn-admin-nav-text">管理者ログイン</span>';
+      navBtn.innerHTML = '<i class="fa-solid fa-lock"></i> <span>管理者ログイン</span>';
     }
     if (floatBtn) {
       floatBtn.style.display = 'none';
@@ -1850,7 +1854,7 @@ function updateAdminNavAndFloatingButtons() {
     return;
   }
 
-  // Logged in
+  // Logged in: show dedicated floating switcher at bottom-left
   if (floatBtn) {
     floatBtn.style.display = 'flex';
     if (isAdminViewActive) {
@@ -1862,21 +1866,15 @@ function updateAdminNavAndFloatingButtons() {
     }
   }
 
+  // Header button becomes a simple Logout button
   if (navBtn) {
     navBtn.style.display = 'block';
-    if (isAdminViewActive) {
-      navBtn.className = 'btn-admin btn-switch-view';
-      navBtn.style.background = 'rgba(255, 255, 255, 0.15)';
-      navBtn.style.color = '#ffffff';
-      navBtn.style.fontWeight = '600';
-      navBtn.innerHTML = '<i class="fa-solid fa-globe"></i> <span>サイトを見る (사이트 보기)</span>';
-    } else {
-      navBtn.className = 'btn-admin';
-      navBtn.style.background = 'var(--accent-color)';
-      navBtn.style.color = '#0A1C36';
-      navBtn.style.fontWeight = 'bold';
-      navBtn.innerHTML = '<i class="fa-solid fa-sliders"></i> <span>管理パネル (관리자 패널)</span>';
-    }
+    navBtn.className = 'btn-admin';
+    navBtn.style.background = 'rgba(239, 68, 68, 0.15)';
+    navBtn.style.color = '#fca5a5';
+    navBtn.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+    navBtn.style.fontWeight = '600';
+    navBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> <span>ログアウト (로그아웃)</span>';
   }
 }
 
@@ -3800,37 +3798,8 @@ async function confirmMoveArticleFolder(artId) {
 
 // Render Top Floating Admin Bar for Quick Management
 function renderHomepageQuickAdminBar() {
-  let bar = document.getElementById('homepage-quick-admin-bar');
-  if (!state.isAdmin) {
-    if (bar) bar.style.display = 'none';
-    return;
-  }
-
-  if (!bar) {
-    bar = document.createElement('div');
-    bar.id = 'homepage-quick-admin-bar';
-    bar.className = 'homepage-quick-admin-bar';
-    document.body.insertBefore(bar, document.body.firstChild);
-  }
-
-  bar.style.display = 'flex';
-  bar.innerHTML = `
-    <div style="display: flex; align-items: center; gap: 8px; font-weight: 600;">
-      <i class="fa-solid fa-user-shield" style="color: var(--accent-color);"></i>
-      <span>管理者モード稼働中 (관리자 모드)</span>
-    </div>
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <button onclick="switchToWriteTab()" title="新規記事作成">
-        <i class="fa-solid fa-plus"></i> 新規記事作成
-      </button>
-      <button onclick="showAdminDashboard()" title="管理者ダッシュボード">
-        <i class="fa-solid fa-sliders"></i> 管理画面を開く
-      </button>
-      <button onclick="logoutAdmin()" title="ログアウト" style="background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4);">
-        <i class="fa-solid fa-right-from-bracket"></i> ログアウト
-      </button>
-    </div>
-  `;
+  const bar = document.getElementById('homepage-quick-admin-bar');
+  if (bar) bar.remove();
 }
 
 function switchToWriteTab() {
