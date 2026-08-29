@@ -396,37 +396,139 @@
                 </div>
               </div>
 
-              <!-- Tistory Formatting Toolbar (기본모드용) -->
+              <!-- Comprehensive Rich Text Formatting Toolbar -->
               <div class="editor-quick-toolbar" id="editor-quick-toolbar">
-                <button type="button" class="btn-tool-item" onclick="execEditorCmd('bold')" title="굵게 (Ctrl+B)">
-                  <i class="fa-solid fa-bold"></i>
-                </button>
-                <button type="button" class="btn-tool-item" onclick="execEditorCmd('italic')" title="기울임 (Ctrl+I)">
-                  <i class="fa-solid fa-italic"></i>
-                </button>
-                <button type="button" class="btn-tool-item" onclick="execEditorCmd('underline')" title="밑줄 (Ctrl+U)">
-                  <i class="fa-solid fa-underline"></i>
-                </button>
-                <button type="button" class="btn-tool-item" onclick="execEditorCmd('strikeThrough')" title="취소선">
-                  <i class="fa-solid fa-strikethrough"></i>
-                </button>
-                <span style="color: #cbd5e1; margin: 0 2px;">|</span>
-                <button type="button" class="btn-tool-item" onclick="insertWysiwygHeading('h2')" title="소제목 H2">
-                  <i class="fa-solid fa-heading"></i> 제목
-                </button>
-                <button type="button" class="btn-tool-item" onclick="insertWysiwygQuote()" title="인용구">
-                  <i class="fa-solid fa-quote-left"></i> 인용구
-                </button>
-                <button type="button" class="btn-tool-item" onclick="insertWysiwygTable()" title="표 삽입">
-                  <i class="fa-solid fa-table"></i> 표
-                </button>
-                <button type="button" class="btn-tool-item" onclick="insertWysiwygLink()" title="링크 삽입">
-                  <i class="fa-solid fa-link"></i> 링크
-                </button>
-                <span style="color: #cbd5e1; margin: 0 2px;">|</span>
-                <button type="button" class="btn-tool-item" onclick="insertHtmlSnippet('tailwind')" title="Tailwind 비주얼 템플릿 삽입" style="color: #6366f1; font-weight: 500;">
-                  <i class="fa-brands fa-css3-alt"></i> Tailwind 템플릿
-                </button>
+                <!-- Undo / Redo -->
+                <div class="toolbar-group">
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('undo')" title="실행 취소 (Ctrl+Z)">
+                    <i class="fa-solid fa-rotate-left"></i>
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('redo')" title="다시 실행 (Ctrl+Y)">
+                    <i class="fa-solid fa-rotate-right"></i>
+                  </button>
+                </div>
+
+                <!-- Font Size & Paragraph Styles -->
+                <div class="toolbar-group">
+                  <select class="toolbar-select" onchange="execEditorFontSize(this.value); this.value='';" title="글자 크기 / 서식">
+                    <option value="">글자 크기/제목</option>
+                    <option value="h1">대제목 (H1)</option>
+                    <option value="h2">중제목 (H2)</option>
+                    <option value="h3">소제목 (H3)</option>
+                    <option value="p">본문 (기본 16px)</option>
+                    <option value="small">각주/작은글씨 (13px)</option>
+                  </select>
+                </div>
+
+                <!-- Text Style (Bold, Italic, Underline, Strike, Clear) -->
+                <div class="toolbar-group">
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('bold')" title="굵게 (Ctrl+B)">
+                    <i class="fa-solid fa-bold"></i>
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('italic')" title="기울임 (Ctrl+I)">
+                    <i class="fa-solid fa-italic"></i>
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('underline')" title="밑줄 (Ctrl+U)">
+                    <i class="fa-solid fa-underline"></i>
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('strikeThrough')" title="취소선">
+                    <i class="fa-solid fa-strikethrough"></i>
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('removeFormat')" title="서식 지우기">
+                    <i class="fa-solid fa-eraser"></i>
+                  </button>
+                </div>
+
+                <!-- Text Color & Highlight -->
+                <div class="toolbar-group">
+                  <!-- Text Color Picker -->
+                  <div class="toolbar-color-btn" title="글자 색상 선택">
+                    <i class="fa-solid fa-font" id="toolbar-font-color-icon" style="color: #1e3a8a;"></i>
+                    <input type="color" class="toolbar-color-input" value="#1e3a8a" onchange="execEditorTextColor(this.value)">
+                  </div>
+                  <!-- Quick Colors -->
+                  <select class="toolbar-select" onchange="execEditorTextColor(this.value); this.value='';" title="글자 색상">
+                    <option value="">글자색</option>
+                    <option value="#000000" style="color:#000000;">■ 기본 검정</option>
+                    <option value="#1e3a8a" style="color:#1e3a8a;">■ 청교도 네이비</option>
+                    <option value="#c5a059" style="color:#c5a059;">■ 황금색 (골드)</option>
+                    <option value="#dc2626" style="color:#dc2626;">■ 빨간색 (강조)</option>
+                    <option value="#2563eb" style="color:#2563eb;">■ 파란색</option>
+                    <option value="#16a34a" style="color:#16a34a;">■ 초록색</option>
+                    <option value="#9333ea" style="color:#9333ea;">■ 보라색</option>
+                    <option value="#64748b" style="color:#64748b;">■ 회색</option>
+                  </select>
+
+                  <!-- Highlight Background -->
+                  <select class="toolbar-select" onchange="execEditorHighlight(this.value); this.value='';" title="배경 형광펜">
+                    <option value="">형광펜</option>
+                    <option value="#fef08a" style="background:#fef08a;">🟨 노랑 형광펜</option>
+                    <option value="#bbf7d0" style="background:#bbf7d0;">🟩 연두 형광펜</option>
+                    <option value="#bae6fd" style="background:#bae6fd;">🟦 하늘 형광펜</option>
+                    <option value="#fbcfe8" style="background:#fbcfe8;">🌸 분홍 형광펜</option>
+                    <option value="#fef3c7" style="background:#fef3c7;">📙 연골드 형광펜</option>
+                    <option value="transparent">⬜ 형광펜 지우기</option>
+                  </select>
+                </div>
+
+                <!-- Text Alignment -->
+                <div class="toolbar-group">
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('justifyLeft')" title="왼쪽 정렬">
+                    <i class="fa-solid fa-align-left"></i>
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('justifyCenter')" title="가운데 정렬">
+                    <i class="fa-solid fa-align-center"></i>
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('justifyRight')" title="오른쪽 정렬">
+                    <i class="fa-solid fa-align-right"></i>
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('justifyFull')" title="양쪽 정렬">
+                    <i class="fa-solid fa-align-justify"></i>
+                  </button>
+                </div>
+
+                <!-- Lists & Indent -->
+                <div class="toolbar-group">
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('insertUnorderedList')" title="글머리 기호 목록 (•)">
+                    <i class="fa-solid fa-list-ul"></i>
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('insertOrderedList')" title="번호 매기기 목록 (1,2,3)">
+                    <i class="fa-solid fa-list-ol"></i>
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('indent')" title="들여쓰기">
+                    <i class="fa-solid fa-indent"></i>
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="execEditorCmd('outdent')" title="내어쓰기">
+                    <i class="fa-solid fa-outdent"></i>
+                  </button>
+                </div>
+
+                <!-- Callout Templates & Insertions -->
+                <div class="toolbar-group">
+                  <select class="toolbar-select" onchange="insertCalloutTemplate(this.value); this.value='';" title="성경 및 설교 전용 박스 템플릿" style="color: #4338ca; font-weight: 600;">
+                    <option value="">✨ 전용 템플릿 박스</option>
+                    <option value="scripture">📖 1. 성경 말씀 인용 박스</option>
+                    <option value="point">💡 2. 설교 요점/묵상 박스</option>
+                    <option value="highlight">⚠️ 3. 핵심 강조/주의 박스</option>
+                    <option value="summary">📌 4. 신학 요약 정리 박스</option>
+                  </select>
+
+                  <button type="button" class="btn-tool-item" onclick="insertWysiwygQuote()" title="인용구">
+                    <i class="fa-solid fa-quote-left"></i> 인용구
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="insertWysiwygTable()" title="표 삽입">
+                    <i class="fa-solid fa-table"></i> 표
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="insertWysiwygLink()" title="링크 삽입">
+                    <i class="fa-solid fa-link"></i> 링크
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="insertWysiwygImage()" title="이미지 삽입">
+                    <i class="fa-solid fa-image"></i> 이미지
+                  </button>
+                  <button type="button" class="btn-tool-item" onclick="insertWysiwygHr()" title="구분선 삽입">
+                    <i class="fa-solid fa-minus"></i> 구분선
+                  </button>
+                </div>
               </div>
 
               <!-- 1. 기본모드용 WYSIWYG 에디터 -->

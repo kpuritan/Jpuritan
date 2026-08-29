@@ -2906,6 +2906,129 @@ function execEditorCmd(cmd, value = null) {
   syncWysiwygToTextarea();
 }
 
+function execEditorTextColor(color) {
+  if (!color) return;
+  const icon = document.getElementById('toolbar-font-color-icon');
+  if (icon) icon.style.color = color;
+  execEditorCmd('foreColor', color);
+}
+
+function execEditorHighlight(color) {
+  if (!color) return;
+  if (color === 'transparent') {
+    execEditorCmd('removeFormat');
+  } else {
+    execEditorCmd('hiliteColor', color);
+  }
+}
+
+function execEditorFontSize(tag) {
+  if (!tag) return;
+  if (currentTistoryMode !== 'basic') selectTistoryMode('basic');
+  const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+  if (!wysiwygBox) return;
+  wysiwygBox.focus();
+
+  if (tag === 'h1' || tag === 'h2' || tag === 'h3' || tag === 'p') {
+    execEditorCmd('formatBlock', tag);
+  } else if (tag === 'small') {
+    const selected = window.getSelection().toString() || '각주 또는 작은 설명문입니다.';
+    document.execCommand('insertHTML', false, `<span style="font-size: 0.82rem; color: #64748b;">${selected}</span>`);
+    syncWysiwygToTextarea();
+  }
+}
+
+function insertCalloutTemplate(type) {
+  if (!type) return;
+  if (currentTistoryMode !== 'basic') selectTistoryMode('basic');
+  const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+  if (!wysiwygBox) return;
+  wysiwygBox.focus();
+
+  let html = '';
+  switch (type) {
+    case 'scripture':
+      html = `
+        <div class="callout-scripture" style="border-left: 4px solid #c5a059; background-color: #fcfaf6; padding: 14px 18px; margin: 1.2rem 0; border-radius: 0 8px 8px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+          <div class="callout-scripture-title" style="font-weight: bold; color: #854d0e; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-book-bible"></i> 성경 구절 본문
+          </div>
+          <div style="font-style: italic; color: #451a03; line-height: 1.6;">
+            "여기에 성경 본문 말씀을 입력하세요."
+          </div>
+        </div>
+        <p><br></p>
+      `;
+      break;
+    case 'point':
+      html = `
+        <div class="callout-point" style="border-left: 4px solid #2563eb; background-color: #eff6ff; padding: 14px 18px; margin: 1.2rem 0; border-radius: 0 8px 8px 0;">
+          <div class="callout-point-title" style="font-weight: bold; color: #1e40af; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-lightbulb"></i> 설교 요점 / 묵상 포인트
+          </div>
+          <div style="color: #1e3a8a; line-height: 1.6;">
+            여기에 설교의 핵심 교훈이나 성도들을 위한 묵상 질문을 입력하세요.
+          </div>
+        </div>
+        <p><br></p>
+      `;
+      break;
+    case 'highlight':
+      html = `
+        <div class="callout-highlight" style="border-left: 4px solid #dc2626; background-color: #fef2f2; padding: 14px 18px; margin: 1.2rem 0; border-radius: 0 8px 8px 0;">
+          <div class="callout-highlight-title" style="font-weight: bold; color: #991b1b; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-triangle-exclamation"></i> 핵심 주의 / 강조
+          </div>
+          <div style="color: #7f1d1d; line-height: 1.6;">
+            신학적으로 오해하기 쉽거나 특별히 기억해야 할 중요한 명제를 작성하세요.
+          </div>
+        </div>
+        <p><br></p>
+      `;
+      break;
+    case 'summary':
+      html = `
+        <div class="callout-summary" style="border: 1px solid #cbd5e1; background-color: #f8fafc; padding: 14px 18px; margin: 1.2rem 0; border-radius: 8px;">
+          <div style="font-weight: bold; color: #334155; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-thumbtack"></i> 신학 요약 정리
+          </div>
+          <ul style="margin: 0; padding-left: 20px; color: #475569; line-height: 1.6;">
+            <li>요약 항목 1</li>
+            <li>요약 항목 2</li>
+          </ul>
+        </div>
+        <p><br></p>
+      `;
+      break;
+  }
+
+  document.execCommand('insertHTML', false, html);
+  syncWysiwygToTextarea();
+}
+
+function insertWysiwygImage() {
+  const url = prompt("삽입할 이미지 URL(웹 주소)을 입력하세요:", "https://");
+  if (url && url.trim()) {
+    if (currentTistoryMode !== 'basic') selectTistoryMode('basic');
+    const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+    if (!wysiwygBox) return;
+    wysiwygBox.focus();
+    const imgHtml = `<div style="text-align: center; margin: 1.5rem 0;"><img src="${url.trim()}" alt="이미지" style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);"><div style="font-size: 0.8rem; color: #64748b; margin-top: 6px;">(이미지 설명)</div></div><p><br></p>`;
+    document.execCommand('insertHTML', false, imgHtml);
+    syncWysiwygToTextarea();
+  }
+}
+
+function insertWysiwygHr() {
+  if (currentTistoryMode !== 'basic') selectTistoryMode('basic');
+  const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+  if (!wysiwygBox) return;
+  wysiwygBox.focus();
+  const hrHtml = `<hr style="border: 0; height: 1px; background: #cbd5e1; margin: 2rem 0;"><p><br></p>`;
+  document.execCommand('insertHTML', false, hrHtml);
+  syncWysiwygToTextarea();
+}
+
 function insertWysiwygHeading(tag) {
   if (currentTistoryMode !== 'basic') selectTistoryMode('basic');
   const wysiwygBox = document.getElementById('art-editor-wysiwyg');
