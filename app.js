@@ -231,7 +231,12 @@ async function initApp() {
         initializeCollapsedStates();
         renderMainMenuCards();
         renderFeaturedBlocks();
-        loadArticlesFallback();
+        
+        // Immediately refresh workspace and articles list if a category is open in user view
+        if (state.currentCategory) {
+          renderWorkspaceSidebar();
+          renderArticlesList();
+        }
       } catch (err) {
         console.warn("Failed to retrieve live data from Firestore, keeping local/data.json fallback: ", err);
         state.isDbOffline = true;
