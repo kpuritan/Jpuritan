@@ -2221,3 +2221,356 @@ footer {
 
 
 
+
+
+/* ==========================================================================
+   Comprehensive Mobile & Tablet Responsive Optimization (Smartphone First)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* 1. Global & Header Layout */
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    gap: 8px;
+  }
+
+  .logo {
+    gap: 10px;
+    max-width: calc(100% - 110px);
+  }
+
+  .logo-icon-svg {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  .logo-icon-svg svg {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .logo-title {
+    font-size: 1.05rem !important;
+    white-space: normal !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0px !important;
+  }
+
+  .logo-subtitle {
+    font-size: 0.55rem !important;
+    letter-spacing: 0.5px !important;
+    margin-top: 2px !important;
+    display: none !important; /* Hide tiny English subtitle on mobile for cleaner look */
+  }
+
+  .header-actions {
+    gap: 6px !important;
+  }
+
+  .btn-admin {
+    padding: 5px 10px !important;
+    font-size: 0.75rem !important;
+    white-space: nowrap !important;
+  }
+
+  /* 2. Hero Section */
+  .hero {
+    padding: 3rem 1rem 2.2rem 1rem !important;
+    background-attachment: scroll !important; /* Fix mobile background lag */
+  }
+
+  .hero-tagline {
+    font-size: 1.55rem !important;
+    line-height: 1.35 !important;
+    margin-bottom: 0.8rem !important;
+  }
+
+  .hero-tagline .sub {
+    font-size: 1.15rem !important;
+    margin-top: 0.5rem !important;
+  }
+
+  .hero-divider {
+    width: 50px !important;
+    margin: 1.2rem auto !important;
+  }
+
+  /* 3. Main Menu Grid (2 columns on mobile for easy navigation) */
+  .main-menu-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+    margin: -1.5rem auto 0 auto !important;
+    padding: 0 0.8rem !important;
+  }
+
+  .menu-card {
+    padding: 1.1rem 0.5rem !important;
+    border-radius: 8px !important;
+  }
+
+  .menu-icon {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .menu-title-jp {
+    font-size: 0.95rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  .menu-title-kr {
+    font-size: 0.75rem !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  /* 4. Submenu Panel */
+  .submenu-container {
+    padding: 0 0.8rem !important;
+    margin-top: 1.2rem !important;
+  }
+
+  .submenu-panel {
+    padding: 1rem !important;
+    border-radius: 8px !important;
+  }
+
+  .submenu-title {
+    font-size: 1rem !important;
+    margin-bottom: 0.8rem !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+  }
+
+  .submenu-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .submenu-item {
+    padding: 8px 14px !important;
+    font-size: 0.85rem !important;
+    border-radius: 20px !important;
+    flex-grow: 1 !important;
+    text-align: center !important;
+  }
+
+  /* 5. Workspace Layout & Sidebar */
+  .workspace-container {
+    padding: 0 0.8rem !important;
+    margin: 1.5rem auto 3rem auto !important;
+  }
+
+  .workspace-layout {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem !important;
+  }
+
+  .sidebar-nav {
+    background-color: #ffffff !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px !important;
+    padding: 1rem !important;
+    max-height: 320px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+  }
+
+  .sidebar-title {
+    font-size: 1.05rem !important;
+    padding-bottom: 0.6rem !important;
+    margin-bottom: 0.6rem !important;
+  }
+
+  .sidebar-item {
+    padding: 8px 10px !important;
+    font-size: 0.88rem !important;
+    border-radius: 4px !important;
+    min-height: 38px !important; /* Good touch target */
+  }
+
+  /* 6. Content Area & Article List */
+  .content-area {
+    padding: 1.2rem 1rem !important;
+    border-radius: 8px !important;
+  }
+
+  .view-header {
+    margin-bottom: 1rem !important;
+    padding-bottom: 0.6rem !important;
+  }
+
+  .view-title {
+    font-size: 1.3rem !important;
+  }
+
+  .article-list-header-controls {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .article-item-card {
+    padding: 1rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 0.8rem !important;
+  }
+
+  .article-item-title {
+    font-size: 1.05rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .article-item-meta {
+    font-size: 0.78rem !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  /* 7. Article Detail Page (Clean Reader Mode on Mobile) */
+  #view-article-detail {
+    padding: 0 !important;
+  }
+
+  .article-detail-header {
+    margin-bottom: 1.2rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .detail-title {
+    font-size: 1.35rem !important;
+    line-height: 1.35 !important;
+    margin-bottom: 0.6rem !important;
+  }
+
+  .detail-meta {
+    font-size: 0.8rem !important;
+    flex-wrap: wrap !important;
+    gap: 8px 12px !important;
+  }
+
+  .detail-scripture-box {
+    padding: 0.8rem 1rem !important;
+    margin: 1rem 0 !important;
+    font-size: 0.92rem !important;
+    border-left-width: 3px !important;
+  }
+
+  .article-body-html {
+    font-size: 0.98rem !important;
+    line-height: 1.8 !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .article-body-html h3 {
+    font-size: 1.12rem !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .article-body-html h4 {
+    font-size: 1.02rem !important;
+    margin-top: 1.1rem !important;
+    margin-bottom: 0.4rem !important;
+    line-height: 1.35 !important;
+  }
+
+  .article-body-html p {
+    margin-bottom: 0.8rem !important;
+  }
+
+  .article-body-html img,
+  .article-body-html iframe,
+  .article-body-html table {
+    max-width: 100% !important;
+    width: 100% !important;
+    border-radius: 6px !important;
+  }
+
+  .video-embed-wrapper iframe {
+    min-height: 200px !important;
+    height: 52vw !important;
+  }
+
+  /* 8. Pagination Controls */
+  .pagination-controls {
+    gap: 4px !important;
+    margin-top: 1.5rem !important;
+  }
+
+  .btn-pagination {
+    min-width: 34px !important;
+    height: 34px !important;
+    padding: 0 6px !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* 9. Featured Blocks (Today's Word/Sermon/Theology) */
+  .featured-container {
+    padding: 0 0.8rem !important;
+    margin: 2.5rem auto !important;
+  }
+
+  .three-column-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem !important;
+  }
+
+  .featured-card {
+    padding: 1.2rem !important;
+    border-radius: 8px !important;
+  }
+
+  /* 10. Footer */
+  footer {
+    padding: 2.5rem 1rem 1.5rem 1rem !important;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.8rem !important;
+  }
+
+  .footer-bottom {
+    margin-top: 2rem !important;
+    padding-top: 1.2rem !important;
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 8px !important;
+  }
+
+  /* 11. Floating Admin Switch Button on Mobile */
+  .floating-admin-toggle-btn {
+    bottom: 16px !important;
+    left: 16px !important;
+    padding: 8px 14px !important;
+    font-size: 0.8rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-title {
+    font-size: 0.95rem !important;
+  }
+  .main-menu-grid {
+    gap: 0.5rem !important;
+  }
+  .menu-card {
+    padding: 0.9rem 0.4rem !important;
+  }
+  .menu-icon {
+    font-size: 1.35rem !important;
+  }
+  .menu-title-jp {
+    font-size: 0.88rem !important;
+  }
+}
