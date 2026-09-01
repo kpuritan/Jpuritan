@@ -1,4 +1,4 @@
-﻿// Reformed & Puritan Japanese Hub - Solid Standalone Engine v25.0
+// Reformed & Puritan Japanese Hub - Solid Standalone Engine v25.0
 
 // ==========================================
 // 1. Fully Embedded Master Database (Zero Loading Delay, No External Dependency)
@@ -33,6 +33,10 @@ let state = {
     currentPage: 1,
     pageSize: 10
   },
+  theologyMode: 'topic',           // 'topic' (조직신학별), 'author' (저자별), 'combined' (통합선택)
+  theologyAuthor: 'all',          // 'all' or specific author name (for author mode)
+  theologyFilterAuthor: 'all',    // 'all' or specific author name (for combined mode)
+  theologyFilterCategory: 'all',  // 'all' or specific categoryId (for combined mode)
   isDbOffline: false, // Skip DB queries if Firestore is unreachable/slow
   isDbLoading: false  // Blocks UI when syncing Firestore data
 };
@@ -824,6 +828,249 @@ function getAllDescendantCategoryIds(catId) {
   return ids;
 }
 
+// Check if category belongs to theology (改革派神学 / 개혁신학)
+function isTheologyCategory(catId) {
+  if (!catId) return false;
+  if (catId === 'theology') return true;
+  let currentId = catId;
+  while (currentId) {
+    if (currentId === 'theology') return true;
+    const cat = state.categories.find(c => c.id === currentId);
+    if (!cat) break;
+    currentId = cat.parentId;
+  }
+  return false;
+}
+// Get list of unique authors in Reformed Theology (改革派神学 저자 목록 추출)
+function getTheologyAuthors() {
+  const theologyArticles = state.articles.filter(art => isTheologyCategory(art.categoryId));
+  const authorMap = {};
+  theologyArticles.forEach(art => {
+    const authorName = (art.author || '').trim() || '未設定';
+    authorMap[authorName] = (authorMap[authorName] || 0) + 1;
+  });
+  return Object.keys(authorMap).map(name => ({
+    name: name,
+    count: authorMap[name]
+  })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+}
+
+// Switch between 3 Modes in Reformed Theology (1. 조직신학별, 2. 저자별, 3. 통합선택)
+function setTheologyMode(mode) {
+  state.theologyMode = mode;
+  state.pagination.currentPage = 1;
+
+  if (mode === 'author') {
+    if (!state.theologyAuthor) state.theologyAuthor = 'all';
+  } else if (mode === 'combined') {
+    if (!state.theologyFilterAuthor) state.theologyFilterAuthor = 'all';
+    if (!state.theologyFilterCategory) state.theologyFilterCategory = 'all';
+  } else {
+    // topic mode: ensure a subcategory is selected
+    if (!state.currentCategory || !isTheologyCategory(state.currentCategory)) {
+      const allSubCats = buildFlatTree('theology', 0).sort((a, b) => (a.position || 0) - (b.position || 0));
+      if (allSubCats.length > 0) {
+        state.currentCategory = allSubCats[0].id;
+      }
+    }
+  }
+
+  renderTheologySubmenu();
+  renderWorkspaceSidebar();
+  renderArticlesList();
+}
+
+// Select a specific author in Reformed Theology (Author Mode)
+function selectTheologyAuthor(authorName) {
+  state.theologyAuthor = authorName;
+  state.theologyMode = 'author';
+  state.pagination.currentPage = 1;
+
+  renderTheologySubmenu();
+  renderWorkspaceSidebar();
+  renderArticlesList();
+
+  const workspaceSec = document.getElementById('workspace-sec');
+  if (workspaceSec) {
+    workspaceSec.classList.add('active');
+    document.getElementById('view-article-list').style.display = 'block';
+    document.getElementById('view-article-detail').style.display = 'none';
+  }
+}
+
+// Set Combined Filters (Combined Mode: 著者 & 主題 統合選択)
+function setTheologyCombinedFilter(type, value) {
+  state.theologyMode = 'combined';
+  state.pagination.currentPage = 1;
+
+  if (type === 'author') {
+    state.theologyFilterAuthor = value;
+  } else if (type === 'category') {
+    state.theologyFilterCategory = value;
+  }
+
+  renderTheologySubmenu();
+  renderWorkspaceSidebar();
+  renderArticlesList();
+
+  const workspaceSec = document.getElementById('workspace-sec');
+  if (workspaceSec) {
+    workspaceSec.classList.add('active');
+    document.getElementById('view-article-list').style.display = 'block';
+    document.getElementById('view-article-detail').style.display = 'none';
+  }
+}
+
+// Reset Combined Filters
+function resetTheologyCombinedFilter() {
+  state.theologyFilterAuthor = 'all';
+  state.theologyFilterCategory = 'all';
+  state.theologyMode = 'combined';
+  state.pagination.currentPage = 1;
+
+  renderTheologySubmenu();
+  renderWorkspaceSidebar();
+  renderArticlesList();
+}
+
+// Render submenu for Reformed Theology based on active mode
+function renderTheologySubmenu() {
+  const submenuGrid = document.getElementById('submenu-items-container');
+  const categoryTitle = document.getElementById('submenu-category-title');
+  if (!submenuGrid) return;
+
+  if (categoryTitle) {
+    categoryTitle.innerHTML = `
+      <div class="theology-mode-wrapper">
+        <div style="font-family: var(--font-serif); font-size: 1.15rem; font-weight: 700; color: var(--primary-color); display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-graduation-cap"></i> 改革派神学 (개혁신학)
+        </div>
+        <div class="theology-mode-tabs">
+          <button type="button" class="btn-theology-tab ${state.theologyMode === 'topic' ? 'active' : ''}" onclick="setTheologyMode('topic')">
+            <i class="fa-solid fa-layer-group"></i> 組織神学・分野別
+          </button>
+          <button type="button" class="btn-theology-tab ${state.theologyMode === 'author' ? 'active' : ''}" onclick="setTheologyMode('author')">
+            <i class="fa-solid fa-user-pen"></i> 著者別
+          </button>
+          <button type="button" class="btn-theology-tab ${state.theologyMode === 'combined' ? 'active' : ''}" onclick="setTheologyMode('combined')">
+            <i class="fa-solid fa-sliders"></i> 著者＆主題 統合選択
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  submenuGrid.innerHTML = '';
+
+  if (state.theologyMode === 'combined') {
+    // 3. Combined Filter Mode UI
+    const authors = getTheologyAuthors();
+    const categories = buildFlatTree('theology', 0);
+    const theologyArticles = state.articles.filter(art => isTheologyCategory(art.categoryId));
+    
+    // Count matches for status bar
+    const matchedCount = theologyArticles.filter(art => {
+      const matchAuth = state.theologyFilterAuthor === 'all' || (art.author || '').trim() === state.theologyFilterAuthor;
+      const matchCat = state.theologyFilterCategory === 'all' || getAllDescendantCategoryIds(state.theologyFilterCategory).includes(art.categoryId);
+      return matchAuth && matchCat;
+    }).length;
+
+    const authorOptions = authors.map(a => `<option value="${a.name}" ${state.theologyFilterAuthor === a.name ? 'selected' : ''}>👤 ${a.name} (${a.count}件)</option>`).join('');
+    const categoryOptions = categories.map(c => `<option value="${c.id}" ${state.theologyFilterCategory === c.id ? 'selected' : ''}>${'&nbsp;&nbsp;'.repeat(c.depth)}${c.depth > 0 ? '└ ' : '📑 '}${c.nameJp}</option>`).join('');
+    
+    const catName = state.theologyFilterCategory === 'all' ? '選択なし (전체)' : (state.categories.find(c => c.id === state.theologyFilterCategory)?.nameJp || state.theologyFilterCategory);
+    const authName = state.theologyFilterAuthor === 'all' ? '選択なし (전체)' : state.theologyFilterAuthor;
+
+    const filterBox = document.createElement('div');
+    filterBox.className = 'theology-combined-filter-box';
+    filterBox.innerHTML = `
+      <div class="theology-filter-row">
+        <div class="theology-filter-group">
+          <label class="theology-filter-label"><i class="fa-solid fa-user"></i> 著者選択 (저자 선택)</label>
+          <select class="theology-filter-select" onchange="setTheologyCombinedFilter('author', this.value)">
+            <option value="all" ${state.theologyFilterAuthor === 'all' ? 'selected' : ''}>-- 著者選択なし (저자 선택 안함) --</option>
+            ${authorOptions}
+          </select>
+        </div>
+        <div class="theology-filter-group">
+          <label class="theology-filter-label"><i class="fa-solid fa-book-open"></i> 主題・分野選択 (주제 선택)</label>
+          <select class="theology-filter-select" onchange="setTheologyCombinedFilter('category', this.value)">
+            <option value="all" ${state.theologyFilterCategory === 'all' ? 'selected' : ''}>-- 主題選択なし (주제 선택 안함) --</option>
+            ${categoryOptions}
+          </select>
+        </div>
+        <div class="theology-filter-actions">
+          <button type="button" class="btn-theology-reset" onclick="resetTheologyCombinedFilter()">
+            <i class="fa-solid fa-rotate-left"></i> 選択初期化 (초기화)
+          </button>
+        </div>
+      </div>
+      <div class="theology-filter-status-bar">
+        <span><i class="fa-solid fa-filter"></i> 適用中の条件: </span>
+        <span class="theology-tag ${state.theologyFilterAuthor !== 'all' ? 'tag-active' : ''}">저자: ${authName}</span>
+        <span style="color: var(--text-light);">×</span>
+        <span class="theology-tag ${state.theologyFilterCategory !== 'all' ? 'tag-active' : ''}">주제: ${catName}</span>
+        <span class="theology-result-count">➔ 該当資料: <strong>${matchedCount}</strong> 件</span>
+      </div>
+    `;
+    submenuGrid.appendChild(filterBox);
+
+  } else if (state.theologyMode === 'author') {
+    // 2. Author Mode UI
+    const authors = getTheologyAuthors();
+    const totalCount = state.articles.filter(art => isTheologyCategory(art.categoryId)).length;
+
+    // All Authors Badge
+    const allBadge = document.createElement('div');
+    allBadge.className = `submenu-item ${state.theologyAuthor === 'all' ? 'active' : ''}`;
+    allBadge.style.display = 'flex';
+    allBadge.style.alignItems = 'center';
+    allBadge.style.justifyContent = 'center';
+    allBadge.style.padding = '12px 20px';
+    allBadge.innerHTML = `
+      <div class="theology-author-badge" style="font-family: var(--font-serif); font-size: 0.95rem; font-weight: 700;">
+        <i class="fa-solid fa-users"></i> すべての著者 <span class="theology-author-count">${totalCount}</span>
+      </div>
+    `;
+    allBadge.onclick = () => selectTheologyAuthor('all');
+    submenuGrid.appendChild(allBadge);
+
+    // Individual Authors Badges
+    authors.forEach(auth => {
+      const badge = document.createElement('div');
+      badge.className = `submenu-item ${state.theologyAuthor === auth.name ? 'active' : ''}`;
+      badge.style.display = 'flex';
+      badge.style.alignItems = 'center';
+      badge.style.justifyContent = 'center';
+      badge.style.padding = '12px 20px';
+      badge.innerHTML = `
+        <div class="theology-author-badge" style="font-family: var(--font-serif); font-size: 0.95rem; font-weight: 700;">
+          <i class="fa-regular fa-user"></i> ${auth.name} <span class="theology-author-count">${auth.count}</span>
+        </div>
+      `;
+      badge.onclick = () => selectTheologyAuthor(auth.name);
+      submenuGrid.appendChild(badge);
+    });
+  } else {
+    // 1. Topic Mode: root categories of theology
+    const menuCats = (state.categories || []).filter(cat => cat.parentId === 'theology').sort((a, b) => (a.position || 0) - (b.position || 0));
+    menuCats.forEach(cat => {
+      const badge = document.createElement('div');
+      badge.className = `submenu-item ${cat.id === state.currentCategory ? 'active' : ''}`;
+      badge.style.display = 'flex';
+      badge.style.alignItems = 'center';
+      badge.style.justifyContent = 'center';
+      badge.style.padding = '12px 24px';
+      badge.innerHTML = `
+        <div style="font-family: var(--font-serif); font-size: 0.95rem; font-weight: 700;">${cat.nameJp}</div>
+      `;
+      badge.onclick = () => selectSubcategory(cat.id);
+      submenuGrid.appendChild(badge);
+    });
+  }
+}
+
+
 // Initialize categories collapse states
 function initializeCollapsedStates() {
   state.collapsedCategories = {};
@@ -941,26 +1188,31 @@ function selectMainMenu(menuKey) {
 
   // Translate header
   const menuObj = state.mainMenus.find(m => m.id === menuKey);
-  categoryTitle.textContent = menuObj ? `${menuObj.nameJp} のフォルダ` : 'フォルダ一覧';
 
-  // Render Submenu badges (dual-language support)
-  submenuGrid.innerHTML = '';
-  if (menuCats.length === 0) {
-    submenuGrid.innerHTML = '<span style="color: var(--text-light); font-size: 0.9rem;">現在、このメニュー内に細部フォルダはありません。管理者アカウントから追加してください。</span>';
+  if (menuKey === 'theology') {
+    renderTheologySubmenu();
   } else {
-    menuCats.forEach(cat => {
-      const badge = document.createElement('div');
-      badge.className = 'submenu-item';
-      badge.style.display = 'flex';
-      badge.style.alignItems = 'center';
-      badge.style.justifyContent = 'center';
-      badge.style.padding = '12px 24px';
-      badge.innerHTML = `
-        <div style="font-family: var(--font-serif); font-size: 0.95rem; font-weight: 700;">${cat.nameJp}</div>
-      `;
-      badge.onclick = () => selectSubcategory(cat.id);
-      submenuGrid.appendChild(badge);
-    });
+    categoryTitle.textContent = menuObj ? `${menuObj.nameJp} のフォルダ` : 'フォルダ一覧';
+
+    // Render Submenu badges (dual-language support)
+    submenuGrid.innerHTML = '';
+    if (menuCats.length === 0) {
+      submenuGrid.innerHTML = '<span style="color: var(--text-light); font-size: 0.9rem;">現在、このメニュー内に細部フォルダはありません。管理者アカウントから追加してください。</span>';
+    } else {
+      menuCats.forEach(cat => {
+        const badge = document.createElement('div');
+        badge.className = 'submenu-item';
+        badge.style.display = 'flex';
+        badge.style.alignItems = 'center';
+        badge.style.justifyContent = 'center';
+        badge.style.padding = '12px 24px';
+        badge.innerHTML = `
+          <div style="font-family: var(--font-serif); font-size: 0.95rem; font-weight: 700;">${cat.nameJp}</div>
+        `;
+        badge.onclick = () => selectSubcategory(cat.id);
+        submenuGrid.appendChild(badge);
+      });
+    }
   }
 
   submenuContainer.classList.add('active');
@@ -968,11 +1220,24 @@ function selectMainMenu(menuKey) {
   // Scroll to submenus nicely
   submenuContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-  // Automatically select the first subcategory if exists to update workspace immediately without scrolling down too far
-  const allSubCats = buildFlatTree(menuKey, 0).sort((a, b) => (a.position || 0) - (b.position || 0));
-  if (allSubCats.length > 0) {
-    selectSubcategory(allSubCats[0].id, false);
+  // Automatically select the first subcategory, author, or combined view if exists
+  if (menuKey === 'theology' && (state.theologyMode === 'author' || state.theologyMode === 'combined')) {
+    if (state.theologyMode === 'author') state.theologyAuthor = state.theologyAuthor || 'all';
+    if (state.theologyMode === 'combined') {
+      state.theologyFilterAuthor = state.theologyFilterAuthor || 'all';
+      state.theologyFilterCategory = state.theologyFilterCategory || 'all';
+    }
+    renderWorkspaceSidebar();
+    renderArticlesList();
+    const workspaceSec = document.getElementById('workspace-sec');
+    workspaceSec.classList.add('active');
+    document.getElementById('view-article-list').style.display = 'block';
+    document.getElementById('view-article-detail').style.display = 'none';
   } else {
+    const allSubCats = buildFlatTree(menuKey, 0).sort((a, b) => (a.position || 0) - (b.position || 0));
+    if (allSubCats.length > 0) {
+      selectSubcategory(allSubCats[0].id, false);
+    } else {
     state.currentCategory = null;
     state.currentArticle = null;
     renderWorkspaceSidebar();
@@ -1030,6 +1295,13 @@ function selectSubcategory(categoryId, shouldScroll = false) {
     }
   }
 
+  // Render Submenu for Theology if in theology menu
+  if (state.currentMenu === 'theology') {
+    renderTheologySubmenu();
+    const submenuContainer = document.getElementById('submenu-sec');
+    if (submenuContainer) submenuContainer.classList.add('active');
+  }
+
   // Render Sidebar in the Workspace
   renderWorkspaceSidebar();
 
@@ -1071,11 +1343,132 @@ function selectSubcategory(categoryId, shouldScroll = false) {
   }
 }
 
-// Render Workspace Sidebar (Category list as a Tree with dual language)
+// Render Workspace Sidebar (Category list as a Tree, Author list, or Combined Filter list)
 function renderWorkspaceSidebar() {
   const sidebarList = document.getElementById('sidebar-categories-list');
   const sidebarHeader = document.getElementById('sidebar-category-header');
   
+  // 1. Combined Mode in Reformed Theology
+  if (state.currentMenu === 'theology' && state.theologyMode === 'combined') {
+    sidebarHeader.textContent = '統合フィルター (통합 필터)';
+    sidebarList.innerHTML = '';
+
+    const authors = getTheologyAuthors();
+    const categories = buildFlatTree('theology', 0);
+
+    // Section 1: Authors
+    const authSecHeader = document.createElement('div');
+    authSecHeader.className = 'sidebar-section-title';
+    authSecHeader.innerHTML = '<i class="fa-solid fa-user"></i> 著者フィルター (저자)';
+    sidebarList.appendChild(authSecHeader);
+
+    const allAuthLi = document.createElement('li');
+    allAuthLi.className = `sidebar-item ${state.theologyFilterAuthor === 'all' ? 'active' : ''}`;
+    allAuthLi.style.padding = '8px 12px';
+    allAuthLi.style.cursor = 'pointer';
+    allAuthLi.innerHTML = '<div style="display: flex; align-items: center;"><i class="fa-solid fa-users" style="margin-right: 8px;"></i><span>著者選択なし (全体)</span></div>';
+    allAuthLi.onclick = () => setTheologyCombinedFilter('author', 'all');
+    sidebarList.appendChild(allAuthLi);
+
+    authors.forEach(auth => {
+      const li = document.createElement('li');
+      li.className = `sidebar-item ${state.theologyFilterAuthor === auth.name ? 'active' : ''}`;
+      li.style.padding = '8px 12px';
+      li.style.cursor = 'pointer';
+      li.style.display = 'flex';
+      li.style.justifyContent = 'space-between';
+      li.style.alignItems = 'center';
+      li.innerHTML = `
+        <div style="display: flex; align-items: center;">
+          <i class="fa-regular fa-user" style="margin-right: 8px; color: #1d4ed8;"></i>
+          <span>${auth.name}</span>
+        </div>
+        <span class="author-count-badge">${auth.count}</span>
+      `;
+      li.onclick = () => setTheologyCombinedFilter('author', auth.name);
+      sidebarList.appendChild(li);
+    });
+
+    // Section 2: Categories
+    const catSecHeader = document.createElement('div');
+    catSecHeader.className = 'sidebar-section-title';
+    catSecHeader.innerHTML = '<i class="fa-solid fa-book-open"></i> 主題フィルター (주제)';
+    sidebarList.appendChild(catSecHeader);
+
+    const allCatLi = document.createElement('li');
+    allCatLi.className = `sidebar-item ${state.theologyFilterCategory === 'all' ? 'active' : ''}`;
+    allCatLi.style.padding = '8px 12px';
+    allCatLi.style.cursor = 'pointer';
+    allCatLi.innerHTML = '<div style="display: flex; align-items: center;"><i class="fa-solid fa-layer-group" style="margin-right: 8px;"></i><span>主題選択なし (全体)</span></div>';
+    allCatLi.onclick = () => setTheologyCombinedFilter('category', 'all');
+    sidebarList.appendChild(allCatLi);
+
+    categories.forEach(cat => {
+      const li = document.createElement('li');
+      li.className = `sidebar-item depth-${cat.depth} ${state.theologyFilterCategory === cat.id ? 'active' : ''}`;
+      li.style.padding = `8px 12px 8px ${12 + cat.depth * 14}px`;
+      li.style.cursor = 'pointer';
+      li.innerHTML = `
+        <div style="display: flex; align-items: center;">
+          <i class="fa-regular fa-folder" style="margin-right: 8px;"></i>
+          <span>${cat.nameJp}</span>
+        </div>
+      `;
+      li.onclick = () => setTheologyCombinedFilter('category', cat.id);
+      sidebarList.appendChild(li);
+    });
+    return;
+  }
+
+  // 2. Author mode in Reformed Theology
+  if (state.currentMenu === 'theology' && state.theologyMode === 'author') {
+    sidebarHeader.textContent = '著者一覧 (저자 목록)';
+    sidebarList.innerHTML = '';
+
+    const authors = getTheologyAuthors();
+    const totalCount = state.articles.filter(art => isTheologyCategory(art.categoryId)).length;
+
+    // All Authors li
+    const allLi = document.createElement('li');
+    allLi.className = `sidebar-item ${state.theologyAuthor === 'all' ? 'active' : ''}`;
+    allLi.style.display = 'flex';
+    allLi.style.alignItems = 'center';
+    allLi.style.justifyContent = 'space-between';
+    allLi.style.padding = '10px 14px';
+    allLi.style.cursor = 'pointer';
+    allLi.innerHTML = `
+      <div style="display: flex; align-items: center; font-weight: 500;">
+        <i class="fa-solid fa-users" style="margin-right: 8px; color: var(--primary-color);"></i>
+        <span>すべての著者</span>
+      </div>
+      <span class="author-count-badge">${totalCount}</span>
+    `;
+    allLi.onclick = () => selectTheologyAuthor('all');
+    sidebarList.appendChild(allLi);
+
+    // Individual Authors li
+    authors.forEach(auth => {
+      const li = document.createElement('li');
+      li.className = `sidebar-item ${state.theologyAuthor === auth.name ? 'active' : ''}`;
+      li.style.display = 'flex';
+      li.style.alignItems = 'center';
+      li.style.justifyContent = 'space-between';
+      li.style.padding = '10px 14px';
+      li.style.cursor = 'pointer';
+      li.innerHTML = `
+        <div style="display: flex; align-items: center; font-weight: 500;">
+          <i class="fa-regular fa-user" style="margin-right: 8px; color: #1d4ed8;"></i>
+          <span>${auth.name}</span>
+        </div>
+        <span class="author-count-badge">${auth.count}</span>
+      `;
+      li.onclick = () => selectTheologyAuthor(auth.name);
+      sidebarList.appendChild(li);
+    });
+    return;
+  }
+
+  // 2. Standard Category Tree
   const menuObj = state.mainMenus.find(m => m.id === state.currentMenu);
   sidebarHeader.textContent = menuObj ? menuObj.nameJp : 'フォルダ一覧';
 
@@ -1142,11 +1535,43 @@ function renderArticlesList() {
   const container = document.getElementById('articles-list-container');
   const listTitle = document.getElementById('list-title');
   
-  const currentCatObj = state.categories.find(c => c.id === state.currentCategory);
-  listTitle.textContent = currentCatObj ? `${currentCatObj.nameJp} の資料一覧` : '資料一覧';
+  let filteredArticles = [];
+  
+  if (state.currentMenu === 'theology' && state.theologyMode === 'combined') {
+    const theologyArticles = state.articles.filter(art => isTheologyCategory(art.categoryId));
+    filteredArticles = theologyArticles.filter(art => {
+      const matchAuth = state.theologyFilterAuthor === 'all' || (art.author || '').trim() === state.theologyFilterAuthor;
+      const matchCat = state.theologyFilterCategory === 'all' || getAllDescendantCategoryIds(state.theologyFilterCategory).includes(art.categoryId);
+      return matchAuth && matchCat;
+    });
+
+    const parts = [];
+    if (state.theologyFilterAuthor !== 'all') parts.push(`著者: ${state.theologyFilterAuthor}`);
+    if (state.theologyFilterCategory !== 'all') {
+      const catObj = state.categories.find(c => c.id === state.theologyFilterCategory);
+      parts.push(`主題: ${catObj ? catObj.nameJp : state.theologyFilterCategory}`);
+    }
+    if (parts.length === 0) {
+      listTitle.textContent = '改革派神学・全資料一覧 (統合モード)';
+    } else {
+      listTitle.textContent = `改革派神学 [${parts.join(' × ')}] の資料一覧 (${filteredArticles.length}件)`;
+    }
+  } else if (state.currentMenu === 'theology' && state.theologyMode === 'author') {
+    const theologyArticles = state.articles.filter(art => isTheologyCategory(art.categoryId));
+    if (state.theologyAuthor === 'all') {
+      filteredArticles = theologyArticles;
+      listTitle.textContent = '改革派神学・すべての著者の資料一覧';
+    } else {
+      filteredArticles = theologyArticles.filter(art => (art.author || '').trim() === state.theologyAuthor);
+      listTitle.textContent = `「${state.theologyAuthor}」著者の改革派神学資料 (${filteredArticles.length}件)`;
+    }
+  } else {
+    const currentCatObj = state.categories.find(c => c.id === state.currentCategory);
+    listTitle.textContent = currentCatObj ? `${currentCatObj.nameJp} の資料一覧` : '資料一覧';
 
     const descendantIds = getAllDescendantCategoryIds(state.currentCategory);
-  const filteredArticles = state.articles.filter(art => descendantIds.includes(art.categoryId));
+    filteredArticles = state.articles.filter(art => descendantIds.includes(art.categoryId));
+  }
   
   // Sort by custom position ascending, then by date descending
   filteredArticles.sort((a, b) => {
@@ -1202,9 +1627,26 @@ function renderArticlesList() {
   headerWrapper.style.flexWrap = 'wrap';
   headerWrapper.style.gap = '10px';
 
+  const theologyModeSwitcherHtml = state.currentMenu === 'theology' ? `
+    <div class="theology-mode-tabs" style="margin-bottom: 0;">
+      <button type="button" class="btn-theology-tab ${state.theologyMode === 'topic' ? 'active' : ''}" onclick="setTheologyMode('topic')">
+        <i class="fa-solid fa-layer-group"></i> 組織神学別
+      </button>
+      <button type="button" class="btn-theology-tab ${state.theologyMode === 'author' ? 'active' : ''}" onclick="setTheologyMode('author')">
+        <i class="fa-solid fa-user-pen"></i> 著者別
+      </button>
+      <button type="button" class="btn-theology-tab ${state.theologyMode === 'combined' ? 'active' : ''}" onclick="setTheologyMode('combined')">
+        <i class="fa-solid fa-sliders"></i> 統合選択
+      </button>
+    </div>
+  ` : '';
+
   headerWrapper.innerHTML = `
-    <div class="articles-total-count" style="font-size: 0.9rem; color: var(--text-light);">
-      全 <strong>${totalCount}</strong> 件の資料 (ページ ${state.pagination.currentPage} / ${totalPages})
+    <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+      ${theologyModeSwitcherHtml}
+      <div class="articles-total-count" style="font-size: 0.9rem; color: var(--text-light);">
+        全 <strong>${totalCount}</strong> 件の資料 (ページ ${state.pagination.currentPage} / ${totalPages})
+      </div>
     </div>
     <div class="page-size-selector-wrapper" style="display: flex; align-items: center; gap: 8px;">
       <span style="font-size: 0.85rem; color: var(--text-light);">表示件数:</span>
@@ -1222,8 +1664,6 @@ function renderArticlesList() {
   const isServantMenu = state.currentCategory === 'cat_1787469050463';
   const itemsWrapper = document.createElement('div');
   itemsWrapper.className = isPastorMenu ? 'video-gallery-grid' : (isServantMenu ? 'profile-list' : 'article-list');
-  container.appendChild(itemsWrapper);
-
   container.appendChild(itemsWrapper);
 
   if (isPastorMenu) {
@@ -1329,12 +1769,22 @@ function renderArticlesList() {
         </div>
       ` : '';
 
+      const isTheology = isTheologyCategory(art.categoryId) || state.currentMenu === 'theology';
+      let scriptureBadge = '';
+      if (art.scripture) {
+        if (isTheology) {
+          scriptureBadge = `<span class="meta-item meta-scripture meta-theme"><i class="fa-solid fa-bookmark"></i> 主題: ${art.scripture}</span>`;
+        } else {
+          scriptureBadge = `<span class="meta-item meta-scripture"><i class="fa-solid fa-bible"></i> 関連聖句: ${art.scripture}</span>`;
+        }
+      }
+
       card.innerHTML = `
         <h3 class="article-item-title">${art.title} ${hasVideoBadge}</h3>
         <div class="article-item-meta">
-          <span><i class="fa-regular fa-user"></i> 著者: ${art.author}</span>
-          ${art.scripture ? `<span><i class="fa-solid fa-bible"></i> 関連聖句: ${art.scripture}</span>` : ''}
-          <span><i class="fa-regular fa-calendar"></i> 日付: ${art.createdAt}</span>
+          <span class="meta-item meta-author"><i class="fa-regular fa-user"></i> 著者: ${art.author}</span>
+          ${scriptureBadge}
+          <span class="meta-item meta-date"><i class="fa-regular fa-calendar"></i> 日付: ${art.createdAt}</span>
         </div>
         ${adminToolbar}
       `;
@@ -1526,10 +1976,17 @@ function viewArticleDetail(articleId) {
   document.getElementById('detail-date').textContent = article.createdAt;
   document.getElementById('detail-views').textContent = article.views;
 
+  const isTheology = isTheologyCategory(article.categoryId) || state.currentMenu === 'theology';
   const scriptureContainer = document.getElementById('detail-scripture-container');
   if (article.scripture) {
     scriptureContainer.style.display = 'block';
-    document.getElementById('detail-scripture').textContent = article.scripture;
+    if (isTheology) {
+      scriptureContainer.className = 'detail-scripture detail-theme';
+      scriptureContainer.innerHTML = `<strong><i class="fa-solid fa-bookmark"></i> 主題:</strong> <span id="detail-scripture">${article.scripture}</span>`;
+    } else {
+      scriptureContainer.className = 'detail-scripture';
+      scriptureContainer.innerHTML = `<strong><i class="fa-solid fa-bible"></i> 御言葉:</strong> <span id="detail-scripture">${article.scripture}</span>`;
+    }
   } else {
     scriptureContainer.style.display = 'none';
   }
@@ -2643,10 +3100,18 @@ function handleCategoryChange() {
   if (authorScriptureRow) authorScriptureRow.style.display = 'flex';
   if (authorInput) authorInput.setAttribute('required', 'required');
   
+  const parentMenu = document.getElementById('art-parent-menu') ? document.getElementById('art-parent-menu').value : '';
+  const isTheology = parentMenu === 'theology' || isTheologyCategory(categoryId);
+
   if (authorLabel) authorLabel.textContent = '著者 / 説教者';
   if (authorInput) authorInput.placeholder = '例: ジョン・オーウェン、清水牧師';
-  if (scriptureLabel) scriptureLabel.textContent = '関連聖句（本文章など）';
-  if (scriptureInput) scriptureInput.placeholder = '例: ローマの信徒への手紙 8:28 (任意)';
+  if (isTheology) {
+    if (scriptureLabel) scriptureLabel.textContent = '主題 (テーマ・주제)';
+    if (scriptureInput) scriptureInput.placeholder = '例: キリストの神性と人性、義認論 (주제 입력)';
+  } else {
+    if (scriptureLabel) scriptureLabel.textContent = '関連聖句（本文章など）';
+    if (scriptureInput) scriptureInput.placeholder = '例: ローマの信徒への手紙 8:28 (任意)';
+  }
   if (contentLabel) contentLabel.textContent = 'コンテンツ本文';
   if (contentInput) contentInput.placeholder = '説教要旨、神学研究資料などの本文を入力してください...';
 

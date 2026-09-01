@@ -527,31 +527,74 @@ header {
 }
 
 .article-item-card {
-  padding: 1.5rem;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
+  padding: 1.35rem 1.6rem;
+  background-color: #fffde7; /* 노랑 바탕 */
+  border: 1px solid #fef08a; /* 부드러운 옐로우 보더 */
+  border-left: 5px solid #facc15; /* 골드 옐로우 포인트 바 */
+  border-radius: 8px;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   transition: var(--transition-smooth);
 }
 
 .article-item-card:hover {
-  border-color: var(--accent-color);
-  background-color: var(--bg-warm);
-  transform: translateX(5px);
+  background-color: #fef9c3; /* 호버 시 약간 더 선명한 노랑 */
+  border-color: #eab308;
+  border-left-color: #ca8a04;
+  box-shadow: 0 4px 14px rgba(202, 138, 4, 0.14);
+  transform: translateY(-2px);
 }
 
 .article-item-title {
   font-family: var(--font-serif);
-  font-size: 1.25rem;
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #111827; /* 선명하고 깔끔한 검은 글씨 */
+  margin-bottom: 0.65rem;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
 }
 
 .article-item-meta {
-  font-size: 0.8rem;
-  color: var(--text-light);
+  font-size: 0.88rem;
+  color: #4b5563;
   display: flex;
-  gap: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+}
+
+.article-item-meta .meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 저자: 파랑 (Blue) */
+.article-item-meta .meta-author {
+  color: #1d4ed8;
+  font-weight: 600;
+}
+.article-item-meta .meta-author i {
+  color: #2563eb;
+}
+
+/* 관련구절 / 주제: 빨강 (Red) */
+.article-item-meta .meta-scripture {
+  color: #dc2626;
+  font-weight: 600;
+}
+.article-item-meta .meta-scripture i {
+  color: #ef4444;
+}
+
+/* 날짜 */
+.article-item-meta .meta-date {
+  color: #4b5563;
+  font-weight: 500;
+}
+.article-item-meta .meta-date i {
+  color: #6b7280;
 }
 
 .empty-message {
@@ -566,7 +609,7 @@ header {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--text-light);
   margin-top: 1rem;
 }
@@ -575,15 +618,31 @@ header {
   color: var(--primary-color);
 }
 
+.detail-meta-item #detail-author {
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
 .detail-scripture {
-  background-color: var(--bg-warm);
-  border-left: 4px solid var(--accent-color);
+  background-color: #fffde7;
+  border: 1px solid #fef08a;
+  border-left: 5px solid #dc2626;
   padding: 1.2rem 1.5rem;
   font-family: var(--font-serif);
   font-size: 1.1rem;
-  color: var(--primary-color);
+  color: #111827;
   margin: 1.5rem 0;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.detail-scripture strong {
+  color: #dc2626;
+  margin-right: 6px;
+}
+
+.detail-scripture span {
+  color: #dc2626;
+  font-weight: 600;
 }
 
 .detail-content {
@@ -591,6 +650,218 @@ header {
   color: var(--text-dark);
   line-height: 1.8;
   white-space: pre-wrap;
+}
+
+/* Theology Dual Mode Switch Tabs */
+.theology-mode-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.theology-mode-tabs {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f1f5f9;
+  padding: 4px;
+  border-radius: 8px;
+  gap: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-theology-tab {
+  padding: 7px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #475563;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+}
+
+.btn-theology-tab:hover {
+  color: var(--primary-color, #0A1C36);
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.btn-theology-tab.active {
+  color: #ffffff;
+  background-color: var(--primary-color, #0A1C36);
+  box-shadow: 0 2px 6px rgba(10, 28, 54, 0.2);
+}
+
+.theology-author-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.theology-author-count {
+  font-size: 0.75rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.08);
+  color: inherit;
+  font-weight: 700;
+}
+
+.sidebar-item .author-count-badge {
+  font-size: 0.75rem;
+  color: #1d4ed8;
+  background: #e0e7ff;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 700;
+  margin-left: auto;
+}
+
+.sidebar-item.active .author-count-badge {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Theology Combined Filter Box */
+.theology-combined-filter-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.theology-filter-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.theology-filter-group {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.theology-filter-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0A1C36;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.theology-filter-select {
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: #f8fafc;
+  font-family: inherit;
+  transition: border-color 0.2s, background-color 0.2s;
+  height: 40px;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.theology-filter-select:focus {
+  border-color: #2563eb;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.theology-filter-actions {
+  display: flex;
+  align-items: center;
+}
+
+.btn-theology-reset {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
+  background: #f1f5f9;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  height: 40px;
+  font-family: inherit;
+}
+
+.btn-theology-reset:hover {
+  color: #0f172a;
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.theology-filter-status-bar {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.86rem;
+  flex-wrap: wrap;
+}
+
+.theology-tag {
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  color: #475563;
+  font-weight: 600;
+  font-size: 0.8rem;
+  border: 1px solid #e2e8f0;
+}
+
+.theology-tag.tag-active {
+  background: #dbeafe;
+  color: #1e40af;
+  border-color: #bfdbfe;
+}
+
+.theology-result-count {
+  margin-left: auto;
+  font-size: 0.88rem;
+  color: #059669;
+  font-weight: 600;
+}
+
+.sidebar-section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 12px 4px 12px;
+  margin-top: 8px;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 /* ==========================================
