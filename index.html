@@ -60,9 +60,12 @@
     </div>
   </section>
 
-  <!-- MAIN MENUS (DYNAMICALLY POPULATED) -->
-  <!-- MAIN MENUS (PERMANENT STATIC 5 CARDS) -->
-  <section class="main-menu-grid" id="main-menu-sec" style="grid-template-columns: repeat(5, 1fr);">
+  <!-- MAIN MENUS (PERMANENT STATIC 6 CARDS: Home section leftmost) -->
+  <section class="main-menu-grid" id="main-menu-sec" style="grid-template-columns: repeat(6, 1fr);">
+    <div class="menu-card" data-menu="menu_1787468975888" onclick="selectMainMenu('menu_1787468975888')">
+      <i class="fa-solid fa-house-chimney menu-icon"></i>
+      <div class="menu-title-jp">ホーム セクション</div>
+    </div>
     <div class="menu-card" data-menu="sermon" onclick="selectMainMenu('sermon')">
       <i class="fa-solid fa-book-open menu-icon"></i>
       <div class="menu-title-jp">聖書講解</div>
@@ -712,6 +715,6 @@
     <p style="font-size: 0.9rem; color: #d1d5db; max-width: 450px; line-height: 1.5;">전체 글과 설교 데이터를 불러오는 중입니다.<br>동기화 완료 전까지 관리자 화면 조작이 잠시 차단됩니다.</p>
   </div>
 
-  <script src="app.js?v=25.0"></script>
+  <script src="app.js?v=27.0"></script>
 </body>
 </html>
