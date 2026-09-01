@@ -61,8 +61,29 @@
   </section>
 
   <!-- MAIN MENUS (DYNAMICALLY POPULATED) -->
-  <section class="main-menu-grid" id="main-menu-sec">
-    <!-- Dynamically Populated via app.js -->
+  <!-- MAIN MENUS (PERMANENT STATIC 5 CARDS) -->
+  <section class="main-menu-grid" id="main-menu-sec" style="grid-template-columns: repeat(5, 1fr);">
+    <div class="menu-card" data-menu="sermon" onclick="selectMainMenu('sermon')">
+      <i class="fa-solid fa-book-open menu-icon"></i>
+      <div class="menu-title-jp">聖書講解</div>
+    </div>
+    <div class="menu-card" data-menu="catechism" onclick="selectMainMenu('catechism')">
+      <i class="fa-solid fa-scroll menu-icon"></i>
+      <div class="menu-title-jp">教理教育と復興</div>
+    </div>
+    <div class="menu-card" data-menu="theology" onclick="selectMainMenu('theology')">
+      <i class="fa-solid fa-graduation-cap menu-icon"></i>
+      <div class="menu-title-jp">改革派神学</div>
+    </div>
+    <div class="menu-card" data-menu="discipleship" onclick="selectMainMenu('discipleship')">
+      <i class="fa-solid fa-users-line menu-icon"></i>
+      <div class="menu-title-jp">伝道・弟子道</div>
+    </div>
+    <div class="menu-card" data-menu="pastor" onclick="selectMainMenu('pastor')">
+      <i class="fa-solid fa-user-tie menu-icon"></i>
+      <div class="menu-title-jp">牧会者のための<br>10分神学</div>
+      <div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">動画講義</div>
+    </div>
   </section>
 
   <!-- SUBMENU PANEL -->
@@ -691,7 +712,6 @@
     <p style="font-size: 0.9rem; color: #d1d5db; max-width: 450px; line-height: 1.5;">전체 글과 설교 데이터를 불러오는 중입니다.<br>동기화 완료 전까지 관리자 화면 조작이 잠시 차단됩니다.</p>
   </div>
 
-  <script src="data.js?v=24.0"></script>
-  <script src="app.js?v=24.0"></script>
+  <script src="app.js?v=25.0"></script>
 </body>
 </html>
