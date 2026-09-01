@@ -863,8 +863,14 @@ function setTheologyMode(mode) {
   if (mode === 'author') {
     if (!state.theologyAuthor) state.theologyAuthor = 'all';
   } else if (mode === 'combined') {
-    if (!state.theologyFilterAuthor) state.theologyFilterAuthor = 'all';
-    if (!state.theologyFilterCategory) state.theologyFilterCategory = 'all';
+    const authors = getTheologyAuthors();
+    const categories = buildFlatTree('theology', 0);
+    if (!state.theologyFilterAuthor || state.theologyFilterAuthor === 'all') {
+      state.theologyFilterAuthor = authors.length > 0 ? authors[0].name : '';
+    }
+    if (!state.theologyFilterCategory || state.theologyFilterCategory === 'all') {
+      state.theologyFilterCategory = categories.length > 0 ? categories[0].id : '';
+    }
   } else {
     // topic mode: ensure a subcategory is selected
     if (!state.currentCategory || !isTheologyCategory(state.currentCategory)) {
@@ -975,11 +981,19 @@ function renderTheologySubmenu() {
       return matchAuth && matchCat;
     }).length;
 
+    if ((!state.theologyFilterAuthor || state.theologyFilterAuthor === 'all') && authors.length > 0) {
+      state.theologyFilterAuthor = authors[0].name;
+    }
+    if ((!state.theologyFilterCategory || state.theologyFilterCategory === 'all') && categories.length > 0) {
+      state.theologyFilterCategory = categories[0].id;
+    }
+
     const authorOptions = authors.map(a => `<option value="${a.name}" ${state.theologyFilterAuthor === a.name ? 'selected' : ''}>👤 ${a.name} (${a.count}件)</option>`).join('');
     const categoryOptions = categories.map(c => `<option value="${c.id}" ${state.theologyFilterCategory === c.id ? 'selected' : ''}>${'&nbsp;&nbsp;'.repeat(c.depth)}${c.depth > 0 ? '└ ' : '📑 '}${c.nameJp}</option>`).join('');
     
-    const catName = state.theologyFilterCategory === 'all' ? '選択なし (전체)' : (state.categories.find(c => c.id === state.theologyFilterCategory)?.nameJp || state.theologyFilterCategory);
-    const authName = state.theologyFilterAuthor === 'all' ? '選択なし (전체)' : state.theologyFilterAuthor;
+    const catObj = state.categories.find(c => c.id === state.theologyFilterCategory);
+    const catName = catObj ? catObj.nameJp : state.theologyFilterCategory;
+    const authName = state.theologyFilterAuthor;
 
     const filterBox = document.createElement('div');
     filterBox.className = 'theology-combined-filter-box';
@@ -988,28 +1002,21 @@ function renderTheologySubmenu() {
         <div class="theology-filter-group">
           <label class="theology-filter-label"><i class="fa-solid fa-user"></i> 著者選択 (저자 선택)</label>
           <select class="theology-filter-select" onchange="setTheologyCombinedFilter('author', this.value)">
-            <option value="all" ${state.theologyFilterAuthor === 'all' ? 'selected' : ''}>-- 著者選択なし (저자 선택 안함) --</option>
             ${authorOptions}
           </select>
         </div>
         <div class="theology-filter-group">
           <label class="theology-filter-label"><i class="fa-solid fa-book-open"></i> 主題・分野選択 (주제 선택)</label>
           <select class="theology-filter-select" onchange="setTheologyCombinedFilter('category', this.value)">
-            <option value="all" ${state.theologyFilterCategory === 'all' ? 'selected' : ''}>-- 主題選択なし (주제 선택 안함) --</option>
             ${categoryOptions}
           </select>
-        </div>
-        <div class="theology-filter-actions">
-          <button type="button" class="btn-theology-reset" onclick="resetTheologyCombinedFilter()">
-            <i class="fa-solid fa-rotate-left"></i> 選択初期化 (초기화)
-          </button>
         </div>
       </div>
       <div class="theology-filter-status-bar">
         <span><i class="fa-solid fa-filter"></i> 適用中の条件: </span>
-        <span class="theology-tag ${state.theologyFilterAuthor !== 'all' ? 'tag-active' : ''}">저자: ${authName}</span>
+        <span class="theology-tag tag-active">저자: ${authName}</span>
         <span style="color: var(--text-light);">×</span>
-        <span class="theology-tag ${state.theologyFilterCategory !== 'all' ? 'tag-active' : ''}">주제: ${catName}</span>
+        <span class="theology-tag tag-active">주제: ${catName}</span>
         <span class="theology-result-count">➔ 該当資料: <strong>${matchedCount}</strong> 件</span>
       </div>
     `;
@@ -1363,14 +1370,6 @@ function renderWorkspaceSidebar() {
     authSecHeader.innerHTML = '<i class="fa-solid fa-user"></i> 著者フィルター (저자)';
     sidebarList.appendChild(authSecHeader);
 
-    const allAuthLi = document.createElement('li');
-    allAuthLi.className = `sidebar-item ${state.theologyFilterAuthor === 'all' ? 'active' : ''}`;
-    allAuthLi.style.padding = '8px 12px';
-    allAuthLi.style.cursor = 'pointer';
-    allAuthLi.innerHTML = '<div style="display: flex; align-items: center;"><i class="fa-solid fa-users" style="margin-right: 8px;"></i><span>著者選択なし (全体)</span></div>';
-    allAuthLi.onclick = () => setTheologyCombinedFilter('author', 'all');
-    sidebarList.appendChild(allAuthLi);
-
     authors.forEach(auth => {
       const li = document.createElement('li');
       li.className = `sidebar-item ${state.theologyFilterAuthor === auth.name ? 'active' : ''}`;
@@ -1395,14 +1394,6 @@ function renderWorkspaceSidebar() {
     catSecHeader.className = 'sidebar-section-title';
     catSecHeader.innerHTML = '<i class="fa-solid fa-book-open"></i> 主題フィルター (주제)';
     sidebarList.appendChild(catSecHeader);
-
-    const allCatLi = document.createElement('li');
-    allCatLi.className = `sidebar-item ${state.theologyFilterCategory === 'all' ? 'active' : ''}`;
-    allCatLi.style.padding = '8px 12px';
-    allCatLi.style.cursor = 'pointer';
-    allCatLi.innerHTML = '<div style="display: flex; align-items: center;"><i class="fa-solid fa-layer-group" style="margin-right: 8px;"></i><span>主題選択なし (全体)</span></div>';
-    allCatLi.onclick = () => setTheologyCombinedFilter('category', 'all');
-    sidebarList.appendChild(allCatLi);
 
     categories.forEach(cat => {
       const li = document.createElement('li');
@@ -1772,12 +1763,15 @@ function renderArticlesList() {
 
       const isTheology = isTheologyCategory(art.categoryId) || state.currentMenu === 'theology';
       let scriptureBadge = '';
-      if (art.scripture) {
-        if (isTheology) {
-          scriptureBadge = `<span class="meta-item meta-scripture meta-theme"><i class="fa-solid fa-bookmark"></i> 主題: ${art.scripture}</span>`;
-        } else {
-          scriptureBadge = `<span class="meta-item meta-scripture"><i class="fa-solid fa-bible"></i> 関連聖句: ${art.scripture}</span>`;
+      if (isTheology) {
+        let themeText = (art.scripture || '').trim();
+        if (!themeText) {
+          const cObj = state.categories.find(c => c.id === art.categoryId);
+          themeText = cObj ? cObj.nameJp : '改革派神学';
         }
+        scriptureBadge = `<span class="meta-item meta-scripture meta-theme"><i class="fa-solid fa-bookmark"></i> 主題: ${themeText}</span>`;
+      } else if (art.scripture) {
+        scriptureBadge = `<span class="meta-item meta-scripture"><i class="fa-solid fa-bible"></i> 関連聖句: ${art.scripture}</span>`;
       }
 
       card.innerHTML = `

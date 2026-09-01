@@ -580,12 +580,14 @@ header {
 }
 
 /* 관련구절 / 주제: 빨강 (Red) */
-.article-item-meta .meta-scripture {
-  color: #dc2626;
-  font-weight: 600;
+.article-item-meta .meta-scripture,
+.article-item-meta .meta-theme {
+  color: #dc2626 !important;
+  font-weight: 700;
 }
-.article-item-meta .meta-scripture i {
-  color: #ef4444;
+.article-item-meta .meta-scripture i,
+.article-item-meta .meta-theme i {
+  color: #ef4444 !important;
 }
 
 /* 날짜 */
