@@ -1238,14 +1238,15 @@ function selectMainMenu(menuKey) {
     if (allSubCats.length > 0) {
       selectSubcategory(allSubCats[0].id, false);
     } else {
-    state.currentCategory = null;
-    state.currentArticle = null;
-    renderWorkspaceSidebar();
-    renderArticlesList();
-    const workspaceSec = document.getElementById('workspace-sec');
-    workspaceSec.classList.add('active');
-    document.getElementById('view-article-list').style.display = 'block';
-    document.getElementById('view-article-detail').style.display = 'none';
+      state.currentCategory = null;
+      state.currentArticle = null;
+      renderWorkspaceSidebar();
+      renderArticlesList();
+      const workspaceSec = document.getElementById('workspace-sec');
+      workspaceSec.classList.add('active');
+      document.getElementById('view-article-list').style.display = 'block';
+      document.getElementById('view-article-detail').style.display = 'none';
+    }
   }
 }
 
