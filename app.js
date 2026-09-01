@@ -79,24 +79,24 @@ function loadLocalStorageOnly() {
     state.featured = window.SITE_DATA.featured || {};
     return;
   }
-  if (!localStorage.getItem('wscal_mainmenus_v23')) {
-    localStorage.setItem('wscal_mainmenus_v23', JSON.stringify(DEFAULT_MAIN_MENUS));
+  if (!localStorage.getItem('wscal_mainmenus_v24')) {
+    localStorage.setItem('wscal_mainmenus_v24', JSON.stringify(DEFAULT_MAIN_MENUS));
   }
-  if (!localStorage.getItem('wscal_categories_v23')) {
-    localStorage.setItem('wscal_categories_v23', JSON.stringify(DEFAULT_CATEGORIES));
+  if (!localStorage.getItem('wscal_categories_v24')) {
+    localStorage.setItem('wscal_categories_v24', JSON.stringify(DEFAULT_CATEGORIES));
   }
-  if (!localStorage.getItem('wscal_featured_v23')) {
-    localStorage.setItem('wscal_featured_v23', JSON.stringify(DEFAULT_FEATURED));
+  if (!localStorage.getItem('wscal_featured_v24')) {
+    localStorage.setItem('wscal_featured_v24', JSON.stringify(DEFAULT_FEATURED));
   }
-  if (!localStorage.getItem('wscal_articles_v23')) {
-    localStorage.setItem('wscal_articles_v23', JSON.stringify(DEFAULT_ARTICLES));
+  if (!localStorage.getItem('wscal_articles_v24')) {
+    localStorage.setItem('wscal_articles_v24', JSON.stringify(DEFAULT_ARTICLES));
   }
 
   try {
-    state.mainMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v23')) || [];
-    state.categories = JSON.parse(localStorage.getItem('wscal_categories_v23')) || [];
-    state.featured = JSON.parse(localStorage.getItem('wscal_featured_v23')) || {};
-    state.articles = JSON.parse(localStorage.getItem('wscal_articles_v23')) || [];
+    state.mainMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v24')) || [];
+    state.categories = JSON.parse(localStorage.getItem('wscal_categories_v24')) || [];
+    state.featured = JSON.parse(localStorage.getItem('wscal_featured_v24')) || {};
+    state.articles = JSON.parse(localStorage.getItem('wscal_articles_v24')) || [];
 
     const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'discipleship', 'pastor'];
     state.mainMenus.sort((a, b) => {
@@ -115,6 +115,13 @@ function loadLocalStorageOnly() {
 
 // Initialize App
 async function initApp() {
+  // Clear any old session states on new version load
+  if (sessionStorage.getItem('wscal_version') !== 'v24') {
+    sessionStorage.removeItem('wscal_user_menu');
+    sessionStorage.removeItem('wscal_user_category');
+    sessionStorage.removeItem('wscal_user_article');
+    sessionStorage.setItem('wscal_version', 'v24');
+  }
   if (sessionStorage.getItem('wscal_admin_logged') === 'true') {
     state.isAdmin = true;
   }
@@ -135,11 +142,11 @@ async function initApp() {
       fileData = await res.json();
       console.log("Successfully fetched data.json in background.");
 
-            if (fileData.mainMenus) localStorage.setItem('wscal_mainmenus_v23', JSON.stringify(fileData.mainMenus));
-      if (fileData.categories) localStorage.setItem('wscal_categories_v23', JSON.stringify(fileData.categories));
-      if (fileData.featured) localStorage.setItem('wscal_featured_v23', JSON.stringify(fileData.featured));
+            if (fileData.mainMenus) localStorage.setItem('wscal_mainmenus_v24', JSON.stringify(fileData.mainMenus));
+      if (fileData.categories) localStorage.setItem('wscal_categories_v24', JSON.stringify(fileData.categories));
+      if (fileData.featured) localStorage.setItem('wscal_featured_v24', JSON.stringify(fileData.featured));
             let hasCachedArts = false;
-      const cachedArts = localStorage.getItem('wscal_articles_v23');
+      const cachedArts = localStorage.getItem('wscal_articles_v24');
       if (cachedArts) {
         try {
           const parsed = JSON.parse(cachedArts);
@@ -149,7 +156,7 @@ async function initApp() {
         } catch (e) {}
       }
       if (fileData.articles && (!hasCachedArts || !state.isAdmin)) {
-        localStorage.setItem('wscal_articles_v23', JSON.stringify(fileData.articles));
+        localStorage.setItem('wscal_articles_v24', JSON.stringify(fileData.articles));
       }
 
       // If DB is offline or not loaded yet, immediately apply the updated data.json
@@ -196,7 +203,7 @@ async function initApp() {
             return posA - posB;
           });
           state.mainMenus = liveMenus;
-          localStorage.setItem('wscal_mainmenus_v23', JSON.stringify(liveMenus));
+          localStorage.setItem('wscal_mainmenus_v24', JSON.stringify(liveMenus));
         }
 
         // B. Categories
@@ -205,14 +212,14 @@ async function initApp() {
         if (liveCats.length > 0) {
           liveCats.sort((a, b) => (a.position || 0) - (b.position || 0));
           state.categories = liveCats;
-          localStorage.setItem('wscal_categories_v23', JSON.stringify(liveCats));
+          localStorage.setItem('wscal_categories_v24', JSON.stringify(liveCats));
         }
 
         // C. Featured
         if (featuredSnap.exists) {
           const liveFeat = featuredSnap.data();
           state.featured = liveFeat;
-          localStorage.setItem('wscal_featured_v23', JSON.stringify(liveFeat));
+          localStorage.setItem('wscal_featured_v24', JSON.stringify(liveFeat));
         }
 
         // D. Articles
@@ -345,7 +352,7 @@ async function connectAdminFirestore() {
         return posA - posB;
       });
       state.mainMenus = liveMenus;
-      localStorage.setItem('wscal_mainmenus_v23', JSON.stringify(liveMenus));
+      localStorage.setItem('wscal_mainmenus_v24', JSON.stringify(liveMenus));
     }
 
     // B. Categories
@@ -354,14 +361,14 @@ async function connectAdminFirestore() {
     if (liveCats.length > 0) {
       liveCats.sort((a, b) => (a.position || 0) - (b.position || 0));
       state.categories = liveCats;
-      localStorage.setItem('wscal_categories_v23', JSON.stringify(liveCats));
+      localStorage.setItem('wscal_categories_v24', JSON.stringify(liveCats));
     }
 
     // C. Featured
     if (featuredSnap.exists) {
       const liveFeat = featuredSnap.data();
       state.featured = liveFeat;
-      localStorage.setItem('wscal_featured_v23', JSON.stringify(liveFeat));
+      localStorage.setItem('wscal_featured_v24', JSON.stringify(liveFeat));
     }
 
     // D. Articles (One-time Sync to prevent cache rollback on reload)
@@ -491,10 +498,10 @@ function listenArticles() {
 // Fallback logic when Firebase/Firestore is offline or unavailable
 function loadArticlesFallback() {
   hideDbLoadingOverlay(); // Ensure overlay is dismissed when falling back
-  if (!localStorage.getItem('wscal_articles_v23')) {
-    localStorage.setItem('wscal_articles_v23', JSON.stringify(DEFAULT_ARTICLES));
+  if (!localStorage.getItem('wscal_articles_v24')) {
+    localStorage.setItem('wscal_articles_v24', JSON.stringify(DEFAULT_ARTICLES));
   }
-  state.articles = JSON.parse(localStorage.getItem('wscal_articles_v23'));
+  state.articles = JSON.parse(localStorage.getItem('wscal_articles_v24'));
   
   // Sort articles locally
   state.articles.sort((a, b) => {
@@ -528,11 +535,11 @@ async function loadLocalDataFallback() {
   }
 
   if (fetchedData) {
-        if (fetchedData.mainMenus) localStorage.setItem('wscal_mainmenus_v23', JSON.stringify(fetchedData.mainMenus));
-    if (fetchedData.categories) localStorage.setItem('wscal_categories_v23', JSON.stringify(fetchedData.categories));
-    if (fetchedData.featured) localStorage.setItem('wscal_featured_v23', JSON.stringify(fetchedData.featured));
+        if (fetchedData.mainMenus) localStorage.setItem('wscal_mainmenus_v24', JSON.stringify(fetchedData.mainMenus));
+    if (fetchedData.categories) localStorage.setItem('wscal_categories_v24', JSON.stringify(fetchedData.categories));
+    if (fetchedData.featured) localStorage.setItem('wscal_featured_v24', JSON.stringify(fetchedData.featured));
         let hasCachedArts = false;
-    const cachedArts = localStorage.getItem('wscal_articles_v23');
+    const cachedArts = localStorage.getItem('wscal_articles_v24');
     if (cachedArts) {
       try {
         const parsed = JSON.parse(cachedArts);
@@ -542,33 +549,33 @@ async function loadLocalDataFallback() {
       } catch (e) {}
     }
     if (fetchedData.articles && !hasCachedArts) {
-      localStorage.setItem('wscal_articles_v23', JSON.stringify(fetchedData.articles));
+      localStorage.setItem('wscal_articles_v24', JSON.stringify(fetchedData.articles));
     }
   } else {
     // If even data.json fails, use hardcoded defaults
-    if (!localStorage.getItem('wscal_mainmenus_v23')) {
-      localStorage.setItem('wscal_mainmenus_v23', JSON.stringify(DEFAULT_MAIN_MENUS));
+    if (!localStorage.getItem('wscal_mainmenus_v24')) {
+      localStorage.setItem('wscal_mainmenus_v24', JSON.stringify(DEFAULT_MAIN_MENUS));
     }
-    if (!localStorage.getItem('wscal_categories_v23')) {
-      localStorage.setItem('wscal_categories_v23', JSON.stringify(DEFAULT_CATEGORIES));
+    if (!localStorage.getItem('wscal_categories_v24')) {
+      localStorage.setItem('wscal_categories_v24', JSON.stringify(DEFAULT_CATEGORIES));
     }
-    if (!localStorage.getItem('wscal_featured_v23')) {
-      localStorage.setItem('wscal_featured_v23', JSON.stringify(DEFAULT_FEATURED));
+    if (!localStorage.getItem('wscal_featured_v24')) {
+      localStorage.setItem('wscal_featured_v24', JSON.stringify(DEFAULT_FEATURED));
     }
-    if (!localStorage.getItem('wscal_articles_v23')) {
-      localStorage.setItem('wscal_articles_v23', JSON.stringify(DEFAULT_ARTICLES));
+    if (!localStorage.getItem('wscal_articles_v24')) {
+      localStorage.setItem('wscal_articles_v24', JSON.stringify(DEFAULT_ARTICLES));
     }
   }
 
-  state.mainMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v23'));
-  state.categories = JSON.parse(localStorage.getItem('wscal_categories_v23'));
-  state.featured = JSON.parse(localStorage.getItem('wscal_featured_v23'));
+  state.mainMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v24'));
+  state.categories = JSON.parse(localStorage.getItem('wscal_categories_v24'));
+  state.featured = JSON.parse(localStorage.getItem('wscal_featured_v24'));
 }
 
 // Save back to LocalStorage
 // Save back to LocalStorage & Firestore Realtime DB
 async function saveMainMenus() {
-  localStorage.setItem('wscal_mainmenus_v23', JSON.stringify(state.mainMenus));
+  localStorage.setItem('wscal_mainmenus_v24', JSON.stringify(state.mainMenus));
   if (typeof db !== 'undefined') {
     try {
       let idx = 0;
@@ -582,7 +589,7 @@ async function saveMainMenus() {
   syncDataJsonToGitHub();
 }
 async function saveCategories() {
-  localStorage.setItem('wscal_categories_v23', JSON.stringify(state.categories));
+  localStorage.setItem('wscal_categories_v24', JSON.stringify(state.categories));
   if (typeof db !== 'undefined') {
     try {
       let idx = 0;
@@ -596,10 +603,10 @@ async function saveCategories() {
   syncDataJsonToGitHub();
 }
 function saveArticles() {
-  localStorage.setItem('wscal_articles_v23', JSON.stringify(state.articles));
+  localStorage.setItem('wscal_articles_v24', JSON.stringify(state.articles));
 }
 async function saveFeatured() {
-  localStorage.setItem('wscal_featured_v23', JSON.stringify(state.featured));
+  localStorage.setItem('wscal_featured_v24', JSON.stringify(state.featured));
   if (typeof db !== 'undefined') {
     try {
       await db.collection('featured').doc('main').set(state.featured);
@@ -880,35 +887,35 @@ function isAnyAncestorCollapsed(catId) {
 // Smart merge server data into local storage to avoid overriding admin modifications
 function mergeServerData(serverData) {
   // 1. Merge Main Menus
-  const localMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v23')) || [];
+  const localMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v24')) || [];
   serverData.mainMenus.forEach(sm => {
     if (!localMenus.some(lm => lm.id === sm.id)) {
       localMenus.push(sm);
     }
   });
-  localStorage.setItem('wscal_mainmenus_v23', JSON.stringify(localMenus));
+  localStorage.setItem('wscal_mainmenus_v24', JSON.stringify(localMenus));
 
   // 2. Merge Categories
-  const localCats = JSON.parse(localStorage.getItem('wscal_categories_v23')) || [];
+  const localCats = JSON.parse(localStorage.getItem('wscal_categories_v24')) || [];
   serverData.categories.forEach(sc => {
     if (!localCats.some(lc => lc.id === sc.id)) {
       localCats.push(sc);
     }
   });
-  localStorage.setItem('wscal_categories_v23', JSON.stringify(localCats));
+  localStorage.setItem('wscal_categories_v24', JSON.stringify(localCats));
 
   // 3. Merge Articles
-  const localArts = JSON.parse(localStorage.getItem('wscal_articles_v23')) || [];
+  const localArts = JSON.parse(localStorage.getItem('wscal_articles_v24')) || [];
   serverData.articles.forEach(sa => {
     if (!localArts.some(la => la.id === sa.id)) {
       localArts.push(sa);
     }
   });
-  localStorage.setItem('wscal_articles_v23', JSON.stringify(localArts));
+  localStorage.setItem('wscal_articles_v24', JSON.stringify(localArts));
 
   // 4. Merge Featured
-  if (!localStorage.getItem('wscal_featured_v23')) {
-    localStorage.setItem('wscal_featured_v23', JSON.stringify(serverData.featured));
+  if (!localStorage.getItem('wscal_featured_v24')) {
+    localStorage.setItem('wscal_featured_v24', JSON.stringify(serverData.featured));
   }
 }
 
@@ -919,10 +926,10 @@ async function resetLocalDataToServer() {
       const res = await fetch('./data.json?t=' + Date.now());
       if (res.ok) {
         const serverData = await res.json();
-        localStorage.setItem('wscal_mainmenus_v23', JSON.stringify(serverData.mainMenus));
-        localStorage.setItem('wscal_categories_v23', JSON.stringify(serverData.categories));
-        localStorage.setItem('wscal_articles_v23', JSON.stringify(serverData.articles));
-        localStorage.setItem('wscal_featured_v23', JSON.stringify(serverData.featured));
+        localStorage.setItem('wscal_mainmenus_v24', JSON.stringify(serverData.mainMenus));
+        localStorage.setItem('wscal_categories_v24', JSON.stringify(serverData.categories));
+        localStorage.setItem('wscal_articles_v24', JSON.stringify(serverData.articles));
+        localStorage.setItem('wscal_featured_v24', JSON.stringify(serverData.featured));
         alert("성공적으로 서버 최신 데이터와 동기화(초기화)했습니다. 페이지를 새로고침합니다.");
         location.reload();
       } else {
@@ -957,7 +964,7 @@ function selectMainMenu(menuKey) {
   });
 
   // Filter root categories belonging directly to selected menu (first level)
-  const menuCats = state.categories.filter(cat => cat.parentId === menuKey);
+  const menuCats = (state.categories || []).filter(cat => cat.parentId === menuKey).sort((a, b) => (a.position || 0) - (b.position || 0));
   const submenuContainer = document.getElementById('submenu-sec');
   const submenuGrid = document.getElementById('submenu-items-container');
   const categoryTitle = document.getElementById('submenu-category-title');
@@ -992,7 +999,7 @@ function selectMainMenu(menuKey) {
   submenuContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
   // Automatically select the first subcategory if exists to update workspace immediately without scrolling down too far
-  const allSubCats = buildFlatTree(menuKey, 0);
+  const allSubCats = buildFlatTree(menuKey, 0).sort((a, b) => (a.position || 0) - (b.position || 0));
   if (allSubCats.length > 0) {
     selectSubcategory(allSubCats[0].id, false);
   } else {
