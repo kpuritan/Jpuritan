@@ -1987,6 +1987,9 @@ function viewArticleDetail(articleId) {
   }
 
   // Clear previous content & embed video player if youtubeUrl is present
+  const contentArea = document.getElementById('detail-content');
+  contentArea.innerHTML = '';
+
   // Embed PDF Download Banner if pdfUrl is present
   if (article.pdfUrl) {
     const pdfBanner = document.createElement('div');
@@ -2001,10 +2004,10 @@ function viewArticleDetail(articleId) {
         </div>
       </div>
       <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-        <a href="${article.pdfUrl}" target="_blank" class="btn-pdf-view" style="background: rgba(255,255,255,0.2); color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.4);" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+        <a href="${article.pdfUrl}" target="_blank" class="btn-pdf-view" style="background: rgba(255,255,255,0.2); color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.4);">
           <i class="fa-solid fa-eye"></i> 閲覧 (View)
         </a>
-        <a href="${article.pdfUrl}" download class="btn-pdf-download" style="background: #f59e0b; color: #111827; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.2);" onmouseover="this.style.background='#d97706'; this.style.color='#ffffff'" onmouseout="this.style.background='#f59e0b'; this.style.color='#111827'">
+        <a href="${article.pdfUrl}" download class="btn-pdf-download" style="background: #f59e0b; color: #111827; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
           <i class="fa-solid fa-download"></i> PDFダウンロード (Download)
         </a>
       </div>
@@ -2012,7 +2015,21 @@ function viewArticleDetail(articleId) {
     contentArea.appendChild(pdfBanner);
   }
 
-// Check if content is a full HTML document (with <!DOCTYPE, <html>, <head>, <script>, or Tailwind)
+  const youtubeId = getYouTubeId(article.videoUrl);
+  if (youtubeId) {
+    const embedWrapper = document.createElement('div');
+    embedWrapper.className = 'video-embed-wrapper';
+    embedWrapper.innerHTML = `
+      <iframe src="https://www.youtube.com/embed/${youtubeId}" 
+              title="YouTube video player" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowfullscreen>
+      </iframe>
+    `;
+    contentArea.appendChild(embedWrapper);
+  }
+
+  // Check if content is a full HTML document (with <!DOCTYPE, <html>, <head>, <script>, or Tailwind)
 function isFullHtmlDoc(content) {
   if (!content) return false;
   const trimmed = content.trim().toLowerCase();
