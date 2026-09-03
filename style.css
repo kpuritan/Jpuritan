@@ -2857,3 +2857,5 @@ footer {
     font-size: 0.88rem !important;
   }
 }
+
+#detail-scripture-container { display: none !important; }
