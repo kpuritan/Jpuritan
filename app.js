@@ -3743,11 +3743,11 @@ function toggleBgm() {
       bgmIframe.style.opacity = '0.01';
       bgmIframe.style.pointerEvents = 'none';
       bgmIframe.style.border = 'none';
-      bgmIframe.src = 'https://www.youtube.com/embed/f742p7mQ0Ic?autoplay=1&loop=1&playlist=f742p7mQ0Ic';
+      bgmIframe.src = 'https://www.youtube.com/embed/xVaEpSFCapc?autoplay=1&loop=1&playlist=xVaEpSFCapc';
       bgmIframe.allow = 'autoplay';
       document.body.appendChild(bgmIframe);
     } else {
-      bgmIframe.src = 'https://www.youtube.com/embed/f742p7mQ0Ic?autoplay=1&loop=1&playlist=f742p7mQ0Ic';
+      bgmIframe.src = 'https://www.youtube.com/embed/xVaEpSFCapc?autoplay=1&loop=1&playlist=xVaEpSFCapc';
     }
     isBgmPlaying = true;
     btn.classList.add('playing');
