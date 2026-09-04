@@ -219,6 +219,7 @@ async function initApp() {
         initializeCollapsedStates();
         renderMainMenuCards();
         renderFeaturedBlocks();
+        renderRecentArticles();
         
         // Immediately refresh workspace and articles list if a category is open in user view
         if (state.currentCategory) {
@@ -1343,6 +1344,7 @@ function selectSubcategory(categoryId, shouldScroll = false) {
     viewArticleDetail(filteredArticles[0].id);
   } else {
     renderArticlesList();
+    renderRecentArticles();
     document.getElementById('view-article-list').style.display = 'block';
     document.getElementById('view-article-detail').style.display = 'none';
   }
@@ -2336,6 +2338,7 @@ function returnToUserSite() {
   // Ensure quick admin bar and toggle buttons are displayed
   renderHomepageQuickAdminBar();
   updateAdminNavAndFloatingButtons();
+  renderRecentArticles();
 
   // If a category was selected, show the workspace list with admin buttons
   if (state.currentCategory) {
@@ -3268,6 +3271,8 @@ async function handleSaveArticle(event) {
   // 3. Sync compiled data.json to GitHub
   syncDataJsonToGitHub();
 
+  renderRecentArticles();
+
   alert(articleId ? "記事を修正・保存しました。" : "新規記事を公開しました。");
   resetWriteForm();
   switchAdminTab('articles');
@@ -3984,18 +3989,27 @@ function changePageSize(size) {
   renderArticlesList();
 }
 
-// ==========================================
-// 8. Recent Articles & Navigation helper
-// ==========================================
 function renderRecentArticles() {
   const container = document.getElementById('recent-articles-list');
   if (!container) return;
   
   container.innerHTML = '';
   
-  // Sort articles by date descending
+  if (!state.articles || state.articles.length === 0) {
+    container.innerHTML = '<li style="color: var(--text-light); font-size: 0.85rem; padding: 10px;">更新された記事がありません。</li>';
+    return;
+  }
+  
+  // Sort articles by date descending with ID fallback (robust against null/invalid dates)
   const recentArticles = [...state.articles]
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .filter(a => a && a.title && a.id)
+    .sort((a, b) => {
+      const dateA = a.createdAt || '';
+      const dateB = b.createdAt || '';
+      const dateComp = dateB.localeCompare(dateA);
+      if (dateComp !== 0) return dateComp;
+      return (b.id || '').localeCompare(a.id || '');
+    })
     .slice(0, 10);
     
   if (recentArticles.length === 0) {
@@ -4010,13 +4024,17 @@ function renderRecentArticles() {
     li.style.borderBottom = '1px solid var(--border-color)';
     li.style.transition = 'var(--transition-smooth)';
     
+    // Category label
+    const cat = state.categories ? state.categories.find(c => c.id === art.categoryId) : null;
+    const catName = cat ? cat.nameJp : '';
+    
     li.innerHTML = `
-      <div style="font-weight: 500; color: var(--primary-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.85rem;" title="${art.title}">
+      <div style="font-weight: 600; color: var(--primary-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.85rem;" title="${art.title}">
         ${art.title}
       </div>
       <div style="font-size: 0.75rem; color: var(--text-light); display: flex; justify-content: space-between; margin-top: 4px;">
-        <span>${art.author}</span>
-        <span>${art.createdAt}</span>
+        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 65%;">${art.author || ''}${catName ? ' · ' + catName : ''}</span>
+        <span>${art.createdAt || ''}</span>
       </div>
     `;
     
