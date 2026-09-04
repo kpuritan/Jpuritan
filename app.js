@@ -1,4 +1,4 @@
-﻿// Reformed & Puritan Japanese Hub - Solid Standalone Engine v25.0
+// Reformed & Puritan Japanese Hub - Solid Standalone Engine v25.0
 
 // ==========================================
 // 1. Fully Embedded Master Database (Zero Loading Delay, No External Dependency)
@@ -371,7 +371,8 @@ async function connectAdminFirestore() {
   } catch (err) {
     console.warn("Admin: Failed to retrieve live data from Firestore:", err);
     state.isDbOffline = true;
-    hideDbLoadingOverlay(); // Unblock UI on error
+  } finally {
+    hideDbLoadingOverlay(); // Always unblock UI
   }
 }
 
@@ -2209,8 +2210,8 @@ function closeLoginModal() {
 
 async function handleLogin(event) {
   event.preventDefault();
-  const user = document.getElementById('login-username').value;
-  const pass = document.getElementById('login-password').value;
+  const user = (document.getElementById('login-username').value || '').trim();
+  const pass = (document.getElementById('login-password').value || '').trim();
 
   if (user === 'admin' && pass === '1234') {
     // Check Session Lock in Firestore ONLY if DB is online
@@ -2243,15 +2244,9 @@ async function handleLogin(event) {
     sessionStorage.setItem('wscal_admin_logged', 'true');
     startSessionHeartbeat();
     closeLoginModal();
+    showAdminDashboard('folders');
     updateAdminNavAndFloatingButtons();
     connectAdminFirestore();
-
-    // Refresh current view in-place so admin action bars appear immediately
-    if (state.currentCategory) {
-      renderArticlesList();
-    } else if (state.currentArticle) {
-      viewArticleDetail(state.currentArticle.id);
-    }
   } else {
     document.getElementById('login-error').style.display = 'block';
   }
