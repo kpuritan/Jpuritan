@@ -55,798 +55,912 @@
                            "parentId":  "sermon",
                            "nameJp":  "士師記",
                            "nameKr":  "사사기",
-                           "position":  2
+                           "position":  2,
+                           "parent":  "sermon"
                        },
                        {
                            "id":  "cat_1787326100562",
                            "parentId":  "sermon",
                            "nameJp":  "ルカによる福音書",
                            "nameKr":  "누가복음",
-                           "position":  4
+                           "position":  4,
+                           "parent":  "sermon"
                        },
                        {
                            "id":  "cat_1787326106992",
                            "parentId":  "sermon",
                            "nameJp":  "使徒行伝",
                            "nameKr":  "사도행전",
-                           "position":  5
+                           "position":  5,
+                           "parent":  "sermon"
                        },
                        {
                            "id":  "cat_1787326111431",
                            "parentId":  "sermon",
                            "nameJp":  "エフェソス",
                            "nameKr":  "에베소서",
-                           "position":  6
+                           "position":  6,
+                           "parent":  "sermon"
                        },
                        {
                            "id":  "cat_1787326117294",
                            "parentId":  "sermon",
                            "nameJp":  "ユダ",
                            "nameKr":  "유다서",
-                           "position":  7
+                           "position":  7,
+                           "parent":  "sermon"
                        },
                        {
                            "id":  "cat_1787326434135",
                            "parentId":  "catechism",
                            "nameJp":  "教会復興の事例",
                            "nameKr":  "교회부흥의 사례",
-                           "position":  11
+                           "position":  11,
+                           "parent":  "catechism"
                        },
                        {
                            "id":  "cat_1787326465395",
                            "parentId":  "theology",
                            "nameJp":  "キリスト論",
                            "nameKr":  "기독론",
-                           "position":  14
+                           "position":  14,
+                           "parent":  "theology"
                        },
                        {
                            "id":  "cat_1787326474174",
                            "parentId":  "theology",
                            "nameJp":  "救い論",
                            "nameKr":  "구원론",
-                           "position":  15
+                           "position":  15,
+                           "parent":  "theology"
                        },
                        {
                            "id":  "cat_1787326480670",
                            "parentId":  "theology",
                            "nameJp":  "教会論",
                            "nameKr":  "교회론",
-                           "position":  16
+                           "position":  16,
+                           "parent":  "theology"
                        },
                        {
                            "id":  "cat_1787326486869",
                            "parentId":  "theology",
                            "nameJp":  "終末論",
                            "nameKr":  "종말론",
-                           "position":  17
+                           "position":  17,
+                           "parent":  "theology"
                        },
                        {
                            "id":  "cat_1787326493464",
                            "parentId":  "theology",
                            "nameJp":  "歴史神学",
                            "nameKr":  "역사신학",
-                           "position":  18
+                           "position":  18,
+                           "parent":  "theology"
                        },
                        {
                            "id":  "cat_1787326510501",
                            "parentId":  "cat_1787326493464",
                            "nameJp":  "宗教改革史",
                            "nameKr":  "종교개혁사",
-                           "position":  20
+                           "position":  20,
+                           "parent":  "cat_1787326493464"
                        },
                        {
                            "id":  "cat_1787326540446",
                            "parentId":  "cat_1787326493464",
                            "nameJp":  "清教徒の歴史",
                            "nameKr":  "청교도 역사",
-                           "position":  21
+                           "position":  21,
+                           "parent":  "cat_1787326493464"
                        },
                        {
                            "id":  "cat_1787326555731",
                            "parentId":  "cat_1787326493464",
                            "nameJp":  "近代教会の歴史",
                            "nameKr":  "근대 교회 역사",
-                           "position":  22
+                           "position":  22,
+                           "parent":  "cat_1787326493464"
                        },
                        {
                            "id":  "cat_1787469045280",
                            "parentId":  "menu_1787468975888",
                            "nameJp":  "機関の目的",
                            "nameKr":  "기관 목적",
-                           "position":  23
+                           "position":  23,
+                           "parent":  "menu_1787468975888"
                        },
                        {
                            "id":  "cat_1787469050463",
                            "parentId":  "menu_1787468975888",
                            "nameJp":  "仕える",
                            "nameKr":  "섬기는 이들",
-                           "position":  24
+                           "position":  24,
+                           "parent":  "menu_1787468975888"
                        },
                        {
                            "id":  "cat_1787469061107",
                            "parentId":  "menu_1787468975888",
                            "nameJp":  "contact",
                            "nameKr":  "contact",
-                           "position":  26
+                           "position":  26,
+                           "parent":  "menu_1787468975888"
                        },
                        {
                            "id":  "cat_1787469558824",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 1章",
                            "nameKr":  "누가복음 1장",
-                           "position":  27
+                           "position":  27,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787469574296",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 2章",
                            "nameKr":  "누가복음 2장",
-                           "position":  28
+                           "position":  28,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787469581341",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 3章",
                            "nameKr":  "누가복음 3장",
-                           "position":  29
+                           "position":  29,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787469652569",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 4章",
                            "nameKr":  "누가복음 4장",
-                           "position":  30
+                           "position":  30,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787469660301",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 5章",
                            "nameKr":  "누가복음 5장",
-                           "position":  31
+                           "position":  31,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787469667662",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 6章",
                            "nameKr":  "누가복음 6장",
-                           "position":  32
+                           "position":  32,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470047025",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 7章",
                            "nameKr":  "누가복음 7장",
-                           "position":  33
+                           "position":  33,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470053990",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 8章",
                            "nameKr":  "누가복음 8장",
-                           "position":  34
+                           "position":  34,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470068569",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 9章",
                            "nameKr":  "누가복음 9장",
-                           "position":  35
+                           "position":  35,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470080741",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 10章",
                            "nameKr":  "누가복음 10장",
-                           "position":  36
+                           "position":  36,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470087502",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 11章",
                            "nameKr":  "누가복음 11장",
-                           "position":  37
+                           "position":  37,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470093928",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 12章",
                            "nameKr":  "누가복음 12장",
-                           "position":  38
+                           "position":  38,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470102954",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 13章",
                            "nameKr":  "누가복음 13장",
-                           "position":  39
+                           "position":  39,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470109320",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 14章",
                            "nameKr":  "누가복음 14장",
-                           "position":  40
+                           "position":  40,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470114130",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 15章",
                            "nameKr":  "누가복음 15장",
-                           "position":  41
+                           "position":  41,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470120143",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 16章",
                            "nameKr":  "누가복음 16장",
-                           "position":  42
+                           "position":  42,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470125825",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 17章",
                            "nameKr":  "누가복음 17장",
-                           "position":  43
+                           "position":  43,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470131699",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 18章",
                            "nameKr":  "누가복음 18장",
-                           "position":  44
+                           "position":  44,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470137013",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 19章",
                            "nameKr":  "누가복음 19장",
-                           "position":  45
+                           "position":  45,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470142274",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 20章",
                            "nameKr":  "누가복음 20장",
-                           "position":  46
+                           "position":  46,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470147688",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 21章",
                            "nameKr":  "누가복음 21장",
-                           "position":  47
+                           "position":  47,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470148419",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 22章",
                            "nameKr":  "누가복음 22장",
-                           "position":  48
+                           "position":  48,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470154312",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 23章",
                            "nameKr":  "누가복음 23장",
-                           "position":  49
+                           "position":  49,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787470171532",
                            "parentId":  "cat_1787326100562",
                            "nameJp":  "ルカによる福音書 24章",
                            "nameKr":  "누가복음 24장",
-                           "position":  50
+                           "position":  50,
+                           "parent":  "cat_1787326100562"
                        },
                        {
                            "id":  "cat_1787673498563",
                            "parentId":  "theology",
                            "nameJp":  "説教学",
                            "nameKr":  "설교학",
-                           "position":  19
+                           "position":  19,
+                           "parent":  "theology"
                        },
                        {
                            "id":  "cat_1787673527469",
                            "parentId":  "discipleship",
                            "nameJp":  "伝道小冊子",
                            "nameKr":  "전도 소책자",
-                           "position":  53
+                           "position":  53,
+                           "parent":  "discipleship"
                        },
                        {
                            "id":  "cat_cat_1",
                            "parentId":  "catechism",
                            "nameJp":  "ウェストミンスター小教理問答書",
                            "nameKr":  "웨스트민스터 소교리문답서",
-                           "position":  7
+                           "position":  7,
+                           "parent":  "catechism"
                        },
                        {
                            "id":  "cat_cat_2",
                            "parentId":  "catechism",
                            "nameJp":  "ウェストミンスター大教理問答書",
                            "nameKr":  "웨스트민스터 대교리문답서",
-                           "position":  8
+                           "position":  8,
+                           "parent":  "catechism"
                        },
                        {
                            "id":  "cat_cat_3",
                            "parentId":  "catechism",
                            "nameJp":  "ウェストミンスター信仰告白",
                            "nameKr":  "웨스트민스터 신앙고백",
-                           "position":  9
+                           "position":  9,
+                           "parent":  "catechism"
                        },
                        {
                            "id":  "cat_cat_4",
                            "parentId":  "catechism",
                            "nameJp":  "ハイデルベルク信仰問答",
                            "nameKr":  "하이델베르크 신앙문답",
-                           "position":  10
+                           "position":  10,
+                           "parent":  "catechism"
                        },
                        {
                            "id":  "cat_disc_1",
                            "parentId":  "discipleship",
                            "nameJp":  "伝導",
                            "nameKr":  "전도",
-                           "position":  51
+                           "position":  51,
+                           "parent":  "discipleship"
                        },
                        {
                            "id":  "cat_disc_2",
                            "parentId":  "discipleship",
                            "nameJp":  "弟子",
                            "nameKr":  "제자도",
-                           "position":  52
+                           "position":  52,
+                           "parent":  "discipleship"
                        },
                        {
                            "id":  "cat_pastor_1",
                            "parentId":  "pastor",
                            "nameJp":  "10分で学ぶキリスト論",
                            "nameKr":  "10분으로 배우는 기독론",
-                           "position":  54
+                           "position":  54,
+                           "parent":  "pastor"
                        },
                        {
                            "id":  "cat_pastor_2",
                            "parentId":  "pastor",
                            "nameJp":  "10分で学ぶ救済論",
                            "nameKr":  "10분으로 배우는 구원론",
-                           "position":  55
+                           "position":  55,
+                           "parent":  "pastor"
                        },
                        {
                            "id":  "cat_sermon_2",
                            "parentId":  "sermon",
                            "nameJp":  "ルツ記",
                            "nameKr":  "룻기",
-                           "position":  3
+                           "position":  3,
+                           "parent":  "sermon"
                        },
                        {
                            "id":  "cat_theo_1",
                            "parentId":  "theology",
                            "nameJp":  "神論",
                            "nameKr":  "신론",
-                           "position":  12
+                           "position":  12,
+                           "parent":  "theology"
                        },
                        {
                            "id":  "cat_theo_2",
                            "parentId":  "theology",
                            "nameJp":  "人間論",
                            "nameKr":  "인간론",
-                           "position":  13
+                           "position":  13,
+                           "parent":  "theology"
                        },
                        {
                            "id":  "cat_1787930001000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 1章",
                            "nameKr":  "사사기 1장",
-                           "position":  124
+                           "position":  124,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930002000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 2章",
                            "nameKr":  "사사기 2장",
-                           "position":  125
+                           "position":  125,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930003000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 3章",
                            "nameKr":  "사사기 3장",
-                           "position":  126
+                           "position":  126,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930004000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 4章",
                            "nameKr":  "사사기 4장",
-                           "position":  127
+                           "position":  127,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930005000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 5章",
                            "nameKr":  "사사기 5장",
-                           "position":  128
+                           "position":  128,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930006000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 6章",
                            "nameKr":  "사사기 6장",
-                           "position":  129
+                           "position":  129,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930007000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 7章",
                            "nameKr":  "사사기 7장",
-                           "position":  130
+                           "position":  130,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930008000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 8章",
                            "nameKr":  "사사기 8장",
-                           "position":  131
+                           "position":  131,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930009000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 9章",
                            "nameKr":  "사사기 9장",
-                           "position":  132
+                           "position":  132,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930010000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 10章",
                            "nameKr":  "사사기 10장",
-                           "position":  133
+                           "position":  133,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930011000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 11章",
                            "nameKr":  "사사기 11장",
-                           "position":  134
+                           "position":  134,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930012000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 12章",
                            "nameKr":  "사사기 12장",
-                           "position":  135
+                           "position":  135,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930013000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 13章",
                            "nameKr":  "사사기 13장",
-                           "position":  136
+                           "position":  136,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930014000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 14章",
                            "nameKr":  "사사기 14장",
-                           "position":  137
+                           "position":  137,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930015000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 15章",
                            "nameKr":  "사사기 15장",
-                           "position":  138
+                           "position":  138,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930016000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 16章",
                            "nameKr":  "사사기 16장",
-                           "position":  139
+                           "position":  139,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930017000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 17章",
                            "nameKr":  "사사기 17장",
-                           "position":  140
+                           "position":  140,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930018000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 18章",
                            "nameKr":  "사사기 18장",
-                           "position":  141
+                           "position":  141,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930019000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 19章",
                            "nameKr":  "사사기 19장",
-                           "position":  142
+                           "position":  142,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930020000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 20章",
                            "nameKr":  "사사기 20장",
-                           "position":  143
+                           "position":  143,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787930021000",
                            "parentId":  "cat_1787326092381",
                            "nameJp":  "士師記 21章",
                            "nameKr":  "사사기 21장",
-                           "position":  144
+                           "position":  144,
+                           "parent":  "cat_1787326092381"
                        },
                        {
                            "id":  "cat_1787940001000",
                            "parentId":  "cat_sermon_2",
                            "nameJp":  "ルツ記 1章",
                            "nameKr":  "룻기 1장",
-                           "position":  145
+                           "position":  145,
+                           "parent":  "cat_sermon_2"
                        },
                        {
                            "id":  "cat_1787940002000",
                            "parentId":  "cat_sermon_2",
                            "nameJp":  "ルツ記 2章",
                            "nameKr":  "룻기 2장",
-                           "position":  146
+                           "position":  146,
+                           "parent":  "cat_sermon_2"
                        },
                        {
                            "id":  "cat_1787940003000",
                            "parentId":  "cat_sermon_2",
                            "nameJp":  "ルツ記 3章",
                            "nameKr":  "룻기 3장",
-                           "position":  147
+                           "position":  147,
+                           "parent":  "cat_sermon_2"
                        },
                        {
                            "id":  "cat_1787940004000",
                            "parentId":  "cat_sermon_2",
                            "nameJp":  "ルツ記 4章",
                            "nameKr":  "룻기 4장",
-                           "position":  148
+                           "position":  148,
+                           "parent":  "cat_sermon_2"
                        },
                        {
                            "id":  "cat_sermon_deut",
                            "parentId":  "sermon",
                            "nameJp":  "申命記",
                            "nameKr":  "신명기",
-                           "position":  1
+                           "position":  1,
+                           "parent":  "sermon"
                        },
                        {
                            "id":  "cat_deut_01",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 1章",
                            "nameKr":  "신명기 1장",
-                           "position":  1
+                           "position":  1,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_02",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 2章",
                            "nameKr":  "신명기 2장",
-                           "position":  2
+                           "position":  2,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_03",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 3章",
                            "nameKr":  "신명기 3장",
-                           "position":  3
+                           "position":  3,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_04",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 4章",
                            "nameKr":  "신명기 4장",
-                           "position":  4
+                           "position":  4,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_05",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 5章",
                            "nameKr":  "신명기 5장",
-                           "position":  5
+                           "position":  5,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_06",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 6章",
                            "nameKr":  "신명기 6장",
-                           "position":  6
+                           "position":  6,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_07",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 7章",
                            "nameKr":  "신명기 7장",
-                           "position":  7
+                           "position":  7,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_08",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 8章",
                            "nameKr":  "신명기 8장",
-                           "position":  8
+                           "position":  8,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_09",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 9章",
                            "nameKr":  "신명기 9장",
-                           "position":  9
+                           "position":  9,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_10",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 10章",
                            "nameKr":  "신명기 10장",
-                           "position":  10
+                           "position":  10,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_11",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 11章",
                            "nameKr":  "신명기 11장",
-                           "position":  11
+                           "position":  11,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_12",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 12章",
                            "nameKr":  "신명기 12장",
-                           "position":  12
+                           "position":  12,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_13",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 13章",
                            "nameKr":  "신명기 13장",
-                           "position":  13
+                           "position":  13,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_14",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 14章",
                            "nameKr":  "신명기 14장",
-                           "position":  14
+                           "position":  14,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_15",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 15章",
                            "nameKr":  "신명기 15장",
-                           "position":  15
+                           "position":  15,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_16",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 16章",
                            "nameKr":  "신명기 16장",
-                           "position":  16
+                           "position":  16,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_17",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 17章",
                            "nameKr":  "신명기 17장",
-                           "position":  17
+                           "position":  17,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_18",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 18章",
                            "nameKr":  "신명기 18장",
-                           "position":  18
+                           "position":  18,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_19",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 19章",
                            "nameKr":  "신명기 19장",
-                           "position":  19
+                           "position":  19,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_20",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 20章",
                            "nameKr":  "신명기 20장",
-                           "position":  20
+                           "position":  20,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_21",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 21章",
                            "nameKr":  "신명기 21장",
-                           "position":  21
+                           "position":  21,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_22",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 22章",
                            "nameKr":  "신명기 22장",
-                           "position":  22
+                           "position":  22,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_23",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 23章",
                            "nameKr":  "신명기 23장",
-                           "position":  23
+                           "position":  23,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_24",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 24章",
                            "nameKr":  "신명기 24장",
-                           "position":  24
+                           "position":  24,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_25",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 25章",
                            "nameKr":  "신명기 25장",
-                           "position":  25
+                           "position":  25,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_26",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 26章",
                            "nameKr":  "신명기 26장",
-                           "position":  26
+                           "position":  26,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_27",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 27章",
                            "nameKr":  "신명기 27장",
-                           "position":  27
+                           "position":  27,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_28",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 28章",
                            "nameKr":  "신명기 28장",
-                           "position":  28
+                           "position":  28,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_29",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 29章",
                            "nameKr":  "신명기 29장",
-                           "position":  29
+                           "position":  29,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_30",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 30章",
                            "nameKr":  "신명기 30장",
-                           "position":  30
+                           "position":  30,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_31",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 31章",
                            "nameKr":  "신명기 31장",
-                           "position":  31
+                           "position":  31,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_32",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 32章",
                            "nameKr":  "신명기 32장",
-                           "position":  32
+                           "position":  32,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_33",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 33章",
                            "nameKr":  "신명기 33장",
-                           "position":  33
+                           "position":  33,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_deut_34",
                            "parentId":  "cat_sermon_deut",
                            "nameJp":  "申命記 34章",
                            "nameKr":  "신명기 34장",
-                           "position":  34
+                           "position":  34,
+                           "parent":  "cat_sermon_deut"
                        },
                        {
                            "id":  "cat_ephes_01",
@@ -854,7 +968,8 @@
                            "name":  "エフェソス 1章",
                            "position":  1,
                            "nameJp":  "エフェソス 1章",
-                           "nameKr":  "에베소서 1장"
+                           "nameKr":  "에베소서 1장",
+                           "parent":  "cat_1787326111431"
                        },
                        {
                            "id":  "cat_ephes_02",
@@ -862,7 +977,8 @@
                            "name":  "エフェソス 2章",
                            "position":  2,
                            "nameJp":  "エフェソス 2章",
-                           "nameKr":  "에베소서 2장"
+                           "nameKr":  "에베소서 2장",
+                           "parent":  "cat_1787326111431"
                        },
                        {
                            "id":  "cat_ephes_03",
@@ -870,7 +986,8 @@
                            "name":  "エフェソス 3章",
                            "position":  3,
                            "nameJp":  "エフェソス 3章",
-                           "nameKr":  "에베소서 3장"
+                           "nameKr":  "에베소서 3장",
+                           "parent":  "cat_1787326111431"
                        },
                        {
                            "id":  "cat_ephes_04",
@@ -878,7 +995,8 @@
                            "name":  "エフェソス 4章",
                            "position":  4,
                            "nameJp":  "エフェソス 4章",
-                           "nameKr":  "에베소서 4장"
+                           "nameKr":  "에베소서 4장",
+                           "parent":  "cat_1787326111431"
                        },
                        {
                            "id":  "cat_ephes_05",
@@ -886,7 +1004,8 @@
                            "name":  "エフェソス 5章",
                            "position":  5,
                            "nameJp":  "エフェソス 5章",
-                           "nameKr":  "에베소서 5장"
+                           "nameKr":  "에베소서 5장",
+                           "parent":  "cat_1787326111431"
                        },
                        {
                            "id":  "cat_ephes_06",
@@ -894,1512 +1013,1728 @@
                            "name":  "エフェソス 6章",
                            "position":  6,
                            "nameJp":  "エフェソス 6章",
-                           "nameKr":  "에베소서 6장"
+                           "nameKr":  "에베소서 6장",
+                           "parent":  "cat_1787326111431"
                        },
                        {
                            "id":  "cat_sermon_gal",
                            "parentId":  "sermon",
                            "nameJp":  "ガラテヤ書",
                            "nameKr":  "갈라디아서",
-                           "position":  8
+                           "position":  8,
+                           "parent":  "sermon"
                        },
                        {
                            "id":  "cat_gal_01",
                            "parentId":  "cat_sermon_gal",
                            "nameJp":  "ガラテヤ書 1章",
                            "nameKr":  "갈라디아서 1장",
-                           "position":  1
+                           "position":  1,
+                           "parent":  "cat_sermon_gal"
                        },
                        {
                            "id":  "cat_gal_02",
                            "parentId":  "cat_sermon_gal",
                            "nameJp":  "ガラテヤ書 2章",
                            "nameKr":  "갈라디아서 2장",
-                           "position":  2
+                           "position":  2,
+                           "parent":  "cat_sermon_gal"
                        },
                        {
                            "id":  "cat_gal_03",
                            "parentId":  "cat_sermon_gal",
                            "nameJp":  "ガラテヤ書 3章",
                            "nameKr":  "갈라디아서 3장",
-                           "position":  3
+                           "position":  3,
+                           "parent":  "cat_sermon_gal"
                        },
                        {
                            "id":  "cat_gal_04",
                            "parentId":  "cat_sermon_gal",
                            "nameJp":  "ガラテヤ書 4章",
                            "nameKr":  "갈라디아서 4장",
-                           "position":  4
+                           "position":  4,
+                           "parent":  "cat_sermon_gal"
                        },
                        {
                            "id":  "cat_gal_05",
                            "parentId":  "cat_sermon_gal",
                            "nameJp":  "ガラテヤ書 5章",
                            "nameKr":  "갈라디아서 5장",
-                           "position":  5
+                           "position":  5,
+                           "parent":  "cat_sermon_gal"
                        },
                        {
                            "id":  "cat_gal_06",
                            "parentId":  "cat_sermon_gal",
                            "nameJp":  "ガラテヤ書 6章",
                            "nameKr":  "갈라디아서 6장",
-                           "position":  6
+                           "position":  6,
+                           "parent":  "cat_sermon_gal"
                        },
                        {
                            "id":  "cat_sermon_rom",
                            "parentId":  "sermon",
                            "nameJp":  "ローマ人への手紙",
                            "nameKr":  "로마서",
-                           "position":  9
+                           "position":  9,
+                           "parent":  "sermon"
                        },
                        {
                            "id":  "cat_rom_01",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 1章",
                            "nameKr":  "로마서 1장",
-                           "position":  1
+                           "position":  1,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_02",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 2章",
                            "nameKr":  "로마서 2장",
-                           "position":  2
+                           "position":  2,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_03",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 3章",
                            "nameKr":  "로마서 3장",
-                           "position":  3
+                           "position":  3,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_04",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 4章",
                            "nameKr":  "로마서 4장",
-                           "position":  4
+                           "position":  4,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_05",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 5章",
                            "nameKr":  "로마서 5장",
-                           "position":  5
+                           "position":  5,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_06",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 6章",
                            "nameKr":  "로마서 6장",
-                           "position":  6
+                           "position":  6,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_07",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 7章",
                            "nameKr":  "로마서 7장",
-                           "position":  7
+                           "position":  7,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_08",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 8章",
                            "nameKr":  "로마서 8장",
-                           "position":  8
+                           "position":  8,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_09",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 9章",
                            "nameKr":  "로마서 9장",
-                           "position":  9
+                           "position":  9,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_10",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 10章",
                            "nameKr":  "로마서 10장",
-                           "position":  10
+                           "position":  10,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_11",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 11章",
                            "nameKr":  "로마서 11장",
-                           "position":  11
+                           "position":  11,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_12",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 12章",
                            "nameKr":  "로마서 12장",
-                           "position":  12
+                           "position":  12,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_13",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 13章",
                            "nameKr":  "로마서 13장",
-                           "position":  13
+                           "position":  13,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_14",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 14章",
                            "nameKr":  "로마서 14장",
-                           "position":  14
+                           "position":  14,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_15",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 15章",
                            "nameKr":  "로마서 15장",
-                           "position":  15
+                           "position":  15,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_rom_16",
                            "parentId":  "cat_sermon_rom",
                            "nameJp":  "ローマ人への手紙 16章",
                            "nameKr":  "로마서 16장",
-                           "position":  16
+                           "position":  16,
+                           "parent":  "cat_sermon_rom"
                        },
                        {
                            "id":  "cat_sermon_jas",
                            "parentId":  "sermon",
                            "nameJp":  "ヤコブの手紙",
                            "nameKr":  "야고보서",
-                           "position":  10
+                           "position":  10,
+                           "parent":  "sermon"
                        },
                        {
                            "id":  "cat_jas_01",
                            "parentId":  "cat_sermon_jas",
                            "nameJp":  "ヤコブの手紙 1章",
                            "nameKr":  "야고보서 1장",
-                           "position":  1
+                           "position":  1,
+                           "parent":  "cat_sermon_jas"
                        },
                        {
                            "id":  "cat_jas_02",
                            "parentId":  "cat_sermon_jas",
                            "nameJp":  "ヤコブの手紙 2章",
                            "nameKr":  "야고보서 2장",
-                           "position":  2
+                           "position":  2,
+                           "parent":  "cat_sermon_jas"
                        },
                        {
                            "id":  "cat_jas_03",
                            "parentId":  "cat_sermon_jas",
                            "nameJp":  "ヤコブの手紙 3章",
                            "nameKr":  "야고보서 3장",
-                           "position":  3
+                           "position":  3,
+                           "parent":  "cat_sermon_jas"
                        },
                        {
                            "id":  "cat_jas_04",
                            "parentId":  "cat_sermon_jas",
                            "nameJp":  "ヤコブの手紙 4章",
                            "nameKr":  "야고보서 4장",
-                           "position":  4
+                           "position":  4,
+                           "parent":  "cat_sermon_jas"
                        },
                        {
                            "id":  "cat_jas_05",
                            "parentId":  "cat_sermon_jas",
                            "nameJp":  "ヤコブの手紙 5章",
                            "nameKr":  "야고보서 5장",
-                           "position":  5
+                           "position":  5,
+                           "parent":  "cat_sermon_jas"
                        },
                        {
                            "id":  "cat_sermon_mir_par",
                            "parentId":  "sermon",
                            "nameJp":  "イエスの奇跡とたとえ話",
                            "nameKr":  "예수님의 이적비유",
-                           "position":  11
+                           "position":  11,
+                           "parent":  "sermon"
                        },
                        {
                            "id":  "cat_mirpar_01",
                            "parentId":  "cat_sermon_mir_par",
                            "nameJp":  "イエスの奇跡",
                            "nameKr":  "예수님의 이적",
-                           "position":  1
+                           "position":  1,
+                           "parent":  "cat_sermon_mir_par"
                        },
                        {
                            "id":  "cat_mirpar_02",
                            "parentId":  "cat_sermon_mir_par",
                            "nameJp":  "イエスのたとえ話",
                            "nameKr":  "예수님의 비유",
-                           "position":  2
+                           "position":  2,
+                           "parent":  "cat_sermon_mir_par"
                        },
                        {
                            "id":  "cat_sermon_psa",
                            "parentId":  "sermon",
                            "nameJp":  "詩篇",
                            "nameKr":  "시편",
-                           "position":  12
+                           "position":  12,
+                           "parent":  "sermon"
                        },
                        {
                            "id":  "cat_psa_001",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 1篇",
                            "nameKr":  "시편 1편",
-                           "position":  1
+                           "position":  1,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_002",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 2篇",
                            "nameKr":  "시편 2편",
-                           "position":  2
+                           "position":  2,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_003",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 3篇",
                            "nameKr":  "시편 3편",
-                           "position":  3
+                           "position":  3,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_004",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 4篇",
                            "nameKr":  "시편 4편",
-                           "position":  4
+                           "position":  4,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_005",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 5篇",
                            "nameKr":  "시편 5편",
-                           "position":  5
+                           "position":  5,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_006",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 6篇",
                            "nameKr":  "시편 6편",
-                           "position":  6
+                           "position":  6,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_007",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 7篇",
                            "nameKr":  "시편 7편",
-                           "position":  7
+                           "position":  7,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_008",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 8篇",
                            "nameKr":  "시편 8편",
-                           "position":  8
+                           "position":  8,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_009",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 9篇",
                            "nameKr":  "시편 9편",
-                           "position":  9
+                           "position":  9,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_010",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 10篇",
                            "nameKr":  "시편 10편",
-                           "position":  10
+                           "position":  10,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_011",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 11篇",
                            "nameKr":  "시편 11편",
-                           "position":  11
+                           "position":  11,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_012",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 12篇",
                            "nameKr":  "시편 12편",
-                           "position":  12
+                           "position":  12,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_013",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 13篇",
                            "nameKr":  "시편 13편",
-                           "position":  13
+                           "position":  13,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_014",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 14篇",
                            "nameKr":  "시편 14편",
-                           "position":  14
+                           "position":  14,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_015",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 15篇",
                            "nameKr":  "시편 15편",
-                           "position":  15
+                           "position":  15,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_016",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 16篇",
                            "nameKr":  "시편 16편",
-                           "position":  16
+                           "position":  16,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_017",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 17篇",
                            "nameKr":  "시편 17편",
-                           "position":  17
+                           "position":  17,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_018",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 18篇",
                            "nameKr":  "시편 18편",
-                           "position":  18
+                           "position":  18,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_019",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 19篇",
                            "nameKr":  "시편 19편",
-                           "position":  19
+                           "position":  19,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_020",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 20篇",
                            "nameKr":  "시편 20편",
-                           "position":  20
+                           "position":  20,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_021",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 21篇",
                            "nameKr":  "시편 21편",
-                           "position":  21
+                           "position":  21,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_022",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 22篇",
                            "nameKr":  "시편 22편",
-                           "position":  22
+                           "position":  22,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_023",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 23篇",
                            "nameKr":  "시편 23편",
-                           "position":  23
+                           "position":  23,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_024",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 24篇",
                            "nameKr":  "시편 24편",
-                           "position":  24
+                           "position":  24,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_025",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 25篇",
                            "nameKr":  "시편 25편",
-                           "position":  25
+                           "position":  25,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_026",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 26篇",
                            "nameKr":  "시편 26편",
-                           "position":  26
+                           "position":  26,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_027",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 27篇",
                            "nameKr":  "시편 27편",
-                           "position":  27
+                           "position":  27,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_028",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 28篇",
                            "nameKr":  "시편 28편",
-                           "position":  28
+                           "position":  28,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_029",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 29篇",
                            "nameKr":  "시편 29편",
-                           "position":  29
+                           "position":  29,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_030",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 30篇",
                            "nameKr":  "시편 30편",
-                           "position":  30
+                           "position":  30,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_031",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 31篇",
                            "nameKr":  "시편 31편",
-                           "position":  31
+                           "position":  31,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_032",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 32篇",
                            "nameKr":  "시편 32편",
-                           "position":  32
+                           "position":  32,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_033",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 33篇",
                            "nameKr":  "시편 33편",
-                           "position":  33
+                           "position":  33,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_034",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 34篇",
                            "nameKr":  "시편 34편",
-                           "position":  34
+                           "position":  34,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_035",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 35篇",
                            "nameKr":  "시편 35편",
-                           "position":  35
+                           "position":  35,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_036",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 36篇",
                            "nameKr":  "시편 36편",
-                           "position":  36
+                           "position":  36,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_037",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 37篇",
                            "nameKr":  "시편 37편",
-                           "position":  37
+                           "position":  37,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_038",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 38篇",
                            "nameKr":  "시편 38편",
-                           "position":  38
+                           "position":  38,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_039",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 39篇",
                            "nameKr":  "시편 39편",
-                           "position":  39
+                           "position":  39,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_040",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 40篇",
                            "nameKr":  "시편 40편",
-                           "position":  40
+                           "position":  40,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_041",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 41篇",
                            "nameKr":  "시편 41편",
-                           "position":  41
+                           "position":  41,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_042",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 42篇",
                            "nameKr":  "시편 42편",
-                           "position":  42
+                           "position":  42,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_043",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 43篇",
                            "nameKr":  "시편 43편",
-                           "position":  43
+                           "position":  43,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_044",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 44篇",
                            "nameKr":  "시편 44편",
-                           "position":  44
+                           "position":  44,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_045",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 45篇",
                            "nameKr":  "시편 45편",
-                           "position":  45
+                           "position":  45,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_046",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 46篇",
                            "nameKr":  "시편 46편",
-                           "position":  46
+                           "position":  46,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_047",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 47篇",
                            "nameKr":  "시편 47편",
-                           "position":  47
+                           "position":  47,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_048",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 48篇",
                            "nameKr":  "시편 48편",
-                           "position":  48
+                           "position":  48,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_049",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 49篇",
                            "nameKr":  "시편 49편",
-                           "position":  49
+                           "position":  49,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_050",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 50篇",
                            "nameKr":  "시편 50편",
-                           "position":  50
+                           "position":  50,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_051",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 51篇",
                            "nameKr":  "시편 51편",
-                           "position":  51
+                           "position":  51,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_052",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 52篇",
                            "nameKr":  "시편 52편",
-                           "position":  52
+                           "position":  52,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_053",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 53篇",
                            "nameKr":  "시편 53편",
-                           "position":  53
+                           "position":  53,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_054",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 54篇",
                            "nameKr":  "시편 54편",
-                           "position":  54
+                           "position":  54,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_055",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 55篇",
                            "nameKr":  "시편 55편",
-                           "position":  55
+                           "position":  55,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_056",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 56篇",
                            "nameKr":  "시편 56편",
-                           "position":  56
+                           "position":  56,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_057",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 57篇",
                            "nameKr":  "시편 57편",
-                           "position":  57
+                           "position":  57,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_058",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 58篇",
                            "nameKr":  "시편 58편",
-                           "position":  58
+                           "position":  58,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_059",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 59篇",
                            "nameKr":  "시편 59편",
-                           "position":  59
+                           "position":  59,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_060",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 60篇",
                            "nameKr":  "시편 60편",
-                           "position":  60
+                           "position":  60,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_061",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 61篇",
                            "nameKr":  "시편 61편",
-                           "position":  61
+                           "position":  61,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_062",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 62篇",
                            "nameKr":  "시편 62편",
-                           "position":  62
+                           "position":  62,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_063",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 63篇",
                            "nameKr":  "시편 63편",
-                           "position":  63
+                           "position":  63,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_064",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 64篇",
                            "nameKr":  "시편 64편",
-                           "position":  64
+                           "position":  64,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_065",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 65篇",
                            "nameKr":  "시편 65편",
-                           "position":  65
+                           "position":  65,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_066",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 66篇",
                            "nameKr":  "시편 66편",
-                           "position":  66
+                           "position":  66,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_067",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 67篇",
                            "nameKr":  "시편 67편",
-                           "position":  67
+                           "position":  67,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_068",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 68篇",
                            "nameKr":  "시편 68편",
-                           "position":  68
+                           "position":  68,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_069",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 69篇",
                            "nameKr":  "시편 69편",
-                           "position":  69
+                           "position":  69,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_070",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 70篇",
                            "nameKr":  "시편 70편",
-                           "position":  70
+                           "position":  70,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_071",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 71篇",
                            "nameKr":  "시편 71편",
-                           "position":  71
+                           "position":  71,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_072",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 72篇",
                            "nameKr":  "시편 72편",
-                           "position":  72
+                           "position":  72,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_073",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 73篇",
                            "nameKr":  "시편 73편",
-                           "position":  73
+                           "position":  73,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_074",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 74篇",
                            "nameKr":  "시편 74편",
-                           "position":  74
+                           "position":  74,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_075",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 75篇",
                            "nameKr":  "시편 75편",
-                           "position":  75
+                           "position":  75,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_076",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 76篇",
                            "nameKr":  "시편 76편",
-                           "position":  76
+                           "position":  76,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_077",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 77篇",
                            "nameKr":  "시편 77편",
-                           "position":  77
+                           "position":  77,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_078",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 78篇",
                            "nameKr":  "시편 78편",
-                           "position":  78
+                           "position":  78,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_079",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 79篇",
                            "nameKr":  "시편 79편",
-                           "position":  79
+                           "position":  79,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_080",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 80篇",
                            "nameKr":  "시편 80편",
-                           "position":  80
+                           "position":  80,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_081",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 81篇",
                            "nameKr":  "시편 81편",
-                           "position":  81
+                           "position":  81,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_082",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 82篇",
                            "nameKr":  "시편 82편",
-                           "position":  82
+                           "position":  82,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_083",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 83篇",
                            "nameKr":  "시편 83편",
-                           "position":  83
+                           "position":  83,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_084",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 84篇",
                            "nameKr":  "시편 84편",
-                           "position":  84
+                           "position":  84,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_085",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 85篇",
                            "nameKr":  "시편 85편",
-                           "position":  85
+                           "position":  85,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_086",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 86篇",
                            "nameKr":  "시편 86편",
-                           "position":  86
+                           "position":  86,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_087",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 87篇",
                            "nameKr":  "시편 87편",
-                           "position":  87
+                           "position":  87,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_088",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 88篇",
                            "nameKr":  "시편 88편",
-                           "position":  88
+                           "position":  88,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_089",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 89篇",
                            "nameKr":  "시편 89편",
-                           "position":  89
+                           "position":  89,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_090",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 90篇",
                            "nameKr":  "시편 90편",
-                           "position":  90
+                           "position":  90,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_091",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 91篇",
                            "nameKr":  "시편 91편",
-                           "position":  91
+                           "position":  91,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_092",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 92篇",
                            "nameKr":  "시편 92편",
-                           "position":  92
+                           "position":  92,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_093",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 93篇",
                            "nameKr":  "시편 93편",
-                           "position":  93
+                           "position":  93,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_094",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 94篇",
                            "nameKr":  "시편 94편",
-                           "position":  94
+                           "position":  94,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_095",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 95篇",
                            "nameKr":  "시편 95편",
-                           "position":  95
+                           "position":  95,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_096",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 96篇",
                            "nameKr":  "시편 96편",
-                           "position":  96
+                           "position":  96,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_097",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 97篇",
                            "nameKr":  "시편 97편",
-                           "position":  97
+                           "position":  97,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_098",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 98篇",
                            "nameKr":  "시편 98편",
-                           "position":  98
+                           "position":  98,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_099",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 99篇",
                            "nameKr":  "시편 99편",
-                           "position":  99
+                           "position":  99,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_100",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 100篇",
                            "nameKr":  "시편 100편",
-                           "position":  100
+                           "position":  100,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_101",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 101篇",
                            "nameKr":  "시편 101편",
-                           "position":  101
+                           "position":  101,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_102",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 102篇",
                            "nameKr":  "시편 102편",
-                           "position":  102
+                           "position":  102,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_103",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 103篇",
                            "nameKr":  "시편 103편",
-                           "position":  103
+                           "position":  103,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_104",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 104篇",
                            "nameKr":  "시편 104편",
-                           "position":  104
+                           "position":  104,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_105",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 105篇",
                            "nameKr":  "시편 105편",
-                           "position":  105
+                           "position":  105,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_106",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 106篇",
                            "nameKr":  "시편 106편",
-                           "position":  106
+                           "position":  106,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_107",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 107篇",
                            "nameKr":  "시편 107편",
-                           "position":  107
+                           "position":  107,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_108",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 108篇",
                            "nameKr":  "시편 108편",
-                           "position":  108
+                           "position":  108,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_109",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 109篇",
                            "nameKr":  "시편 109편",
-                           "position":  109
+                           "position":  109,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_110",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 110篇",
                            "nameKr":  "시편 110편",
-                           "position":  110
+                           "position":  110,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_111",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 111篇",
                            "nameKr":  "시편 111편",
-                           "position":  111
+                           "position":  111,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_112",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 112篇",
                            "nameKr":  "시편 112편",
-                           "position":  112
+                           "position":  112,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_113",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 113篇",
                            "nameKr":  "시편 113편",
-                           "position":  113
+                           "position":  113,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_114",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 114篇",
                            "nameKr":  "시편 114편",
-                           "position":  114
+                           "position":  114,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_115",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 115篇",
                            "nameKr":  "시편 115편",
-                           "position":  115
+                           "position":  115,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_116",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 116篇",
                            "nameKr":  "시편 116편",
-                           "position":  116
+                           "position":  116,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_117",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 117篇",
                            "nameKr":  "시편 117편",
-                           "position":  117
+                           "position":  117,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_118",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 118篇",
                            "nameKr":  "시편 118편",
-                           "position":  118
+                           "position":  118,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_119",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 119篇",
                            "nameKr":  "시편 119편",
-                           "position":  119
+                           "position":  119,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_120",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 120篇",
                            "nameKr":  "시편 120편",
-                           "position":  120
+                           "position":  120,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_121",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 121篇",
                            "nameKr":  "시편 121편",
-                           "position":  121
+                           "position":  121,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_122",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 122篇",
                            "nameKr":  "시편 122편",
-                           "position":  122
+                           "position":  122,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_123",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 123篇",
                            "nameKr":  "시편 123편",
-                           "position":  123
+                           "position":  123,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_124",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 124篇",
                            "nameKr":  "시편 124편",
-                           "position":  124
+                           "position":  124,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_125",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 125篇",
                            "nameKr":  "시편 125편",
-                           "position":  125
+                           "position":  125,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_126",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 126篇",
                            "nameKr":  "시편 126편",
-                           "position":  126
+                           "position":  126,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_127",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 127篇",
                            "nameKr":  "시편 127편",
-                           "position":  127
+                           "position":  127,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_128",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 128篇",
                            "nameKr":  "시편 128편",
-                           "position":  128
+                           "position":  128,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_129",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 129篇",
                            "nameKr":  "시편 129편",
-                           "position":  129
+                           "position":  129,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_130",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 130篇",
                            "nameKr":  "시편 130편",
-                           "position":  130
+                           "position":  130,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_131",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 131篇",
                            "nameKr":  "시편 131편",
-                           "position":  131
+                           "position":  131,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_132",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 132篇",
                            "nameKr":  "시편 132편",
-                           "position":  132
+                           "position":  132,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_133",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 133篇",
                            "nameKr":  "시편 133편",
-                           "position":  133
+                           "position":  133,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_134",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 134篇",
                            "nameKr":  "시편 134편",
-                           "position":  134
+                           "position":  134,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_135",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 135篇",
                            "nameKr":  "시편 135편",
-                           "position":  135
+                           "position":  135,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_136",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 136篇",
                            "nameKr":  "시편 136편",
-                           "position":  136
+                           "position":  136,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_137",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 137篇",
                            "nameKr":  "시편 137편",
-                           "position":  137
+                           "position":  137,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_138",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 138篇",
                            "nameKr":  "시편 138편",
-                           "position":  138
+                           "position":  138,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_139",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 139篇",
                            "nameKr":  "시편 139편",
-                           "position":  139
+                           "position":  139,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_140",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 140篇",
                            "nameKr":  "시편 140편",
-                           "position":  140
+                           "position":  140,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_141",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 141篇",
                            "nameKr":  "시편 141편",
-                           "position":  141
+                           "position":  141,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_142",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 142篇",
                            "nameKr":  "시편 142편",
-                           "position":  142
+                           "position":  142,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_143",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 143篇",
                            "nameKr":  "시편 143편",
-                           "position":  143
+                           "position":  143,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_144",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 144篇",
                            "nameKr":  "시편 144편",
-                           "position":  144
+                           "position":  144,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_145",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 145篇",
                            "nameKr":  "시편 145편",
-                           "position":  145
+                           "position":  145,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_146",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 146篇",
                            "nameKr":  "시편 146편",
-                           "position":  146
+                           "position":  146,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_147",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 147篇",
                            "nameKr":  "시편 147편",
-                           "position":  147
+                           "position":  147,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_148",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 148篇",
                            "nameKr":  "시편 148편",
-                           "position":  148
+                           "position":  148,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_149",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 149篇",
                            "nameKr":  "시편 149편",
-                           "position":  149
+                           "position":  149,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_psa_150",
                            "parentId":  "cat_sermon_psa",
                            "nameJp":  "詩篇 150篇",
                            "nameKr":  "시편 150편",
-                           "position":  150
+                           "position":  150,
+                           "parent":  "cat_sermon_psa"
                        },
                        {
                            "id":  "cat_sermon_heb",
                            "parentId":  "sermon",
                            "nameJp":  "ヘブル人への手紙",
                            "nameKr":  "히브리서",
-                           "position":  13
+                           "position":  13,
+                           "parent":  "sermon"
                        },
                        {
                            "id":  "cat_heb_01",
                            "parentId":  "cat_sermon_heb",
                            "nameJp":  "ヘブル人への手紙 1章",
                            "nameKr":  "히브리서 1장",
-                           "position":  1
+                           "position":  1,
+                           "parent":  "cat_sermon_heb"
                        },
                        {
                            "id":  "cat_heb_02",
                            "parentId":  "cat_sermon_heb",
                            "nameJp":  "ヘブル人への手紙 2章",
                            "nameKr":  "히브리서 2장",
-                           "position":  2
+                           "position":  2,
+                           "parent":  "cat_sermon_heb"
                        },
                        {
                            "id":  "cat_heb_03",
                            "parentId":  "cat_sermon_heb",
                            "nameJp":  "ヘブル人への手紙 3章",
                            "nameKr":  "히브리서 3장",
-                           "position":  3
+                           "position":  3,
+                           "parent":  "cat_sermon_heb"
                        },
                        {
                            "id":  "cat_heb_04",
                            "parentId":  "cat_sermon_heb",
                            "nameJp":  "ヘブル人への手紙 4章",
                            "nameKr":  "히브리서 4장",
-                           "position":  4
+                           "position":  4,
+                           "parent":  "cat_sermon_heb"
                        },
                        {
                            "id":  "cat_heb_05",
                            "parentId":  "cat_sermon_heb",
                            "nameJp":  "ヘブル人への手紙 5章",
                            "nameKr":  "히브리서 5장",
-                           "position":  5
+                           "position":  5,
+                           "parent":  "cat_sermon_heb"
                        },
                        {
                            "id":  "cat_heb_06",
                            "parentId":  "cat_sermon_heb",
                            "nameJp":  "ヘブル人への手紙 6章",
                            "nameKr":  "히브리서 6장",
-                           "position":  6
+                           "position":  6,
+                           "parent":  "cat_sermon_heb"
                        },
                        {
                            "id":  "cat_heb_07",
                            "parentId":  "cat_sermon_heb",
                            "nameJp":  "ヘブル人への手紙 7章",
                            "nameKr":  "히브리서 7장",
-                           "position":  7
+                           "position":  7,
+                           "parent":  "cat_sermon_heb"
                        },
                        {
                            "id":  "cat_heb_08",
                            "parentId":  "cat_sermon_heb",
                            "nameJp":  "ヘブル人への手紙 8章",
                            "nameKr":  "히브리서 8장",
-                           "position":  8
+                           "position":  8,
+                           "parent":  "cat_sermon_heb"
                        },
                        {
                            "id":  "cat_heb_09",
                            "parentId":  "cat_sermon_heb",
                            "nameJp":  "ヘブル人への手紙 9章",
                            "nameKr":  "히브리서 9장",
-                           "position":  9
+                           "position":  9,
+                           "parent":  "cat_sermon_heb"
                        },
                        {
                            "id":  "cat_heb_10",
                            "parentId":  "cat_sermon_heb",
                            "nameJp":  "ヘブル人への手紙 10章",
                            "nameKr":  "히브리서 10장",
-                           "position":  10
+                           "position":  10,
+                           "parent":  "cat_sermon_heb"
                        },
                        {
                            "id":  "cat_heb_11",
                            "parentId":  "cat_sermon_heb",
                            "nameJp":  "ヘブル人への手紙 11章",
                            "nameKr":  "히브리서 11장",
-                           "position":  11
+                           "position":  11,
+                           "parent":  "cat_sermon_heb"
                        },
                        {
                            "id":  "cat_heb_12",
                            "parentId":  "cat_sermon_heb",
                            "nameJp":  "ヘブル人への手紙 12章",
                            "nameKr":  "히브리서 12장",
-                           "position":  12
+                           "position":  12,
+                           "parent":  "cat_sermon_heb"
                        },
                        {
                            "id":  "cat_heb_13",
                            "parentId":  "cat_sermon_heb",
                            "nameJp":  "ヘブル人への手紙 13章",
                            "nameKr":  "히브리서 13장",
-                           "position":  13
+                           "position":  13,
+                           "parent":  "cat_sermon_heb"
                        },
                        {
                            "id":  "cat_wcf_01",
                            "parentId":  "cat_cat_3",
                            "nameJp":  "第1章 聖書",
                            "nameKr":  "제1장 성경",
-                           "position":  1
+                           "position":  1,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_02",
                            "parentId":  "cat_cat_3",
                            "nameJp":  "第2章 神と三位一体",
                            "nameKr":  "제2장 하나님과 삼위일체",
-                           "position":  2
+                           "position":  2,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_03",
                            "parentId":  "cat_cat_3",
                            "nameJp":  "第3章 神の永遠の定め",
                            "nameKr":  "제3장 하나님의 영원한 작정",
-                           "position":  3
+                           "position":  3,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_07",
                            "parentId":  "cat_cat_3",
                            "nameJp":  "第7章 神と人との契約",
                            "nameKr":  "제7장 하나님의 언약",
-                           "position":  7
+                           "position":  7,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_08",
                            "parentId":  "cat_cat_3",
                            "nameJp":  "第8章 仲介者キリスト",
                            "nameKr":  "제8장 중보자 그리스도",
-                           "position":  8
+                           "position":  8,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_18",
                            "parentId":  "cat_cat_3",
                            "nameJp":  "第18章 恵みと救いの確信",
                            "nameKr":  "제18장 은혜와 구원의 확신",
-                           "position":  18
+                           "position":  18,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_19",
                            "parentId":  "cat_cat_3",
                            "nameJp":  "第19章 神の律法",
                            "nameKr":  "제19장 하나님의 율법",
-                           "position":  19
+                           "position":  19,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_20",
                            "parentId":  "cat_cat_3",
                            "nameJp":  "第20章 キリスト者の自由と良心の自由",
                            "nameKr":  "제20장 신자의 자유와 양심의 자유",
-                           "position":  20
+                           "position":  20,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_21",
                            "parentId":  "cat_cat_3",
                            "nameJp":  "第21章 宗教的礼拝と安息日",
                            "nameKr":  "제21장 종교적 예배와 안식일",
-                           "position":  21
+                           "position":  21,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_22",
                            "parentId":  "cat_cat_3",
                            "nameJp":  "第22章 正当な誓いと誓願",
                            "nameKr":  "제22장 정당한 맹세와 서원",
-                           "position":  22
+                           "position":  22,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_23",
                            "nameJp":  "第23章 市民政府",
                            "nameKr":  "제23장 시민 정부",
                            "parentId":  "cat_cat_3",
-                           "position":  23
+                           "position":  23,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_24",
                            "nameJp":  "第24章 結婚と離婚",
                            "nameKr":  "제24장 결혼과 이혼",
                            "parentId":  "cat_cat_3",
-                           "position":  24
+                           "position":  24,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_25",
                            "nameJp":  "第25章 教会",
                            "nameKr":  "제25장 교회",
                            "parentId":  "cat_cat_3",
-                           "position":  25
+                           "position":  25,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_26",
                            "nameJp":  "第26章 聖徒の交わり",
                            "nameKr":  "제26장 성도의 교제",
                            "parentId":  "cat_cat_3",
-                           "position":  26
+                           "position":  26,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_27",
                            "nameJp":  "第27章 聖礼典",
                            "nameKr":  "제27장 성례전",
                            "parentId":  "cat_cat_3",
-                           "position":  27
+                           "position":  27,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_28",
                            "nameJp":  "第28章 洗礼",
                            "nameKr":  "제28장 세례",
                            "parentId":  "cat_cat_3",
-                           "position":  28
+                           "position":  28,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_29",
                            "nameJp":  "第29章 主の晩餐",
                            "nameKr":  "제29장 쇼의 만선",
                            "parentId":  "cat_cat_3",
-                           "position":  29
+                           "position":  29,
+                           "parent":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_30",
@@ -2407,7 +2742,8 @@
                            "nameKr":  "제30장 교회의 권징",
                            "nameJp":  "第30章 教会の懲戒",
                            "parent":  "cat_cat_3",
-                           "position":  30
+                           "position":  30,
+                           "parentId":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_31",
@@ -2415,7 +2751,8 @@
                            "nameKr":  "제31장 대회와 총회",
                            "nameJp":  "第31章 大会と総会",
                            "parent":  "cat_cat_3",
-                           "position":  31
+                           "position":  31,
+                           "parentId":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_32",
@@ -2423,7 +2760,8 @@
                            "nameKr":  "제32장 사후 상태와 부활",
                            "nameJp":  "第32章 死後の状態と死者の復活",
                            "parent":  "cat_cat_3",
-                           "position":  32
+                           "position":  32,
+                           "parentId":  "cat_cat_3"
                        },
                        {
                            "id":  "cat_wcf_33",
@@ -2431,7 +2769,8 @@
                            "nameKr":  "제33장 최후 심판",
                            "nameJp":  "第33章 最後の審判",
                            "parent":  "cat_cat_3",
-                           "position":  33
+                           "position":  33,
+                           "parentId":  "cat_cat_3"
                        }
                    ],
     "featured":  {
