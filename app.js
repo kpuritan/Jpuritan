@@ -2208,49 +2208,45 @@ function closeLoginModal() {
   document.getElementById('login-error').style.display = 'none';
 }
 
-async function handleLogin(event) {
-  event.preventDefault();
-  const user = (document.getElementById('login-username').value || '').trim();
-  const pass = (document.getElementById('login-password').value || '').trim();
+function handleLogin(event) {
+  if (event) {
+    event.preventDefault();
+    if (event.stopPropagation) event.stopPropagation();
+  }
+  const userInput = document.getElementById('login-username');
+  const passInput = document.getElementById('login-password');
+  const user = (userInput ? userInput.value : '').trim();
+  const pass = (passInput ? passInput.value : '').trim();
 
   if (user === 'admin' && pass === '1234') {
-    // Check Session Lock in Firestore ONLY if DB is online
-    if (typeof db !== 'undefined' && !state.isDbOffline) {
-      try {
-        const lockDoc = await withTimeout(db.collection('system').doc('sessionLock').get(), 1000);
-        if (lockDoc.exists) {
-          const lockData = lockDoc.data();
-          if (lockData && lockData.isLocked) {
-            const elapsed = Date.now() - (lockData.lastActive || 0);
-            if (elapsed < 30 * 60 * 1000) { // 30 mins active window check
-              // 다중 로그인 허용을 위해 중복 로그인 차단 비활성화
-              // alert("현재 다른 관리자가 접속하여 작업 중입니다. 중복 로그인을 방지하기 위해 접속이 제한됩니다. 잠시 후 다시 시도해 주세요.");
-              // return;
-            }
-          }
-        }
-        
-        // Acquire Lock
-        await withTimeout(db.collection('system').doc('sessionLock').set({
-          isLocked: true,
-          lastActive: Date.now()
-        }), 1000);
-      } catch (err) {
-        console.warn("Failed to query session lock, allowing login as fallback:", err);
-      }
-    }
-
     state.isAdmin = true;
     sessionStorage.setItem('wscal_admin_logged', 'true');
-    startSessionHeartbeat();
     closeLoginModal();
     showAdminDashboard('folders');
     updateAdminNavAndFloatingButtons();
+    startSessionHeartbeat();
     connectAdminFirestore();
+
+    // Background session lock update (Non-blocking)
+    if (typeof db !== 'undefined' && !state.isDbOffline) {
+      db.collection('system').doc('sessionLock').set({
+        isLocked: true,
+        lastActive: Date.now()
+      }).catch(err => console.warn("Session lock update failed:", err));
+    }
   } else {
-    document.getElementById('login-error').style.display = 'block';
+    const errEl = document.getElementById('login-error');
+    if (errEl) {
+      errEl.style.display = 'block';
+      errEl.textContent = 'IDまたはパスワードが正しくありません。(ID: admin / PW: 1234)';
+    } else {
+      alert("IDまたはパスワードが正しくありません。(ID: admin / 비밀번호: 1234)");
+    }
   }
 }
+window.handleLogin = handleLogin;
+window.openLoginModal = openLoginModal;
+window.closeLoginModal = closeLoginModal;
 
 async function handleLogout() {
   state.isAdmin = false;
