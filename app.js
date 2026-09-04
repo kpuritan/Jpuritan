@@ -36,56 +36,28 @@ let state = {
   theologyMode: 'topic',           // 'topic' (조직신학별), 'author' (저자별), 'combined' (통합선택)
   theologyAuthor: 'all',          // 'all' or specific author name (for author mode)
   theologyFilterAuthor: 'all',    // 'all' or specific author name (for combined mode)
-  theologyFilterCategory: 'all',  // 'all' or specific categoryId (for combined mode)
-  isDbOffline: false, // Skip DB queries if Firestore is unreachable/slow
-  isDbLoading: false  // Blocks UI when syncing Firestore data
+  theologyFilterCategory: 'all'   // 'all' or specific categoryId (for combined mode)
 };
-
-// Timeout Wrapper for Promises (prevent Firestore hangs)
-function withTimeout(promise, ms) {
-  let timeoutId;
-  const timeoutPromise = new Promise((_, reject) => {
-    timeoutId = setTimeout(() => {
-      reject(new Error("Timeout after " + ms + "ms"));
-    }, ms);
-  });
-  return Promise.race([promise, timeoutPromise]).finally(() => {
-    clearTimeout(timeoutId);
-  });
-}
-
-// Show/Hide Firebase Data Synchronization Overlay
-function showDbLoadingOverlay() {
-  state.isDbLoading = true;
-  const overlay = document.getElementById('admin-db-loading-overlay');
-  if (overlay) {
-    overlay.style.display = 'flex';
-  }
-}
-
-function hideDbLoadingOverlay() {
-  state.isDbLoading = false;
-  const overlay = document.getElementById('admin-db-loading-overlay');
-  if (overlay) {
-    overlay.style.display = 'none';
-  }
-}
 
 // Synchronously load data from localStorage (or defaults) and update state instantly
 function loadLocalStorageOnly() {
-  state.mainMenus = MASTER_SITE_DATABASE.mainMenus || [];
-  state.categories = MASTER_SITE_DATABASE.categories || [];
-  state.articles = MASTER_SITE_DATABASE.articles || [];
-  state.featured = MASTER_SITE_DATABASE.featured || {};
+  const cachedMenus = localStorage.getItem('wscal_mainmenus_v28');
+  const cachedCats = localStorage.getItem('wscal_categories_v28');
+  const cachedFeat = localStorage.getItem('wscal_featured_v28');
+  const cachedArts = localStorage.getItem('wscal_articles_v28');
 
-  const defaultMenuIds = ['sermon', 'catechism', 'theology', 'discipleship', 'pastor'];
+  state.mainMenus = cachedMenus ? JSON.parse(cachedMenus) : (MASTER_SITE_DATABASE.mainMenus || []);
+  state.categories = cachedCats ? JSON.parse(cachedCats) : (MASTER_SITE_DATABASE.categories || []);
+  state.featured = cachedFeat ? JSON.parse(cachedFeat) : (MASTER_SITE_DATABASE.featured || {});
+  state.articles = cachedArts ? JSON.parse(cachedArts) : (MASTER_SITE_DATABASE.articles || []);
+
+  const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'discipleship', 'pastor'];
   state.mainMenus.sort((a, b) => {
     const posA = a.position !== undefined ? a.position : defaultMenuIds.indexOf(a.id);
     const posB = b.position !== undefined ? b.position : defaultMenuIds.indexOf(b.id);
     return (posA >= 0 ? posA : 999) - (posB >= 0 ? posB : 999);
   });
   state.categories.sort((a, b) => (a.position || 0) - (b.position || 0));
-  return;
 }
 
 async function initApp() {
@@ -99,150 +71,57 @@ async function initApp() {
   if (sessionStorage.getItem('wscal_admin_logged') === 'true') {
     state.isAdmin = true;
   }
-  console.log("Initializing App...");
+  console.log("Initializing App (Static GitHub Engine)...");
 
-  // 1. Render instantly using LocalStorage (Zero delay UI load)
+  // 1. Render instantly using LocalStorage / Embedded DB (Zero delay UI load)
   loadLocalStorageOnly();
   initializeCollapsedStates();
   renderMainMenuCards();
   renderFeaturedBlocks();
-  loadArticlesFallback();
+  renderRecentArticles();
 
-  // 2. Fetch data.json in the background to update LocalStorage (Non-blocking)
-  let fileData = null;
+  // 2. Fetch fresh data.json in the background to update data (Non-blocking)
   try {
     const res = await fetch('./data.json?t=' + Date.now());
     if (res.ok) {
-      fileData = await res.json();
-      console.log("Successfully fetched data.json in background.");
+      const fileData = await res.json();
+      console.log("Successfully fetched latest data.json.");
 
-            if (fileData.mainMenus) localStorage.setItem('wscal_mainmenus_v28', JSON.stringify(fileData.mainMenus));
-      if (fileData.categories) localStorage.setItem('wscal_categories_v28', JSON.stringify(fileData.categories));
-      if (fileData.featured) localStorage.setItem('wscal_featured_v28', JSON.stringify(fileData.featured));
-            let hasCachedArts = false;
-      const cachedArts = localStorage.getItem('wscal_articles_v28');
-      if (cachedArts) {
-        try {
-          const parsed = JSON.parse(cachedArts);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            hasCachedArts = true;
-          }
-        } catch (e) {}
+      if (fileData.mainMenus && fileData.mainMenus.length > 0) {
+        state.mainMenus = fileData.mainMenus;
+        localStorage.setItem('wscal_mainmenus_v28', JSON.stringify(fileData.mainMenus));
       }
-      if (fileData.articles && (!hasCachedArts || !state.isAdmin)) {
+      if (fileData.categories && fileData.categories.length > 0) {
+        state.categories = fileData.categories;
+        localStorage.setItem('wscal_categories_v28', JSON.stringify(fileData.categories));
+      }
+      if (fileData.featured) {
+        state.featured = fileData.featured;
+        localStorage.setItem('wscal_featured_v28', JSON.stringify(fileData.featured));
+      }
+      if (fileData.articles && fileData.articles.length > 0) {
+        state.articles = fileData.articles;
         localStorage.setItem('wscal_articles_v28', JSON.stringify(fileData.articles));
       }
 
-      // If DB is offline or not loaded yet, immediately apply the updated data.json
-      if (typeof db === 'undefined' || !state.isAdmin) {
-        loadLocalStorageOnly();
-        initializeCollapsedStates();
-        renderMainMenuCards();
-        renderFeaturedBlocks();
-        loadArticlesFallback();
+      initializeCollapsedStates();
+      renderMainMenuCards();
+      renderFeaturedBlocks();
+      renderRecentArticles();
+
+      // Refresh workspace if open
+      if (state.currentCategory) {
+        renderWorkspaceSidebar();
+        renderArticlesList();
       }
     }
   } catch (err) {
-    console.warn("Background fetch of data.json failed:", err);
+    console.warn("Background fetch of data.json skipped/failed:", err);
   }
 
-  // 3. Non-blocking SWR Background Sync with Firestore
-  if (typeof db !== 'undefined') {
-    if (state.isAdmin) {
-      showDbLoadingOverlay(); // Block UI while syncing in admin view only
-      // Run Firestore migration in the background
-      withTimeout(checkAndMigrateAllDataToFirestore(), 10000).catch(err => {
-        console.warn("Background migration check failed/timed out:", err);
-      });
-    }
-
-    (async () => {
-      try {
-        console.log("Fetching live configurations from Firestore in background (SWR)...");
-        const [menusSnap, catsSnap, featuredSnap, articlesSnap] = await withTimeout(Promise.all([
-          db.collection('mainMenus').get(),
-          db.collection('categories').get(),
-          db.collection('featured').doc('main').get(),
-          db.collection('articles').get() // One-time fetch of all articles in background
-        ]), 8000);
-
-        // A. Main Menus
-        const liveMenus = [];
-        menusSnap.forEach(doc => liveMenus.push(doc.data()));
-        if (liveMenus.length > 0) {
-          const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'discipleship', 'pastor'];
-          liveMenus.sort((a, b) => {
-            const posA = a.position !== undefined ? a.position : defaultMenuIds.indexOf(a.id);
-            const posB = b.position !== undefined ? b.position : defaultMenuIds.indexOf(b.id);
-            return posA - posB;
-          });
-          state.mainMenus = liveMenus;
-          localStorage.setItem('wscal_mainmenus_v28', JSON.stringify(liveMenus));
-        }
-
-        // B. Categories
-        const liveCats = [];
-        catsSnap.forEach(doc => liveCats.push(doc.data()));
-        if (liveCats.length > 0) {
-          liveCats.sort((a, b) => (a.position || 0) - (b.position || 0));
-          state.categories = liveCats;
-          localStorage.setItem('wscal_categories_v28', JSON.stringify(liveCats));
-        }
-
-        // C. Featured
-        if (featuredSnap.exists) {
-          const liveFeat = featuredSnap.data();
-          state.featured = liveFeat;
-          localStorage.setItem('wscal_featured_v28', JSON.stringify(liveFeat));
-        }
-
-        // D. Articles
-        const liveArticles = [];
-        articlesSnap.forEach(doc => liveArticles.push({ id: doc.id, ...doc.data() }));
-        if (liveArticles.length > 0) {
-          liveArticles.sort((a, b) => {
-            const posA = a.position !== undefined ? a.position : 999999;
-            const posB = b.position !== undefined ? b.position : 999999;
-            if (posA !== posB) return posA - posB;
-            const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
-            if (dateCompare !== 0) return dateCompare;
-            return b.id.localeCompare(a.id);
-          });
-          state.articles = liveArticles;
-          saveArticles();
-        }
-
-        console.log("Firestore background configurations synced. Re-rendering...");
-        if (state.isAdmin) {
-          hideDbLoadingOverlay();
-        }
-        initializeCollapsedStates();
-        renderMainMenuCards();
-        renderFeaturedBlocks();
-        renderRecentArticles();
-        
-        // Immediately refresh workspace and articles list if a category is open in user view
-        if (state.currentCategory) {
-          renderWorkspaceSidebar();
-          renderArticlesList();
-        }
-      } catch (err) {
-        console.warn("Failed to retrieve live data from Firestore, keeping local/data.json fallback: ", err);
-        state.isDbOffline = true;
-        if (state.isAdmin) {
-          hideDbLoadingOverlay();
-        }
-      }
-    })();
-  } else {
-    state.isDbOffline = true;
-  }
-
-  // Check login state and restore exact previous view (Admin Panel or User Site)
+  // 3. Check login state and restore exact previous view (Admin Panel or User Site)
   if (sessionStorage.getItem('wscal_admin_logged') === 'true') {
     state.isAdmin = true;
-    startSessionHeartbeat();
-    
     const savedView = sessionStorage.getItem('wscal_current_view');
     if (savedView === 'admin') {
       const savedTab = sessionStorage.getItem('wscal_admin_tab') || 'folders';
@@ -257,7 +136,7 @@ async function initApp() {
     restoreLastUserState();
   }
 
-  console.log("App initialization background tasks registered.");
+  console.log("App initialization complete.");
   startBgmAuto();
 }
 
@@ -295,185 +174,13 @@ function restoreLastUserState() {
   return false;
 }
 
-// Connect and sync with Firestore for admin tasks
-async function connectAdminFirestore() {
-  if (typeof db === 'undefined') return;
-  state.isDbOffline = false;
-  showDbLoadingOverlay(); // Block UI while connecting/loading in admin view
-
-  console.log("Admin logged in. Connecting to Firestore for live data...");
-  
-  // Run Firestore migration/check in the background
-  withTimeout(checkAndMigrateAllDataToFirestore(), 10000).catch(err => {
-    console.warn("Migration check failed/timed out:", err);
-  });
-
-  try {
-    const [menusSnap, catsSnap, featuredSnap, articlesSnap] = await withTimeout(Promise.all([
-      db.collection('mainMenus').get(),
-      db.collection('categories').get(),
-      db.collection('featured').doc('main').get(),
-      db.collection('articles').get() // One-time fetch of all articles on startup to prevent rollback
-    ]), 10000);
-
-    // A. Main Menus
-    const liveMenus = [];
-    menusSnap.forEach(doc => liveMenus.push(doc.data()));
-    if (liveMenus.length > 0) {
-      const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'discipleship', 'pastor'];
-      liveMenus.sort((a, b) => {
-        const posA = a.position !== undefined ? a.position : defaultMenuIds.indexOf(a.id);
-        const posB = b.position !== undefined ? b.position : defaultMenuIds.indexOf(b.id);
-        return posA - posB;
-      });
-      state.mainMenus = liveMenus;
-      localStorage.setItem('wscal_mainmenus_v28', JSON.stringify(liveMenus));
-    }
-
-    // B. Categories
-    const liveCats = [];
-    catsSnap.forEach(doc => liveCats.push(doc.data()));
-    if (liveCats.length > 0) {
-      liveCats.sort((a, b) => (a.position || 0) - (b.position || 0));
-      state.categories = liveCats;
-      localStorage.setItem('wscal_categories_v28', JSON.stringify(liveCats));
-    }
-
-    // C. Featured
-    if (featuredSnap.exists) {
-      const liveFeat = featuredSnap.data();
-      state.featured = liveFeat;
-      localStorage.setItem('wscal_featured_v28', JSON.stringify(liveFeat));
-    }
-
-    // D. Articles (One-time Sync to prevent cache rollback on reload)
-    const liveArticles = [];
-    articlesSnap.forEach(doc => liveArticles.push({ id: doc.id, ...doc.data() }));
-    if (liveArticles.length > 0) {
-      liveArticles.sort((a, b) => {
-        const posA = a.position !== undefined ? a.position : 999999;
-        const posB = b.position !== undefined ? b.position : 999999;
-        if (posA !== posB) return posA - posB;
-        const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
-        if (dateCompare !== 0) return dateCompare;
-        return b.id.localeCompare(a.id);
-      });
-      state.articles = liveArticles;
-      saveArticles();
-    }
-
-    console.log("Admin: Firestore sync complete. Re-rendering...");
-    initializeCollapsedStates();
-    renderMainMenuCards();
-    renderFeaturedBlocks();
-
-    // Start live articles listener
-    listenArticles();
-  } catch (err) {
-    console.warn("Admin: Failed to retrieve live data from Firestore:", err);
-    state.isDbOffline = true;
-  } finally {
-    hideDbLoadingOverlay(); // Always unblock UI
-  }
-}
-
-// Check and migrate data.json to Firestore if Firestore is empty
-async function checkAndMigrateAllDataToFirestore() {
-  if (typeof db === 'undefined') return;
-  try {
-    console.log("Checking Firestore data status for incremental migration...");
-    const res = await fetch('./data.json?t=' + Date.now());
-    if (!res.ok) {
-      console.warn("Failed to fetch data.json for auto-migration");
-      return;
-    }
-    let fileData;
-    try {
-      fileData = await res.json();
-    } catch (parseErr) {
-      console.error("data.json parsing failed:", parseErr);
-      alert("관리자 파일(data.json)의 형식이 잘못되어 데이터를 동기화할 수 없습니다. 쉼표나 따옴표 등 JSON 문법 오류를 확인해 주세요.");
-      return;
-    }
-    
-    // A. mainMenus
-    const menusSnap = await db.collection('mainMenus').get();
-    let migratedMenus = false;
-    let menuIdx = 0;
-    if (fileData.mainMenus && fileData.mainMenus.length > 0) {
-      for (const item of fileData.mainMenus) {
-        const docSnap = menusSnap.docs.find(d => d.id === item.id);
-        if (!docSnap || docSnap.data().position === undefined) {
-          await db.collection('mainMenus').doc(item.id).set({ ...item, position: menuIdx });
-          migratedMenus = true;
-        }
-        menuIdx++;
-      }
-    }
-    
-    // B. categories
-    const catsSnap = await db.collection('categories').get();
-    let migratedCats = false;
-    let catIdx = 0;
-    if (fileData.categories && fileData.categories.length > 0) {
-      for (const item of fileData.categories) {
-        const docSnap = catsSnap.docs.find(d => d.id === item.id);
-        if (!docSnap || docSnap.data().position === undefined) {
-          await db.collection('categories').doc(item.id).set({ ...item, position: catIdx });
-          migratedCats = true;
-        }
-        catIdx++;
-      }
-    }
-    
-    // C. featured
-    const featSnap = await db.collection('featured').doc('main').get();
-    let migratedFeatured = false;
-    if (!featSnap.exists && fileData.featured) {
-      console.log("Migrating featured...");
-      await db.collection('featured').doc('main').set(fileData.featured);
-      migratedFeatured = true;
-    }
-    
-    // D. articles
-    const dbArticlesSnap = await db.collection('articles').get();
-    const dbArticleIds = dbArticlesSnap.docs.map(doc => doc.id);
-    let migratedArticlesCount = 0;
-    
-    if (fileData.articles && fileData.articles.length > 0) {
-      for (const item of fileData.articles) {
-        if (!dbArticleIds.includes(item.id)) {
-          const artId = item.id;
-          const artData = { ...item };
-          delete artData.id;
-          await db.collection('articles').doc(artId).set(artData);
-          migratedArticlesCount++;
-        }
-      }
-    }
-    
-    if (migratedArticlesCount > 0) {
-      console.log(`Successfully migrated ${migratedArticlesCount} missing articles to Firestore!`);
-    }
-    
-    if (migratedMenus || migratedCats || migratedFeatured || migratedArticlesCount > 0) {
-      alert("데이터 복구 및 순서 동기화가 완료되었습니다. 페이지를 새로고침합니다.");
-      window.location.reload();
-    }
-  } catch (err) {
-    console.error("Migration/Recovery to Firestore failed:", err);
-  }
-}
-
-// Load articles dynamically (Switched to ultra-fast local cached loading to eliminate startup lag)
+// Load articles dynamically from cache
 function listenArticles() {
-  console.log("listenArticles: Loading articles from local cache to bypass heavy query.");
   loadArticlesFallback();
 }
 
-// Fallback logic when Firebase/Firestore is offline or unavailable
+// Load articles from LocalStorage or Default
 function loadArticlesFallback() {
-  hideDbLoadingOverlay(); // Ensure overlay is dismissed when falling back
   if (!localStorage.getItem('wscal_articles_v28')) {
     localStorage.setItem('wscal_articles_v28', JSON.stringify(DEFAULT_ARTICLES));
   }
@@ -548,34 +255,13 @@ async function loadLocalDataFallback() {
   state.featured = JSON.parse(localStorage.getItem('wscal_featured_v28'));
 }
 
-// Save back to LocalStorage
-// Save back to LocalStorage & Firestore Realtime DB
+// Save back to LocalStorage & Sync to GitHub
 async function saveMainMenus() {
   localStorage.setItem('wscal_mainmenus_v28', JSON.stringify(state.mainMenus));
-  if (typeof db !== 'undefined') {
-    try {
-      let idx = 0;
-      for (const item of state.mainMenus) {
-        await db.collection('mainMenus').doc(item.id).set({ ...item, position: idx++ });
-      }
-    } catch (e) {
-      console.warn("Failed to sync mainMenus with Firestore:", e);
-    }
-  }
   syncDataJsonToGitHub();
 }
 async function saveCategories() {
   localStorage.setItem('wscal_categories_v28', JSON.stringify(state.categories));
-  if (typeof db !== 'undefined') {
-    try {
-      let idx = 0;
-      for (const item of state.categories) {
-        await db.collection('categories').doc(item.id).set({ ...item, position: idx++ });
-      }
-    } catch (e) {
-      console.warn("Failed to sync categories with Firestore:", e);
-    }
-  }
   syncDataJsonToGitHub();
 }
 function saveArticles() {
@@ -583,13 +269,6 @@ function saveArticles() {
 }
 async function saveFeatured() {
   localStorage.setItem('wscal_featured_v28', JSON.stringify(state.featured));
-  if (typeof db !== 'undefined') {
-    try {
-      await db.collection('featured').doc('main').set(state.featured);
-    } catch (e) {
-      console.warn("Failed to sync featured with Firestore:", e);
-    }
-  }
   syncDataJsonToGitHub();
 }
 
@@ -1912,29 +1591,7 @@ function viewArticleDetail(articleId) {
   // Increment views
   article.views = (article.views || 0) + 1;
   saveArticles();
-
-  if (typeof db !== 'undefined') {
-    try {
-      db.collection('article_views').doc(articleId).get().then(doc => {
-        let liveViews = article.views;
-        if (doc.exists) {
-          const remoteViews = (doc.data().views || 0) + 1;
-          doc.ref.update({ views: remoteViews });
-          liveViews = remoteViews;
-        } else {
-          doc.ref.set({ views: article.views });
-          liveViews = article.views;
-        }
-        document.getElementById('detail-views').textContent = liveViews;
-        article.views = liveViews;
-        saveArticles();
-      }).catch(err => {
-        console.warn("Error updating views in Firestore: ", err);
-      });
-    } catch (err) {
-      console.warn("Failed to increment views in Firestore", err);
-    }
-  }
+  document.getElementById('detail-views').textContent = article.views;
 
   document.getElementById('view-article-list').style.display = 'none';
   const detailView = document.getElementById('view-article-detail');
@@ -2226,16 +1883,6 @@ function handleLogin(event) {
     closeLoginModal();
     showAdminDashboard('folders');
     updateAdminNavAndFloatingButtons();
-    startSessionHeartbeat();
-    connectAdminFirestore();
-
-    // Background session lock update (Non-blocking)
-    if (typeof db !== 'undefined' && !state.isDbOffline) {
-      db.collection('system').doc('sessionLock').set({
-        isLocked: true,
-        lastActive: Date.now()
-      }).catch(err => console.warn("Session lock update failed:", err));
-    }
   } else {
     const errEl = document.getElementById('login-error');
     if (errEl) {
@@ -2255,21 +1902,7 @@ async function handleLogout() {
   sessionStorage.removeItem('wscal_admin_logged');
   sessionStorage.removeItem('wscal_current_view');
   sessionStorage.removeItem('wscal_admin_tab');
-  stopSessionHeartbeat();
 
-  // Release Lock in Firestore
-  if (typeof db !== 'undefined') {
-    try {
-      await db.collection('system').doc('sessionLock').set({
-        isLocked: false,
-        lastActive: 0
-      });
-      console.log("Session lock released successfully.");
-    } catch (err) {
-      console.warn("Failed to release session lock on logout:", err);
-    }
-  }
-  
   // Hide Admin UI & Show User UI
   document.getElementById('admin-dashboard-sec').classList.remove('active');
   document.getElementById('btn-admin-nav').style.display = 'block';
@@ -2662,22 +2295,6 @@ async function reorderMainMenuByDrag(sourceId, targetId) {
     });
 
     saveMainMenus();
-
-    // Sync positions with Firestore
-    if (typeof db !== 'undefined') {
-      try {
-        const batch = db.batch();
-        state.mainMenus.forEach(m => {
-          const docRef = db.collection('mainMenus').doc(m.id);
-          batch.update(docRef, { position: m.position });
-        });
-        await batch.commit();
-        console.log("Main menus positions synced with Firestore successfully.");
-      } catch (err) {
-        console.warn("Failed to sync main menu positions to Firestore:", err);
-      }
-    }
-
     syncDataJsonToGitHub();
     renderMainMenuCards();
     populateAllMenuDropdowns();
@@ -3003,20 +2620,7 @@ async function reorderCategoryByDrag(sourceId, targetId) {
 
     saveCategories();
 
-    // Firestore batch update
-    if (typeof db !== 'undefined') {
-      try {
-        const batch = db.batch();
-        siblings.forEach(c => {
-          const docRef = db.collection('categories').doc(c.id);
-          batch.update(docRef, { position: c.position, parentId: c.parentId });
-        });
-        await batch.commit();
-        console.log("Categories positions synced with Firestore successfully.");
-      } catch (err) {
-        console.warn("Failed to sync category positions to Firestore:", err);
-      }
-    }
+
 
     syncDataJsonToGitHub();
     populateParentDropdown();
@@ -3257,16 +2861,7 @@ async function handleSaveArticle(event) {
   }
   saveArticles();
 
-  // 2. Sync with Firestore Realtime DB
-  if (typeof db !== 'undefined') {
-    try {
-      await db.collection('articles').doc(finalId).set(artData);
-      console.log("Article synced with Firestore successfully:", finalId);
-    } catch (err) {
-      console.error("Failed to sync article with Firestore:", err);
-      alert("클라우드 DB 저장 실패 (보안 규칙 설정을 완료했는지 확인해 주세요): " + err.message);
-    }
-  }
+
 
   // 3. Sync compiled data.json to GitHub
   syncDataJsonToGitHub();
@@ -3765,27 +3360,6 @@ async function loadArticleToEdit(artId) {
   document.getElementById('write-section-title').innerHTML = '<i class="fa-solid fa-edit"></i> 記事・資料の修正編集 (글 수정/편집)';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // Lazy load the latest content from Firestore just for this article to prevent data mismatch
-  if (typeof db !== 'undefined' && !state.isDbOffline) {
-    showDbLoadingOverlay();
-    try {
-      const doc = await withTimeout(db.collection('articles').doc(artId).get(), 5000);
-      if (doc.exists) {
-        const liveData = doc.data();
-        const artIdx = state.articles.findIndex(a => a.id === artId);
-        if (artIdx !== -1) {
-          state.articles[artIdx] = { id: artId, ...liveData };
-          art = state.articles[artIdx];
-        }
-        console.log(`Successfully lazy loaded article content for editing: ${artId}`);
-      }
-    } catch (err) {
-      console.warn("Failed to lazy load article from Firestore, using local fallback:", err);
-    } finally {
-      hideDbLoadingOverlay();
-    }
-  }
-
   state.editArticleId = artId;
   
   const catObj = state.categories.find(c => c.id === art.categoryId);
@@ -3855,18 +3429,7 @@ async function handleDeleteArticle(artId) {
     renderRecentArticles();
     renderAdminArticleList();
 
-    // 2. Firestore delete
-    if (typeof db !== 'undefined') {
-      try {
-        await db.collection('articles').doc(artId).delete();
-        console.log("Article deleted from Firestore successfully:", artId);
-      } catch (err) {
-        console.error("Failed to delete article from Firestore:", err);
-        alert("클라우드 DB 삭제 실패: " + err.message);
-      }
-    }
-
-    // 3. Sync compiled data.json to GitHub
+    // 2. Sync compiled data.json to GitHub
     syncDataJsonToGitHub();
   }
 }
@@ -4235,43 +3798,7 @@ async function handlePhotoUpload(input) {
   reader.readAsDataURL(file);
 }
 
-// ==========================================
-// 10. Single Session Lock & Heartbeat Helpers
-// ==========================================
-function startSessionHeartbeat() {
-  if (sessionHeartbeatInterval) clearInterval(sessionHeartbeatInterval);
-  
-  // Update lastActive timestamp every 1 minute
-  sessionHeartbeatInterval = setInterval(async () => {
-    if (state.isAdmin && typeof db !== 'undefined') {
-      try {
-        await db.collection('system').doc('sessionLock').update({
-          lastActive: Date.now()
-        });
-        console.log("Session heartbeat updated.");
-      } catch (err) {
-        console.warn("Failed to update session heartbeat:", err);
-      }
-    }
-  }, 60 * 1000);
-}
 
-function stopSessionHeartbeat() {
-  if (sessionHeartbeatInterval) {
-    clearInterval(sessionHeartbeatInterval);
-    sessionHeartbeatInterval = null;
-  }
-}
-
-// Release lock if browser tab/window is closed
-window.addEventListener('beforeunload', () => {
-  if (state.isAdmin && typeof db !== 'undefined') {
-    db.collection('system').doc('sessionLock').set({
-      isLocked: false,
-      lastActive: 0
-    });
-  }
-});
 
 
 
@@ -4391,19 +3918,6 @@ async function moveArticle(artId, direction) {
     // Save locally
     saveArticles();
     
-    // Sync with Firestore
-    if (typeof db !== 'undefined') {
-      try {
-        await Promise.all([
-          db.collection('articles').doc(catArticles[idx].id).update({ position: catArticles[idx].position }),
-          db.collection('articles').doc(catArticles[swapIdx].id).update({ position: catArticles[swapIdx].position })
-        ]);
-        console.log("Article positions synced with Firestore successfully.");
-      } catch (err) {
-        console.warn("Failed to sync positions to Firestore:", err);
-      }
-    }
-
     // Sync compiled data.json to GitHub
     syncDataJsonToGitHub();
     
@@ -4494,19 +4008,6 @@ async function reorderArticleByDrag(sourceId, targetId) {
     });
 
     saveArticles();
-
-    if (typeof db !== 'undefined') {
-      try {
-        const batchPromises = catArticles.map(a => 
-          db.collection('articles').doc(a.id).update({ position: a.position, categoryId: a.categoryId })
-        );
-        await Promise.all(batchPromises);
-        console.log("Drag & drop positions synced with Firestore.");
-      } catch (err) {
-        console.warn("Failed to sync drag positions to Firestore:", err);
-      }
-    }
-
     syncDataJsonToGitHub();
     renderRecentArticles();
     if (state.currentCategory) {
@@ -4587,16 +4088,6 @@ async function confirmMoveArticleFolder(artId) {
 
   art.categoryId = newCatId;
   saveArticles();
-
-  if (typeof db !== 'undefined') {
-    try {
-      await db.collection('articles').doc(artId).update({ categoryId: newCatId });
-      console.log(`Article ${artId} category updated in Firestore to ${newCatId}`);
-    } catch (err) {
-      console.warn("Failed to update article category in Firestore:", err);
-    }
-  }
-
   syncDataJsonToGitHub();
 
   const overlay = document.getElementById('quick-folder-modal-overlay');
