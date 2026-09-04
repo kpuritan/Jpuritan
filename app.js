@@ -1943,12 +1943,8 @@ function showAdminDashboard(targetTab) {
   // Update nav and floating toggle buttons
   updateAdminNavAndFloatingButtons();
 
-  // Load saved GitHub token into photo upload input
-  const savedToken = localStorage.getItem('wscal_github_token') || '';
-  const tokenInput = document.getElementById('admin-github-token');
-  if (tokenInput) {
-    tokenInput.value = savedToken;
-  }
+  // Load and update GitHub token badge & inputs
+  updateGitHubSyncBadge();
 
   // Trigger default/specified Admin Tab loading
   const tabToOpen = targetTab || sessionStorage.getItem('wscal_admin_tab') || 'folders';
@@ -3801,6 +3797,116 @@ async function handlePhotoUpload(input) {
 
 
 
+
+// ==========================================
+// GitHub Connection UI Helpers
+// ==========================================
+function updateGitHubSyncBadge() {
+  const token = (localStorage.getItem('wscal_github_token') || '').trim();
+  const sidebarInput = document.getElementById('admin-sidebar-github-token');
+  const writeTabInput = document.getElementById('admin-github-token');
+  const badge = document.getElementById('github-sync-badge');
+  const msg = document.getElementById('github-sync-msg');
+
+  if (sidebarInput && !sidebarInput.value && token) {
+    sidebarInput.value = token;
+  }
+  if (writeTabInput && !writeTabInput.value && token) {
+    writeTabInput.value = token;
+  }
+
+  if (badge) {
+    if (token) {
+      badge.textContent = '연동됨 (토큰 있음)';
+      badge.style.background = '#dcfce7';
+      badge.style.color = '#15803d';
+    } else {
+      badge.textContent = '미연결 (토큰 없음)';
+      badge.style.background = '#fee2e2';
+      badge.style.color = '#dc2626';
+    }
+  }
+
+  if (msg) {
+    if (token) {
+      msg.textContent = '글 작성/수정 시 GitHub (data.json)으로 자동 백업됩니다.';
+      msg.style.color = '#15803d';
+    } else {
+      msg.textContent = '토큰을 입력 후 저장하시면 GitHub와 실시간 자동 동기화됩니다.';
+      msg.style.color = 'var(--text-light)';
+    }
+  }
+}
+
+function saveGitHubTokenFromSidebar() {
+  const sidebarInput = document.getElementById('admin-sidebar-github-token');
+  const val = sidebarInput ? sidebarInput.value.trim() : '';
+  if (!val) {
+    localStorage.removeItem('wscal_github_token');
+    alert("GitHub 토큰이 삭제되었습니다.");
+  } else {
+    localStorage.setItem('wscal_github_token', val);
+    alert("GitHub 토큰이 브라우저에 안전하게 저장되었습니다.");
+  }
+  updateGitHubSyncBadge();
+}
+
+async function testGitHubConnection() {
+  const token = (localStorage.getItem('wscal_github_token') || '').trim();
+  const msg = document.getElementById('github-sync-msg');
+  const badge = document.getElementById('github-sync-badge');
+
+  if (!token) {
+    alert("입력된 GitHub 토큰이 없습니다. 먼저 토큰을 입력하고 저장해 주세요.");
+    return;
+  }
+
+  if (msg) {
+    msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 연결 상태 확인 중...';
+    msg.style.color = 'var(--text-light)';
+  }
+
+  try {
+    const res = await fetch('https://api.github.com/repos/kpuritan/Jpuritan', {
+      headers: {
+        'Authorization': `token ${token}`
+      }
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (badge) {
+        badge.textContent = '연결 정상 (확인됨)';
+        badge.style.background = '#dcfce7';
+        badge.style.color = '#15803d';
+      }
+      if (msg) {
+        msg.textContent = `연결 성공! 저장소: ${data.full_name} (${data.default_branch} 브랜치)`;
+        msg.style.color = '#15803d';
+      }
+      alert(`GitHub 연동 성공!\n저장소: ${data.full_name}\n권한이 정상 확인되었습니다.`);
+    } else {
+      const err = await res.json().catch(() => ({}));
+      if (badge) {
+        badge.textContent = '연결 오류';
+        badge.style.background = '#fee2e2';
+        badge.style.color = '#dc2626';
+      }
+      if (msg) {
+        msg.textContent = `연결 실패: ${err.message || res.statusText}`;
+        msg.style.color = '#dc2626';
+      }
+      alert(`GitHub 연동 실패 (상태 코드: ${res.status}):\n${err.message || '토큰 권한(repo) 또는 유효성을 확인해 주세요.'}`);
+    }
+  } catch (e) {
+    console.error("GitHub test error:", e);
+    if (msg) {
+      msg.textContent = '네트워크 오류가 발생했습니다.';
+      msg.style.color = '#dc2626';
+    }
+    alert("GitHub 서버와 통신 중 네트워크 오류가 발생했습니다.");
+  }
+}
 
 // Sync compiled data.json to GitHub repository asynchronously (Hybrid Static CMS sync)
 async function syncDataJsonToGitHub() {
