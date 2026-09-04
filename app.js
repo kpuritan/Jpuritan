@@ -3418,12 +3418,23 @@ async function handleDeleteArticle(artId) {
   const art = state.articles.find(a => a.id === artId);
   if (!art) return;
 
-  if (confirm(`資料「${art.title}」を完全に削除しますか？`)) {
+  if (confirm(`「${art.title}」을(를) 삭제하시겠습니까?\n(削除しますか？)`)) {
     // 1. Local delete
     state.articles = state.articles.filter(a => a.id !== artId);
     saveArticles();
     renderRecentArticles();
     renderAdminArticleList();
+    if (state.currentCategory) {
+      renderArticlesList();
+    }
+    const detailContainer = document.getElementById('article-detail-view');
+    if (detailContainer && detailContainer.style.display !== 'none') {
+      const listContainer = document.getElementById('articles-list-view');
+      if (listContainer) {
+        detailContainer.style.display = 'none';
+        listContainer.style.display = 'block';
+      }
+    }
 
     // 2. Sync compiled data.json to GitHub
     syncDataJsonToGitHub();
