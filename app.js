@@ -1858,8 +1858,42 @@ function closeFeaturedModal() {
 // 5. Admin Authentication
 // ==========================================
 function openLoginModal() {
-  document.getElementById('login-modal').classList.add('active');
-  document.getElementById('login-username').focus();
+  const modal = document.getElementById('login-modal');
+  if (modal) modal.classList.add('active');
+
+  const userInput = document.getElementById('login-username');
+  const passInput = document.getElementById('login-password');
+  const rememberCheckbox = document.getElementById('login-remember');
+
+  // 이 컴퓨터(localStorage)에 저장된 로그인 정보 불러오기
+  const rememberEnabled = localStorage.getItem('wscal_admin_remember_enabled') !== 'false';
+  if (rememberCheckbox) {
+    rememberCheckbox.checked = rememberEnabled;
+  }
+
+  const savedUser = localStorage.getItem('wscal_admin_saved_user') || 'admin';
+  const savedPass = localStorage.getItem('wscal_admin_saved_pass') || '';
+
+  if (userInput) {
+    userInput.value = savedUser;
+  }
+
+  if (passInput) {
+    if (rememberEnabled && savedPass) {
+      passInput.value = savedPass;
+    } else if (!savedPass && userInput.value === 'admin') {
+      // 이전에 저장된 기록이 없더라도 사용자 편의를 위해 초기 자동채움 필요시 대응
+    }
+  }
+
+  // 포커스 이동: 비밀번호까지 이미 채워져 있으면 로그인 버튼 또는 비밀번호창 선택
+  if (savedPass && rememberEnabled) {
+    if (passInput) passInput.focus();
+  } else if (userInput && !userInput.value) {
+    userInput.focus();
+  } else if (passInput) {
+    passInput.focus();
+  }
 }
 
 function closeLoginModal() {
@@ -1874,12 +1908,27 @@ function handleLogin(event) {
   }
   const userInput = document.getElementById('login-username');
   const passInput = document.getElementById('login-password');
+  const rememberCheckbox = document.getElementById('login-remember');
+
   const user = (userInput ? userInput.value : '').trim();
   const pass = (passInput ? passInput.value : '').trim();
+  const shouldRemember = rememberCheckbox ? rememberCheckbox.checked : true;
 
   if (user === 'admin' && pass === '1234') {
     state.isAdmin = true;
     sessionStorage.setItem('wscal_admin_logged', 'true');
+
+    // 접속한 컴퓨터의 브라우저에 로그인 정보 저장
+    if (shouldRemember) {
+      localStorage.setItem('wscal_admin_saved_user', user);
+      localStorage.setItem('wscal_admin_saved_pass', pass);
+      localStorage.setItem('wscal_admin_remember_enabled', 'true');
+    } else {
+      localStorage.removeItem('wscal_admin_saved_user');
+      localStorage.removeItem('wscal_admin_saved_pass');
+      localStorage.setItem('wscal_admin_remember_enabled', 'false');
+    }
+
     closeLoginModal();
     showAdminDashboard('folders');
     updateAdminNavAndFloatingButtons();

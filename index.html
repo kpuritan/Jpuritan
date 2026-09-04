@@ -200,11 +200,15 @@
       <form onsubmit="handleLogin(event); return false;">
         <div class="form-group">
           <label class="form-label" for="login-username">管理者ID</label>
-          <input class="form-input" type="text" id="login-username" placeholder="admin" onkeydown="if(event.key==='Enter') handleLogin(event)" required>
+          <input class="form-input" type="text" id="login-username" placeholder="admin" onkeydown="if(event.key==='Enter') handleLogin(event)" required autocomplete="username">
         </div>
         <div class="form-group">
           <label class="form-label" for="login-password">パスワード</label>
-          <input class="form-input" type="password" id="login-password" placeholder="••••" onkeydown="if(event.key==='Enter') handleLogin(event)" required>
+          <input class="form-input" type="password" id="login-password" placeholder="••••" onkeydown="if(event.key==='Enter') handleLogin(event)" required autocomplete="current-password">
+        </div>
+        <div class="form-group" style="display: flex; align-items: center; gap: 8px; margin-bottom: 1.2rem; font-size: 0.85rem; color: var(--text-dark); cursor: pointer;">
+          <input type="checkbox" id="login-remember" checked style="cursor: pointer; width: 16px; height: 16px; accent-color: var(--primary-color);">
+          <label for="login-remember" style="cursor: pointer; margin: 0; user-select: none;">この端末にログイン情報を保存 (이 컴퓨터에 비번 저장)</label>
         </div>
         <button class="btn-submit" type="button" onclick="handleLogin(event)">ログイン</button>
       </form>
@@ -715,7 +719,7 @@
 
 
   <!-- CORE LOGIC AND DATA -->
-  <script src="data.js?v=20260904_09"></script>
-  <script src="app.js?v=20260904_09"></script>
+  <script src="data.js?v=20260904_10"></script>
+  <script src="app.js?v=20260904_10"></script>
 </body>
 </html>
