@@ -2015,15 +2015,19 @@ function handleNavAdminClick() {
 function updateAdminNavAndFloatingButtons() {
   const toggleBtn = document.getElementById('btn-toggle-view');
   const navBtn = document.getElementById('btn-admin-nav');
+  const ghHeaderStatus = document.getElementById('header-github-status');
+  const ghHeaderStatusText = document.getElementById('header-github-status-text');
   const adminSec = document.getElementById('admin-dashboard-sec');
   const isAdminViewActive = adminSec && adminSec.classList.contains('active');
+  const token = (localStorage.getItem('wscal_github_token') || '').trim();
 
   // Remove top admin floating bar if it exists
   const topBar = document.getElementById('homepage-quick-admin-bar');
   if (topBar) topBar.remove();
 
   if (!state.isAdmin) {
-    // Logged out: hide toggle button, show login button
+    // Logged out: hide toggle button and github badge, show login button
+    if (ghHeaderStatus) ghHeaderStatus.style.display = 'none';
     if (toggleBtn) {
       toggleBtn.style.display = 'none';
     }
@@ -2039,7 +2043,25 @@ function updateAdminNavAndFloatingButtons() {
     return;
   }
 
-  // Logged in:
+  // Logged in as Admin:
+  // 0. GitHub Status Badge in Header
+  if (ghHeaderStatus) {
+    ghHeaderStatus.style.display = 'inline-flex';
+    if (token) {
+      ghHeaderStatus.style.background = 'rgba(34, 197, 94, 0.2)';
+      ghHeaderStatus.style.border = '1px solid rgba(34, 197, 94, 0.6)';
+      ghHeaderStatus.style.color = '#86efac';
+      if (ghHeaderStatusText) ghHeaderStatusText.textContent = 'GitHub 연동됨';
+      ghHeaderStatus.title = 'GitHub 연동: 정상 (토큰 등록됨)\n클릭 시 관리자 화면으로 이동';
+    } else {
+      ghHeaderStatus.style.background = 'rgba(239, 68, 68, 0.2)';
+      ghHeaderStatus.style.border = '1px solid rgba(239, 68, 68, 0.6)';
+      ghHeaderStatus.style.color = '#fca5a5';
+      if (ghHeaderStatusText) ghHeaderStatusText.textContent = 'GitHub 미연결';
+      ghHeaderStatus.title = 'GitHub 토큰이 등록되지 않았습니다.\n클릭하여 관리자 화면에서 토큰을 등록해 주세요.';
+    }
+  }
+
   // 1. View Switch Button in Header (Next to Logout)
   if (toggleBtn) {
     toggleBtn.style.display = 'inline-flex';
@@ -2057,7 +2079,7 @@ function updateAdminNavAndFloatingButtons() {
       toggleBtn.style.color = '#0A1C36';
       toggleBtn.style.border = '1px solid var(--accent-color)';
       toggleBtn.style.fontWeight = 'bold';
-      toggleBtn.innerHTML = '<i class="fa-solid fa-sliders"></i> <span>管理パネル (관리자 박스)</span>';
+      toggleBtn.innerHTML = '<i class="fa-solid fa-sliders"></i> <span>管理パネル (관리자 패널)</span>';
       toggleBtn.title = '管理者パネルを開く';
     }
   }

@@ -40,6 +40,10 @@
       </div>
     </div>
     <div class="header-actions" id="header-actions" style="display: flex; align-items: center; gap: 8px;">
+      <div id="header-github-status" style="display: none; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: var(--transition-smooth);" onclick="showAdminDashboard('folders')" title="GitHub 연동 상태">
+        <i class="fa-brands fa-github"></i>
+        <span id="header-github-status-text">GitHub 연동 정상</span>
+      </div>
       <button class="btn-admin" id="btn-toggle-view" onclick="toggleAdminModeView()" style="display: none;">
         <i class="fa-solid fa-sliders"></i> <span id="btn-toggle-view-text">管理パネル</span>
       </button>
