@@ -111,6 +111,34 @@ function sortCategoriesList(cats) {
   });
 }
 
+// Extract numerical sort key from title (WCF sections [1절]/[1節], catechism questions 第1問/질문 1, etc.)
+function getArticleSortKey(art) {
+  if (!art) return { num: 999999, pos: 999999, id: '' };
+  const title = (art.title || '').trim();
+  
+  // 1. WCF sections: [1절], [1節], [1-2절], [1-2節], [1-7절], etc.
+  let m = title.match(/\[\s*(\d+)(?:-\d+)?\s*(?:절|節)\s*\]/);
+  if (m) {
+    return { num: parseInt(m[1], 10), pos: Number(art.position !== undefined ? art.position : 0), id: art.id || '' };
+  }
+  
+  // 2. Catechism Questions: 第1問, 第129問, 질문 1, 질문 129, Q1, Q129, Question 1
+  m = title.match(/(?:第|질문|Q|Question)\s*(\d+)\s*(?:問|:|：|\.|\s)/i);
+  if (m) {
+    return { num: parseInt(m[1], 10), pos: Number(art.position !== undefined ? art.position : 0), id: art.id || '' };
+  }
+  
+  // 3. Leading numbers e.g. "1. ", "01_", "1-1."
+  m = title.match(/^(\d+)[\.\_\:\s]/);
+  if (m) {
+    return { num: parseInt(m[1], 10), pos: Number(art.position !== undefined ? art.position : 0), id: art.id || '' };
+  }
+  
+  // 4. Default to position or fallback
+  const pos = (art.position !== undefined && art.position !== null) ? Number(art.position) : 999999;
+  return { num: pos, pos: pos, id: art.id || '' };
+}
+
 // Preserve session states
 try {
   sessionStorage.removeItem('wscal_user_menu');
@@ -144,17 +172,43 @@ let state = {
   theologyFilterCategory: 'all'   // 'all' or specific categoryId (for combined mode)
 };
 
-// Synchronously load data from localStorage (or defaults) and update state instantly
+// Synchronously load data from MASTER_SITE_DATABASE / localStorage and update state instantly
 function loadLocalStorageOnly() {
-  const cachedMenus = localStorage.getItem('wscal_mainmenus_v28');
-  const cachedCats = localStorage.getItem('wscal_categories_v28');
-  const cachedFeat = localStorage.getItem('wscal_featured_v28');
-  const cachedArts = localStorage.getItem('wscal_articles_v28');
+  const embeddedArts = (MASTER_SITE_DATABASE && MASTER_SITE_DATABASE.articles) || [];
+  const embeddedCats = (MASTER_SITE_DATABASE && MASTER_SITE_DATABASE.categories) || [];
+  const embeddedMenus = (MASTER_SITE_DATABASE && MASTER_SITE_DATABASE.mainMenus) || [];
+  const embeddedFeat = (MASTER_SITE_DATABASE && MASTER_SITE_DATABASE.featured) || {};
 
-  state.mainMenus = cachedMenus ? JSON.parse(cachedMenus) : (MASTER_SITE_DATABASE.mainMenus || []);
-  state.categories = cachedCats ? JSON.parse(cachedCats) : (MASTER_SITE_DATABASE.categories || []);
-  state.featured = cachedFeat ? JSON.parse(cachedFeat) : (MASTER_SITE_DATABASE.featured || {});
-  state.articles = cachedArts ? JSON.parse(cachedArts) : (MASTER_SITE_DATABASE.articles || []);
+  let cachedArts = null;
+  let cachedCats = null;
+  let cachedMenus = null;
+  let cachedFeat = null;
+
+  try {
+    const rawArts = localStorage.getItem('wscal_articles_v29');
+    if (rawArts) cachedArts = JSON.parse(rawArts);
+  } catch (e) {}
+
+  try {
+    const rawCats = localStorage.getItem('wscal_categories_v29');
+    if (rawCats) cachedCats = JSON.parse(rawCats);
+  } catch (e) {}
+
+  try {
+    const rawMenus = localStorage.getItem('wscal_mainmenus_v29');
+    if (rawMenus) cachedMenus = JSON.parse(rawMenus);
+  } catch (e) {}
+
+  try {
+    const rawFeat = localStorage.getItem('wscal_featured_v29');
+    if (rawFeat) cachedFeat = JSON.parse(rawFeat);
+  } catch (e) {}
+
+  // Prefer the dataset that has more entries (prevents stale localStorage from shadowing newly added articles)
+  state.articles = (embeddedArts.length >= (cachedArts ? cachedArts.length : 0)) ? embeddedArts : (cachedArts || embeddedArts);
+  state.categories = (embeddedCats.length >= (cachedCats ? cachedCats.length : 0)) ? embeddedCats : (cachedCats || embeddedCats);
+  state.mainMenus = (embeddedMenus.length >= (cachedMenus ? cachedMenus.length : 0)) ? embeddedMenus : (cachedMenus || embeddedMenus);
+  state.featured = (embeddedFeat && Object.keys(embeddedFeat).length > 0) ? embeddedFeat : (cachedFeat || embeddedFeat);
 
   const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'discipleship', 'pastor'];
   state.mainMenus.sort((a, b) => {
@@ -167,11 +221,17 @@ function loadLocalStorageOnly() {
 
 async function initApp() {
   // Clear any old session states on new version load
-  if (sessionStorage.getItem('wscal_version') !== 'v24') {
+  if (sessionStorage.getItem('wscal_version') !== 'v29') {
     sessionStorage.removeItem('wscal_user_menu');
     sessionStorage.removeItem('wscal_user_category');
     sessionStorage.removeItem('wscal_user_article');
-    sessionStorage.setItem('wscal_version', 'v24');
+    sessionStorage.setItem('wscal_version', 'v29');
+    try {
+      localStorage.removeItem('wscal_articles_v28');
+      localStorage.removeItem('wscal_categories_v28');
+      localStorage.removeItem('wscal_mainmenus_v28');
+      localStorage.removeItem('wscal_featured_v28');
+    } catch(e) {}
   }
   if (sessionStorage.getItem('wscal_admin_logged') === 'true' || localStorage.getItem('wscal_admin_logged') === 'true') {
     state.isAdmin = true;
@@ -195,19 +255,22 @@ async function initApp() {
 
       if (fileData.mainMenus && fileData.mainMenus.length > 0) {
         state.mainMenus = fileData.mainMenus;
-        localStorage.setItem('wscal_mainmenus_v28', JSON.stringify(fileData.mainMenus));
+        try { localStorage.setItem('wscal_mainmenus_v29', JSON.stringify(fileData.mainMenus)); } catch(e) {}
       }
       if (fileData.categories && fileData.categories.length > 0) {
         state.categories = fileData.categories;
-        localStorage.setItem('wscal_categories_v28', JSON.stringify(fileData.categories));
+        try { localStorage.setItem('wscal_categories_v29', JSON.stringify(fileData.categories)); } catch(e) {}
       }
       if (fileData.featured) {
         state.featured = fileData.featured;
-        localStorage.setItem('wscal_featured_v28', JSON.stringify(fileData.featured));
+        try { localStorage.setItem('wscal_featured_v29', JSON.stringify(fileData.featured)); } catch(e) {}
       }
       if (fileData.articles && fileData.articles.length > 0) {
-        state.articles = fileData.articles;
-        localStorage.setItem('wscal_articles_v28', JSON.stringify(fileData.articles));
+        // If fileData has more or equal articles than state, adopt it
+        if (fileData.articles.length >= state.articles.length) {
+          state.articles = fileData.articles;
+        }
+        try { localStorage.setItem('wscal_articles_v29', JSON.stringify(fileData.articles)); } catch(e) {}
       }
 
       initializeCollapsedStates();
@@ -285,20 +348,28 @@ function listenArticles() {
   loadArticlesFallback();
 }
 
-// Load articles from LocalStorage or Default
+// Load articles from LocalStorage or MASTER_SITE_DATABASE
 function loadArticlesFallback() {
-  if (!localStorage.getItem('wscal_articles_v28')) {
-    localStorage.setItem('wscal_articles_v28', JSON.stringify(DEFAULT_ARTICLES));
-  }
-  state.articles = JSON.parse(localStorage.getItem('wscal_articles_v28'));
+  const embeddedArts = (MASTER_SITE_DATABASE && MASTER_SITE_DATABASE.articles) || [];
+  let cachedArts = null;
+  try {
+    const raw = localStorage.getItem('wscal_articles_v29');
+    if (raw) cachedArts = JSON.parse(raw);
+  } catch (e) {}
+
+  state.articles = (embeddedArts.length >= (cachedArts ? cachedArts.length : 0)) ? embeddedArts : (cachedArts || embeddedArts);
   
   // Sort articles locally
   state.articles.sort((a, b) => {
+    const keyA = getArticleSortKey(a);
+    const keyB = getArticleSortKey(b);
+    if (keyA.num !== keyB.num) return keyA.num - keyB.num;
+    if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
     const dateA = a.createdAt || '';
     const dateB = b.createdAt || '';
     const dateCompare = dateB.localeCompare(dateA);
     if (dateCompare !== 0) return dateCompare;
-    return b.id.localeCompare(a.id);
+    return (a.id || '').localeCompare(b.id || '');
   });
 
   renderRecentArticles();
@@ -320,61 +391,43 @@ async function loadLocalDataFallback() {
       console.log("Successfully loaded fallback configuration from data.json");
     }
   } catch (err) {
-    console.warn("Failed to fetch data.json for local fallback, using DEFAULT hardcoded arrays:", err);
+    console.warn("Failed to fetch data.json for local fallback:", err);
   }
 
   if (fetchedData) {
-        if (fetchedData.mainMenus) localStorage.setItem('wscal_mainmenus_v28', JSON.stringify(fetchedData.mainMenus));
-    if (fetchedData.categories) localStorage.setItem('wscal_categories_v28', JSON.stringify(fetchedData.categories));
-    if (fetchedData.featured) localStorage.setItem('wscal_featured_v28', JSON.stringify(fetchedData.featured));
-        let hasCachedArts = false;
-    const cachedArts = localStorage.getItem('wscal_articles_v28');
-    if (cachedArts) {
-      try {
-        const parsed = JSON.parse(cachedArts);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          hasCachedArts = true;
-        }
-      } catch (e) {}
+    if (fetchedData.mainMenus) {
+      state.mainMenus = fetchedData.mainMenus;
+      try { localStorage.setItem('wscal_mainmenus_v29', JSON.stringify(fetchedData.mainMenus)); } catch(e) {}
     }
-    if (fetchedData.articles && !hasCachedArts) {
-      localStorage.setItem('wscal_articles_v28', JSON.stringify(fetchedData.articles));
+    if (fetchedData.categories) {
+      state.categories = fetchedData.categories;
+      try { localStorage.setItem('wscal_categories_v29', JSON.stringify(fetchedData.categories)); } catch(e) {}
     }
-  } else {
-    // If even data.json fails, use hardcoded defaults
-    if (!localStorage.getItem('wscal_mainmenus_v28')) {
-      localStorage.setItem('wscal_mainmenus_v28', JSON.stringify(DEFAULT_MAIN_MENUS));
+    if (fetchedData.featured) {
+      state.featured = fetchedData.featured;
+      try { localStorage.setItem('wscal_featured_v29', JSON.stringify(fetchedData.featured)); } catch(e) {}
     }
-    if (!localStorage.getItem('wscal_categories_v28')) {
-      localStorage.setItem('wscal_categories_v28', JSON.stringify(DEFAULT_CATEGORIES));
-    }
-    if (!localStorage.getItem('wscal_featured_v28')) {
-      localStorage.setItem('wscal_featured_v28', JSON.stringify(DEFAULT_FEATURED));
-    }
-    if (!localStorage.getItem('wscal_articles_v28')) {
-      localStorage.setItem('wscal_articles_v28', JSON.stringify(DEFAULT_ARTICLES));
+    if (fetchedData.articles && fetchedData.articles.length >= state.articles.length) {
+      state.articles = fetchedData.articles;
+      try { localStorage.setItem('wscal_articles_v29', JSON.stringify(fetchedData.articles)); } catch(e) {}
     }
   }
-
-  state.mainMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v28'));
-  state.categories = JSON.parse(localStorage.getItem('wscal_categories_v28'));
-  state.featured = JSON.parse(localStorage.getItem('wscal_featured_v28'));
 }
 
 // Save back to LocalStorage & Sync to GitHub
 async function saveMainMenus() {
-  localStorage.setItem('wscal_mainmenus_v28', JSON.stringify(state.mainMenus));
+  try { localStorage.setItem('wscal_mainmenus_v29', JSON.stringify(state.mainMenus)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 async function saveCategories() {
-  localStorage.setItem('wscal_categories_v28', JSON.stringify(state.categories));
+  try { localStorage.setItem('wscal_categories_v29', JSON.stringify(state.categories)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 function saveArticles() {
-  localStorage.setItem('wscal_articles_v28', JSON.stringify(state.articles));
+  try { localStorage.setItem('wscal_articles_v29', JSON.stringify(state.articles)); } catch(e) {}
 }
 async function saveFeatured() {
-  localStorage.setItem('wscal_featured_v28', JSON.stringify(state.featured));
+  try { localStorage.setItem('wscal_featured_v29', JSON.stringify(state.featured)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 
@@ -1307,9 +1360,71 @@ function renderWorkspaceSidebar() {
 }
 
 // Render Article List (Supports Grid Video Gallery for Pastor Theology and Pagination)
+// Extract numerical sort key from title (WCF sections [1절]/[1節], catechism questions 第1問/질문 1, etc.)
+function getArticleSortKey(art) {
+  if (!art) return { num: 999999, pos: 999999, id: '' };
+  const title = (art.title || '').trim();
+  
+  // 1. WCF sections: [1절], [1節], [1-2절], [1-2節], [1-7절], etc.
+  let m = title.match(/\[\s*(\d+)(?:-\d+)?\s*(?:절|節)\s*\]/);
+  if (m) {
+    return { num: parseInt(m[1], 10), pos: Number(art.position !== undefined ? art.position : 0), id: art.id || '' };
+  }
+  
+  // 2. Catechism Questions: 第1問, 第129問, 질문 1, 질문 129, Q1, Q129, Question 1
+  m = title.match(/(?:第|질문|Q|Question)\s*(\d+)\s*(?:問|:|：|\.|\s)/i);
+  if (m) {
+    return { num: parseInt(m[1], 10), pos: Number(art.position !== undefined ? art.position : 0), id: art.id || '' };
+  }
+  
+  // 3. Leading numbers e.g. "1. ", "01_", "1-1."
+  m = title.match(/^(\d+)[\.\_\:\s]/);
+  if (m) {
+    return { num: parseInt(m[1], 10), pos: Number(art.position !== undefined ? art.position : 0), id: art.id || '' };
+  }
+  
+  // 4. Default to position or fallback
+  const pos = (art.position !== undefined && art.position !== null) ? Number(art.position) : 999999;
+  return { num: pos, pos: pos, id: art.id || '' };
+}
+
+// Check if content is a full HTML document (with <!DOCTYPE, <html>, <head>, <script>, or Tailwind)
+function isFullHtmlDoc(content) {
+  if (!content) return false;
+  const trimmed = content.trim().toLowerCase();
+  return (
+    trimmed.startsWith('<!doctype html') ||
+    trimmed.startsWith('<html') ||
+    trimmed.includes('<head') ||
+    trimmed.includes('<script') ||
+    trimmed.includes('<style') ||
+    trimmed.includes('cdn.tailwindcss.com')
+  );
+}
+
+// Format article content: supports raw HTML tags or plain text with preserved line breaks
+function formatArticleContent(content) {
+  if (!content) return '';
+  // Check if content contains HTML tags
+  const hasHtml = /<\/?([a-z0-9]+)(?:\s+[^>]*|\s*)>/i.test(content);
+  if (hasHtml) {
+    return content;
+  } else {
+    return content
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;")
+      .replace(/\n/g, "<br>");
+  }
+}
+
+// Render Article List (Supports Grid Video Gallery for Pastor Theology and Pagination)
 function renderArticlesList() {
   const container = document.getElementById('articles-list-container');
   const listTitle = document.getElementById('list-title');
+  if (!container) return;
   
   let filteredArticles = [];
   
@@ -1328,40 +1443,41 @@ function renderArticlesList() {
       parts.push(`主題: ${catObj ? catObj.nameJp : state.theologyFilterCategory}`);
     }
     if (parts.length === 0) {
-      listTitle.textContent = '改革派神学・全資料一覧 (統合モード)';
+      if (listTitle) listTitle.textContent = '改革派神学・全資料一覧 (統合モード)';
     } else {
-      listTitle.textContent = `改革派神学 [${parts.join(' × ')}] の資料一覧 (${filteredArticles.length}件)`;
+      if (listTitle) listTitle.textContent = `改革派神学 [${parts.join(' × ')}] の資料一覧 (${filteredArticles.length}件)`;
     }
   } else if (state.currentMenu === 'theology' && state.theologyMode === 'author') {
     const theologyArticles = state.articles.filter(art => isTheologyCategory(art.categoryId));
     if (state.theologyAuthor === 'all') {
       filteredArticles = theologyArticles;
-      listTitle.textContent = '改革派神学・すべての著者の資料一覧';
+      if (listTitle) listTitle.textContent = '改革派神学・すべての著者の資料一覧';
     } else {
       filteredArticles = theologyArticles.filter(art => (art.author || '').trim() === state.theologyAuthor);
-      listTitle.textContent = `「${state.theologyAuthor}」著者の改革派神学資料 (${filteredArticles.length}件)`;
+      if (listTitle) listTitle.textContent = `「${state.theologyAuthor}」著者の改革派神学資料 (${filteredArticles.length}件)`;
     }
   } else {
     const currentCatObj = state.categories.find(c => c.id === state.currentCategory);
-    listTitle.textContent = currentCatObj ? `${currentCatObj.nameJp} の資料一覧` : '資料一覧';
+    if (listTitle) listTitle.textContent = currentCatObj ? `${currentCatObj.nameJp} の資料一覧` : '資料一覧';
 
     const descendantIds = getAllDescendantCategoryIds(state.currentCategory);
     filteredArticles = state.articles.filter(art => descendantIds.includes(art.categoryId));
   }
   
-  // Sort by custom position ascending, then by date descending
+  // Smart Sort: Section/Question number ascending first (for WCF Chapters 1~33 & Catechisms), then position, then date
   filteredArticles.sort((a, b) => {
-    const posA = a.position !== undefined ? a.position : 999999;
-    const posB = b.position !== undefined ? b.position : 999999;
-    if (posA !== posB) return posA - posB;
-    const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+    const keyA = getArticleSortKey(a);
+    const keyB = getArticleSortKey(b);
+    if (keyA.num !== keyB.num) return keyA.num - keyB.num;
+    if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
+    const dateCompare = (a.createdAt || '').localeCompare(b.createdAt || '');
     if (dateCompare !== 0) return dateCompare;
-    return b.id.localeCompare(a.id);
+    return (a.id || '').localeCompare(b.id || '');
   });
   container.innerHTML = '';
 
   if (filteredArticles.length === 0) {
-    container.className = 'article-list'; // Reset layout class
+    container.className = 'article-list';
     container.innerHTML = `
       <div class="empty-message">
         <i class="fa-regular fa-file-excel" style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--border-color);"></i>
@@ -1377,7 +1493,6 @@ function renderArticlesList() {
   const pageSize = state.pagination.pageSize;
   const totalPages = Math.ceil(totalCount / pageSize);
 
-  // Validate current page range
   if (state.pagination.currentPage > totalPages) {
     state.pagination.currentPage = totalPages;
   }
@@ -1389,7 +1504,6 @@ function renderArticlesList() {
   const endIndex = startIndex + pageSize;
   const pagedArticles = filteredArticles.slice(startIndex, endIndex);
 
-  // Check if current menu is "pastor" (목회자를 위한 10분 신학) for visual grid gallery setting
   const isPastorMenu = state.currentMenu === 'pastor';
 
   // 2. Render Page Size Selector & Total count
@@ -1446,6 +1560,7 @@ function renderArticlesList() {
     pagedArticles.forEach(art => {
       const card = document.createElement('div');
       card.className = 'video-card';
+      card.style.cursor = 'pointer';
       card.onclick = (e) => {
         if (e.target.closest('.card-inline-admin-bar')) return;
         viewArticleDetail(art.id);
@@ -1491,11 +1606,11 @@ function renderArticlesList() {
     pagedArticles.forEach(art => {
       const card = document.createElement('div');
       card.className = 'profile-card';
+      card.style.cursor = 'pointer';
       card.onclick = (e) => {
         if (e.target.closest('.card-inline-admin-bar')) return;
         viewArticleDetail(art.id);
       };
-      card.style.cursor = 'pointer';
       
       const photoUrl = art.photoUrl || 'hero_bg.jpg';
 
@@ -1529,6 +1644,7 @@ function renderArticlesList() {
     pagedArticles.forEach(art => {
       const card = document.createElement('div');
       card.className = 'article-item-card';
+      card.style.cursor = 'pointer';
       card.onclick = (e) => {
         if (e.target.closest('.card-inline-admin-bar')) return;
         viewArticleDetail(art.id);
@@ -1681,204 +1797,204 @@ function renderPaginationButtons(container, currentPage, totalPages, onPageChang
   }
 }
 
-// View Article Detail (Supports Video Player Embedding)
+// View Article Detail (Supports Video Player & Interactive Responsive Document Rendering)
 function viewArticleDetail(articleId) {
-  const article = state.articles.find(a => a.id === articleId);
-  if (!article) return;
-
-  state.currentArticle = article;
-  sessionStorage.setItem('wscal_user_article', articleId);
-  sessionStorage.setItem('wscal_user_category', article.categoryId);
-
-  // Increment views
-  article.views = (article.views || 0) + 1;
-  saveArticles();
-  document.getElementById('detail-views').textContent = article.views;
-
-  document.getElementById('view-article-list').style.display = 'none';
-  const detailView = document.getElementById('view-article-detail');
-  detailView.style.display = 'block';
-
-  // Admin Quick Action Bar in Article Detail View
-  let adminDetailBar = document.getElementById('detail-admin-action-bar');
-  if (state.isAdmin) {
-    if (!adminDetailBar) {
-      adminDetailBar = document.createElement('div');
-      adminDetailBar.id = 'detail-admin-action-bar';
-      adminDetailBar.className = 'detail-admin-action-bar';
-      const detailHeader = document.querySelector('.article-detail-header') || detailView.firstChild;
-      detailView.insertBefore(adminDetailBar, detailHeader);
+  try {
+    let article = state.articles.find(a => a.id === articleId);
+    if (!article && MASTER_SITE_DATABASE && MASTER_SITE_DATABASE.articles) {
+      article = MASTER_SITE_DATABASE.articles.find(a => a.id === articleId);
+      if (article && !state.articles.some(a => a.id === articleId)) {
+        state.articles.push(article);
+      }
     }
-    adminDetailBar.style.display = 'flex';
-    adminDetailBar.innerHTML = `
-      <span style="font-size: 0.85rem; font-weight: bold; color: var(--primary-color); display: inline-flex; align-items: center; gap: 5px;">
-        <i class="fa-solid fa-shield-halved"></i> 管理者クイック操作:
-      </span>
-      <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${article.id}')" title="記事編集">
-        <i class="fa-solid fa-pen-to-square"></i> この記事を修正・編集
-      </button>
-      <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${article.id}')" title="フォルダ移動">
-        <i class="fa-solid fa-folder-tree"></i> 別のフォルダへ移動
-      </button>
-      <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${article.id}')" title="記事削除">
-        <i class="fa-solid fa-trash-can"></i> 記事削除
-      </button>
-    `;
-  } else if (adminDetailBar) {
-    adminDetailBar.style.display = 'none';
-  }
-
-  document.getElementById('detail-title').textContent = article.title;
-  document.getElementById('detail-author').textContent = article.author;
-  document.getElementById('detail-date').textContent = article.createdAt;
-  document.getElementById('detail-views').textContent = article.views;
-
-  const isTheology = isTheologyCategory(article.categoryId) || state.currentMenu === 'theology';
-  const scriptureContainer = document.getElementById('detail-scripture-container');
-  if (article.scripture) {
-    scriptureContainer.style.display = 'block';
-    if (isTheology) {
-      scriptureContainer.className = 'detail-scripture detail-theme';
-      scriptureContainer.innerHTML = `<strong><i class="fa-solid fa-bookmark"></i> 主題:</strong> <span id="detail-scripture">${article.scripture}</span>`;
-    } else {
-      scriptureContainer.className = 'detail-scripture';
-      scriptureContainer.innerHTML = `<strong><i class="fa-solid fa-bible"></i> 御言葉:</strong> <span id="detail-scripture">${article.scripture}</span>`;
+    if (!article) {
+      console.error("Article not found with ID:", articleId);
+      return;
     }
-  } else {
-    scriptureContainer.style.display = 'none';
-  }
 
-  // Clear previous content & embed video player if youtubeUrl is present
-  const contentArea = document.getElementById('detail-content');
-  contentArea.innerHTML = '';
+    state.currentArticle = article;
+    sessionStorage.setItem('wscal_user_article', articleId);
+    if (article.categoryId) {
+      sessionStorage.setItem('wscal_user_category', article.categoryId);
+    }
 
-  // Embed PDF Download Banner if pdfUrl is present
-  if (article.pdfUrl) {
-    const pdfBanner = document.createElement('div');
-    pdfBanner.className = 'article-pdf-banner';
-    pdfBanner.style.cssText = 'background: linear-gradient(135deg, #1e3a8a, #0284c7); color: white; padding: 18px 24px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);';
-    pdfBanner.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 14px;">
-        <i class="fa-solid fa-file-pdf" style="font-size: 2.2rem; color: #fde047;"></i>
-        <div>
-          <div style="font-weight: bold; font-size: 1.1rem; color: #ffffff;">${article.title} - 小冊子 PDF</div>
-          <div style="font-size: 0.85rem; color: #e0f2fe; margin-top: 2px;">全文を原本PDFファイルで閲覧・無料ダウンロードいただけます。</div>
-        </div>
-      </div>
-      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-        <a href="${article.pdfUrl}" target="_blank" class="btn-pdf-view" style="background: rgba(255,255,255,0.2); color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.4);">
-          <i class="fa-solid fa-eye"></i> 閲覧 (View)
-        </a>
-        <a href="${article.pdfUrl}" download class="btn-pdf-download" style="background: #f59e0b; color: #111827; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-          <i class="fa-solid fa-download"></i> PDFダウンロード (Download)
-        </a>
-      </div>
-    `;
-    contentArea.appendChild(pdfBanner);
-  }
+    // Increment views safely
+    article.views = (article.views || 0) + 1;
+    saveArticles();
+    
+    const viewsEl = document.getElementById('detail-views');
+    if (viewsEl) viewsEl.textContent = article.views;
 
-  const youtubeId = getYouTubeId(article.videoUrl);
-  if (youtubeId) {
-    const embedWrapper = document.createElement('div');
-    embedWrapper.className = 'video-embed-wrapper';
-    embedWrapper.innerHTML = `
-      <iframe src="https://www.youtube.com/embed/${youtubeId}" 
-              title="YouTube video player" 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-              allowfullscreen>
-      </iframe>
-    `;
-    contentArea.appendChild(embedWrapper);
-  }
+    const listView = document.getElementById('view-article-list');
+    if (listView) listView.style.display = 'none';
+    
+    const detailView = document.getElementById('view-article-detail');
+    if (detailView) detailView.style.display = 'block';
 
-  // Check if content is a full HTML document (with <!DOCTYPE, <html>, <head>, <script>, or Tailwind)
-function isFullHtmlDoc(content) {
-  if (!content) return false;
-  const trimmed = content.trim().toLowerCase();
-  return (
-    trimmed.startsWith('<!doctype html') ||
-    trimmed.startsWith('<html') ||
-    trimmed.includes('<head') ||
-    trimmed.includes('<script') ||
-    trimmed.includes('<style') ||
-    trimmed.includes('cdn.tailwindcss.com')
-  );
-}
+    // Admin Quick Action Bar in Article Detail View
+    let adminDetailBar = document.getElementById('detail-admin-action-bar');
+    if (state.isAdmin) {
+      if (!adminDetailBar && detailView) {
+        adminDetailBar = document.createElement('div');
+        adminDetailBar.id = 'detail-admin-action-bar';
+        adminDetailBar.className = 'detail-admin-action-bar';
+        const detailHeader = document.querySelector('.article-detail-header') || detailView.firstChild;
+        detailView.insertBefore(adminDetailBar, detailHeader);
+      }
+      if (adminDetailBar) {
+        adminDetailBar.style.display = 'flex';
+        adminDetailBar.innerHTML = `
+          <span style="font-size: 0.85rem; font-weight: bold; color: var(--primary-color); display: inline-flex; align-items: center; gap: 5px;">
+            <i class="fa-solid fa-shield-halved"></i> 管理者クイック操作:
+          </span>
+          <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${article.id}')" title="記事編集">
+            <i class="fa-solid fa-pen-to-square"></i> この記事を修正・編集
+          </button>
+          <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${article.id}')" title="フォルダ移動">
+            <i class="fa-solid fa-folder-tree"></i> 別のフォルダへ移動
+          </button>
+          <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${article.id}')" title="記事削除">
+            <i class="fa-solid fa-trash-can"></i> 記事削除
+          </button>
+        `;
+      }
+    } else if (adminDetailBar) {
+      adminDetailBar.style.display = 'none';
+    }
 
-// Format article content: supports raw HTML tags or plain text with preserved line breaks
-function formatArticleContent(content) {
-  if (!content) return '';
-  // Check if content contains HTML tags (e.g. <p>, <br>, <div>, <b>, <span>, <table>, <img>, <iframe>, <a>, <h1>~<h6>, etc.)
-  const hasHtml = /<\/?([a-z0-9]+)(?:\s+[^>]*|\s*)>/i.test(content);
-  if (hasHtml) {
-    return content;
-  } else {
-    return content
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;")
-      .replace(/\n/g, "<br>");
-  }
-}
+    const titleEl = document.getElementById('detail-title');
+    if (titleEl) titleEl.textContent = article.title || '';
+    
+    const authorEl = document.getElementById('detail-author');
+    if (authorEl) authorEl.textContent = article.author || '';
+    
+    const dateEl = document.getElementById('detail-date');
+    if (dateEl) dateEl.textContent = article.createdAt || '';
 
-  if (article.categoryId === 'cat_1787469050463') {
-    const profileBody = document.createElement('div');
-    profileBody.innerHTML = `
-      <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem;">
-        <div style="width: 150px; height: 200px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); flex-shrink: 0; margin: 0 auto;">
-          <img src="${article.photoUrl || 'hero_bg.jpg'}" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-        <div style="flex-grow: 1; min-width: 250px;">
-          <h2 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 0.5rem;">${article.title}</h2>
-          <p style="color: var(--accent-color); font-weight: 500; margin-bottom: 1rem;">${article.author}</p>
-          <div class="article-body-html" style="line-height: 1.8; color: var(--text-dark);">${formatArticleContent(article.content)}</div>
-        </div>
-      </div>
-    `;
-    contentArea.appendChild(profileBody);
-  } else if (isFullHtmlDoc(article.content)) {
-    // Full HTML document (Tailwind, scripts, custom styles) -> render in seamless auto-resizing iframe
-    const iframe = document.createElement('iframe');
-    iframe.className = 'article-doc-iframe';
-    iframe.style.width = '100%';
-    iframe.style.border = 'none';
-    iframe.style.minHeight = '500px';
-    iframe.style.borderRadius = '8px';
-    iframe.style.display = 'block';
-    iframe.setAttribute('scrolling', 'no');
+    const isTheology = isTheologyCategory(article.categoryId) || state.currentMenu === 'theology';
+    const scriptureContainer = document.getElementById('detail-scripture-container');
+    if (scriptureContainer) {
+      if (article.scripture) {
+        scriptureContainer.style.display = 'block';
+        if (isTheology) {
+          scriptureContainer.className = 'detail-scripture detail-theme';
+          scriptureContainer.innerHTML = `<strong><i class="fa-solid fa-bookmark"></i> 主題:</strong> <span id="detail-scripture">${article.scripture}</span>`;
+        } else {
+          scriptureContainer.className = 'detail-scripture';
+          scriptureContainer.innerHTML = `<strong><i class="fa-solid fa-bible"></i> 御言葉:</strong> <span id="detail-scripture">${article.scripture}</span>`;
+        }
+      } else {
+        scriptureContainer.style.display = 'none';
+      }
+    }
 
-    iframe.onload = function() {
-      try {
-        const doc = iframe.contentWindow.document;
-        const autoResize = () => {
-          if (doc && doc.body) {
-            const h = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
-            if (h > 50) {
-              iframe.style.height = (h + 40) + 'px';
-            }
+    // Clear previous content & embed video player if youtubeUrl is present
+    const contentArea = document.getElementById('detail-content');
+    if (contentArea) {
+      contentArea.innerHTML = '';
+
+      // Embed PDF Download Banner if pdfUrl is present
+      if (article.pdfUrl) {
+        const pdfBanner = document.createElement('div');
+        pdfBanner.className = 'article-pdf-banner';
+        pdfBanner.style.cssText = 'background: linear-gradient(135deg, #1e3a8a, #0284c7); color: white; padding: 18px 24px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);';
+        pdfBanner.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <i class="fa-solid fa-file-pdf" style="font-size: 2.2rem; color: #fde047;"></i>
+            <div>
+              <div style="font-weight: bold; font-size: 1.1rem; color: #ffffff;">${article.title} - 小冊子 PDF</div>
+              <div style="font-size: 0.85rem; color: #e0f2fe; margin-top: 2px;">全文を原本PDFファイルで閲覧・無料ダウンロードいただけます。</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <a href="${article.pdfUrl}" target="_blank" class="btn-pdf-view" style="background: rgba(255,255,255,0.2); color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.4);">
+              <i class="fa-solid fa-eye"></i> 閲覧 (View)
+            </a>
+            <a href="${article.pdfUrl}" download class="btn-pdf-download" style="background: #f59e0b; color: #111827; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+              <i class="fa-solid fa-download"></i> PDFダウンロード (Download)
+            </a>
+          </div>
+        `;
+        contentArea.appendChild(pdfBanner);
+      }
+
+      const youtubeId = getYouTubeId(article.videoUrl);
+      if (youtubeId) {
+        const embedWrapper = document.createElement('div');
+        embedWrapper.className = 'video-embed-wrapper';
+        embedWrapper.innerHTML = `
+          <iframe src="https://www.youtube.com/embed/${youtubeId}" 
+                  title="YouTube video player" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  allowfullscreen>
+          </iframe>
+        `;
+        contentArea.appendChild(embedWrapper);
+      }
+
+      if (article.categoryId === 'cat_1787469050463') {
+        const profileBody = document.createElement('div');
+        profileBody.innerHTML = `
+          <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem;">
+            <div style="width: 150px; height: 200px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); flex-shrink: 0; margin: 0 auto;">
+              <img src="${article.photoUrl || 'hero_bg.jpg'}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="flex-grow: 1; min-width: 250px;">
+              <h2 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 0.5rem;">${article.title}</h2>
+              <p style="color: var(--accent-color); font-weight: 500; margin-bottom: 1rem;">${article.author}</p>
+              <div class="article-body-html" style="line-height: 1.8; color: var(--text-dark);">${formatArticleContent(article.content)}</div>
+            </div>
+          </div>
+        `;
+        contentArea.appendChild(profileBody);
+      } else if (isFullHtmlDoc(article.content)) {
+        const iframe = document.createElement('iframe');
+        iframe.className = 'article-doc-iframe';
+        iframe.style.width = '100%';
+        iframe.style.border = 'none';
+        iframe.style.minHeight = '500px';
+        iframe.style.borderRadius = '8px';
+        iframe.style.display = 'block';
+        iframe.setAttribute('scrolling', 'no');
+
+        iframe.onload = function() {
+          try {
+            const doc = iframe.contentWindow.document;
+            const autoResize = () => {
+              if (doc && doc.body) {
+                const h = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
+                if (h > 50) {
+                  iframe.style.height = (h + 40) + 'px';
+                }
+              }
+            };
+            autoResize();
+            setTimeout(autoResize, 300);
+            setTimeout(autoResize, 1000);
+            setTimeout(autoResize, 2500);
+          } catch (err) {
+            console.warn("Iframe auto-resize warning:", err);
           }
         };
-        autoResize();
-        setTimeout(autoResize, 300);
-        setTimeout(autoResize, 1000);
-        setTimeout(autoResize, 2500);
-      } catch (err) {
-        console.warn("Iframe auto-resize warning:", err);
+
+        iframe.srcdoc = article.content;
+        contentArea.appendChild(iframe);
+      } else {
+        const textBody = document.createElement('div');
+        textBody.className = 'article-body-html';
+        textBody.innerHTML = formatArticleContent(article.content);
+        contentArea.appendChild(textBody);
       }
-    };
+    }
 
-    iframe.srcdoc = article.content;
-    contentArea.appendChild(iframe);
-  } else {
-    const textBody = document.createElement('div');
-    textBody.className = 'article-body-html';
-    textBody.innerHTML = formatArticleContent(article.content);
-    contentArea.appendChild(textBody);
+    const workspaceSec = document.getElementById('workspace-sec');
+    if (workspaceSec) {
+      workspaceSec.classList.add('active');
+      workspaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  } catch (err) {
+    console.error("Error in viewArticleDetail:", err);
   }
-
-  document.getElementById('workspace-sec').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // Back to list from detail
