@@ -1528,14 +1528,22 @@ function renderArticlesList() {
     </div>
   ` : '';
 
+  const isCatechismMenu = state.currentMenu === 'catechism' || (typeof isCatechismOrWcfCategory === 'function' && isCatechismOrWcfCategory(state.currentCategory));
+  const mindmapBtnHtml = isCatechismMenu ? `
+    <button type="button" class="btn-view-toggle ${state.articleViewMode === 'mindmap' ? 'active' : ''}" onclick="setArticleViewMode('mindmap')" title="マインドマップ表示 (마인드맵 한눈에 보기)" style="border: none; background: ${state.articleViewMode === 'mindmap' ? '#0A1C36' : 'transparent'}; color: ${state.articleViewMode === 'mindmap' ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
+      <i class="fa-solid fa-brain"></i> 🧠 マインドマップ
+    </button>
+  ` : '';
+
   const viewModeToggleHtml = (!isPastorMenu && !isServantMenu) ? `
     <div class="view-mode-toggle" style="display: inline-flex; background: #e2e8f0; border-radius: 8px; padding: 3px; gap: 3px;">
-      <button type="button" class="btn-view-toggle ${state.articleViewMode !== 'table' ? 'active' : ''}" onclick="setArticleViewMode('cards')" title="カード/詳細表示 (카드/썸네일보기)" style="border: none; background: ${state.articleViewMode !== 'table' ? '#0A1C36' : 'transparent'}; color: ${state.articleViewMode !== 'table' ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
+      <button type="button" class="btn-view-toggle ${state.articleViewMode === 'cards' || (!state.articleViewMode || (state.articleViewMode !== 'table' && state.articleViewMode !== 'mindmap')) ? 'active' : ''}" onclick="setArticleViewMode('cards')" title="カード/詳細表示 (카드/썸네일보기)" style="border: none; background: ${(state.articleViewMode === 'cards' || (!state.articleViewMode || (state.articleViewMode !== 'table' && state.articleViewMode !== 'mindmap'))) ? '#0A1C36' : 'transparent'}; color: ${(state.articleViewMode === 'cards' || (!state.articleViewMode || (state.articleViewMode !== 'table' && state.articleViewMode !== 'mindmap'))) ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
         <i class="fa-solid fa-table-cells-large"></i> 🗂️ 詳細カード
       </button>
       <button type="button" class="btn-view-toggle ${state.articleViewMode === 'table' ? 'active' : ''}" onclick="setArticleViewMode('table')" title="タイトル一覧表示 (제목/전체목록보기)" style="border: none; background: ${state.articleViewMode === 'table' ? '#0A1C36' : 'transparent'}; color: ${state.articleViewMode === 'table' ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
         <i class="fa-solid fa-list-ul"></i> 📋 タイトル一覧
       </button>
+      ${mindmapBtnHtml}
     </div>
   ` : '';
 
@@ -1543,11 +1551,12 @@ function renderArticlesList() {
     <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
       ${theologyModeSwitcherHtml}
       <div class="articles-total-count" style="font-size: 0.9rem; color: var(--text-light);">
-        全 <strong>${totalCount}</strong> 件の資料 (ページ ${state.pagination.currentPage} / ${totalPages})
+        全 <strong>${totalCount}</strong> 件の資料 ${state.articleViewMode !== 'mindmap' ? `(ページ ${state.pagination.currentPage} / ${totalPages})` : '(体系マインドマップ)'}
       </div>
     </div>
     <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
       ${viewModeToggleHtml}
+      ${state.articleViewMode !== 'mindmap' ? `
       <div class="page-size-selector-wrapper" style="display: flex; align-items: center; gap: 8px;">
         <span style="font-size: 0.85rem; color: var(--text-light);">表示件数:</span>
         <select class="form-input page-size-select" style="padding: 4px 8px; font-size: 0.85rem; width: auto; margin: 0; height: auto;" onchange="changePageSize(this.value)">
@@ -1558,7 +1567,7 @@ function renderArticlesList() {
           <option value="100" ${pageSize === 100 ? 'selected' : ''}>100件</option>
           <option value="9999" ${pageSize >= 9999 ? 'selected' : ''}>全件 (全体)</option>
         </select>
-      </div>
+      </div>` : ''}
     </div>
   `;
   container.appendChild(headerWrapper);
@@ -1566,7 +1575,16 @@ function renderArticlesList() {
   // 3. Render articles in selected View Mode
   const isServantMenu = state.currentCategory === 'cat_1787469050463';
 
-  if (!isPastorMenu && !isServantMenu && state.articleViewMode === 'table') {
+  if (!isPastorMenu && !isServantMenu && state.articleViewMode === 'mindmap' && isCatechismMenu) {
+    // MINDMAP VIEW (마인드맵 모드)
+    const mindmapWrapper = document.createElement('div');
+    mindmapWrapper.className = 'article-mindmap-view-wrapper';
+    container.appendChild(mindmapWrapper);
+    if (typeof renderMindmapBoard === 'function') {
+      renderMindmapBoard(mindmapWrapper, state.currentCategory || 'cat_cat_1', state.articles);
+    }
+    return;
+  } else if (!isPastorMenu && !isServantMenu && state.articleViewMode === 'table') {
     // TABLE / LIST VIEW (제목보기 / 전체목록보기)
     const tableWrapper = document.createElement('div');
     tableWrapper.className = 'article-table-wrapper';
