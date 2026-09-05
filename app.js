@@ -190,7 +190,8 @@ let state = {
   theologyMode: 'topic',           // 'topic' (조직신학별), 'author' (저자별), 'combined' (통합선택)
   theologyAuthor: 'all',          // 'all' or specific author name (for author mode)
   theologyFilterAuthor: 'all',    // 'all' or specific author name (for combined mode)
-  theologyFilterCategory: 'all'   // 'all' or specific categoryId (for combined mode)
+  theologyFilterCategory: 'all',  // 'all' or specific categoryId (for combined mode)
+  articleViewMode: sessionStorage.getItem('wscal_article_view_mode') || 'cards' // 'cards' (상세카드보기) or 'table' (제목/전체목록보기)
 };
 
 // Synchronously load data from MASTER_SITE_DATABASE / localStorage and update state instantly
@@ -1502,7 +1503,7 @@ function renderArticlesList() {
 
   const isPastorMenu = state.currentMenu === 'pastor';
 
-  // 2. Render Page Size Selector & Total count
+  // 2. Render Page Size Selector, View Mode Toggle & Total count
   const headerWrapper = document.createElement('div');
   headerWrapper.className = 'article-list-header-controls';
   headerWrapper.style.display = 'flex';
@@ -1511,7 +1512,7 @@ function renderArticlesList() {
   headerWrapper.style.marginBottom = '1.5rem';
   headerWrapper.style.width = '100%';
   headerWrapper.style.flexWrap = 'wrap';
-  headerWrapper.style.gap = '10px';
+  headerWrapper.style.gap = '12px';
 
   const theologyModeSwitcherHtml = state.currentMenu === 'theology' ? `
     <div class="theology-mode-tabs" style="margin-bottom: 0;">
@@ -1527,6 +1528,17 @@ function renderArticlesList() {
     </div>
   ` : '';
 
+  const viewModeToggleHtml = (!isPastorMenu && !isServantMenu) ? `
+    <div class="view-mode-toggle" style="display: inline-flex; background: #e2e8f0; border-radius: 8px; padding: 3px; gap: 3px;">
+      <button type="button" class="btn-view-toggle ${state.articleViewMode !== 'table' ? 'active' : ''}" onclick="setArticleViewMode('cards')" title="カード/詳細表示 (카드/썸네일보기)" style="border: none; background: ${state.articleViewMode !== 'table' ? '#0A1C36' : 'transparent'}; color: ${state.articleViewMode !== 'table' ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
+        <i class="fa-solid fa-table-cells-large"></i> 🗂️ 詳細カード
+      </button>
+      <button type="button" class="btn-view-toggle ${state.articleViewMode === 'table' ? 'active' : ''}" onclick="setArticleViewMode('table')" title="タイトル一覧表示 (제목/전체목록보기)" style="border: none; background: ${state.articleViewMode === 'table' ? '#0A1C36' : 'transparent'}; color: ${state.articleViewMode === 'table' ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
+        <i class="fa-solid fa-list-ul"></i> 📋 タイトル一覧
+      </button>
+    </div>
+  ` : '';
+
   headerWrapper.innerHTML = `
     <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
       ${theologyModeSwitcherHtml}
@@ -1534,157 +1546,259 @@ function renderArticlesList() {
         全 <strong>${totalCount}</strong> 件の資料 (ページ ${state.pagination.currentPage} / ${totalPages})
       </div>
     </div>
-    <div class="page-size-selector-wrapper" style="display: flex; align-items: center; gap: 8px;">
-      <span style="font-size: 0.85rem; color: var(--text-light);">表示件数:</span>
-      <select class="form-input page-size-select" style="padding: 4px 8px; font-size: 0.85rem; width: auto; margin: 0; height: auto;" onchange="changePageSize(this.value)">
-        <option value="5" ${pageSize === 5 ? 'selected' : ''}>5件</option>
-        <option value="10" ${pageSize === 10 ? 'selected' : ''}>10件</option>
-        <option value="15" ${pageSize === 15 ? 'selected' : ''}>15件</option>
-        <option value="20" ${pageSize === 20 ? 'selected' : ''}>20件</option>
-      </select>
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      ${viewModeToggleHtml}
+      <div class="page-size-selector-wrapper" style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 0.85rem; color: var(--text-light);">表示件数:</span>
+        <select class="form-input page-size-select" style="padding: 4px 8px; font-size: 0.85rem; width: auto; margin: 0; height: auto;" onchange="changePageSize(this.value)">
+          <option value="5" ${pageSize === 5 ? 'selected' : ''}>5件</option>
+          <option value="10" ${pageSize === 10 ? 'selected' : ''}>10件</option>
+          <option value="20" ${pageSize === 20 ? 'selected' : ''}>20件</option>
+          <option value="50" ${pageSize === 50 ? 'selected' : ''}>50件</option>
+          <option value="100" ${pageSize === 100 ? 'selected' : ''}>100件</option>
+          <option value="9999" ${pageSize >= 9999 ? 'selected' : ''}>全件 (全体)</option>
+        </select>
+      </div>
     </div>
   `;
   container.appendChild(headerWrapper);
 
-  // 3. Render articles list/grid inside items wrapper
+  // 3. Render articles in selected View Mode
   const isServantMenu = state.currentCategory === 'cat_1787469050463';
-  const itemsWrapper = document.createElement('div');
-  itemsWrapper.className = isPastorMenu ? 'video-gallery-grid' : (isServantMenu ? 'profile-list' : 'article-list');
-  container.appendChild(itemsWrapper);
 
-  if (isPastorMenu) {
-    pagedArticles.forEach(art => {
-      const card = document.createElement('div');
-      card.className = 'video-card';
-      card.style.cursor = 'pointer';
-      card.onclick = (e) => {
-        if (e.target.closest('.card-inline-admin-bar')) return;
+  if (!isPastorMenu && !isServantMenu && state.articleViewMode === 'table') {
+    // TABLE / LIST VIEW (제목보기 / 전체목록보기)
+    const tableWrapper = document.createElement('div');
+    tableWrapper.className = 'article-table-wrapper';
+    tableWrapper.style.cssText = 'width: 100%; overflow-x: auto; background: white; border-radius: 10px; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.03); margin-bottom: 1.5rem;';
+
+    const table = document.createElement('table');
+    table.className = 'article-catalog-table';
+    table.style.cssText = 'width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem;';
+
+    table.innerHTML = `
+      <thead>
+        <tr style="background: #0f172a; color: white;">
+          <th style="padding: 12px 16px; width: 140px; font-weight: 700; color: #fbbf24; border-bottom: 2px solid #1e3a8a; white-space: nowrap;">区分 / 節・問</th>
+          <th style="padding: 12px 16px; font-weight: 700; border-bottom: 2px solid #1e3a8a;">タイトル (資料名)</th>
+          <th style="padding: 12px 16px; width: 220px; font-weight: 700; border-bottom: 2px solid #1e3a8a;">聖句 / 主題</th>
+          <th style="padding: 12px 16px; width: 160px; font-weight: 700; border-bottom: 2px solid #1e3a8a; white-space: nowrap;">著者</th>
+          <th style="padding: 12px 16px; width: 110px; font-weight: 700; border-bottom: 2px solid #1e3a8a; white-space: nowrap;">日付</th>
+          ${state.isAdmin ? '<th style="padding: 12px 16px; width: 130px; text-align: center; font-weight: 700; border-bottom: 2px solid #1e3a8a; white-space: nowrap;">管理</th>' : ''}
+        </tr>
+      </thead>
+      <tbody id="catalog-table-body">
+      </tbody>
+    `;
+
+    const tbody = table.querySelector('#catalog-table-body');
+    pagedArticles.forEach((art, idx) => {
+      const tr = document.createElement('tr');
+      tr.className = 'table-article-row';
+      tr.style.cssText = `border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: background 0.15s; ${idx % 2 === 1 ? 'background: #fbfcfe;' : ''}`;
+      tr.onmouseover = () => tr.style.background = '#fef9c3';
+      tr.onmouseout = () => tr.style.background = idx % 2 === 1 ? '#fbfcfe' : '';
+      tr.onclick = (e) => {
+        if (e.target.closest('.card-inline-admin-bar') || e.target.closest('button')) return;
         viewArticleDetail(art.id);
       };
-      
-      const youtubeId = getYouTubeId(art.videoUrl);
-      const thumbUrl = youtubeId 
-        ? `https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg` 
-        : 'hero_bg.jpg';
 
-      const adminToolbar = state.isAdmin ? `
-        <div class="card-inline-admin-bar" onclick="event.stopPropagation()">
-          <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
-          <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
-          <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
-          <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
-        </div>
-      ` : '';
-
-      card.innerHTML = `
-        <div class="video-thumbnail-container">
-          <img class="video-thumbnail" src="${thumbUrl}" alt="${art.title}" loading="lazy">
-          <div class="video-play-badge">
-            <i class="fa-solid fa-play"></i>
-          </div>
-        </div>
-        <div class="video-card-info">
-          <h3 class="video-card-title">${art.title}</h3>
-          <div class="video-card-meta">
-            <span><i class="fa-regular fa-user"></i> ${art.author}</span>
-            <span><i class="fa-regular fa-calendar"></i> ${art.createdAt}</span>
-          </div>
-          ${adminToolbar}
-        </div>
-      `;
-
-      if (state.isAdmin) {
-        attachArticleDragEvents(card, art.id);
+      // Extract Chapter/Section badge
+      let secBadge = '';
+      const matchBadge = art.title.match(/^(\[[^\]]+\]|第\s*\d+\s*問|질문\s*\d+)/);
+      if (matchBadge) {
+        secBadge = matchBadge[1];
+      } else {
+        secBadge = `No. ${startIndex + idx + 1}`;
       }
-      itemsWrapper.appendChild(card);
-    });
-  } else if (isServantMenu) {
-    pagedArticles.forEach(art => {
-      const card = document.createElement('div');
-      card.className = 'profile-card';
-      card.style.cursor = 'pointer';
-      card.onclick = (e) => {
-        if (e.target.closest('.card-inline-admin-bar')) return;
-        viewArticleDetail(art.id);
-      };
-      
-      const photoUrl = art.photoUrl || 'hero_bg.jpg';
 
-      const adminToolbar = state.isAdmin ? `
-        <div class="card-inline-admin-bar" onclick="event.stopPropagation()">
-          <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
-          <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
-          <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
-          <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
-        </div>
-      ` : '';
+      // Title clean
+      let cleanTitle = art.title.replace(/^\[[^\]]+\]\s*/, '');
+      const hasVideoBadge = art.videoUrl ? '<span style="color: var(--accent-color); margin-left: 6px;"><i class="fa-solid fa-circle-play"></i></span>' : '';
 
-      card.innerHTML = `
-        <div class="profile-photo-wrapper">
-          <img class="profile-photo" src="${photoUrl}" alt="${art.title}" loading="lazy">
-        </div>
-        <div class="profile-info">
-          <h3 class="profile-name">${art.title}</h3>
-          <div class="profile-title">${art.author}</div>
-          <div class="profile-history">${art.content}</div>
-          ${adminToolbar}
-        </div>
-      `;
-
-      if (state.isAdmin) {
-        attachArticleDragEvents(card, art.id);
-      }
-      itemsWrapper.appendChild(card);
-    });
-  } else {
-    pagedArticles.forEach(art => {
-      const card = document.createElement('div');
-      card.className = 'article-item-card';
-      card.style.cursor = 'pointer';
-      card.onclick = (e) => {
-        if (e.target.closest('.card-inline-admin-bar')) return;
-        viewArticleDetail(art.id);
-      };
-      
-      const hasVideoBadge = art.videoUrl ? '<span style="color: var(--accent-color); margin-left: 8px;"><i class="fa-solid fa-circle-play"></i> 動画</span>' : '';
-
-      const adminToolbar = state.isAdmin ? `
-        <div class="card-inline-admin-bar" onclick="event.stopPropagation()">
-          <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
-          <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
-          <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
-          <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
-        </div>
-      ` : '';
-
+      // Scripture / Theme text
       const isTheology = isTheologyCategory(art.categoryId) || state.currentMenu === 'theology';
-      let scriptureBadge = '';
+      let themeOrScripture = '';
       if (isTheology) {
         let themeText = (art.scripture || '').trim();
         if (!themeText) {
           const cObj = state.categories.find(c => c.id === art.categoryId);
-          themeText = cObj ? cObj.nameJp : '改革派神学';
+          themeText = cObj ? cObj.nameJp : '神学主題';
         }
-        scriptureBadge = `<span class="meta-item meta-scripture meta-theme"><i class="fa-solid fa-bookmark"></i> 主題: ${themeText}</span>`;
+        themeOrScripture = `<span style="color: #0284c7; font-size: 0.85rem;"><i class="fa-solid fa-bookmark"></i> ${themeText}</span>`;
       } else if (art.scripture) {
-        scriptureBadge = `<span class="meta-item meta-scripture"><i class="fa-solid fa-bible"></i> 関連聖句: ${art.scripture}</span>`;
+        themeOrScripture = `<span style="color: #059669; font-size: 0.85rem;"><i class="fa-solid fa-bible"></i> ${art.scripture}</span>`;
+      } else {
+        themeOrScripture = `<span style="color: #94a3b8; font-size: 0.85rem;">-</span>`;
       }
 
-      card.innerHTML = `
-        <h3 class="article-item-title">${art.title} ${hasVideoBadge}</h3>
-        <div class="article-item-meta">
-          <span class="meta-item meta-author"><i class="fa-regular fa-user"></i> 著者: ${art.author}</span>
-          ${scriptureBadge}
-          <span class="meta-item meta-date"><i class="fa-regular fa-calendar"></i> 日付: ${art.createdAt}</span>
+      const adminToolbar = state.isAdmin ? `
+        <div class="card-inline-admin-bar" style="display: flex; gap: 4px; justify-content: center;" onclick="event.stopPropagation()">
+          <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正" style="padding: 2px 6px; font-size: 0.75rem;"><i class="fa-solid fa-pen-to-square"></i></button>
+          <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="移動" style="padding: 2px 6px; font-size: 0.75rem;"><i class="fa-solid fa-folder-tree"></i></button>
+          <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除" style="padding: 2px 6px; font-size: 0.75rem;"><i class="fa-solid fa-trash-can"></i></button>
         </div>
-        ${adminToolbar}
-      `;
+      ` : '';
 
-      if (state.isAdmin) {
-        attachArticleDragEvents(card, art.id);
-      }
-      itemsWrapper.appendChild(card);
+      tr.innerHTML = `
+        <td style="padding: 10px 16px; font-weight: 700;">
+          <span style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #0A1C36; padding: 2px 8px; border-radius: 4px; font-size: 0.82rem; display: inline-block; white-space: nowrap;">${secBadge}</span>
+        </td>
+        <td style="padding: 10px 16px; font-weight: 600; color: #1e293b;">
+          <span style="color: #0f172a;">${cleanTitle}</span>
+          ${hasVideoBadge}
+        </td>
+        <td style="padding: 10px 16px;">${themeOrScripture}</td>
+        <td style="padding: 10px 16px; color: #475569; font-size: 0.88rem; white-space: nowrap;"><i class="fa-regular fa-user" style="color: #94a3b8; margin-right: 4px;"></i>${art.author}</td>
+        <td style="padding: 10px 16px; color: #94a3b8; font-size: 0.85rem; white-space: nowrap;"><i class="fa-regular fa-calendar" style="margin-right: 4px;"></i>${art.createdAt}</td>
+        ${state.isAdmin ? `<td style="padding: 6px 12px; text-align: center;">${adminToolbar}</td>` : ''}
+      `;
+      tbody.appendChild(tr);
     });
+
+    tableWrapper.appendChild(table);
+    container.appendChild(tableWrapper);
+
+  } else {
+    // CARD / GRID VIEW (썸네일/카드보기)
+    const itemsWrapper = document.createElement('div');
+    itemsWrapper.className = isPastorMenu ? 'video-gallery-grid' : (isServantMenu ? 'profile-list' : 'article-list');
+    container.appendChild(itemsWrapper);
+
+    if (isPastorMenu) {
+      pagedArticles.forEach(art => {
+        const card = document.createElement('div');
+        card.className = 'video-card';
+        card.style.cursor = 'pointer';
+        card.onclick = (e) => {
+          if (e.target.closest('.card-inline-admin-bar')) return;
+          viewArticleDetail(art.id);
+        };
+        
+        const youtubeId = getYouTubeId(art.videoUrl);
+        const thumbUrl = youtubeId 
+          ? `https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg` 
+          : 'hero_bg.jpg';
+
+        const adminToolbar = state.isAdmin ? `
+          <div class="card-inline-admin-bar" onclick="event.stopPropagation()">
+            <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
+            <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
+            <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
+            <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
+          </div>
+        ` : '';
+
+        card.innerHTML = `
+          <div class="video-thumbnail-container">
+            <img class="video-thumbnail" src="${thumbUrl}" alt="${art.title}" loading="lazy">
+            <div class="video-play-badge">
+              <i class="fa-solid fa-play"></i>
+            </div>
+          </div>
+          <div class="video-card-info">
+            <h3 class="video-card-title">${art.title}</h3>
+            <div class="video-card-meta">
+              <span><i class="fa-regular fa-user"></i> ${art.author}</span>
+              <span><i class="fa-regular fa-calendar"></i> ${art.createdAt}</span>
+            </div>
+            ${adminToolbar}
+          </div>
+        `;
+
+        if (state.isAdmin) {
+          attachArticleDragEvents(card, art.id);
+        }
+        itemsWrapper.appendChild(card);
+      });
+    } else if (isServantMenu) {
+      pagedArticles.forEach(art => {
+        const card = document.createElement('div');
+        card.className = 'profile-card';
+        card.style.cursor = 'pointer';
+        card.onclick = (e) => {
+          if (e.target.closest('.card-inline-admin-bar')) return;
+          viewArticleDetail(art.id);
+        };
+        
+        const photoUrl = art.photoUrl || 'hero_bg.jpg';
+
+        const adminToolbar = state.isAdmin ? `
+          <div class="card-inline-admin-bar" onclick="event.stopPropagation()">
+            <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
+            <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
+            <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
+            <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
+          </div>
+        ` : '';
+
+        card.innerHTML = `
+          <div class="profile-photo-wrapper">
+            <img class="profile-photo" src="${photoUrl}" alt="${art.title}" loading="lazy">
+          </div>
+          <div class="profile-info">
+            <h3 class="profile-name">${art.title}</h3>
+            <div class="profile-title">${art.author}</div>
+            <div class="profile-history">${art.content}</div>
+            ${adminToolbar}
+          </div>
+        `;
+
+        if (state.isAdmin) {
+          attachArticleDragEvents(card, art.id);
+        }
+        itemsWrapper.appendChild(card);
+      });
+    } else {
+      pagedArticles.forEach(art => {
+        const card = document.createElement('div');
+        card.className = 'article-item-card';
+        card.style.cursor = 'pointer';
+        card.onclick = (e) => {
+          if (e.target.closest('.card-inline-admin-bar')) return;
+          viewArticleDetail(art.id);
+        };
+        
+        const hasVideoBadge = art.videoUrl ? '<span style="color: var(--accent-color); margin-left: 8px;"><i class="fa-solid fa-circle-play"></i> 動画</span>' : '';
+
+        const adminToolbar = state.isAdmin ? `
+          <div class="card-inline-admin-bar" onclick="event.stopPropagation()">
+            <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
+            <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
+            <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
+            <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
+          </div>
+        ` : '';
+
+        const isTheology = isTheologyCategory(art.categoryId) || state.currentMenu === 'theology';
+        let scriptureBadge = '';
+        if (isTheology) {
+          let themeText = (art.scripture || '').trim();
+          if (!themeText) {
+            const cObj = state.categories.find(c => c.id === art.categoryId);
+            themeText = cObj ? cObj.nameJp : '改革派神学';
+          }
+          scriptureBadge = `<span class="meta-item meta-scripture meta-theme"><i class="fa-solid fa-bookmark"></i> 主題: ${themeText}</span>`;
+        } else if (art.scripture) {
+          scriptureBadge = `<span class="meta-item meta-scripture"><i class="fa-solid fa-bible"></i> 関連聖句: ${art.scripture}</span>`;
+        }
+
+        card.innerHTML = `
+          <h3 class="article-item-title">${art.title} ${hasVideoBadge}</h3>
+          <div class="article-item-meta">
+            <span class="meta-item meta-author"><i class="fa-regular fa-user"></i> 著者: ${art.author}</span>
+            ${scriptureBadge}
+            <span class="meta-item meta-date"><i class="fa-regular fa-calendar"></i> 日付: ${art.createdAt}</span>
+          </div>
+          ${adminToolbar}
+        `;
+
+        if (state.isAdmin) {
+          attachArticleDragEvents(card, art.id);
+        }
+        itemsWrapper.appendChild(card);
+      });
+    }
   }
 
   // 4. Render Smart Pagination Controls
@@ -1694,6 +1808,17 @@ function renderArticlesList() {
     renderPaginationButtons(paginationControls, state.pagination.currentPage, totalPages, (p) => changePage(p));
     container.appendChild(paginationControls);
   }
+}
+
+// Switch between 'cards' (detail cards) and 'table' (compact title list)
+function setArticleViewMode(mode) {
+  state.articleViewMode = mode;
+  sessionStorage.setItem('wscal_article_view_mode', mode);
+  if (mode === 'table' && state.pagination.pageSize < 50) {
+    state.pagination.pageSize = 50;
+  }
+  state.pagination.currentPage = 1;
+  renderArticlesList();
 }
 
 // Render Smart Sliding Window Pagination (Supports Max 5 Visible Numbers, Ellipsis, Prev/Next, Jump)
