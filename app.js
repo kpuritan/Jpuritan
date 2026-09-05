@@ -1541,8 +1541,8 @@ function renderArticlesList() {
       <button type="button" class="btn-view-toggle ${state.articleViewMode === 'cards' || (!state.articleViewMode || (state.articleViewMode !== 'table' && state.articleViewMode !== 'mindmap')) ? 'active' : ''}" onclick="setArticleViewMode('cards')" title="カード/詳細表示 (카드/썸네일보기)" style="border: none; background: ${(state.articleViewMode === 'cards' || (!state.articleViewMode || (state.articleViewMode !== 'table' && state.articleViewMode !== 'mindmap'))) ? '#0A1C36' : 'transparent'}; color: ${(state.articleViewMode === 'cards' || (!state.articleViewMode || (state.articleViewMode !== 'table' && state.articleViewMode !== 'mindmap'))) ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
         <i class="fa-solid fa-table-cells-large"></i> 🗂️ 詳細カード
       </button>
-      <button type="button" class="btn-view-toggle ${state.articleViewMode === 'table' ? 'active' : ''}" onclick="setArticleViewMode('table')" title="全体リスト表示 (전체 목록보기)" style="border: none; background: ${state.articleViewMode === 'table' ? '#0A1C36' : 'transparent'}; color: ${state.articleViewMode === 'table' ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
-        <i class="fa-solid fa-list-ul"></i> 📋 一覧リスト
+      <button type="button" class="btn-view-toggle ${state.articleViewMode === 'table' ? 'active' : ''}" onclick="setArticleViewMode('table')" title="タイトル一覧表示 (제목 목록보기)" style="border: none; background: ${state.articleViewMode === 'table' ? '#0A1C36' : 'transparent'}; color: ${state.articleViewMode === 'table' ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
+        <i class="fa-solid fa-list-ul"></i> 📋 タイトル一覧
       </button>
       ${mindmapBtnHtml}
     </div>
@@ -1584,21 +1584,19 @@ function renderArticlesList() {
     }
     return;
   } else if (!isPastorMenu && !isServantMenu && state.articleViewMode === 'table') {
-    // TABLE / LIST VIEW (전체 목록보기 - 저자 및 날짜 제외, 제목 및 본문 요약 중심 와이드 뷰)
+    // TABLE / LIST VIEW (순수 전체 제목 목록 - 카테고리/성경요약 제거하고 제목 전체가 한 줄로 시원하게 표시)
     const tableWrapper = document.createElement('div');
     tableWrapper.className = 'article-table-wrapper';
     tableWrapper.style.cssText = 'width: 100%; overflow-x: auto; background: white; border-radius: 10px; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.03); margin-bottom: 1.5rem;';
 
     const table = document.createElement('table');
     table.className = 'article-catalog-table';
-    table.style.cssText = 'width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem;';
+    table.style.cssText = 'width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;';
 
     table.innerHTML = `
       <thead>
         <tr style="background: #0f172a; color: white;">
-          <th style="padding: 12px 16px; width: 140px; font-weight: 700; color: #fbbf24; border-bottom: 2px solid #1e3a8a; white-space: nowrap;">区分 / 節・問</th>
-          <th style="padding: 12px 16px; font-weight: 700; border-bottom: 2px solid #1e3a8a; width: 50%;">タイトル (題目)</th>
-          <th style="padding: 12px 16px; font-weight: 700; border-bottom: 2px solid #1e3a8a;">聖句 / 本文要約</th>
+          <th style="padding: 12px 20px; font-weight: 700; border-bottom: 2px solid #1e3a8a;">タイトル一覧 (전체 제목 목록)</th>
           ${state.isAdmin ? '<th style="padding: 12px 16px; width: 120px; text-align: center; font-weight: 700; border-bottom: 2px solid #1e3a8a; white-space: nowrap;">管理</th>' : ''}
         </tr>
       </thead>
@@ -1618,34 +1616,7 @@ function renderArticlesList() {
         viewArticleDetail(art.id);
       };
 
-      // Extract Chapter/Section badge
-      let secBadge = '';
-      const matchBadge = art.title.match(/^(\[[^\]]+\]|第\s*\d+\s*問|질문\s*\d+)/);
-      if (matchBadge) {
-        secBadge = matchBadge[1];
-      } else {
-        secBadge = `No. ${startIndex + idx + 1}`;
-      }
-
-      // Title clean
-      let cleanTitle = art.title.replace(/^\[[^\]]+\]\s*/, '');
-      const hasVideoBadge = art.videoUrl ? '<span style="color: var(--accent-color); margin-left: 6px;"><i class="fa-solid fa-circle-play"></i></span>' : '';
-
-      // Scripture / Theme text or Content snippet summary
-      let themeOrScripture = '';
-      if (art.scripture && art.scripture.trim()) {
-        themeOrScripture = `<span style="color: #059669; font-size: 0.85rem; font-weight: 600;"><i class="fa-solid fa-bible"></i> ${art.scripture.trim()}</span>`;
-      } else {
-        const plainText = (art.content || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-        if (plainText) {
-          themeOrScripture = `<span style="color: #64748b; font-size: 0.84rem; line-height: 1.4;">${plainText.substring(0, 80)}${plainText.length > 80 ? '...' : ''}</span>`;
-        } else {
-          const isTheology = isTheologyCategory(art.categoryId) || state.currentMenu === 'theology';
-          const cObj = state.categories.find(c => c.id === art.categoryId);
-          const defaultLabel = cObj ? cObj.nameJp : (isTheology ? '改革派神学' : '教理解説');
-          themeOrScripture = `<span style="color: #0284c7; font-size: 0.84rem;"><i class="fa-solid fa-bookmark"></i> ${defaultLabel}</span>`;
-        }
-      }
+      const hasVideoBadge = art.videoUrl ? '<span style="color: var(--accent-color); margin-left: 8px;"><i class="fa-solid fa-circle-play"></i></span>' : '';
 
       const adminToolbar = state.isAdmin ? `
         <div class="card-inline-admin-bar" style="display: flex; gap: 4px; justify-content: center;" onclick="event.stopPropagation()">
@@ -1656,14 +1627,11 @@ function renderArticlesList() {
       ` : '';
 
       tr.innerHTML = `
-        <td style="padding: 10px 16px; font-weight: 700; white-space: nowrap;">
-          <span style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #0A1C36; padding: 3px 9px; border-radius: 4px; font-size: 0.82rem; display: inline-block;">${secBadge}</span>
-        </td>
-        <td style="padding: 10px 16px; font-weight: 700; color: #0f172a; font-size: 0.95rem;">
-          <span style="color: #0f172a;">${cleanTitle}</span>
+        <td style="padding: 12px 20px; font-weight: 700; color: #0f172a; font-size: 0.96rem; line-height: 1.4;">
+          <i class="fa-solid fa-file-lines" style="color: #c5a059; margin-right: 10px; font-size: 0.9rem;"></i>
+          <span>${art.title}</span>
           ${hasVideoBadge}
         </td>
-        <td style="padding: 10px 16px;">${themeOrScripture}</td>
         ${state.isAdmin ? `<td style="padding: 6px 12px; text-align: center;">${adminToolbar}</td>` : ''}
       `;
       tbody.appendChild(tr);
