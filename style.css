@@ -3324,6 +3324,27 @@ blockquote p:last-child {
   background: #f1f5f9;
 }
 
+.btn-mindmap-close {
+  background: #dc2626;
+  color: #ffffff;
+  border: 1px solid #b91c1c;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
+}
+
+.btn-mindmap-close:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
 /* Mindmap Fullscreen Mode */
 .mindmap-fullscreen-mode {
   position: fixed !important;
@@ -3333,12 +3354,19 @@ blockquote p:last-child {
   height: 100vh !important;
   max-width: 100vw !important;
   z-index: 99999 !important;
-  background: #ffffff !important;
+  background: #e2e8f0 !important;
   overflow-y: auto !important;
-  padding: 2rem !important;
+  padding: 1.5rem 2rem 3rem 2rem !important;
   box-sizing: border-box !important;
   margin: 0 !important;
 }
+
+.mindmap-fullscreen-mode .mindmap-outer-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
 
 
 

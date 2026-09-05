@@ -649,33 +649,29 @@ function renderMindmapBoard(container, targetCatId, allArticles) {
   const rootCatId = getMindmapRootCategoryId(targetCatId);
   const data = MINDMAP_STRUCTURES[rootCatId] || MINDMAP_STRUCTURES['cat_cat_1'];
 
+  // Automatically activate fullscreen mode for immersive full-screen view
+  const outerListContainer = document.getElementById('articles-list-container');
+  if (outerListContainer) {
+    outerListContainer.classList.add('mindmap-fullscreen-mode');
+    document.body.style.overflow = 'hidden';
+  }
+
   container.innerHTML = '';
   container.className = 'mindmap-outer-container';
 
-  // 1. Mindmap Board Header with Confession Switcher and Action Tools
+  // 1. Mindmap Board Header (Sticky Fullscreen Header with Close Button)
   const header = document.createElement('div');
   header.className = 'mindmap-board-header';
   header.innerHTML = `
     <div class="mindmap-header-left">
-      <div class="mindmap-badge"><i class="fa-solid fa-brain"></i> インタラクティブ・体系マインドマップ</div>
+      <div class="mindmap-badge"><i class="fa-solid fa-brain"></i> インタラクティブ・体系マインドマップ (全画面)</div>
       <h2 class="mindmap-board-title">${data.titleJp}</h2>
       <div class="mindmap-board-subtitle">${data.subtitle}</div>
     </div>
     <div class="mindmap-header-right">
-      <!-- Confession Quick Switcher Dropdown -->
-      <div class="mindmap-switcher-group">
-        <label style="font-size: 0.8rem; font-weight: 700; color: #64748b; margin-right: 6px;">文書選択:</label>
-        <select class="form-input mindmap-confession-select" onchange="selectSubcategory(this.value, false); setArticleViewMode('mindmap');">
-          <option value="cat_cat_1" ${rootCatId === 'cat_cat_1' ? 'selected' : ''}>ウェストミンスター小教理問答 (107問)</option>
-          <option value="cat_cat_2" ${rootCatId === 'cat_cat_2' ? 'selected' : ''}>ウェストミンスター大教理問答 (196問)</option>
-          <option value="cat_cat_3" ${rootCatId === 'cat_cat_3' ? 'selected' : ''}>ウェストミンスター信仰告白 (33章)</option>
-          <option value="cat_cat_4" ${rootCatId === 'cat_cat_4' ? 'selected' : ''}>ハイデルベルク信仰問答 (129問)</option>
-        </select>
-      </div>
-      <!-- Zoom/Layout Tool Buttons -->
-      <div class="mindmap-tool-btns">
-        <button type="button" class="btn-mindmap-tool" onclick="toggleMindmapFullscreen()" title="マインドマップ全画面表示 (전체화면)"><i class="fa-solid fa-expand"></i> 全画面</button>
-      </div>
+      <button type="button" class="btn-mindmap-close" onclick="closeMindmapFullscreen()" title="マインドマップを閉じる (닫기)">
+        <i class="fa-solid fa-xmark"></i> 閉じる (닫기)
+      </button>
     </div>
   `;
   container.appendChild(header);
@@ -684,7 +680,7 @@ function renderMindmapBoard(container, targetCatId, allArticles) {
   const noticeBar = document.createElement('div');
   noticeBar.className = 'mindmap-notice-bar';
   noticeBar.innerHTML = `
-    <span><i class="fa-solid fa-circle-info"></i> <strong>利用案内:</strong> 各項目（問・節）をクリックすると、キム・ホンマン学長の詳細解説と関連聖句の本文ページが即座に開きます。</span>
+    <span><i class="fa-solid fa-circle-info"></i> <strong>利用案内:</strong> 各項目（問・節）をクリックすると、キム・ホンマン学長の詳細解説と関連聖句の本文ページが即座に開きます。右上の「閉じる」で通常の一覧に戻ります。</span>
   `;
   container.appendChild(noticeBar);
 
@@ -750,6 +746,8 @@ function renderMindmapBoard(container, targetCatId, allArticles) {
           pill.classList.add('has-article');
           pill.title = `【クリックして閲覧】\n${matchedArt.title}\n著者: ${matchedArt.author || 'キム・ホンマン 学長'}`;
           pill.onclick = () => {
+            // Exit fullscreen when opening article
+            closeMindmapFullscreen(false);
             viewArticleDetail(matchedArt.id);
           };
         } else {
@@ -757,6 +755,7 @@ function renderMindmapBoard(container, targetCatId, allArticles) {
           if (node.cat) {
             pill.title = `【クリックして第${node.ch}章の一覧を開く】`;
             pill.onclick = () => {
+              closeMindmapFullscreen(false);
               selectSubcategory(node.cat, true);
             };
           } else {
@@ -784,6 +783,18 @@ function renderMindmapBoard(container, targetCatId, allArticles) {
   container.appendChild(canvas);
 }
 
+// Close fullscreen and return to normal mode
+function closeMindmapFullscreen(shouldSwitchView = true) {
+  const container = document.getElementById('articles-list-container');
+  if (container) {
+    container.classList.remove('mindmap-fullscreen-mode');
+  }
+  document.body.style.overflow = '';
+  if (shouldSwitchView && typeof setArticleViewMode === 'function') {
+    setArticleViewMode('cards');
+  }
+}
+
 // Fullscreen toggle helper for mindmap
 function toggleMindmapFullscreen() {
   const container = document.getElementById('articles-list-container');
@@ -803,4 +814,5 @@ if (typeof window !== 'undefined') {
   window.isCatechismOrWcfCategory = isCatechismOrWcfCategory;
   window.getMindmapRootCategoryId = getMindmapRootCategoryId;
   window.toggleMindmapFullscreen = toggleMindmapFullscreen;
+  window.closeMindmapFullscreen = closeMindmapFullscreen;
 }
