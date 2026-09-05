@@ -923,6 +923,7 @@ function renderTheologySubmenu() {
     menuCats.forEach(cat => {
       const badge = document.createElement('div');
       badge.className = `submenu-item ${cat.id === state.currentCategory ? 'active' : ''}`;
+      badge.dataset.catId = cat.id;
       badge.style.display = 'flex';
       badge.style.alignItems = 'center';
       badge.style.justifyContent = 'center';
@@ -930,7 +931,7 @@ function renderTheologySubmenu() {
       badge.innerHTML = `
         <div style="font-family: var(--font-serif); font-size: 0.95rem; font-weight: 700;">${cat.nameJp}</div>
       `;
-      badge.onclick = () => selectSubcategory(cat.id, true);
+      badge.onclick = () => selectSubcategory(cat.id, false);
       submenuGrid.appendChild(badge);
     });
   }
@@ -1068,7 +1069,8 @@ function selectMainMenu(menuKey) {
       } else {
         menuCats.forEach(cat => {
           const badge = document.createElement('div');
-          badge.className = 'submenu-item';
+          badge.className = `submenu-item ${cat.id === state.currentCategory ? 'active' : ''}`;
+          badge.dataset.catId = cat.id;
           badge.style.display = 'flex';
           badge.style.alignItems = 'center';
           badge.style.justifyContent = 'center';
@@ -1076,7 +1078,7 @@ function selectMainMenu(menuKey) {
           badge.innerHTML = `
             <div style="font-family: var(--font-serif); font-size: 0.95rem; font-weight: 700;">${cat.nameJp}</div>
           `;
-          badge.onclick = () => selectSubcategory(cat.id, true);
+          badge.onclick = () => selectSubcategory(cat.id, false);
           submenuGrid.appendChild(badge);
         });
       }
@@ -1184,7 +1186,22 @@ function selectSubcategory(categoryId, shouldScroll = false) {
 
   // Update submenu items active state
   document.querySelectorAll('.submenu-item').forEach(item => {
-    if (catObj && (item.textContent.includes(catObj.nameJp) || item.textContent.includes(catObj.nameKr))) {
+    const itemCatId = item.dataset.catId;
+    let isActive = false;
+    if (itemCatId) {
+      if (itemCatId === categoryId) {
+        isActive = true;
+      } else {
+        const descendants = typeof getAllDescendantCategoryIds === 'function' ? getAllDescendantCategoryIds(itemCatId) : [];
+        if (descendants.includes(categoryId)) {
+          isActive = true;
+        }
+      }
+    } else if (catObj && (item.textContent.includes(catObj.nameJp) || (catObj.nameKr && item.textContent.includes(catObj.nameKr)))) {
+      isActive = true;
+    }
+
+    if (isActive) {
       item.classList.add('active');
     } else {
       item.classList.remove('active');
@@ -1206,6 +1223,7 @@ function selectSubcategory(categoryId, shouldScroll = false) {
     document.getElementById('view-article-detail').style.display = 'none';
   }
 
+  // Do not scroll down when selecting category/folders to keep user scroll position stable
   if (shouldScroll && workspaceSec) {
     workspaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
