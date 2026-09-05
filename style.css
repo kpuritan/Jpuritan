@@ -500,16 +500,31 @@ header {
 .back-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  color: var(--accent-color);
+  gap: 10px;
+  background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%);
+  color: #ffffff !important;
   text-decoration: none;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 11px 22px;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(10, 28, 54, 0.25);
+  transition: all 0.2s ease;
+  border: 1.5px solid #c5a059;
 }
 
 .back-link:hover {
-  color: var(--primary-color);
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(10, 28, 54, 0.35);
+}
+
+.back-link i {
+  color: #fbbf24;
+  font-size: 1.15rem;
 }
 
 .view-title {

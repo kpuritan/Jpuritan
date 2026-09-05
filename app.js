@@ -1933,6 +1933,18 @@ function viewArticleDetail(articleId) {
     const detailView = document.getElementById('view-article-detail');
     if (detailView) detailView.style.display = 'block';
 
+    // Dynamic Back Button Label
+    const backBtn = document.querySelector('.back-link');
+    if (backBtn) {
+      if (state.articleViewMode === 'mindmap') {
+        backBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> 🧠 マインドマップに戻る (마인드맵으로 돌아가기)';
+      } else if (state.articleViewMode === 'table') {
+        backBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> 📋 タイトル一覧に戻る (목록으로 돌아가기)';
+      } else {
+        backBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> 🗂️ 一覧に戻る (목록으로 돌아가기)';
+      }
+    }
+
     // Admin Quick Action Bar in Article Detail View
     let adminDetailBar = document.getElementById('detail-admin-action-bar');
     if (state.isAdmin) {
@@ -2102,8 +2114,24 @@ function viewArticleDetail(articleId) {
 // Back to list from detail
 function goBackToArticles() {
   state.currentArticle = null;
-  document.getElementById('view-article-detail').style.display = 'none';
-  document.getElementById('view-article-list').style.display = 'block';
+  sessionStorage.removeItem('wscal_user_article');
+
+  const detailView = document.getElementById('view-article-detail');
+  const listView = document.getElementById('view-article-list');
+  if (detailView) detailView.style.display = 'none';
+  if (listView) listView.style.display = 'block';
+
+  const isCatechismMenu = state.currentMenu === 'catechism' || (typeof isCatechismOrWcfCategory === 'function' && isCatechismOrWcfCategory(state.currentCategory));
+
+  if (state.articleViewMode === 'mindmap' && isCatechismMenu) {
+    // If entered from mindmap, immediately re-render full-screen mindmap board!
+    renderArticlesList();
+  } else {
+    const workspaceSec = document.getElementById('workspace-sec');
+    if (workspaceSec) {
+      workspaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 }
 
 // ==========================================
