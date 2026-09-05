@@ -2892,3 +2892,95 @@ blockquote p {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
+
+/* ==========================================
+   Enhanced Westminster Confession & Sermon Layout
+   ========================================== */
+.wcf-sermon-doc {
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  line-height: 1.75;
+  color: #1e293b;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.wcf-sermon-doc .wcf-p,
+.wcf-p {
+  margin-top: 0 !important;
+  margin-bottom: 8px !important;
+  line-height: 1.75 !important;
+  font-size: 1.02rem !important;
+  text-align: justify;
+  color: #1e293b;
+}
+
+.wcf-num-badge,
+.wcf-badge {
+  background: linear-gradient(135deg, #0f172a, #1e3a8a);
+  color: #fbbf24;
+  padding: 2px 10px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.15);
+  flex-shrink: 0;
+}
+
+.wcf-point-header h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 6px;
+  margin: 18px 0 10px 0 !important;
+}
+
+.wcf-scripture-box {
+  background: #f0f9ff !important;
+  border: 1px solid #bae6fd !important;
+  border-left: 4px solid #0284c7 !important;
+  padding: 10px 14px !important;
+  border-radius: 6px !important;
+  margin: 10px 0 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.7 !important;
+}
+
+.wcf-scripture-box p {
+  margin-bottom: 4px !important;
+  color: #0369a1 !important;
+  font-family: var(--font-serif, serif) !important;
+}
+
+.wcf-app-box {
+  background: #fffbeb !important;
+  border: 1px solid #fef3c7 !important;
+  border-left: 4px solid #d97706 !important;
+  padding: 12px 16px !important;
+  border-radius: 6px !important;
+  margin: 10px 0 !important;
+  font-size: 0.96rem !important;
+  line-height: 1.75 !important;
+}
+
+.wcf-app-box p {
+  margin-bottom: 4px !important;
+  color: #78350f !important;
+}
+
+.wcf-conclusion-box {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  border-top: 3px solid #1e3a8a !important;
+  padding: 14px 18px !important;
+  border-radius: 6px !important;
+  margin-top: 18px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03) !important;
+}
+

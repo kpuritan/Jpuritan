@@ -111,32 +111,53 @@ function sortCategoriesList(cats) {
   });
 }
 
-// Extract numerical sort key from title (WCF sections [1절]/[1節], catechism questions 第1問/질문 1, etc.)
+// Extract numerical sort key from title and category (Chapter order 1~33, WCF sections [1절]/[1節], catechism questions 第1問/질문 1, etc.)
 function getArticleSortKey(art) {
-  if (!art) return { num: 999999, pos: 999999, id: '' };
-  const title = (art.title || '').trim();
+  if (!art) return { catOrder: 999999, secNum: 999999, pos: 999999, id: '' };
   
-  // 1. WCF sections: [1절], [1節], [1-2절], [1-2節], [1-7절], etc.
+  // 1. Calculate Category / Chapter Order
+  let catOrder = 0;
+  if (art.categoryId) {
+    const cat = (state.categories || []).find(c => c.id === art.categoryId);
+    if (cat) {
+      if (cat.position !== undefined && cat.position !== null) {
+        catOrder = Number(cat.position);
+      } else {
+        catOrder = getCategorySortKey(cat);
+      }
+    } else {
+      const matchWcf = art.categoryId.match(/cat_wcf_0*(\d+)/i);
+      if (matchWcf) {
+        catOrder = parseInt(matchWcf[1], 10);
+      }
+    }
+  }
+
+  const title = (art.title || '').trim();
+  let secNum = 999999;
+  
+  // 2. WCF sections: [1절], [1節], [1-2절], [1-2節], [1-7절], etc.
   let m = title.match(/\[\s*(\d+)(?:-\d+)?\s*(?:절|節)\s*\]/);
   if (m) {
-    return { num: parseInt(m[1], 10), pos: Number(art.position !== undefined ? art.position : 0), id: art.id || '' };
+    secNum = parseInt(m[1], 10);
+  } else {
+    // 3. Catechism Questions: 第1問, 第129問, 질문 1, 질문 129, Q1, Q129, Question 1
+    m = title.match(/(?:第|질문|Q|Question)\s*(\d+)\s*(?:問|:|：|\.|\s)/i);
+    if (m) {
+      secNum = parseInt(m[1], 10);
+    } else {
+      // 4. Leading numbers e.g. "1. ", "01_", "1-1."
+      m = title.match(/^(\d+)[\.\_\:\s]/);
+      if (m) {
+        secNum = parseInt(m[1], 10);
+      } else {
+        secNum = (art.position !== undefined && art.position !== null) ? Number(art.position) : 999999;
+      }
+    }
   }
   
-  // 2. Catechism Questions: 第1問, 第129問, 질문 1, 질문 129, Q1, Q129, Question 1
-  m = title.match(/(?:第|질문|Q|Question)\s*(\d+)\s*(?:問|:|：|\.|\s)/i);
-  if (m) {
-    return { num: parseInt(m[1], 10), pos: Number(art.position !== undefined ? art.position : 0), id: art.id || '' };
-  }
-  
-  // 3. Leading numbers e.g. "1. ", "01_", "1-1."
-  m = title.match(/^(\d+)[\.\_\:\s]/);
-  if (m) {
-    return { num: parseInt(m[1], 10), pos: Number(art.position !== undefined ? art.position : 0), id: art.id || '' };
-  }
-  
-  // 4. Default to position or fallback
   const pos = (art.position !== undefined && art.position !== null) ? Number(art.position) : 999999;
-  return { num: pos, pos: pos, id: art.id || '' };
+  return { catOrder: catOrder, secNum: secNum, num: secNum, pos: pos, id: art.id || '' };
 }
 
 // Preserve session states
@@ -363,7 +384,8 @@ function loadArticlesFallback() {
   state.articles.sort((a, b) => {
     const keyA = getArticleSortKey(a);
     const keyB = getArticleSortKey(b);
-    if (keyA.num !== keyB.num) return keyA.num - keyB.num;
+    if (keyA.catOrder !== keyB.catOrder) return keyA.catOrder - keyB.catOrder;
+    if (keyA.secNum !== keyB.secNum) return keyA.secNum - keyB.secNum;
     if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
     const dateA = a.createdAt || '';
     const dateB = b.createdAt || '';
@@ -1464,11 +1486,12 @@ function renderArticlesList() {
     filteredArticles = state.articles.filter(art => descendantIds.includes(art.categoryId));
   }
   
-  // Smart Sort: Section/Question number ascending first (for WCF Chapters 1~33 & Catechisms), then position, then date
+  // Smart Sort: Chapter/Category order first (Chapters 1~33), Section/Question number ascending second ([1절], [2절]...), then position, then date
   filteredArticles.sort((a, b) => {
     const keyA = getArticleSortKey(a);
     const keyB = getArticleSortKey(b);
-    if (keyA.num !== keyB.num) return keyA.num - keyB.num;
+    if (keyA.catOrder !== keyB.catOrder) return keyA.catOrder - keyB.catOrder;
+    if (keyA.secNum !== keyB.secNum) return keyA.secNum - keyB.secNum;
     if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
     const dateCompare = (a.createdAt || '').localeCompare(b.createdAt || '');
     if (dateCompare !== 0) return dateCompare;
