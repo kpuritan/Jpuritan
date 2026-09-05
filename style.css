@@ -1,4 +1,4 @@
-/* 
+﻿/* 
    Reformed & Puritan Japanese Website Stylesheet
    Benchmarked: Westminster Seminary California
    Theme: Deep Navy, Classic Gold, Warm Off-white
@@ -176,13 +176,14 @@ header {
    ========================================== */
 .main-menu-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 1.2rem;
-  max-width: 1200px;
+  max-width: 1720px;
+  width: 95%;
   margin: -3rem auto 0 auto;
   position: relative;
   z-index: 10;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
 }
 
 .menu-card {
@@ -236,9 +237,10 @@ header {
 
 /* Sub-menu panel */
 .submenu-container {
-  max-width: 1200px;
+  max-width: 1720px;
+  width: 95%;
   margin: 2rem auto 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
   display: none;
 }
 
@@ -423,7 +425,7 @@ header {
    Article Display Workspace (List and Detail)
    ========================================== */
 .workspace-container {
-  max-width: 1350px;
+  max-width: 1720px; width: 95%;
   margin: 2rem auto 4rem auto;
   padding: 0 1.5rem;
   display: none;
@@ -436,7 +438,7 @@ header {
 
 .workspace-layout {
   display: grid;
-  grid-template-columns: 240px 1fr 280px;
+  grid-template-columns: 340px 1fr 280px; gap: 1.8rem;
   gap: 1.5rem;
 }
 
@@ -3563,3 +3565,6 @@ blockquote p:last-child {
 
 
 
+
+
+.article-body-html, .wcf-sermon-doc, .catechism-doc { max-width: 100% !important; width: 100% !important; }

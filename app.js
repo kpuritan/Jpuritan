@@ -1362,25 +1362,29 @@ function renderWorkspaceSidebar() {
     li.style.alignItems = 'center';
     li.style.justifyContent = 'space-between';
     li.style.lineHeight = '1.3';
-    li.style.padding = `10px 12px 10px ${12 + cat.depth * 18}px`;
+    li.style.padding = `10px 10px 10px ${8 + cat.depth * 14}px`;
     li.style.cursor = 'pointer';
+    li.style.whiteSpace = 'nowrap';
+    li.style.overflow = 'hidden';
+    li.style.textOverflow = 'ellipsis';
+    li.title = cat.nameJp;
     
     // Toggle arrow icon if the category has subcategories
     let toggleIcon = '';
     if (hasChildren) {
       const arrowIconClass = isCollapsed ? 'fa-chevron-right' : 'fa-chevron-down';
-      toggleIcon = `<i class="fa-solid ${arrowIconClass} sidebar-toggle-icon" style="margin-right: 8px; font-size: 0.8rem; color: var(--text-light); width: 12px;"></i>`;
+      toggleIcon = `<i class="fa-solid ${arrowIconClass} sidebar-toggle-icon" style="margin-right: 8px; font-size: 0.8rem; color: var(--text-light); width: 12px; flex-shrink: 0;"></i>`;
     } else {
-      toggleIcon = `<span style="display: inline-block; width: 12px; margin-right: 8px;"></span>`;
+      toggleIcon = `<span style="display: inline-block; width: 12px; margin-right: 8px; flex-shrink: 0;"></span>`;
     }
 
     const iconClass = cat.id === state.currentCategory ? 'fa-folder-open' : 'fa-folder';
     
     li.innerHTML = `
-      <div style="display: flex; align-items: center; font-weight: 500; flex-grow: 1;">
+      <div style="display: flex; align-items: center; font-weight: 500; flex-grow: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
         ${toggleIcon}
-        <i class="fa-regular ${iconClass}" style="margin-right: 8px;"></i>
-        <span>${cat.nameJp}</span>
+        <i class="fa-regular ${iconClass}" style="margin-right: 8px; flex-shrink: 0;"></i>
+        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${cat.nameJp}</span>
       </div>
     `;
 
