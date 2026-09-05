@@ -1382,33 +1382,6 @@ function renderWorkspaceSidebar() {
 }
 
 // Render Article List (Supports Grid Video Gallery for Pastor Theology and Pagination)
-// Extract numerical sort key from title (WCF sections [1절]/[1節], catechism questions 第1問/질문 1, etc.)
-function getArticleSortKey(art) {
-  if (!art) return { num: 999999, pos: 999999, id: '' };
-  const title = (art.title || '').trim();
-  
-  // 1. WCF sections: [1절], [1節], [1-2절], [1-2節], [1-7절], etc.
-  let m = title.match(/\[\s*(\d+)(?:-\d+)?\s*(?:절|節)\s*\]/);
-  if (m) {
-    return { num: parseInt(m[1], 10), pos: Number(art.position !== undefined ? art.position : 0), id: art.id || '' };
-  }
-  
-  // 2. Catechism Questions: 第1問, 第129問, 질문 1, 질문 129, Q1, Q129, Question 1
-  m = title.match(/(?:第|질문|Q|Question)\s*(\d+)\s*(?:問|:|：|\.|\s)/i);
-  if (m) {
-    return { num: parseInt(m[1], 10), pos: Number(art.position !== undefined ? art.position : 0), id: art.id || '' };
-  }
-  
-  // 3. Leading numbers e.g. "1. ", "01_", "1-1."
-  m = title.match(/^(\d+)[\.\_\:\s]/);
-  if (m) {
-    return { num: parseInt(m[1], 10), pos: Number(art.position !== undefined ? art.position : 0), id: art.id || '' };
-  }
-  
-  // 4. Default to position or fallback
-  const pos = (art.position !== undefined && art.position !== null) ? Number(art.position) : 999999;
-  return { num: pos, pos: pos, id: art.id || '' };
-}
 
 // Check if content is a full HTML document (with <!DOCTYPE, <html>, <head>, <script>, or Tailwind)
 function isFullHtmlDoc(content) {

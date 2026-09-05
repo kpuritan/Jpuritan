@@ -2861,8 +2861,8 @@ footer {
 #detail-scripture-container { display: none !important; }
 
 /* ==========================================
-   Snug-fitting Left-Bordered Boxes (하이폰 줄수 맞춤)
-   Eliminates top/bottom padding & margins so the left border matches exact text lines
+   Snug-fitting Left-Bordered Boxes & Q/A Cards
+   Hugs the exact text height with crisp, snug padding (Matches Image 1)
    ========================================== */
 .article-body-html div[style*="border-left"],
 .article-body-html blockquote,
@@ -2874,23 +2874,37 @@ footer {
 .callout-highlight,
 blockquote,
 div[style*="border-left"] {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  padding-left: 12px !important;
-  padding-right: 12px !important;
+  padding-top: 7px !important;
+  padding-bottom: 7px !important;
+  padding-left: 14px !important;
+  padding-right: 14px !important;
+  margin-top: 10px !important;
+  margin-bottom: 14px !important;
+  border-radius: 4px !important;
+  display: block !important;
+  box-sizing: border-box !important;
 }
 
 .article-body-html div[style*="border-left"] p,
-.article-body-html div[style*="border-left"] > *:first-child,
-.article-body-html div[style*="border-left"] > *:last-child,
+.article-body-html div[style*="border-left"] > p,
 .callout-scripture p,
 .callout-point p,
 .callout-highlight p,
 blockquote p {
   margin-top: 0 !important;
-  margin-bottom: 0 !important;
+  margin-bottom: 4px !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
+  line-height: 1.55 !important;
+}
+
+.article-body-html div[style*="border-left"] p:last-child,
+.article-body-html div[style*="border-left"] > p:last-child,
+.callout-scripture p:last-child,
+.callout-point p:last-child,
+.callout-highlight p:last-child,
+blockquote p:last-child {
+  margin-bottom: 0 !important;
 }
 
 /* ==========================================
