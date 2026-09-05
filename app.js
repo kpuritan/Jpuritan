@@ -3,7 +3,7 @@
 // ==========================================
 // 1. Fully Embedded Master Database (Zero Loading Delay, No External Dependency)
 // ==========================================
-const MASTER_SITE_DATABASE = (typeof window !== 'undefined' && (window.SITE_DATA || window.MASTER_SITE_DATABASE)) ? (window.SITE_DATA || window.MASTER_SITE_DATABASE) : { mainMenus: [], categories: [], articles: [], featured: {} };
+var MASTER_SITE_DATABASE = (typeof window !== 'undefined' && (window.SITE_DATA || window.MASTER_SITE_DATABASE)) ? (window.SITE_DATA || window.MASTER_SITE_DATABASE) : { mainMenus: [], categories: [], articles: [], featured: {} };
 
 // Canonical 66 Books Order Mapping for Sermons
 const BIBLE_66_ORDER = {
