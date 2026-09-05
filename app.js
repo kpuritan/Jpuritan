@@ -1917,6 +1917,51 @@ function renderPaginationButtons(container, currentPage, totalPages, onPageChang
   }
 }
 
+// Helper to find adjacent previous and next articles in the active document/category scope
+function getAdjacentArticles(articleId) {
+  const article = state.articles.find(a => a.id === articleId);
+  if (!article) return { prev: null, next: null };
+
+  let scopeArticles = [];
+  const isCatechism = typeof isCatechismOrWcfCategory === 'function' && isCatechismOrWcfCategory(article.categoryId);
+
+  if (state.currentCategory) {
+    const descendantIds = getAllDescendantCategoryIds(state.currentCategory);
+    scopeArticles = state.articles.filter(art => descendantIds.includes(art.categoryId));
+  } else if (isCatechism) {
+    const rootCatId = typeof getMindmapRootCategoryId === 'function' ? getMindmapRootCategoryId(article.categoryId) : article.categoryId;
+    const descendantIds = getAllDescendantCategoryIds(rootCatId);
+    scopeArticles = state.articles.filter(art => descendantIds.includes(art.categoryId));
+  } else if (article.categoryId) {
+    const descendantIds = getAllDescendantCategoryIds(article.categoryId);
+    scopeArticles = state.articles.filter(art => descendantIds.includes(art.categoryId));
+  }
+
+  if (scopeArticles.length === 0) {
+    scopeArticles = [...state.articles];
+  }
+
+  // Sort by document/question order
+  scopeArticles.sort((a, b) => {
+    const keyA = getArticleSortKey(a);
+    const keyB = getArticleSortKey(b);
+    if (keyA.catOrder !== keyB.catOrder) return keyA.catOrder - keyB.catOrder;
+    if (keyA.secNum !== keyB.secNum) return keyA.secNum - keyB.secNum;
+    if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
+    const dateCompare = (a.createdAt || '').localeCompare(b.createdAt || '');
+    if (dateCompare !== 0) return dateCompare;
+    return (a.id || '').localeCompare(b.id || '');
+  });
+
+  const currentIndex = scopeArticles.findIndex(a => a.id === articleId);
+  if (currentIndex === -1) return { prev: null, next: null };
+
+  return {
+    prev: currentIndex > 0 ? scopeArticles[currentIndex - 1] : null,
+    next: currentIndex < scopeArticles.length - 1 ? scopeArticles[currentIndex + 1] : null
+  };
+}
+
 // View Article Detail (Supports Video Player & Interactive Responsive Document Rendering)
 function viewArticleDetail(articleId) {
   try {
@@ -1951,16 +1996,59 @@ function viewArticleDetail(articleId) {
     const detailView = document.getElementById('view-article-detail');
     if (detailView) detailView.style.display = 'block';
 
-    // Dynamic Back Button Label
-    const backBtn = document.querySelector('.back-link');
-    if (backBtn) {
-      if (state.articleViewMode === 'mindmap') {
-        backBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> 🧠 マインドマップに戻る (마인드맵으로 돌아가기)';
-      } else if (state.articleViewMode === 'table') {
-        backBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> 📋 タイトル一覧に戻る (목록으로 돌아가기)';
+    const isCatechismMenu = state.currentMenu === 'catechism' || (typeof isCatechismOrWcfCategory === 'function' && isCatechismOrWcfCategory(article.categoryId));
+    const { prev: prevArt, next: nextArt } = getAdjacentArticles(article.id);
+
+    // Top Navigation Bar Rendering (Back to Mindmap, Back to List, Prev, Next)
+    const topNav = document.getElementById('detail-top-nav-bar');
+    if (topNav) {
+      let backButtonsHtml = '';
+      if (isCatechismMenu) {
+        backButtonsHtml = `
+          <button type="button" class="btn-detail-back btn-back-mindmap" onclick="goBackToArticles('mindmap')">
+            <i class="fa-solid fa-brain" style="color: #f59e0b;"></i> 🧠 マインドマップに戻る (마인드맵으로)
+          </button>
+          <button type="button" class="btn-detail-back btn-back-list" onclick="goBackToArticles('list')">
+            <i class="fa-solid fa-list-ul"></i> 📋 記事一覧に戻る (목록으로)
+          </button>
+        `;
       } else {
-        backBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> 🗂️ 一覧に戻る (목록으로 돌아가기)';
+        backButtonsHtml = `
+          <button type="button" class="btn-detail-back btn-back-mindmap" onclick="goBackToArticles('list')">
+            <i class="fa-solid fa-arrow-left"></i> 🗂️ 記事一覧に戻る (목록으로 돌아가기)
+          </button>
+        `;
       }
+
+      const prevBtnHtml = prevArt ? `
+        <button type="button" class="btn-adjacent-nav" onclick="viewArticleDetail('${prevArt.id}')" title="${prevArt.title}">
+          <i class="fa-solid fa-chevron-left"></i> 前の項目 (이전글)
+        </button>
+      ` : `
+        <button type="button" class="btn-adjacent-nav" disabled>
+          <i class="fa-solid fa-chevron-left"></i> 前の項目 (이전글)
+        </button>
+      `;
+
+      const nextBtnHtml = nextArt ? `
+        <button type="button" class="btn-adjacent-nav" onclick="viewArticleDetail('${nextArt.id}')" title="${nextArt.title}">
+          次の項目 (다음글) <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      ` : `
+        <button type="button" class="btn-adjacent-nav" disabled>
+          次の項目 (다음글) <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      `;
+
+      topNav.innerHTML = `
+        <div class="detail-nav-back-group">
+          ${backButtonsHtml}
+        </div>
+        <div class="detail-nav-adjacent-group">
+          ${prevBtnHtml}
+          ${nextBtnHtml}
+        </div>
+      `;
     }
 
     // Admin Quick Action Bar in Article Detail View
@@ -2117,20 +2205,53 @@ function viewArticleDetail(articleId) {
         textBody.innerHTML = formatArticleContent(article.content);
         contentArea.appendChild(textBody);
       }
+
+      // Render Bottom Adjacent Navigation Box
+      const bottomNavBox = document.createElement('div');
+      bottomNavBox.className = 'detail-bottom-nav-box';
+
+      const prevCardHtml = prevArt ? `
+        <div class="detail-bottom-nav-card prev-card" onclick="viewArticleDetail('${prevArt.id}')">
+          <div class="detail-bottom-nav-label"><i class="fa-solid fa-arrow-left"></i> 前の項目 (이전글)</div>
+          <div class="detail-bottom-nav-title">${prevArt.title}</div>
+        </div>
+      ` : `<div></div>`;
+
+      const nextCardHtml = nextArt ? `
+        <div class="detail-bottom-nav-card next-card" onclick="viewArticleDetail('${nextArt.id}')">
+          <div class="detail-bottom-nav-label">次の項目 (다음글) <i class="fa-solid fa-arrow-right"></i></div>
+          <div class="detail-bottom-nav-title">${nextArt.title}</div>
+        </div>
+      ` : `<div></div>`;
+
+      bottomNavBox.innerHTML = `
+        ${prevCardHtml}
+        ${nextCardHtml}
+      `;
+      contentArea.appendChild(bottomNavBox);
     }
 
     const workspaceSec = document.getElementById('workspace-sec');
     if (workspaceSec) {
       workspaceSec.classList.add('active');
-      workspaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    // Smooth scroll cleanly to the top of detail view with comfortable margin
+    setTimeout(() => {
+      const targetEl = document.getElementById('view-article-detail') || workspaceSec;
+      if (targetEl) {
+        const topOffset = targetEl.getBoundingClientRect().top + window.pageYOffset - 90;
+        window.scrollTo({ top: Math.max(0, topOffset), behavior: 'smooth' });
+      }
+    }, 50);
+
   } catch (err) {
     console.error("Error in viewArticleDetail:", err);
   }
 }
 
 // Back to list from detail
-function goBackToArticles() {
+function goBackToArticles(targetMode) {
   state.currentArticle = null;
   sessionStorage.removeItem('wscal_user_article');
 
@@ -2141,14 +2262,21 @@ function goBackToArticles() {
 
   const isCatechismMenu = state.currentMenu === 'catechism' || (typeof isCatechismOrWcfCategory === 'function' && isCatechismOrWcfCategory(state.currentCategory));
 
-  if (state.articleViewMode === 'mindmap' && isCatechismMenu) {
-    // If entered from mindmap, immediately re-render full-screen mindmap board!
+  if (targetMode === 'mindmap' || (!targetMode && state.articleViewMode === 'mindmap' && isCatechismMenu)) {
+    state.articleViewMode = 'mindmap';
     renderArticlesList();
   } else {
-    const workspaceSec = document.getElementById('workspace-sec');
-    if (workspaceSec) {
-      workspaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (targetMode === 'list' || state.articleViewMode === 'mindmap') {
+      state.articleViewMode = 'cards';
     }
+    renderArticlesList();
+    setTimeout(() => {
+      const workspaceSec = document.getElementById('workspace-sec');
+      if (workspaceSec) {
+        const topOffset = workspaceSec.getBoundingClientRect().top + window.pageYOffset - 90;
+        window.scrollTo({ top: Math.max(0, topOffset), behavior: 'smooth' });
+      }
+    }, 50);
   }
 }
 
