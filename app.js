@@ -5,9 +5,114 @@
 // ==========================================
 const MASTER_SITE_DATABASE = (typeof window !== 'undefined' && window.SITE_DATA) ? window.SITE_DATA : { mainMenus: [], categories: [], articles: [], featured: {} };
 
-// Always wipe old broken browser caches on boot
+// Canonical 66 Books Order Mapping for Sermons
+const BIBLE_66_ORDER = {
+  // Old Testament (1-39)
+  "창세기": 1, "創世記": 1, "Genesis": 1,
+  "출애굽기": 2, "出エジプト記": 2, "Exodus": 2,
+  "레위기": 3, "レビ記": 3, "Leviticus": 3,
+  "민수기": 4, "民数記": 4, "Numbers": 4,
+  "신명기": 5, "申命記": 5, "Deuteronomy": 5,
+  "여호수아": 6, "ヨシュア記": 6, "Joshua": 6,
+  "사사기": 7, "士師記": 7, "Judges": 7,
+  "룻기": 8, "ルツ記": 8, "Ruth": 8,
+  "사무엘상": 9, "サムエル記上": 9, "サムエル記第一": 9, "1 Samuel": 9,
+  "사무엘하": 10, "サムエル記下": 10, "サムエル記第二": 10, "2 Samuel": 10,
+  "열왕기상": 11, "列王記上": 11, "列王記第一": 11, "1 Kings": 11,
+  "열왕기하": 12, "列王記下": 12, "列王記第二": 12, "2 Kings": 12,
+  "역대상": 13, "歴代誌上": 13, "歴代誌第一": 13, "1 Chronicles": 13,
+  "역대하": 14, "歴代誌下": 14, "歴代誌第二": 14, "2 Chronicles": 14,
+  "에스라": 15, "エズラ記": 15, "Ezra": 15,
+  "느헤미야": 16, "ネヘミヤ記": 16, "Nehemiah": 16,
+  "에스더": 17, "エステル記": 17, "Esther": 17,
+  "욥기": 18, "ヨブ記": 18, "Job": 18,
+  "시편": 19, "詩篇": 19, "Psalms": 19,
+  "잠언": 20, "箴言": 20, "Proverbs": 20,
+  "전도서": 21, "伝道者の書": 21, "伝道の書": 21, "Ecclesiastes": 21,
+  "아가": 22, "雅歌": 22, "Song of Solomon": 22,
+  "이사야": 23, "イザヤ書": 23, "Isaiah": 23,
+  "예레미야": 24, "エレミヤ書": 24, "Jeremiah": 24,
+  "예레미야애가": 25, "哀歌": 25, "Lamentations": 25,
+  "에스겔": 26, "エゼキエル書": 26, "Ezekiel": 26,
+  "다니엘": 27, "ダニエル書": 27, "Daniel": 27,
+  "호세아": 28, "ホセア書": 28, "Hosea": 28,
+  "요엘": 29, "ヨエル書": 29, "Joel": 29,
+  "아모스": 30, "アモス書": 30, "Amos": 30,
+  "오바댜": 31, "オバデヤ書": 31, "Obadiah": 31,
+  "요나": 32, "ヨナ書": 32, "Jonah": 32,
+  "미가": 33, "ミカ書": 33, "Micah": 33,
+  "나훔": 34, "ナホム書": 34, "Nahum": 34,
+  "하박국": 35, "ハバクク書": 35, "Habakkuk": 35,
+  "스바냐": 36, "ゼパニヤ書": 36, "Zephaniah": 36,
+  "학개": 37, "ハガイ書": 37, "Haggai": 37,
+  "스가랴": 38, "ゼカリヤ書": 38, "Zechariah": 38,
+  "말라기": 39, "マラキ書": 39, "Malachi": 39,
+
+  // New Testament (40-66)
+  "마태복음": 40, "マタイによる福音書": 40, "マタイの福音書": 40, "Matthew": 40,
+  "마가복음": 41, "マルコによる福音書": 41, "マルコの福音書": 41, "Mark": 41,
+  "누가복음": 42, "ルカによる福音書": 42, "ルカの福音書": 42, "Luke": 42,
+  "요한복음": 43, "ヨハネによる福音書": 43, "ヨハネの福音書": 43, "John": 43,
+  "사도행전": 44, "使徒行伝": 44, "使徒の働き": 44, "Acts": 44,
+  "로마서": 45, "ローマ人への手紙": 45, "ローマの信徒への手紙": 45, "Romans": 45,
+  "고린도전서": 46, "コリント人への手紙第一": 46, "コリントの信徒への手紙一": 46, "1 Corinthians": 46,
+  "고린도후서": 47, "コリント人への手紙第二": 47, "コリントの信徒への手紙二": 47, "2 Corinthians": 47,
+  "갈라디아서": 48, "ガラテヤ人への手紙": 48, "ガラテヤ書": 48, "Galatians": 48,
+  "에베소서": 49, "エフェソス人への手紙": 49, "エフェソス": 49, "Ephesians": 49,
+  "빌립보서": 50, "ピリピ人への手紙": 50, "フィリピの信徒への手紙": 50, "Philippians": 50,
+  "골로새서": 51, "コロサイ人への手紙": 51, "コロサイの信徒への手紙": 51, "Colossians": 51,
+  "데살로니가전서": 52, "テサロニケ人への手紙第一": 52, "1 Thessalonians": 52,
+  "데살로니가후서": 53, "テサロニケ人への手紙第二": 53, "2 Thessalonians": 53,
+  "디모데전서": 54, "テモテへの手紙第一": 54, "1 Timothy": 54,
+  "디모데후서": 55, "テモテへの手紙第二": 55, "2 Timothy": 55,
+  "디도서": 56, "テトスへの手紙": 56, "Titus": 56,
+  "빌레몬서": 57, "ピレモンへの手紙": 57, "フィレモンへの手紙": 57, "Philemon": 57,
+  "히브리서": 58, "ヘブル人への手紙": 58, "ヘブライ人への手紙": 58, "Hebrews": 58,
+  "야고보서": 59, "ヤコブの手紙": 59, "James": 59,
+  "베드로전서": 60, "ペテロの手紙第一": 60, "ペトロの手紙一": 60, "1 Peter": 60,
+  "베드로후서": 61, "ペテロの手紙第二": 61, "ペトロの手紙二": 61, "2 Peter": 61,
+  "요한일서": 62, "ヨハネの手紙第一": 62, "1 John": 62,
+  "요한이서": 63, "ヨハネの手紙第二": 63, "2 John": 63,
+  "요한삼서": 64, "ヨハネの手紙第三": 64, "3 John": 64,
+  "유다서": 65, "ユダの手紙": 65, "ユダ": 65, "Jude": 65,
+  "요한계시록": 66, "ヨハネの黙示録": 66, "Revelation": 66,
+
+  // Special Topics
+  "예수님의 이적비유": 67, "イエスの奇跡とたとえ話": 67
+};
+
+function getCategorySortKey(cat) {
+  if (!cat) return 999999;
+  if (cat.parentId === 'sermon' || cat.parent === 'sermon') {
+    if (cat.nameKr && BIBLE_66_ORDER[cat.nameKr] !== undefined) return BIBLE_66_ORDER[cat.nameKr];
+    if (cat.nameJp && BIBLE_66_ORDER[cat.nameJp] !== undefined) return BIBLE_66_ORDER[cat.nameJp];
+    for (const [k, v] of Object.entries(BIBLE_66_ORDER)) {
+      if ((cat.nameKr && cat.nameKr.includes(k)) || (cat.nameJp && cat.nameJp.includes(k))) {
+        return v;
+      }
+    }
+  }
+  if (cat.position !== undefined && cat.position !== null) {
+    return Number(cat.position);
+  }
+  const match = (cat.nameKr || cat.nameJp || '').match(/(\d+)/);
+  if (match) {
+    return parseInt(match[1], 10);
+  }
+  return 999999;
+}
+
+function sortCategoriesList(cats) {
+  return cats.sort((a, b) => {
+    const keyA = getCategorySortKey(a);
+    const keyB = getCategorySortKey(b);
+    if (keyA !== keyB) return keyA - keyB;
+    return (a.nameJp || a.nameKr || '').localeCompare(b.nameJp || b.nameKr || '', undefined, { numeric: true });
+  });
+}
+
+// Preserve session states
 try {
-  localStorage.clear();
   sessionStorage.removeItem('wscal_user_menu');
   sessionStorage.removeItem('wscal_user_category');
   sessionStorage.removeItem('wscal_user_article');
@@ -57,7 +162,7 @@ function loadLocalStorageOnly() {
     const posB = b.position !== undefined ? b.position : defaultMenuIds.indexOf(b.id);
     return (posA >= 0 ? posA : 999) - (posB >= 0 ? posB : 999);
   });
-  state.categories.sort((a, b) => (a.position || 0) - (b.position || 0));
+  sortCategoriesList(state.categories);
 }
 
 async function initApp() {
@@ -68,7 +173,7 @@ async function initApp() {
     sessionStorage.removeItem('wscal_user_article');
     sessionStorage.setItem('wscal_version', 'v24');
   }
-  if (sessionStorage.getItem('wscal_admin_logged') === 'true') {
+  if (sessionStorage.getItem('wscal_admin_logged') === 'true' || localStorage.getItem('wscal_admin_logged') === 'true') {
     state.isAdmin = true;
   }
   console.log("Initializing App (Static GitHub Engine)...");
@@ -79,6 +184,7 @@ async function initApp() {
   renderMainMenuCards();
   renderFeaturedBlocks();
   renderRecentArticles();
+  updateAdminNavAndFloatingButtons();
 
   // 2. Fetch fresh data.json in the background to update data (Non-blocking)
   try {
@@ -484,14 +590,9 @@ async function createDualLanguageCategory(inputName) {
 // Build flat list representation of hierarchical categories for tree rendering
 function buildFlatTree(parentId, depth = 0) {
   let list = [];
-  // Sort categories by position to respect user's ordering
+  // Sort categories canonically and by position
   const children = state.categories.filter(cat => cat.parentId === parentId);
-  children.sort((a, b) => {
-    const posA = a.position !== undefined ? a.position : 999999;
-    const posB = b.position !== undefined ? b.position : 999999;
-    if (posA !== posB) return posA - posB;
-    return a.id.localeCompare(b.id);
-  });
+  sortCategoriesList(children);
   children.forEach(child => {
     list.push({ ...child, depth: depth });
     list = list.concat(buildFlatTree(child.id, depth + 1));
@@ -741,7 +842,8 @@ function renderTheologySubmenu() {
     });
   } else {
     // 1. Topic Mode: root categories of theology
-    const menuCats = (state.categories || []).filter(cat => cat.parentId === 'theology').sort((a, b) => (a.position || 0) - (b.position || 0));
+    const menuCats = (state.categories || []).filter(cat => cat.parentId === 'theology');
+    sortCategoriesList(menuCats);
     menuCats.forEach(cat => {
       const badge = document.createElement('div');
       badge.className = `submenu-item ${cat.id === state.currentCategory ? 'active' : ''}`;
@@ -752,7 +854,7 @@ function renderTheologySubmenu() {
       badge.innerHTML = `
         <div style="font-family: var(--font-serif); font-size: 0.95rem; font-weight: 700;">${cat.nameJp}</div>
       `;
-      badge.onclick = () => selectSubcategory(cat.id);
+      badge.onclick = () => selectSubcategory(cat.id, true);
       submenuGrid.appendChild(badge);
     });
   }
@@ -846,7 +948,7 @@ async function resetLocalDataToServer() {
   }
 }
 
-// Select main menu cards (4 big buttons)
+// Select main menu cards (6 big buttons)
 function selectMainMenu(menuKey) {
   state.currentMenu = menuKey;
   state.currentCategory = null;
@@ -868,47 +970,50 @@ function selectMainMenu(menuKey) {
     }
   });
 
-  // Filter root categories belonging directly to selected menu (first level)
-  const menuCats = (state.categories || []).filter(cat => cat.parentId === menuKey).sort((a, b) => (a.position || 0) - (b.position || 0));
   const submenuContainer = document.getElementById('submenu-sec');
   const submenuGrid = document.getElementById('submenu-items-container');
   const categoryTitle = document.getElementById('submenu-category-title');
-
-  // Translate header
   const menuObj = state.mainMenus.find(m => m.id === menuKey);
 
   if (menuKey === 'theology') {
     renderTheologySubmenu();
   } else {
-    categoryTitle.textContent = menuObj ? `${menuObj.nameJp} のフォルダ` : 'フォルダ一覧';
+    if (categoryTitle) {
+      categoryTitle.textContent = menuObj ? `${menuObj.nameJp} のフォルダ` : 'フォルダ一覧';
+    }
 
     // Render Submenu badges (dual-language support)
-    submenuGrid.innerHTML = '';
-    if (menuCats.length === 0) {
-      submenuGrid.innerHTML = '<span style="color: var(--text-light); font-size: 0.9rem;">現在、このメニュー内に細部フォルダはありません。管理者アカウントから追加してください。</span>';
-    } else {
-      menuCats.forEach(cat => {
-        const badge = document.createElement('div');
-        badge.className = 'submenu-item';
-        badge.style.display = 'flex';
-        badge.style.alignItems = 'center';
-        badge.style.justifyContent = 'center';
-        badge.style.padding = '12px 24px';
-        badge.innerHTML = `
-          <div style="font-family: var(--font-serif); font-size: 0.95rem; font-weight: 700;">${cat.nameJp}</div>
-        `;
-        badge.onclick = () => selectSubcategory(cat.id);
-        submenuGrid.appendChild(badge);
-      });
+    if (submenuGrid) {
+      submenuGrid.innerHTML = '';
+      const menuCats = (state.categories || []).filter(cat => cat.parentId === menuKey);
+      sortCategoriesList(menuCats);
+      if (menuCats.length === 0) {
+        submenuGrid.innerHTML = '<span style="color: var(--text-light); font-size: 0.9rem;">現在、このメニュー内に細部フォルダはありません。管理者アカウントから追加してください。</span>';
+      } else {
+        menuCats.forEach(cat => {
+          const badge = document.createElement('div');
+          badge.className = 'submenu-item';
+          badge.style.display = 'flex';
+          badge.style.alignItems = 'center';
+          badge.style.justifyContent = 'center';
+          badge.style.padding = '12px 24px';
+          badge.innerHTML = `
+            <div style="font-family: var(--font-serif); font-size: 0.95rem; font-weight: 700;">${cat.nameJp}</div>
+          `;
+          badge.onclick = () => selectSubcategory(cat.id, true);
+          submenuGrid.appendChild(badge);
+        });
+      }
     }
   }
 
-  submenuContainer.classList.add('active');
-  
-  // Scroll to submenus nicely
-  submenuContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  if (submenuContainer) {
+    submenuContainer.classList.add('active');
+    // Smooth scroll to submenus so user can clearly see and click them
+    submenuContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 
-  // Automatically select the first subcategory, author, or combined view if exists
+  // Pre-render the first subcategory, author, or combined view in workspace without hiding layout
   if (menuKey === 'theology' && (state.theologyMode === 'author' || state.theologyMode === 'combined')) {
     if (state.theologyMode === 'author') state.theologyAuthor = state.theologyAuthor || 'all';
     if (state.theologyMode === 'combined') {
@@ -918,11 +1023,13 @@ function selectMainMenu(menuKey) {
     renderWorkspaceSidebar();
     renderArticlesList();
     const workspaceSec = document.getElementById('workspace-sec');
-    workspaceSec.classList.add('active');
-    document.getElementById('view-article-list').style.display = 'block';
-    document.getElementById('view-article-detail').style.display = 'none';
+    if (workspaceSec) {
+      workspaceSec.classList.add('active');
+      document.getElementById('view-article-list').style.display = 'block';
+      document.getElementById('view-article-detail').style.display = 'none';
+    }
   } else {
-    const allSubCats = buildFlatTree(menuKey, 0).sort((a, b) => (a.position || 0) - (b.position || 0));
+    const allSubCats = buildFlatTree(menuKey, 0);
     if (allSubCats.length > 0) {
       selectSubcategory(allSubCats[0].id, false);
     } else {
@@ -931,9 +1038,11 @@ function selectMainMenu(menuKey) {
       renderWorkspaceSidebar();
       renderArticlesList();
       const workspaceSec = document.getElementById('workspace-sec');
-      workspaceSec.classList.add('active');
-      document.getElementById('view-article-list').style.display = 'block';
-      document.getElementById('view-article-detail').style.display = 'none';
+      if (workspaceSec) {
+        workspaceSec.classList.add('active');
+        document.getElementById('view-article-list').style.display = 'block';
+        document.getElementById('view-article-detail').style.display = 'none';
+      }
     }
   }
 }
@@ -984,12 +1093,12 @@ function selectSubcategory(categoryId, shouldScroll = false) {
     }
   }
 
-  // Render Submenu for Theology if in theology menu
+  // Keep Submenu visible and updated
   if (state.currentMenu === 'theology') {
     renderTheologySubmenu();
-    const submenuContainer = document.getElementById('submenu-sec');
-    if (submenuContainer) submenuContainer.classList.add('active');
   }
+  const submenuContainer = document.getElementById('submenu-sec');
+  if (submenuContainer) submenuContainer.classList.add('active');
 
   // Render Sidebar in the Workspace
   renderWorkspaceSidebar();
@@ -997,16 +1106,9 @@ function selectSubcategory(categoryId, shouldScroll = false) {
   // Find articles belonging to this specific subcategory
   const filteredArticles = state.articles.filter(art => art.categoryId === categoryId);
 
-  // Hide Hero, featured & show Workspace
-  document.getElementById('hero-sec').style.display = 'none';
-  const featSec = document.getElementById('featured-sec');
-  if (featSec) featSec.style.display = 'none';
-  
   // Update submenu items active state
   document.querySelectorAll('.submenu-item').forEach(item => {
-    // Check match by nameJp or nameKr inside the HTML
-    const catObj = state.categories.find(c => c.parentId === state.currentMenu && (item.innerHTML.includes(c.nameJp) || item.innerHTML.includes(c.nameKr)));
-    if (catObj && catObj.id === categoryId) {
+    if (catObj && (item.textContent.includes(catObj.nameJp) || item.textContent.includes(catObj.nameKr))) {
       item.classList.add('active');
     } else {
       item.classList.remove('active');
@@ -1015,11 +1117,11 @@ function selectSubcategory(categoryId, shouldScroll = false) {
 
   // Show Workspace Container
   const workspaceSec = document.getElementById('workspace-sec');
-  workspaceSec.classList.add('active');
+  if (workspaceSec) workspaceSec.classList.add('active');
 
   // IF THIS CATEGORY IS "기관의 목적" (cat_1787469045280) AND HAS AT LEAST 1 ARTICLE, REDIRECT DIRECTLY TO DETAIL!
   if (categoryId === 'cat_1787469045280' && filteredArticles.length > 0) {
-    renderArticlesList(); // Render in background just in case
+    renderArticlesList();
     viewArticleDetail(filteredArticles[0].id);
   } else {
     renderArticlesList();
@@ -1028,7 +1130,7 @@ function selectSubcategory(categoryId, shouldScroll = false) {
     document.getElementById('view-article-detail').style.display = 'none';
   }
 
-  if (shouldScroll) {
+  if (shouldScroll && workspaceSec) {
     workspaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
@@ -1858,6 +1960,21 @@ function closeFeaturedModal() {
 // 5. Admin Authentication
 // ==========================================
 function openLoginModal() {
+  const rememberEnabled = localStorage.getItem('wscal_admin_remember_enabled') !== 'false';
+  const savedPass = localStorage.getItem('wscal_admin_saved_pass') || '';
+  const savedUser = localStorage.getItem('wscal_admin_saved_user') || 'admin';
+  const hasLogged = localStorage.getItem('wscal_admin_logged') === 'true';
+
+  // 이전에 로그인했거나 비밀번호가 저장된 컴퓨터에서는 모달 없이 바로 관리자 화면으로 연결
+  if (state.isAdmin || hasLogged || (rememberEnabled && savedUser === 'admin' && savedPass === '1234')) {
+    state.isAdmin = true;
+    sessionStorage.setItem('wscal_admin_logged', 'true');
+    localStorage.setItem('wscal_admin_logged', 'true');
+    showAdminDashboard('folders');
+    updateAdminNavAndFloatingButtons();
+    return;
+  }
+
   const modal = document.getElementById('login-modal');
   if (modal) modal.classList.add('active');
 
@@ -1866,13 +1983,9 @@ function openLoginModal() {
   const rememberCheckbox = document.getElementById('login-remember');
 
   // 이 컴퓨터(localStorage)에 저장된 로그인 정보 불러오기
-  const rememberEnabled = localStorage.getItem('wscal_admin_remember_enabled') !== 'false';
   if (rememberCheckbox) {
     rememberCheckbox.checked = rememberEnabled;
   }
-
-  const savedUser = localStorage.getItem('wscal_admin_saved_user') || 'admin';
-  const savedPass = localStorage.getItem('wscal_admin_saved_pass') || '';
 
   if (userInput) {
     userInput.value = savedUser;
@@ -1881,8 +1994,6 @@ function openLoginModal() {
   if (passInput) {
     if (rememberEnabled && savedPass) {
       passInput.value = savedPass;
-    } else if (!savedPass && userInput.value === 'admin') {
-      // 이전에 저장된 기록이 없더라도 사용자 편의를 위해 초기 자동채움 필요시 대응
     }
   }
 
@@ -1918,12 +2029,14 @@ function handleLogin(event) {
     state.isAdmin = true;
     sessionStorage.setItem('wscal_admin_logged', 'true');
 
-    // 접속한 컴퓨터의 브라우저에 로그인 정보 저장
+    // 접속한 컴퓨터의 브라우저에 로그인 정보 및 자동연결 저장
     if (shouldRemember) {
+      localStorage.setItem('wscal_admin_logged', 'true');
       localStorage.setItem('wscal_admin_saved_user', user);
       localStorage.setItem('wscal_admin_saved_pass', pass);
       localStorage.setItem('wscal_admin_remember_enabled', 'true');
     } else {
+      localStorage.removeItem('wscal_admin_logged');
       localStorage.removeItem('wscal_admin_saved_user');
       localStorage.removeItem('wscal_admin_saved_pass');
       localStorage.setItem('wscal_admin_remember_enabled', 'false');
@@ -1949,6 +2062,7 @@ window.closeLoginModal = closeLoginModal;
 async function handleLogout() {
   state.isAdmin = false;
   sessionStorage.removeItem('wscal_admin_logged');
+  localStorage.removeItem('wscal_admin_logged');
   sessionStorage.removeItem('wscal_current_view');
   sessionStorage.removeItem('wscal_admin_tab');
 
