@@ -1502,6 +1502,7 @@ function renderArticlesList() {
   const pagedArticles = filteredArticles.slice(startIndex, endIndex);
 
   const isPastorMenu = state.currentMenu === 'pastor';
+  const isServantMenu = state.currentCategory === 'cat_1787469050463';
 
   // 2. Render Page Size Selector, View Mode Toggle & Total count
   const headerWrapper = document.createElement('div');
@@ -1573,8 +1574,6 @@ function renderArticlesList() {
   container.appendChild(headerWrapper);
 
   // 3. Render articles in selected View Mode
-  const isServantMenu = state.currentCategory === 'cat_1787469050463';
-
   if (!isPastorMenu && !isServantMenu && state.articleViewMode === 'mindmap' && isCatechismMenu) {
     // MINDMAP VIEW (마인드맵 모드)
     const mindmapWrapper = document.createElement('div');
