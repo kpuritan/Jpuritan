@@ -157,7 +157,7 @@ const sermon12 = {
 </p>
 
 <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-left: 5px solid #3b82f6; padding: 20px 24px; border-radius: 8px; margin-top: 24px;">
-  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 결단의 기도문</h3>
+  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 기도문</h3>
   <p style="margin: 0; font-style: italic; line-height: 1.9; color: #1e3a8a;">
     "모든 환난 가운데서 저희를 위로하시는 자비의 하나님 아버지, 감당하기 어려운 십자가와 시련 앞에서 입술로 불평하며 낙심했던 연약함을 용서하여 주옵소서. 고난의 징계 속에 담긴 주님의 지극한 사랑을 보게 하시고, 이 연단을 통하여 주의 거룩하심에 참예하는 복을 누리게 하옵소서. 인생의 수많은 갈림길 앞에서 제 헛된 명철을 의지하지 않고, 오직 주님의 인도하심만을 잠잠히 기다리는 순종의 종이 되게 하옵소서. 은혜의 보좌에서 부어주시는 새 힘으로 모든 시험을 이기며 승리하게 하옵소서. 우리 주 예수 그리스도의 이름으로 간절히 기도드리옵나이다. 아멘."
   </p>

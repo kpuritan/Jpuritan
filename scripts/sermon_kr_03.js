@@ -159,7 +159,7 @@ const sermon3 = {
 </p>
 
 <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-left: 5px solid #3b82f6; padding: 20px 24px; border-radius: 8px; margin-top: 24px;">
-  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 결단의 기도문</h3>
+  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 기도문</h3>
   <p style="margin: 0; font-style: italic; line-height: 1.9; color: #1e3a8a;">
     "거룩하신 심판자요 영원한 구속자이신 주 하나님, 은혜의 날이 지나가기 전에 저의 잠든 영혼을 흔들어 깨워 주시니 감사드립니다. 겉모양뿐인 종교 생활로 스스로를 속이고, 은혜의 보좌 앞에 단독자로 서기를 두려워했던 저의 비겁함과 영적 게으름을 회개합니다. 사탄의 참소와 율법의 정죄에 짓눌려 주님을 피하지 않게 하시고, 피 묻은 십자가를 붙잡고 담대히 은혜의 보좌로 나아가게 하옵소서. 제 상처받고 더러워진 양심을 오직 예수 그리스도의 보혈로만 씻어 정결케 하시고, 일평생 은혜의 보좌를 사모하며 왕 되신 주님과 동행하는 복된 순례자가 되게 하옵소서. 우리 구주 예수 그리스도의 이름으로 기도드리옵나이다. 아멘."
   </p>

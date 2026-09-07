@@ -160,7 +160,7 @@ const sermon13 = {
 </p>
 
 <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-left: 5px solid #3b82f6; padding: 20px 24px; border-radius: 8px; margin-top: 24px;">
-  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 송영과 결단의 기도문</h3>
+  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 송영과 기도문</h3>
   <p style="margin: 0; font-style: italic; line-height: 1.9; color: #1e3a8a;">
     "보좌에 앉으신 거룩하신 하나님 아버지와 죽임을 당하신 어린양 예수 그리스도, 그리고 영원한 은혜의 성령 삼위일체 하나님께 세세토록 찬송과 존귀와 영광과 능력을 돌리옵나이다. 비천하고 가증한 저희들을 위하여 은혜의 보좌를 활짝 열어주시고, 험악한 세상 순례길을 걷는 동안 때를 따라 돕는 은혜로 붙들어 주시니 감사드립니다. 마지막 숨을 거두는 죽음의 관문에서도 두려움 없이 부활의 주님을 바라보게 하시고, 은혜의 보좌에서 마침내 영광의 보좌로 나아가 주님의 찬란한 얼굴을 영원토록 뵈오며 찬양하게 하옵소서. '아멘 주 예수여 속히 오시옵소서!' 영원한 대제사장이요 구속자이신 우리 주 예수 그리스도의 거룩하신 이름으로 간절히 기도드리옵나이다. 아멘."
   </p>

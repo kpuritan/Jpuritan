@@ -157,7 +157,7 @@ const sermon10 = {
 </p>
 
 <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-left: 5px solid #3b82f6; padding: 20px 24px; border-radius: 8px; margin-top: 24px;">
-  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 결단의 기도문</h3>
+  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 기도문</h3>
   <p style="margin: 0; font-style: italic; line-height: 1.9; color: #1e3a8a;">
     "시험받는 자들을 능히 도우시는 거룩하신 대제사장 예수님, 원수 마귀가 우는 사자처럼 삼킬 자를 찾는 험악한 세상에서 저의 무력함을 주님 앞에 고백합니다. 베드로처럼 스스로의 힘을 과신하다 넘어지지 않게 하시고, 날마다 깨어 기도함으로 믿음의 전신갑주를 취하게 하옵소서. 사탄의 불화살이 날아올 때마다 십자가 보혈의 방패로 막아서게 하시고, 육체의 가시와 시험 속에서도 '내 은혜가 네게 족하다' 하신 주의 음성을 듣고 도리어 기뻐하며 찬양하게 하옵소서. 마침내 사탄을 발아래 상하게 하실 우리 구주 예수 그리스도의 이름으로 기도드리옵나이다. 아멘."
   </p>

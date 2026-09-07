@@ -159,7 +159,7 @@ const sermon4 = {
 </p>
 
 <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-left: 5px solid #3b82f6; padding: 20px 24px; border-radius: 8px; margin-top: 24px;">
-  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 결단의 기도문</h3>
+  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 기도문</h3>
   <p style="margin: 0; font-style: italic; line-height: 1.9; color: #1e3a8a;">
     "은혜의 왕이신 거룩하신 주님, 무지하고 완고하여 육적 방자함으로 주 앞에 나아가거나, 연약함에 눌려 노예처럼 떨며 물러섰던 저의 불신앙을 용서하여 주옵소서. 제 안에 선한 것이 하나도 없음을 고백하오나, 오직 십자가 보혈의 공로를 힘입어 어린아이가 아버지의 품에 안기듯 거룩한 담대함으로 은혜의 보좌 앞에 나아갑니다. 제 심령의 모든 곤고함과 억울함과 슬픔을 남김없이 쏟아놓사오니, 주여 은혜의 단비를 내려 주옵소서. '구하라 주실 것이요 찾으라 찾을 것이요 문을 두드리라 열릴 것이라' 하신 약속의 말씀을 굳게 붙잡고 평생토록 물러서지 않는 기도의 용사로 살아가게 하옵소서. 우리 구주 예수 그리스도의 이름으로 기도드리옵나이다. 아멘."
   </p>

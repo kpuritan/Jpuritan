@@ -157,7 +157,7 @@ const sermon8 = {
 </p>
 
 <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-left: 5px solid #3b82f6; padding: 20px 24px; border-radius: 8px; margin-top: 24px;">
-  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 결단의 기도문</h3>
+  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 기도문</h3>
   <p style="margin: 0; font-style: italic; line-height: 1.9; color: #1e3a8a;">
     "모든 은혜의 근원이 되시는 성부, 성자, 성령 삼위일체 하나님, 메마르고 곤고한 저희 영혼을 불쌍히 여기사 은혜의 보좌에서 흘러나오는 생명수의 샘물로 채워주시니 감사드립니다. 겉핥기식의 지식과 일시적 감정의 흥분에 속아 참된 구원의 은혜를 소유했다고 자만했던 저의 어리석음을 깨뜨려 주옵소서. 성령의 씻음과 거듭남을 통하여 제 심령 속에 심어주신 새 생명이 날마다 그리스도의 은혜를 먹고 자라나게 하옵소서. 은혜의 방편인 말씀과 기도의 줄을 놓지 않게 하시고, 날마다 보좌로부터 부어지는 충만한 은혜로써 세상을 이기고 주님을 영화롭게 하는 참된 제자가 되게 하옵소서. 우리 구주 예수 그리스도의 이름으로 기도드리옵나이다. 아멘."
   </p>

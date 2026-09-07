@@ -159,7 +159,7 @@ const sermon7 = {
 </p>
 
 <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-left: 5px solid #3b82f6; padding: 20px 24px; border-radius: 8px; margin-top: 24px;">
-  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 결단의 기도문</h3>
+  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 기도문</h3>
   <p style="margin: 0; font-style: italic; line-height: 1.9; color: #1e3a8a;">
     "자비와 긍휼이 풍성하신 하나님 아버지, 나면서부터 죄악 중에 잉태되어 영원한 진노와 심판을 받아 마땅했던 저를 긍휼히 여기사, 독생자 예수 그리스도의 대속으로 건져 주시니 감사드립니다. 썩어질 세상의 일반 은총에 눈이 팔려 영원한 구원의 긍휼을 소홀히 여겼던 죄를 자복하오니 용서하여 주옵소서. 날마다 가난한 심령으로 은혜의 보좌 앞에 엎드려 사죄의 긍휼을 공급받게 하시고, 주께 받은 그 크신 긍휼로써 상처 입은 이웃을 품고 용서하며 복음의 생수를 흘려보내는 성숙한 그리스도인으로 살아가게 하옵소서. 우리 구주 예수 그리스도의 이름으로 기도드리옵나이다. 아멘."
   </p>

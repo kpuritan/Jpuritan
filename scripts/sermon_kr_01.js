@@ -177,7 +177,7 @@ const sermon1 = {
 </p>
 
 <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-left: 5px solid #3b82f6; padding: 20px 24px; border-radius: 8px; margin-top: 24px;">
-  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 결단의 기도문</h3>
+  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 기도문</h3>
   <p style="margin: 0; font-style: italic; line-height: 1.9; color: #1e3a8a;">
     "지극히 거룩하시고 자비로우신 우리 아버지 하나님, 본래 공의의 법정 앞에서 영원한 진노와 형벌을 받아 마땅했던 저희를 위하여, 독생자 예수 그리스도의 흠 없는 피로 영원한 은혜의 보좌를 마련해 주시니 찬양과 감사를 올려드립니다. 저희 안에 내재된 가증한 자기 의와 율법주의적 교만을 성령의 불로 태워 주옵소서. 감히 제 자신의 눈물이나 선행을 의지하지 않고, 오직 하늘 지성소에서 저를 위하여 피 묻은 손을 들고 중보하시는 대제사장 예수 그리스도의 공로만을 전심으로 바라보며 나아가게 하옵소서. 날마다 이 은혜의 보좌를 생명의 샘으로 삼아, 때를 따라 돕는 은혜를 힘입어 거룩한 순종의 열매를 맺게 하옵소서. 우리 구주 예수 그리스도의 거룩하신 이름으로 기도드리옵나이다. 아멘."
   </p>

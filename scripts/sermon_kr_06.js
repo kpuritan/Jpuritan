@@ -163,7 +163,7 @@ const sermon6 = {
 </p>
 
 <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-left: 5px solid #3b82f6; padding: 20px 24px; border-radius: 8px; margin-top: 24px;">
-  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 결단의 기도문</h3>
+  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 기도문</h3>
   <p style="margin: 0; font-style: italic; line-height: 1.9; color: #1e3a8a;">
     "사망 권세를 이기시고 부활 승천하사 하나님 우편에서 저를 위하여 영원토록 간구하시는 복되신 주 예수님, 저의 어둡고 연약한 기도를 흠향하시고 완전한 제물의 향기로 바꾸어 주시니 감사와 찬양을 올립니다. 마귀가 제 허물과 죄를 참소할 때마다 하나님 우편에 계신 주님의 십자가 보혈을 바라보게 하시고, 결코 정죄함이 없는 칭의의 평강을 누리게 하옵소서. 날마다 하늘 지성소에 계신 대제사장 예수님을 신뢰함으로 거룩한 담대함을 품고 기도하며, 세상 끝날까지 믿음의 경주를 완주하게 하옵소서. 우리를 온전하게 구원하시는 대제사장 예수 그리스도의 이름으로 기도드리옵나이다. 아멘."
   </p>

@@ -164,7 +164,7 @@ const sermon2 = {
 </p>
 
 <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-left: 5px solid #3b82f6; padding: 20px 24px; border-radius: 8px; margin-top: 24px;">
-  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 결단의 기도문</h3>
+  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 기도문</h3>
   <p style="margin: 0; font-style: italic; line-height: 1.9; color: #1e3a8a;">
     "전능하시고 자비가 무궁하신 하나님 아버지, 타락한 천사들은 공의로 심판하시면서도 티끌만도 못한 저희 인생들에게는 독생자의 피로 은혜의 보좌를 마련해 주시고 날마다 값없이 부르시니 그 크신 사랑을 어찌 다 측량하겠나이까. 주여, '내일로 미루라'는 원수 마귀의 궤계에 속아 은혜의 날을 낭비했던 저의 어리석음을 통회하오니 용서하여 주옵소서. 세상의 모든 의지가 꺾이고 영혼이 곤고할 때, 도망치지 않고 은혜의 보좌를 유일한 영혼의 닻으로 삼게 하옵소서. 야곱처럼, 가나안 여인처럼 언약의 말씀을 붙들고 부르짖어 응답받는 살아있는 믿음의 용사가 되게 하옵소서. 우리 주 예수 그리스도의 존귀하신 이름으로 기도드리옵나이다. 아멘."
   </p>

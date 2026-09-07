@@ -154,7 +154,7 @@ const sermon5 = {
 </p>
 
 <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-left: 5px solid #3b82f6; padding: 20px 24px; border-radius: 8px; margin-top: 24px;">
-  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 결단의 기도문</h3>
+  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 기도문</h3>
   <p style="margin: 0; font-style: italic; line-height: 1.9; color: #1e3a8a;">
     "영원하신 대제사장이신 주 예수 그리스도여, 저희의 연약함과 슬픔과 유혹을 몸소 겪으시고 친히 십자가에서 흠 없는 보혈을 쏟으사 하나님과의 영원한 화목의 길을 열어주시니 무한한 찬양과 영광을 돌립니다. 저의 부패한 이름과 보잘것없는 공로는 십자가 밑에 영원히 묻어버리게 하시고, 오직 주 예수의 의로우신 이름과 보혈의 옷만을 덧입고 하나님 앞에 서게 하옵소서. 흑암과 시험이 몰려올 때마다 저를 동정하시는 주님의 자비로운 음성을 듣게 하시고, 십자가 보혈의 능력으로 승리하는 믿음의 성도가 되게 하옵소서. 대제사장 되신 우리 주 예수 그리스도의 이름으로 간절히 기도드리옵나이다. 아멘."
   </p>

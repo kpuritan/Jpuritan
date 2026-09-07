@@ -161,7 +161,7 @@ const sermon11 = {
 </p>
 
 <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-left: 5px solid #3b82f6; padding: 20px 24px; border-radius: 8px; margin-top: 24px;">
-  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 결단의 기도문</h3>
+  <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e40af; margin: 0 0 10px 0;"><i class="fa-solid fa-praying-hands"></i> ✏️ 청교도적 기도문</h3>
   <p style="margin: 0; font-style: italic; line-height: 1.9; color: #1e3a8a;">
     "모든 계절의 주인이 되시는 거룩하신 하나님 아버지, 영혼의 흑암과 침체의 골짜기에서도 생명의 끈을 놓지 않으시고, 때를 따라 부어주시는 천상의 희락 속에서도 자고하지 않도록 저를 지켜주시니 감사드립니다. 은혜를 받을 때 교만해져서 형제를 멸시하거나 육신의 안일에 빠지지 않게 하시고, 이사야처럼 주님의 거룩하심 앞에 더욱 낮아지는 참된 겸손의 종이 되게 하옵소서. 제 평생에 어떤 영적 기복 속에서도 오직 은혜의 보좌만을 바라보며, 푯대 되신 예수 그리스도를 향해 날마다 달려가는 순결한 성도가 되게 하옵소서. 우리 주 예수 그리스도의 이름으로 간절히 기도드리옵나이다. 아멘."
   </p>
