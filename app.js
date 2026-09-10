@@ -78,7 +78,7 @@ const BIBLE_66_ORDER = {
   "요한계시록": 66, "ヨハネの黙示録": 66, "Revelation": 66,
 
   // Special Topics
-  "예수님의 이적비유": 67, "イエスの奇跡とたとえ話": 67
+  "예수님의 비유": 67, "イエスのたとえ話": 67, "예수님의 이적비유": 67, "イエスの奇跡とたとえ話": 67
 };
 
 function getCategorySortKey(cat) {

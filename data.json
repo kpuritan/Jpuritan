@@ -51,34 +51,10 @@
   ],
   "categories": [
     {
-      "id": "cat_mirpar_01",
-      "parentId": "cat_sermon_mir_par",
-      "nameJp": "イエスの奇跡",
-      "nameKr": "예수님의 이적",
-      "icon": null,
-      "position": 1
-    },
-    {
       "id": "cat_gal_01",
       "parentId": "cat_sermon_gal",
       "nameJp": "ガラテヤ書 1章",
       "nameKr": "갈라디아서 1장",
-      "icon": null,
-      "position": 1
-    },
-    {
-      "id": "cat_jas_01",
-      "parentId": "cat_sermon_jas",
-      "nameJp": "ヤコブの手紙 1章",
-      "nameKr": "야고보서 1장",
-      "icon": null,
-      "position": 1
-    },
-    {
-      "id": "cat_psa_001",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 1篇",
-      "nameKr": "시편 1편",
       "icon": null,
       "position": 1
     },
@@ -163,14 +139,6 @@
       "position": 2
     },
     {
-      "id": "cat_jas_02",
-      "parentId": "cat_sermon_jas",
-      "nameJp": "ヤコブの手紙 2章",
-      "nameKr": "야고보서 2장",
-      "icon": null,
-      "position": 2
-    },
-    {
       "id": "cat_rom_02",
       "parentId": "cat_sermon_rom",
       "nameJp": "ローマ人への手紙 2章",
@@ -187,22 +155,6 @@
       "position": 2
     },
     {
-      "id": "cat_psa_002",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 2篇",
-      "nameKr": "시편 2편",
-      "icon": null,
-      "position": 2
-    },
-    {
-      "id": "cat_mirpar_02",
-      "parentId": "cat_sermon_mir_par",
-      "nameJp": "イエスのたとえ話",
-      "nameKr": "예수님의 비유",
-      "icon": null,
-      "position": 2
-    },
-    {
       "id": "cat_gal_02",
       "parentId": "cat_sermon_gal",
       "nameJp": "ガラテヤ書 2章",
@@ -215,22 +167,6 @@
       "parentId": "cat_sermon_gal",
       "nameJp": "ガラテヤ書 3章",
       "nameKr": "갈라디아서 3장",
-      "icon": null,
-      "position": 3
-    },
-    {
-      "id": "cat_jas_03",
-      "parentId": "cat_sermon_jas",
-      "nameJp": "ヤコブの手紙 3章",
-      "nameKr": "야고보서 3장",
-      "icon": null,
-      "position": 3
-    },
-    {
-      "id": "cat_psa_003",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 3篇",
-      "nameKr": "시편 3편",
       "icon": null,
       "position": 3
     },
@@ -281,14 +217,6 @@
       "nameKr": "제3장 하나님의 영원한 작정",
       "icon": null,
       "position": 3
-    },
-    {
-      "id": "cat_psa_004",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 4篇",
-      "nameKr": "시편 4편",
-      "icon": null,
-      "position": 4
     },
     {
       "id": "cat_deut_04",
@@ -347,34 +275,10 @@
       "position": 4
     },
     {
-      "id": "cat_jas_04",
-      "parentId": "cat_sermon_jas",
-      "nameJp": "ヤコブの手紙 4章",
-      "nameKr": "야고보서 4장",
-      "icon": null,
-      "position": 4
-    },
-    {
       "id": "cat_sermon_deut",
       "parentId": "sermon",
       "nameJp": "申命記",
       "nameKr": "신명기",
-      "icon": null,
-      "position": 5
-    },
-    {
-      "id": "cat_jas_05",
-      "parentId": "cat_sermon_jas",
-      "nameJp": "ヤコブの手紙 5章",
-      "nameKr": "야고보서 5장",
-      "icon": null,
-      "position": 5
-    },
-    {
-      "id": "cat_psa_005",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 5篇",
-      "nameKr": "시편 5편",
       "icon": null,
       "position": 5
     },
@@ -433,14 +337,6 @@
       "nameKr": "신명기 5장",
       "icon": null,
       "position": 5
-    },
-    {
-      "id": "cat_psa_006",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 6篇",
-      "nameKr": "시편 6편",
-      "icon": null,
-      "position": 6
     },
     {
       "id": "cat_gal_06",
@@ -539,14 +435,6 @@
       "position": 7
     },
     {
-      "id": "cat_psa_007",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 7篇",
-      "nameKr": "시편 7편",
-      "icon": null,
-      "position": 7
-    },
-    {
       "id": "cat_cat_2",
       "parentId": "catechism",
       "nameJp": "ウェストミンスター大教理問答書",
@@ -595,22 +483,6 @@
       "position": 8
     },
     {
-      "id": "cat_psa_008",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 8篇",
-      "nameKr": "시편 8편",
-      "icon": null,
-      "position": 8
-    },
-    {
-      "id": "cat_psa_009",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 9篇",
-      "nameKr": "시편 9편",
-      "icon": null,
-      "position": 9
-    },
-    {
       "id": "cat_deut_09",
       "parentId": "cat_sermon_deut",
       "nameJp": "申命記 9章",
@@ -649,14 +521,6 @@
       "nameKr": "제9장 자유의지",
       "icon": null,
       "position": 9
-    },
-    {
-      "id": "cat_psa_010",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 10篇",
-      "nameKr": "시편 10편",
-      "icon": null,
-      "position": 10
     },
     {
       "id": "cat_rom_10",
@@ -739,14 +603,6 @@
       "position": 11
     },
     {
-      "id": "cat_psa_011",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 11篇",
-      "nameKr": "시편 11편",
-      "icon": null,
-      "position": 11
-    },
-    {
       "id": "cat_deut_12",
       "parentId": "cat_sermon_deut",
       "nameJp": "申命記 12章",
@@ -787,14 +643,6 @@
       "position": 12
     },
     {
-      "id": "cat_psa_012",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 12篇",
-      "nameKr": "시편 12편",
-      "icon": null,
-      "position": 12
-    },
-    {
       "id": "cat_heb_13",
       "parentId": "cat_sermon_heb",
       "nameJp": "ヘブル人への手紙 13章",
@@ -819,14 +667,6 @@
       "position": 13
     },
     {
-      "id": "cat_psa_013",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 13篇",
-      "nameKr": "시편 13편",
-      "icon": null,
-      "position": 13
-    },
-    {
       "id": "cat_theo_2",
       "parentId": "theology",
       "nameJp": "人間論",
@@ -847,14 +687,6 @@
       "parentId": "cat_cat_3",
       "nameJp": "第14章 救いに至る信仰",
       "nameKr": "제14장 구원에 이르는 신앙",
-      "icon": null,
-      "position": 14
-    },
-    {
-      "id": "cat_psa_014",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 14篇",
-      "nameKr": "시편 14편",
       "icon": null,
       "position": 14
     },
@@ -915,14 +747,6 @@
       "position": 15
     },
     {
-      "id": "cat_psa_015",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 15篇",
-      "nameKr": "시편 15편",
-      "icon": null,
-      "position": 15
-    },
-    {
       "id": "cat_wcf_16",
       "parentId": "cat_cat_3",
       "nameJp": "第16章 善行",
@@ -935,14 +759,6 @@
       "parentId": "cat_sermon_rom",
       "nameJp": "ローマ人への手紙 16章",
       "nameKr": "로마서 16장",
-      "icon": null,
-      "position": 16
-    },
-    {
-      "id": "cat_psa_016",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 16篇",
-      "nameKr": "시편 16편",
       "icon": null,
       "position": 16
     },
@@ -971,14 +787,6 @@
       "position": 17
     },
     {
-      "id": "cat_psa_017",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 17篇",
-      "nameKr": "시편 17편",
-      "icon": null,
-      "position": 17
-    },
-    {
       "id": "cat_1787326486869",
       "parentId": "theology",
       "nameJp": "終末論",
@@ -993,14 +801,6 @@
       "nameKr": "신명기 17장",
       "icon": null,
       "position": 17
-    },
-    {
-      "id": "cat_psa_018",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 18篇",
-      "nameKr": "시편 18편",
-      "icon": null,
-      "position": 18
     },
     {
       "id": "cat_deut_18",
@@ -1035,14 +835,6 @@
       "position": 19
     },
     {
-      "id": "cat_psa_019",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 19篇",
-      "nameKr": "시편 19편",
-      "icon": null,
-      "position": 19
-    },
-    {
       "id": "cat_wcf_19",
       "parentId": "cat_cat_3",
       "nameJp": "第19章 神の律法",
@@ -1055,14 +847,6 @@
       "parentId": "cat_sermon_deut",
       "nameJp": "申命記 19章",
       "nameKr": "신명기 19장",
-      "icon": null,
-      "position": 19
-    },
-    {
-      "id": "cat_sermon_psa",
-      "parentId": "sermon",
-      "nameJp": "詩篇",
-      "nameKr": "시편",
       "icon": null,
       "position": 19
     },
@@ -1091,14 +875,6 @@
       "position": 20
     },
     {
-      "id": "cat_psa_020",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 20篇",
-      "nameKr": "시편 20편",
-      "icon": null,
-      "position": 20
-    },
-    {
       "id": "cat_1787326540446",
       "parentId": "cat_1787326493464",
       "nameJp": "清教徒の歴史",
@@ -1123,22 +899,6 @@
       "position": 21
     },
     {
-      "id": "cat_psa_021",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 21篇",
-      "nameKr": "시편 21편",
-      "icon": null,
-      "position": 21
-    },
-    {
-      "id": "cat_psa_022",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 22篇",
-      "nameKr": "시편 22편",
-      "icon": null,
-      "position": 22
-    },
-    {
       "id": "cat_1787326555731",
       "parentId": "cat_1787326493464",
       "nameJp": "近代教会の歴史",
@@ -1161,14 +921,6 @@
       "nameKr": "제22장 정당한 맹세와 서원",
       "icon": null,
       "position": 22
-    },
-    {
-      "id": "cat_psa_023",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 23篇",
-      "nameKr": "시편 23편",
-      "icon": null,
-      "position": 23
     },
     {
       "id": "cat_wcf_23",
@@ -1211,14 +963,6 @@
       "position": 24
     },
     {
-      "id": "cat_psa_024",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 24篇",
-      "nameKr": "시편 24편",
-      "icon": null,
-      "position": 24
-    },
-    {
       "id": "cat_1787469050463",
       "parentId": "menu_1787468975888",
       "nameJp": "仕える",
@@ -1243,26 +987,10 @@
       "position": 25
     },
     {
-      "id": "cat_psa_025",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 25篇",
-      "nameKr": "시편 25편",
-      "icon": null,
-      "position": 25
-    },
-    {
       "id": "cat_wcf_26",
       "parentId": "cat_cat_3",
       "nameJp": "第26章 聖徒の交わり",
       "nameKr": "제26장 성도의 교제",
-      "icon": null,
-      "position": 26
-    },
-    {
-      "id": "cat_psa_026",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 26篇",
-      "nameKr": "시편 26편",
       "icon": null,
       "position": 26
     },
@@ -1281,14 +1009,6 @@
       "nameKr": "신명기 26장",
       "icon": null,
       "position": 26
-    },
-    {
-      "id": "cat_psa_027",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 27篇",
-      "nameKr": "시편 27편",
-      "icon": null,
-      "position": 27
     },
     {
       "id": "cat_1787469558824",
@@ -1315,14 +1035,6 @@
       "position": 27
     },
     {
-      "id": "cat_psa_028",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 28篇",
-      "nameKr": "시편 28편",
-      "icon": null,
-      "position": 28
-    },
-    {
       "id": "cat_wcf_28",
       "parentId": "cat_cat_3",
       "nameJp": "第28章 洗礼",
@@ -1345,14 +1057,6 @@
       "nameKr": "누가복음 2장",
       "icon": null,
       "position": 28
-    },
-    {
-      "id": "cat_psa_029",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 29篇",
-      "nameKr": "시편 29편",
-      "icon": null,
-      "position": 29
     },
     {
       "id": "cat_wcf_29",
@@ -1403,26 +1107,10 @@
       "position": 30
     },
     {
-      "id": "cat_psa_030",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 30篇",
-      "nameKr": "시편 30편",
-      "icon": null,
-      "position": 30
-    },
-    {
       "id": "cat_deut_31",
       "parentId": "cat_sermon_deut",
       "nameJp": "申命記 31章",
       "nameKr": "신명기 31장",
-      "icon": null,
-      "position": 31
-    },
-    {
-      "id": "cat_psa_031",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 31篇",
-      "nameKr": "시편 31편",
       "icon": null,
       "position": 31
     },
@@ -1467,14 +1155,6 @@
       "position": 32
     },
     {
-      "id": "cat_psa_032",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 32篇",
-      "nameKr": "시편 32편",
-      "icon": null,
-      "position": 32
-    },
-    {
       "id": "cat_deut_33",
       "parentId": "cat_sermon_deut",
       "nameJp": "申命記 33章",
@@ -1487,14 +1167,6 @@
       "parentId": "cat_cat_3",
       "nameJp": "第33章 最後の審判",
       "nameKr": "제33장 최후 심판",
-      "icon": null,
-      "position": 33
-    },
-    {
-      "id": "cat_psa_033",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 33篇",
-      "nameKr": "시편 33편",
       "icon": null,
       "position": 33
     },
@@ -1523,22 +1195,6 @@
       "position": 34
     },
     {
-      "id": "cat_psa_034",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 34篇",
-      "nameKr": "시편 34편",
-      "icon": null,
-      "position": 34
-    },
-    {
-      "id": "cat_psa_035",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 35篇",
-      "nameKr": "시편 35편",
-      "icon": null,
-      "position": 35
-    },
-    {
       "id": "cat_1787470068569",
       "parentId": "cat_1787326100562",
       "nameJp": "ルカによる福音書 9章",
@@ -1547,28 +1203,12 @@
       "position": 35
     },
     {
-      "id": "cat_psa_036",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 36篇",
-      "nameKr": "시편 36편",
-      "icon": null,
-      "position": 36
-    },
-    {
       "id": "cat_1787470080741",
       "parentId": "cat_1787326100562",
       "nameJp": "ルカによる福音書 10章",
       "nameKr": "누가복음 10장",
       "icon": null,
       "position": 36
-    },
-    {
-      "id": "cat_psa_037",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 37篇",
-      "nameKr": "시편 37편",
-      "icon": null,
-      "position": 37
     },
     {
       "id": "cat_1787470087502",
@@ -1587,26 +1227,10 @@
       "position": 38
     },
     {
-      "id": "cat_psa_038",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 38篇",
-      "nameKr": "시편 38편",
-      "icon": null,
-      "position": 38
-    },
-    {
       "id": "cat_1787470102954",
       "parentId": "cat_1787326100562",
       "nameJp": "ルカによる福音書 13章",
       "nameKr": "누가복음 13장",
-      "icon": null,
-      "position": 39
-    },
-    {
-      "id": "cat_psa_039",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 39篇",
-      "nameKr": "시편 39편",
       "icon": null,
       "position": 39
     },
@@ -1619,26 +1243,10 @@
       "position": 40
     },
     {
-      "id": "cat_psa_040",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 40篇",
-      "nameKr": "시편 40편",
-      "icon": null,
-      "position": 40
-    },
-    {
       "id": "cat_1787470114130",
       "parentId": "cat_1787326100562",
       "nameJp": "ルカによる福音書 15章",
       "nameKr": "누가복음 15장",
-      "icon": null,
-      "position": 41
-    },
-    {
-      "id": "cat_psa_041",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 41篇",
-      "nameKr": "시편 41편",
       "icon": null,
       "position": 41
     },
@@ -1659,36 +1267,12 @@
       "position": 42
     },
     {
-      "id": "cat_psa_042",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 42篇",
-      "nameKr": "시편 42편",
-      "icon": null,
-      "position": 42
-    },
-    {
-      "id": "cat_psa_043",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 43篇",
-      "nameKr": "시편 43편",
-      "icon": null,
-      "position": 43
-    },
-    {
       "id": "cat_1787470125825",
       "parentId": "cat_1787326100562",
       "nameJp": "ルカによる福音書 17章",
       "nameKr": "누가복음 17장",
       "icon": null,
       "position": 43
-    },
-    {
-      "id": "cat_psa_044",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 44篇",
-      "nameKr": "시편 44편",
-      "icon": null,
-      "position": 44
     },
     {
       "id": "cat_1787326106992",
@@ -1723,22 +1307,6 @@
       "position": 45
     },
     {
-      "id": "cat_psa_045",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 45篇",
-      "nameKr": "시편 45편",
-      "icon": null,
-      "position": 45
-    },
-    {
-      "id": "cat_psa_046",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 46篇",
-      "nameKr": "시편 46편",
-      "icon": null,
-      "position": 46
-    },
-    {
       "id": "cat_1787470142274",
       "parentId": "cat_1787326100562",
       "nameJp": "ルカによる福音書 20章",
@@ -1755,26 +1323,10 @@
       "position": 47
     },
     {
-      "id": "cat_psa_047",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 47篇",
-      "nameKr": "시편 47편",
-      "icon": null,
-      "position": 47
-    },
-    {
       "id": "cat_1787470148419",
       "parentId": "cat_1787326100562",
       "nameJp": "ルカによる福音書 22章",
       "nameKr": "누가복음 22장",
-      "icon": null,
-      "position": 48
-    },
-    {
-      "id": "cat_psa_048",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 48篇",
-      "nameKr": "시편 48편",
       "icon": null,
       "position": 48
     },
@@ -1803,26 +1355,10 @@
       "position": 49
     },
     {
-      "id": "cat_psa_049",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 49篇",
-      "nameKr": "시편 49편",
-      "icon": null,
-      "position": 49
-    },
-    {
       "id": "cat_1787470171532",
       "parentId": "cat_1787326100562",
       "nameJp": "ルカによる福音書 24章",
       "nameKr": "누가복음 24장",
-      "icon": null,
-      "position": 50
-    },
-    {
-      "id": "cat_psa_050",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 50篇",
-      "nameKr": "시편 50편",
       "icon": null,
       "position": 50
     },
@@ -1833,22 +1369,6 @@
       "nameKr": "전도",
       "icon": null,
       "position": 51
-    },
-    {
-      "id": "cat_psa_051",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 51篇",
-      "nameKr": "시편 51편",
-      "icon": null,
-      "position": 51
-    },
-    {
-      "id": "cat_psa_052",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 52篇",
-      "nameKr": "시편 52편",
-      "icon": null,
-      "position": 52
     },
     {
       "id": "cat_disc_2",
@@ -1867,44 +1387,12 @@
       "position": 53
     },
     {
-      "id": "cat_psa_053",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 53篇",
-      "nameKr": "시편 53편",
-      "icon": null,
-      "position": 53
-    },
-    {
-      "id": "cat_psa_054",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 54篇",
-      "nameKr": "시편 54편",
+      "id": "cat_disc_3",
+      "parentId": "discipleship",
+      "nameJp": "伝道説教",
+      "nameKr": "전도설교",
       "icon": null,
       "position": 54
-    },
-    {
-      "id": "cat_psa_055",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 55篇",
-      "nameKr": "시편 55편",
-      "icon": null,
-      "position": 55
-    },
-    {
-      "id": "cat_psa_056",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 56篇",
-      "nameKr": "시편 56편",
-      "icon": null,
-      "position": 56
-    },
-    {
-      "id": "cat_psa_057",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 57篇",
-      "nameKr": "시편 57편",
-      "icon": null,
-      "position": 57
     },
     {
       "id": "cat_sermon_heb",
@@ -1915,84 +1403,12 @@
       "position": 58
     },
     {
-      "id": "cat_psa_058",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 58篇",
-      "nameKr": "시편 58편",
-      "icon": null,
-      "position": 58
-    },
-    {
-      "id": "cat_sermon_jas",
-      "parentId": "sermon",
-      "nameJp": "ヤコブの手紙",
-      "nameKr": "야고보서",
-      "icon": null,
-      "position": 59
-    },
-    {
-      "id": "cat_psa_059",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 59篇",
-      "nameKr": "시편 59편",
-      "icon": null,
-      "position": 59
-    },
-    {
       "id": "cat_sermon_1pet",
       "parentId": "sermon",
       "nameJp": "ペテロの手紙第一",
       "nameKr": "베드로전서",
       "icon": null,
       "position": 60
-    },
-    {
-      "id": "cat_psa_060",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 60篇",
-      "nameKr": "시편 60편",
-      "icon": null,
-      "position": 60
-    },
-    {
-      "id": "cat_psa_061",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 61篇",
-      "nameKr": "시편 61편",
-      "icon": null,
-      "position": 61
-    },
-    {
-      "id": "cat_psa_062",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 62篇",
-      "nameKr": "시편 62편",
-      "icon": null,
-      "position": 62
-    },
-    {
-      "id": "cat_psa_063",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 63篇",
-      "nameKr": "시편 63편",
-      "icon": null,
-      "position": 63
-    },
-    {
-      "id": "cat_psa_064",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 64篇",
-      "nameKr": "시편 64편",
-      "icon": null,
-      "position": 64
-    },
-    {
-      "id": "cat_psa_065",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 65篇",
-      "nameKr": "시편 65편",
-      "icon": null,
-      "position": 65
     },
     {
       "id": "cat_1787326117294",
@@ -2003,476 +1419,12 @@
       "position": 65
     },
     {
-      "id": "cat_psa_066",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 66篇",
-      "nameKr": "시편 66편",
-      "icon": null,
-      "position": 66
-    },
-    {
-      "id": "cat_psa_067",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 67篇",
-      "nameKr": "시편 67편",
-      "icon": null,
-      "position": 67
-    },
-    {
       "id": "cat_sermon_mir_par",
       "parentId": "sermon",
-      "nameJp": "イエスの奇跡とたとえ話",
-      "nameKr": "예수님의 이적비유",
+      "nameJp": "イエスのたとえ話",
+      "nameKr": "예수님의 비유",
       "icon": null,
       "position": 67
-    },
-    {
-      "id": "cat_psa_068",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 68篇",
-      "nameKr": "시편 68편",
-      "icon": null,
-      "position": 68
-    },
-    {
-      "id": "cat_psa_069",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 69篇",
-      "nameKr": "시편 69편",
-      "icon": null,
-      "position": 69
-    },
-    {
-      "id": "cat_psa_070",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 70篇",
-      "nameKr": "시편 70편",
-      "icon": null,
-      "position": 70
-    },
-    {
-      "id": "cat_psa_071",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 71篇",
-      "nameKr": "시편 71편",
-      "icon": null,
-      "position": 71
-    },
-    {
-      "id": "cat_psa_072",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 72篇",
-      "nameKr": "시편 72편",
-      "icon": null,
-      "position": 72
-    },
-    {
-      "id": "cat_psa_073",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 73篇",
-      "nameKr": "시편 73편",
-      "icon": null,
-      "position": 73
-    },
-    {
-      "id": "cat_psa_074",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 74篇",
-      "nameKr": "시편 74편",
-      "icon": null,
-      "position": 74
-    },
-    {
-      "id": "cat_psa_075",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 75篇",
-      "nameKr": "시편 75편",
-      "icon": null,
-      "position": 75
-    },
-    {
-      "id": "cat_psa_076",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 76篇",
-      "nameKr": "시편 76편",
-      "icon": null,
-      "position": 76
-    },
-    {
-      "id": "cat_psa_077",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 77篇",
-      "nameKr": "시편 77편",
-      "icon": null,
-      "position": 77
-    },
-    {
-      "id": "cat_psa_078",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 78篇",
-      "nameKr": "시편 78편",
-      "icon": null,
-      "position": 78
-    },
-    {
-      "id": "cat_psa_079",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 79篇",
-      "nameKr": "시편 79편",
-      "icon": null,
-      "position": 79
-    },
-    {
-      "id": "cat_psa_080",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 80篇",
-      "nameKr": "시편 80편",
-      "icon": null,
-      "position": 80
-    },
-    {
-      "id": "cat_psa_081",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 81篇",
-      "nameKr": "시편 81편",
-      "icon": null,
-      "position": 81
-    },
-    {
-      "id": "cat_psa_082",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 82篇",
-      "nameKr": "시편 82편",
-      "icon": null,
-      "position": 82
-    },
-    {
-      "id": "cat_psa_083",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 83篇",
-      "nameKr": "시편 83편",
-      "icon": null,
-      "position": 83
-    },
-    {
-      "id": "cat_psa_084",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 84篇",
-      "nameKr": "시편 84편",
-      "icon": null,
-      "position": 84
-    },
-    {
-      "id": "cat_psa_085",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 85篇",
-      "nameKr": "시편 85편",
-      "icon": null,
-      "position": 85
-    },
-    {
-      "id": "cat_psa_086",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 86篇",
-      "nameKr": "시편 86편",
-      "icon": null,
-      "position": 86
-    },
-    {
-      "id": "cat_psa_087",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 87篇",
-      "nameKr": "시편 87편",
-      "icon": null,
-      "position": 87
-    },
-    {
-      "id": "cat_psa_088",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 88篇",
-      "nameKr": "시편 88편",
-      "icon": null,
-      "position": 88
-    },
-    {
-      "id": "cat_psa_089",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 89篇",
-      "nameKr": "시편 89편",
-      "icon": null,
-      "position": 89
-    },
-    {
-      "id": "cat_psa_090",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 90篇",
-      "nameKr": "시편 90편",
-      "icon": null,
-      "position": 90
-    },
-    {
-      "id": "cat_psa_091",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 91篇",
-      "nameKr": "시편 91편",
-      "icon": null,
-      "position": 91
-    },
-    {
-      "id": "cat_psa_092",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 92篇",
-      "nameKr": "시편 92편",
-      "icon": null,
-      "position": 92
-    },
-    {
-      "id": "cat_psa_093",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 93篇",
-      "nameKr": "시편 93편",
-      "icon": null,
-      "position": 93
-    },
-    {
-      "id": "cat_psa_094",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 94篇",
-      "nameKr": "시편 94편",
-      "icon": null,
-      "position": 94
-    },
-    {
-      "id": "cat_psa_095",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 95篇",
-      "nameKr": "시편 95편",
-      "icon": null,
-      "position": 95
-    },
-    {
-      "id": "cat_psa_096",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 96篇",
-      "nameKr": "시편 96편",
-      "icon": null,
-      "position": 96
-    },
-    {
-      "id": "cat_psa_097",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 97篇",
-      "nameKr": "시편 97편",
-      "icon": null,
-      "position": 97
-    },
-    {
-      "id": "cat_psa_098",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 98篇",
-      "nameKr": "시편 98편",
-      "icon": null,
-      "position": 98
-    },
-    {
-      "id": "cat_psa_099",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 99篇",
-      "nameKr": "시편 99편",
-      "icon": null,
-      "position": 99
-    },
-    {
-      "id": "cat_psa_100",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 100篇",
-      "nameKr": "시편 100편",
-      "icon": null,
-      "position": 100
-    },
-    {
-      "id": "cat_psa_101",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 101篇",
-      "nameKr": "시편 101편",
-      "icon": null,
-      "position": 101
-    },
-    {
-      "id": "cat_psa_102",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 102篇",
-      "nameKr": "시편 102편",
-      "icon": null,
-      "position": 102
-    },
-    {
-      "id": "cat_psa_103",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 103篇",
-      "nameKr": "시편 103편",
-      "icon": null,
-      "position": 103
-    },
-    {
-      "id": "cat_psa_104",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 104篇",
-      "nameKr": "시편 104편",
-      "icon": null,
-      "position": 104
-    },
-    {
-      "id": "cat_psa_105",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 105篇",
-      "nameKr": "시편 105편",
-      "icon": null,
-      "position": 105
-    },
-    {
-      "id": "cat_psa_106",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 106篇",
-      "nameKr": "시편 106편",
-      "icon": null,
-      "position": 106
-    },
-    {
-      "id": "cat_psa_107",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 107篇",
-      "nameKr": "시편 107편",
-      "icon": null,
-      "position": 107
-    },
-    {
-      "id": "cat_psa_108",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 108篇",
-      "nameKr": "시편 108편",
-      "icon": null,
-      "position": 108
-    },
-    {
-      "id": "cat_psa_109",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 109篇",
-      "nameKr": "시편 109편",
-      "icon": null,
-      "position": 109
-    },
-    {
-      "id": "cat_psa_110",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 110篇",
-      "nameKr": "시편 110편",
-      "icon": null,
-      "position": 110
-    },
-    {
-      "id": "cat_psa_111",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 111篇",
-      "nameKr": "시편 111편",
-      "icon": null,
-      "position": 111
-    },
-    {
-      "id": "cat_psa_112",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 112篇",
-      "nameKr": "시편 112편",
-      "icon": null,
-      "position": 112
-    },
-    {
-      "id": "cat_psa_113",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 113篇",
-      "nameKr": "시편 113편",
-      "icon": null,
-      "position": 113
-    },
-    {
-      "id": "cat_psa_114",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 114篇",
-      "nameKr": "시편 114편",
-      "icon": null,
-      "position": 114
-    },
-    {
-      "id": "cat_psa_115",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 115篇",
-      "nameKr": "시편 115편",
-      "icon": null,
-      "position": 115
-    },
-    {
-      "id": "cat_psa_116",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 116篇",
-      "nameKr": "시편 116편",
-      "icon": null,
-      "position": 116
-    },
-    {
-      "id": "cat_psa_117",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 117篇",
-      "nameKr": "시편 117편",
-      "icon": null,
-      "position": 117
-    },
-    {
-      "id": "cat_psa_118",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 118篇",
-      "nameKr": "시편 118편",
-      "icon": null,
-      "position": 118
-    },
-    {
-      "id": "cat_psa_119",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 119篇",
-      "nameKr": "시편 119편",
-      "icon": null,
-      "position": 119
-    },
-    {
-      "id": "cat_psa_120",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 120篇",
-      "nameKr": "시편 120편",
-      "icon": null,
-      "position": 120
-    },
-    {
-      "id": "cat_psa_121",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 121篇",
-      "nameKr": "시편 121편",
-      "icon": null,
-      "position": 121
-    },
-    {
-      "id": "cat_psa_122",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 122篇",
-      "nameKr": "시편 122편",
-      "icon": null,
-      "position": 122
-    },
-    {
-      "id": "cat_psa_123",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 123篇",
-      "nameKr": "시편 123편",
-      "icon": null,
-      "position": 123
     },
     {
       "id": "cat_1787930001000",
@@ -2483,36 +1435,12 @@
       "position": 124
     },
     {
-      "id": "cat_psa_124",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 124篇",
-      "nameKr": "시편 124편",
-      "icon": null,
-      "position": 124
-    },
-    {
-      "id": "cat_psa_125",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 125篇",
-      "nameKr": "시편 125편",
-      "icon": null,
-      "position": 125
-    },
-    {
       "id": "cat_1787930002000",
       "parentId": "cat_1787326092381",
       "nameJp": "士師記 2章",
       "nameKr": "사사기 2장",
       "icon": null,
       "position": 125
-    },
-    {
-      "id": "cat_psa_126",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 126篇",
-      "nameKr": "시편 126편",
-      "icon": null,
-      "position": 126
     },
     {
       "id": "cat_1787930003000",
@@ -2523,28 +1451,12 @@
       "position": 126
     },
     {
-      "id": "cat_psa_127",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 127篇",
-      "nameKr": "시편 127편",
-      "icon": null,
-      "position": 127
-    },
-    {
       "id": "cat_1787930004000",
       "parentId": "cat_1787326092381",
       "nameJp": "士師記 4章",
       "nameKr": "사사기 4장",
       "icon": null,
       "position": 127
-    },
-    {
-      "id": "cat_psa_128",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 128篇",
-      "nameKr": "시편 128편",
-      "icon": null,
-      "position": 128
     },
     {
       "id": "cat_1787930005000",
@@ -2563,14 +1475,6 @@
       "position": 129
     },
     {
-      "id": "cat_psa_129",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 129篇",
-      "nameKr": "시편 129편",
-      "icon": null,
-      "position": 129
-    },
-    {
       "id": "cat_1787930007000",
       "parentId": "cat_1787326092381",
       "nameJp": "士師記 7章",
@@ -2579,36 +1483,12 @@
       "position": 130
     },
     {
-      "id": "cat_psa_130",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 130篇",
-      "nameKr": "시편 130편",
-      "icon": null,
-      "position": 130
-    },
-    {
-      "id": "cat_psa_131",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 131篇",
-      "nameKr": "시편 131편",
-      "icon": null,
-      "position": 131
-    },
-    {
       "id": "cat_1787930008000",
       "parentId": "cat_1787326092381",
       "nameJp": "士師記 8章",
       "nameKr": "사사기 8장",
       "icon": null,
       "position": 131
-    },
-    {
-      "id": "cat_psa_132",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 132篇",
-      "nameKr": "시편 132편",
-      "icon": null,
-      "position": 132
     },
     {
       "id": "cat_1787930009000",
@@ -2627,22 +1507,6 @@
       "position": 133
     },
     {
-      "id": "cat_psa_133",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 133篇",
-      "nameKr": "시편 133편",
-      "icon": null,
-      "position": 133
-    },
-    {
-      "id": "cat_psa_134",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 134篇",
-      "nameKr": "시편 134편",
-      "icon": null,
-      "position": 134
-    },
-    {
       "id": "cat_1787930011000",
       "parentId": "cat_1787326092381",
       "nameJp": "士師記 11章",
@@ -2659,26 +1523,10 @@
       "position": 135
     },
     {
-      "id": "cat_psa_135",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 135篇",
-      "nameKr": "시편 135편",
-      "icon": null,
-      "position": 135
-    },
-    {
       "id": "cat_1787930013000",
       "parentId": "cat_1787326092381",
       "nameJp": "士師記 13章",
       "nameKr": "사사기 13장",
-      "icon": null,
-      "position": 136
-    },
-    {
-      "id": "cat_psa_136",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 136篇",
-      "nameKr": "시편 136편",
       "icon": null,
       "position": 136
     },
@@ -2691,36 +1539,12 @@
       "position": 137
     },
     {
-      "id": "cat_psa_137",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 137篇",
-      "nameKr": "시편 137편",
-      "icon": null,
-      "position": 137
-    },
-    {
       "id": "cat_1787930015000",
       "parentId": "cat_1787326092381",
       "nameJp": "士師記 15章",
       "nameKr": "사사기 15장",
       "icon": null,
       "position": 138
-    },
-    {
-      "id": "cat_psa_138",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 138篇",
-      "nameKr": "시편 138편",
-      "icon": null,
-      "position": 138
-    },
-    {
-      "id": "cat_psa_139",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 139篇",
-      "nameKr": "시편 139편",
-      "icon": null,
-      "position": 139
     },
     {
       "id": "cat_1787930016000",
@@ -2739,26 +1563,10 @@
       "position": 140
     },
     {
-      "id": "cat_psa_140",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 140篇",
-      "nameKr": "시편 140편",
-      "icon": null,
-      "position": 140
-    },
-    {
       "id": "cat_1787930018000",
       "parentId": "cat_1787326092381",
       "nameJp": "士師記 18章",
       "nameKr": "사사기 18장",
-      "icon": null,
-      "position": 141
-    },
-    {
-      "id": "cat_psa_141",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 141篇",
-      "nameKr": "시편 141편",
       "icon": null,
       "position": 141
     },
@@ -2771,36 +1579,12 @@
       "position": 142
     },
     {
-      "id": "cat_psa_142",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 142篇",
-      "nameKr": "시편 142편",
-      "icon": null,
-      "position": 142
-    },
-    {
       "id": "cat_1787930020000",
       "parentId": "cat_1787326092381",
       "nameJp": "士師記 20章",
       "nameKr": "사사기 20장",
       "icon": null,
       "position": 143
-    },
-    {
-      "id": "cat_psa_143",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 143篇",
-      "nameKr": "시편 143편",
-      "icon": null,
-      "position": 143
-    },
-    {
-      "id": "cat_psa_144",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 144篇",
-      "nameKr": "시편 144편",
-      "icon": null,
-      "position": 144
     },
     {
       "id": "cat_1787930021000",
@@ -2811,28 +1595,12 @@
       "position": 144
     },
     {
-      "id": "cat_psa_145",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 145篇",
-      "nameKr": "시편 145편",
-      "icon": null,
-      "position": 145
-    },
-    {
       "id": "cat_1787940001000",
       "parentId": "cat_sermon_2",
       "nameJp": "ルツ記 1章",
       "nameKr": "룻기 1장",
       "icon": null,
       "position": 145
-    },
-    {
-      "id": "cat_psa_146",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 146篇",
-      "nameKr": "시편 146편",
-      "icon": null,
-      "position": 146
     },
     {
       "id": "cat_1787940002000",
@@ -2851,44 +1619,12 @@
       "position": 147
     },
     {
-      "id": "cat_psa_147",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 147篇",
-      "nameKr": "시편 147편",
-      "icon": null,
-      "position": 147
-    },
-    {
       "id": "cat_1787940004000",
       "parentId": "cat_sermon_2",
       "nameJp": "ルツ記 4章",
       "nameKr": "룻기 4장",
       "icon": null,
       "position": 148
-    },
-    {
-      "id": "cat_psa_148",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 148篇",
-      "nameKr": "시편 148편",
-      "icon": null,
-      "position": 148
-    },
-    {
-      "id": "cat_psa_149",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 149篇",
-      "nameKr": "시편 149편",
-      "icon": null,
-      "position": 149
-    },
-    {
-      "id": "cat_psa_150",
-      "parentId": "cat_sermon_psa",
-      "nameJp": "詩篇 150篇",
-      "nameKr": "시편 150편",
-      "icon": null,
-      "position": 150
     },
     {
       "id": "cat_pastor_systematic",
