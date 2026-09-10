@@ -2004,10 +2004,10 @@ window.MASTER_SITE_DATABASE = JSON.stringify(
     {
       "id": "art_1787590806222",
       "categoryId": "cat_1787469050463",
-      "title": "上代 淑恵 (総務)",
-      "author": "そうむ",
+      "title": "上代 淑恵",
+      "author": "総務",
       "createdAt": "2026-08-24",
-      "content": "- 役職: 総務 (General Affairs)\n- Southwestern Reformed Seminary (M.A., Th.M.)\n- 電話番号: 080-4306-3863\n- E-mail: reformed.jp@gmail.com\n- 住所: 東京都江東区北砂 3-12-5",
+      "content": "- Southwestern Reformed Seminary (M.A., Th.M.)\n- 電話番号: 080-4306-3863\n- E-mail: reformed.jp@gmail.com\n- 住所: 東京都江東区北砂 3-12-5",
       "scripture": "",
       "videoUrl": "",
       "photoUrl": "images/photo_1787590733967.png",
