@@ -42,8 +42,8 @@
     },
     {
       "id": "pastor",
-      "nameJp": "牧会者のための<br>10分神学",
-      "nameKr": "목회자를 위한<br>10분 신学",
+      "nameJp": "10分動画<br>神学講義",
+      "nameKr": "10분 동영상<br>신학강의",
       "icon": "fa-user-tie",
       "isVideo": true,
       "position": 5
