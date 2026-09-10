@@ -4811,5 +4811,61 @@ function switchToWriteTab() {
   resetWriteForm();
 }
 
+// Navigate from footer or external links to a historical Reformed confession
+function navigateToConfession(confessionKey) {
+  const map = {
+    'wcf': 'cat_cat_3',
+    'wlc': 'cat_cat_2',
+    'wsc': 'cat_cat_1',
+    'heidelberg': 'cat_cat_4',
+    'dort': 'cat_cat_5'
+  };
+  const targetCatId = map[confessionKey] || confessionKey;
+
+  // If admin dashboard is active, return to user site view
+  const adminSec = document.getElementById('admin-dashboard-sec');
+  if (adminSec && adminSec.classList.contains('active')) {
+    if (typeof returnToUserSite === 'function') {
+      returnToUserSite();
+    }
+  }
+
+  // 1. Select the Catechism main menu
+  selectMainMenu('catechism');
+
+  // 2. Select the target confession category and scroll smoothly to workspace
+  setTimeout(() => {
+    selectSubcategory(targetCatId, true);
+    const workspaceSec = document.getElementById('workspace-sec');
+    if (workspaceSec) {
+      workspaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, 120);
+}
+window.navigateToConfession = navigateToConfession;
+
+// Navigate from footer or external links to Contact section
+function navigateToContact() {
+  const adminSec = document.getElementById('admin-dashboard-sec');
+  if (adminSec && adminSec.classList.contains('active')) {
+    if (typeof returnToUserSite === 'function') {
+      returnToUserSite();
+    }
+  }
+
+  // 1. Select Home Section (menu_1787468975888)
+  selectMainMenu('menu_1787468975888');
+
+  // 2. Select Contact subcategory (cat_1787469061107) and scroll smoothly
+  setTimeout(() => {
+    selectSubcategory('cat_1787469061107', true);
+    const workspaceSec = document.getElementById('workspace-sec');
+    if (workspaceSec) {
+      workspaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, 120);
+}
+window.navigateToContact = navigateToContact;
+
 
 

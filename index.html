@@ -685,23 +685,36 @@
         <p style="margin-top: 10px; line-height: 1.6; font-size: 0.85rem;">
           当サイトは、ウェストミンスター信仰告白をはじめとする歴史的改革派信仰の基準に従い、純粋な福音の宣布、正しい教理の回復、教会再生、そして聖書に基づく健全な牧会生活をサポートするためのリソースを提供します。
         </p>
+        <div class="footer-contact-block" style="margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 0.84rem; line-height: 1.75; color: rgba(255,255,255,0.85);">
+          <div style="font-weight: 600; color: var(--accent-color); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-address-book"></i> Contact (お問い合わせ)
+          </div>
+          <div><i class="fa-solid fa-user-tie" style="color: var(--accent-color); margin-right: 6px; width: 14px;"></i> <strong>上代 淑恵</strong> 総務</div>
+          <div><i class="fa-solid fa-phone" style="color: var(--accent-color); margin-right: 6px; width: 14px;"></i> <a href="tel:080-4306-3863" style="color: rgba(255,255,255,0.9); text-decoration: none;">080-4306-3863</a></div>
+          <div><i class="fa-solid fa-envelope" style="color: var(--accent-color); margin-right: 6px; width: 14px;"></i> <a href="mailto:reformed.jp@gmail.com" style="color: rgba(255,255,255,0.9); text-decoration: none;">reformed.jp@gmail.com</a></div>
+          <div><i class="fa-solid fa-location-dot" style="color: var(--accent-color); margin-right: 6px; width: 14px;"></i> 東京都江東区北砂 3-12-5</div>
+        </div>
       </div>
       <div class="footer-col-links">
         <h4>主要ナビゲーション</h4>
         <ul class="footer-links-list">
+          <li><a href="#" onclick="selectMainMenu('menu_1787468975888')">ホーム セクション</a></li>
           <li><a href="#" onclick="selectMainMenu('sermon')">聖書講解</a></li>
           <li><a href="#" onclick="selectMainMenu('catechism')">教理教育と復興</a></li>
           <li><a href="#" onclick="selectMainMenu('theology')">改革派神学</a></li>
           <li><a href="#" onclick="selectMainMenu('discipleship')">伝道・弟子道</a></li>
           <li><a href="#" onclick="selectMainMenu('pastor')">10分動画神学講義</a></li>
+          <li><a href="#" onclick="event.preventDefault(); navigateToContact();" style="color: var(--accent-color); font-weight: 500;">Contact (お問い合わせ)</a></li>
         </ul>
       </div>
       <div class="footer-col-links">
         <h4>神学的遺産</h4>
         <ul class="footer-links-list">
-          <li><a href="https://www.wscal.edu/" target="_blank">Westminster Seminary CA</a></li>
-          <li><a href="https://wts.edu/" target="_blank">Westminster Theological Seminary</a></li>
-          <li><a href="https://www.prts.edu/" target="_blank">Puritan Reformed Seminary</a></li>
+          <li><a href="#" onclick="event.preventDefault(); navigateToConfession('wcf');">ウェストミンスター信仰告白</a></li>
+          <li><a href="#" onclick="event.preventDefault(); navigateToConfession('wlc');">ウェストミンスター大教理問答</a></li>
+          <li><a href="#" onclick="event.preventDefault(); navigateToConfession('wsc');">ウェストミンスター小教理問答</a></li>
+          <li><a href="#" onclick="event.preventDefault(); navigateToConfession('heidelberg');">ハイデルベルク信仰問答</a></li>
+          <li><a href="#" onclick="event.preventDefault(); navigateToConfession('dort');">ドルト信仰基準</a></li>
         </ul>
       </div>
     </div>
@@ -721,9 +734,14 @@
 
 
   <!-- CORE LOGIC AND DATA -->
+<<<<<<< HEAD
   <script src="data.js?v=20260910_01"></script>
   <script src="mindmap.js?v=20260910_01"></script>
   <script src="app.js?v=20260910_01"></script>
+=======
+  <script src="data.js?v=1789045193"></script>
+  <script src="mindmap.js?v=20260906_03"></script>
+  <script src="app.js?v=1789045193"></script>
+>>>>>>> origin/main
 </body>
 </html>
-
