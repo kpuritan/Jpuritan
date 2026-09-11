@@ -207,22 +207,22 @@ function loadLocalStorageOnly() {
   let cachedFeat = null;
 
   try {
-    const rawArts = localStorage.getItem('wscal_articles_v30');
+    const rawArts = localStorage.getItem('wscal_articles_v32');
     if (rawArts) cachedArts = JSON.parse(rawArts);
   } catch (e) {}
 
   try {
-    const rawCats = localStorage.getItem('wscal_categories_v30');
+    const rawCats = localStorage.getItem('wscal_categories_v32');
     if (rawCats) cachedCats = JSON.parse(rawCats);
   } catch (e) {}
 
   try {
-    const rawMenus = localStorage.getItem('wscal_mainmenus_v30');
+    const rawMenus = localStorage.getItem('wscal_mainmenus_v32');
     if (rawMenus) cachedMenus = JSON.parse(rawMenus);
   } catch (e) {}
 
   try {
-    const rawFeat = localStorage.getItem('wscal_featured_v30');
+    const rawFeat = localStorage.getItem('wscal_featured_v32');
     if (rawFeat) cachedFeat = JSON.parse(rawFeat);
   } catch (e) {}
 
@@ -249,10 +249,10 @@ async function initApp() {
     sessionStorage.removeItem('wscal_user_article');
     sessionStorage.setItem('wscal_version', 'v30');
     try {
-      localStorage.removeItem('wscal_articles_v30');
-      localStorage.removeItem('wscal_categories_v30');
-      localStorage.removeItem('wscal_mainmenus_v30');
-      localStorage.removeItem('wscal_featured_v30');
+      localStorage.removeItem('wscal_articles_v32');
+      localStorage.removeItem('wscal_categories_v32');
+      localStorage.removeItem('wscal_mainmenus_v32');
+      localStorage.removeItem('wscal_featured_v32');
     } catch(e) {}
   }
   if (sessionStorage.getItem('wscal_admin_logged') === 'true' || localStorage.getItem('wscal_admin_logged') === 'true') {
@@ -277,22 +277,22 @@ async function initApp() {
 
       if (fileData.mainMenus && fileData.mainMenus.length > 0) {
         state.mainMenus = fileData.mainMenus;
-        try { localStorage.setItem('wscal_mainmenus_v30', JSON.stringify(fileData.mainMenus)); } catch(e) {}
+        try { localStorage.setItem('wscal_mainmenus_v32', JSON.stringify(fileData.mainMenus)); } catch(e) {}
       }
       if (fileData.categories && fileData.categories.length > 0) {
         state.categories = fileData.categories;
-        try { localStorage.setItem('wscal_categories_v30', JSON.stringify(fileData.categories)); } catch(e) {}
+        try { localStorage.setItem('wscal_categories_v32', JSON.stringify(fileData.categories)); } catch(e) {}
       }
       if (fileData.featured) {
         state.featured = fileData.featured;
-        try { localStorage.setItem('wscal_featured_v30', JSON.stringify(fileData.featured)); } catch(e) {}
+        try { localStorage.setItem('wscal_featured_v32', JSON.stringify(fileData.featured)); } catch(e) {}
       }
       if (fileData.articles && fileData.articles.length > 0) {
         // If fileData has more or equal articles than state, adopt it
         if (fileData.articles.length >= state.articles.length) {
           state.articles = fileData.articles;
         }
-        try { localStorage.setItem('wscal_articles_v30', JSON.stringify(fileData.articles)); } catch(e) {}
+        try { localStorage.setItem('wscal_articles_v32', JSON.stringify(fileData.articles)); } catch(e) {}
       }
 
       initializeCollapsedStates();
@@ -375,7 +375,7 @@ function loadArticlesFallback() {
   const embeddedArts = (MASTER_SITE_DATABASE && MASTER_SITE_DATABASE.articles) || [];
   let cachedArts = null;
   try {
-    const raw = localStorage.getItem('wscal_articles_v30');
+    const raw = localStorage.getItem('wscal_articles_v32');
     if (raw) cachedArts = JSON.parse(raw);
   } catch (e) {}
 
@@ -420,37 +420,37 @@ async function loadLocalDataFallback() {
   if (fetchedData) {
     if (fetchedData.mainMenus) {
       state.mainMenus = fetchedData.mainMenus;
-      try { localStorage.setItem('wscal_mainmenus_v30', JSON.stringify(fetchedData.mainMenus)); } catch(e) {}
+      try { localStorage.setItem('wscal_mainmenus_v32', JSON.stringify(fetchedData.mainMenus)); } catch(e) {}
     }
     if (fetchedData.categories) {
       state.categories = fetchedData.categories;
-      try { localStorage.setItem('wscal_categories_v30', JSON.stringify(fetchedData.categories)); } catch(e) {}
+      try { localStorage.setItem('wscal_categories_v32', JSON.stringify(fetchedData.categories)); } catch(e) {}
     }
     if (fetchedData.featured) {
       state.featured = fetchedData.featured;
-      try { localStorage.setItem('wscal_featured_v30', JSON.stringify(fetchedData.featured)); } catch(e) {}
+      try { localStorage.setItem('wscal_featured_v32', JSON.stringify(fetchedData.featured)); } catch(e) {}
     }
     if (fetchedData.articles && fetchedData.articles.length >= state.articles.length) {
       state.articles = fetchedData.articles;
-      try { localStorage.setItem('wscal_articles_v30', JSON.stringify(fetchedData.articles)); } catch(e) {}
+      try { localStorage.setItem('wscal_articles_v32', JSON.stringify(fetchedData.articles)); } catch(e) {}
     }
   }
 }
 
 // Save back to LocalStorage & Sync to GitHub
 async function saveMainMenus() {
-  try { localStorage.setItem('wscal_mainmenus_v30', JSON.stringify(state.mainMenus)); } catch(e) {}
+  try { localStorage.setItem('wscal_mainmenus_v32', JSON.stringify(state.mainMenus)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 async function saveCategories() {
-  try { localStorage.setItem('wscal_categories_v30', JSON.stringify(state.categories)); } catch(e) {}
+  try { localStorage.setItem('wscal_categories_v32', JSON.stringify(state.categories)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 function saveArticles() {
-  try { localStorage.setItem('wscal_articles_v30', JSON.stringify(state.articles)); } catch(e) {}
+  try { localStorage.setItem('wscal_articles_v32', JSON.stringify(state.articles)); } catch(e) {}
 }
 async function saveFeatured() {
-  try { localStorage.setItem('wscal_featured_v30', JSON.stringify(state.featured)); } catch(e) {}
+  try { localStorage.setItem('wscal_featured_v32', JSON.stringify(state.featured)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 
@@ -971,35 +971,35 @@ function isAnyAncestorCollapsed(catId) {
 // Smart merge server data into local storage to avoid overriding admin modifications
 function mergeServerData(serverData) {
   // 1. Merge Main Menus
-  const localMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v28')) || [];
+  const localMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v32')) || [];
   serverData.mainMenus.forEach(sm => {
     if (!localMenus.some(lm => lm.id === sm.id)) {
       localMenus.push(sm);
     }
   });
-  localStorage.setItem('wscal_mainmenus_v28', JSON.stringify(localMenus));
+  localStorage.setItem('wscal_mainmenus_v32', JSON.stringify(localMenus));
 
   // 2. Merge Categories
-  const localCats = JSON.parse(localStorage.getItem('wscal_categories_v28')) || [];
+  const localCats = JSON.parse(localStorage.getItem('wscal_categories_v32')) || [];
   serverData.categories.forEach(sc => {
     if (!localCats.some(lc => lc.id === sc.id)) {
       localCats.push(sc);
     }
   });
-  localStorage.setItem('wscal_categories_v28', JSON.stringify(localCats));
+  localStorage.setItem('wscal_categories_v32', JSON.stringify(localCats));
 
   // 3. Merge Articles
-  const localArts = JSON.parse(localStorage.getItem('wscal_articles_v28')) || [];
+  const localArts = JSON.parse(localStorage.getItem('wscal_articles_v32')) || [];
   serverData.articles.forEach(sa => {
     if (!localArts.some(la => la.id === sa.id)) {
       localArts.push(sa);
     }
   });
-  localStorage.setItem('wscal_articles_v28', JSON.stringify(localArts));
+  localStorage.setItem('wscal_articles_v32', JSON.stringify(localArts));
 
   // 4. Merge Featured
-  if (!localStorage.getItem('wscal_featured_v28')) {
-    localStorage.setItem('wscal_featured_v28', JSON.stringify(serverData.featured));
+  if (!localStorage.getItem('wscal_featured_v32')) {
+    localStorage.setItem('wscal_featured_v32', JSON.stringify(serverData.featured));
   }
 }
 
@@ -1010,10 +1010,10 @@ async function resetLocalDataToServer() {
       const res = await fetch('./data.json?t=' + Date.now());
       if (res.ok) {
         const serverData = await res.json();
-        localStorage.setItem('wscal_mainmenus_v28', JSON.stringify(serverData.mainMenus));
-        localStorage.setItem('wscal_categories_v28', JSON.stringify(serverData.categories));
-        localStorage.setItem('wscal_articles_v28', JSON.stringify(serverData.articles));
-        localStorage.setItem('wscal_featured_v28', JSON.stringify(serverData.featured));
+        localStorage.setItem('wscal_mainmenus_v32', JSON.stringify(serverData.mainMenus));
+        localStorage.setItem('wscal_categories_v32', JSON.stringify(serverData.categories));
+        localStorage.setItem('wscal_articles_v32', JSON.stringify(serverData.articles));
+        localStorage.setItem('wscal_featured_v32', JSON.stringify(serverData.featured));
         alert("성공적으로 서버 최신 데이터와 동기화(초기화)했습니다. 페이지를 새로고침합니다.");
         location.reload();
       } else {
