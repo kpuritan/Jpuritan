@@ -1,3 +1,4 @@
+const { cleanJohnSermonContent } = require('./clean_john17_sermons.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -227,7 +228,7 @@ const allJohn17 = [
   ...sermons31to35,
   ...sermons36to40,
   ...sermons41to45
-];
+].map(s => ({ ...s, content: cleanJohnSermonContent(s.content) }));
 
 console.log('Total John 17 sermons prepared:', allJohn17.length);
 
