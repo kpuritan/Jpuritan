@@ -1429,7 +1429,21 @@ function formatArticleContent(content) {
   if (hasHtml) {
     return content;
   } else {
-    return content
+    // Auto-clean AI markdown artifacts while preserving emojis
+    let text = content;
+    text = text.replace(/^#[ \t]+[^\r\n]+[\r\n]*/, '');
+    text = text.replace(/^[ \t]*---[ \t]*$/gm, '');
+    text = text.replace(/核心적真理/g, '核心的真理');
+    text = text.replace(/^[ \t]*>[ \t]?/gm, '');
+    text = text.replace(/^[ \t]*-[ \t]*\*\*([^*]+)\*\*/gm, '・ $1');
+    text = text.replace(/^[ \t]*-[ \t]+/gm, '・ ');
+    text = text.replace(/###[ \t]*(第\d+大綱[:：]?[ \t]*[^\r\n]+)/g, '[$1]');
+    text = text.replace(/^[ \t]*#{1,6}[ \t]*/gm, '');
+    text = text.replace(/\*\*([^*]+)\*\*/g, '$1');
+    text = text.replace(/(?<!\*)\*([^*\r\n]+)\*(?!\*)/g, '$1');
+    text = text.replace(/(\r?\n){3,}/g, '\n\n');
+
+    return text
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
