@@ -2090,7 +2090,10 @@ function viewArticleDetail(articleId) {
     if (titleEl) titleEl.textContent = article.title || '';
     
     const authorEl = document.getElementById('detail-author');
-    if (authorEl) authorEl.textContent = article.author || '';
+    if (authorEl) {
+      const authorName = (article.author && article.author.trim()) ? article.author.trim() : '改革派神学・清教徒研究';
+      authorEl.textContent = authorName;
+    }
     
     const dateEl = document.getElementById('detail-date');
     if (dateEl) dateEl.textContent = article.createdAt || '';
@@ -4817,8 +4820,7 @@ function navigateToConfession(confessionKey) {
     'wcf': 'cat_cat_3',
     'wlc': 'cat_cat_2',
     'wsc': 'cat_cat_1',
-    'heidelberg': 'cat_cat_4',
-    'dort': 'cat_cat_5'
+    'heidelberg': 'cat_cat_4'
   };
   const targetCatId = map[confessionKey] || confessionKey;
 
