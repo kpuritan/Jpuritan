@@ -3291,7 +3291,7 @@ function updateWriteSubcategoryDropdown() {
 }
 
 function handleCategoryChange() {
-  const categoryId = document.getElementById('art-category-id').value;
+  const categoryId = document.getElementById('art-category-id') ? document.getElementById('art-category-id').value : '';
   const photoGroup = document.getElementById('art-photo-group');
   const contentLabel = document.getElementById('art-content-label');
   const contentInput = document.getElementById('art-content');
@@ -3314,7 +3314,7 @@ function handleCategoryChange() {
   if (authorInput) authorInput.setAttribute('required', 'required');
   
   const parentMenu = document.getElementById('art-parent-menu') ? document.getElementById('art-parent-menu').value : '';
-  const isTheology = parentMenu === 'theology' || isTheologyCategory(categoryId);
+  const isTheology = parentMenu === 'theology' || (typeof isTheologyCategory === 'function' && isTheologyCategory(categoryId));
 
   if (authorLabel) authorLabel.textContent = '著者 / 説教者';
   if (authorInput) authorInput.placeholder = '例: ジョン・オーウェン、清水牧師';
@@ -3325,13 +3325,13 @@ function handleCategoryChange() {
     if (scriptureLabel) scriptureLabel.textContent = '関連聖句（本文章など）';
     if (scriptureInput) scriptureInput.placeholder = '例: ローマの信徒への手紙 8:28 (任意)';
   }
-  if (contentLabel) contentLabel.textContent = 'コンテンツ本文';
+  if (contentLabel) contentLabel.innerHTML = '<i class="fa-solid fa-file-pen"></i> 本文エディタ (본문 에디터)';
   if (contentInput) contentInput.placeholder = '説教要旨、神学研究資料などの本文を入力してください...';
 
   if (categoryId === 'cat_1787469050463') {
     // 섬기는 이들 (Servants)
     if (photoGroup) photoGroup.style.display = 'block';
-    if (contentLabel) contentLabel.textContent = '경력 및 소개 (経歴・プロフィール)';
+    if (contentLabel) contentLabel.innerHTML = '<i class="fa-solid fa-file-pen"></i> 경력 및 소개 (経歴・プロフィール)';
     if (contentInput) contentInput.placeholder = '섬기는 이의 약력, 소개글 등을 입력하십시오...';
     
     if (titleGroup) titleGroup.style.display = 'none';
@@ -3345,7 +3345,7 @@ function handleCategoryChange() {
     if (scriptureInput) scriptureInput.placeholder = '예시: 담임목사, 협동목사, 시무장로';
   } else if (categoryId === 'cat_1787469045280') {
     // 기관 목적 (Organization Purpose)
-    if (contentLabel) contentLabel.textContent = '주요 내용 (主要内容)';
+    if (contentLabel) contentLabel.innerHTML = '<i class="fa-solid fa-file-pen"></i> 주요 내용 (主要内容)';
     if (contentInput) contentInput.placeholder = '기관의 목적 및 소개글을 입력해 주세요...';
     
     if (titleGroup) titleGroup.style.display = 'none';
@@ -3358,114 +3358,181 @@ function handleCategoryChange() {
 
 function resetWriteForm() {
   state.editArticleId = null;
-  document.getElementById('edit-article-id').value = '';
-  document.getElementById('write-section-title').innerHTML = '<i class="fa-solid fa-pen-to-square"></i> 新規資料の作成・投稿';
-  document.getElementById('art-parent-menu').value = '';
-  document.getElementById('art-category-id').innerHTML = '<option value="">-- 先に親メニューを選択してください --</option>';
-  document.getElementById('art-title').value = '';
-  document.getElementById('art-author').value = '';
-  document.getElementById('art-scripture').value = '';
-  document.getElementById('art-video-url').value = '';
+  const editIdEl = document.getElementById('edit-article-id');
+  if (editIdEl) editIdEl.value = '';
+  const titleEl = document.getElementById('write-section-title');
+  if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> 新規資料の作成・投稿';
+  const parentMenuEl = document.getElementById('art-parent-menu');
+  if (parentMenuEl) parentMenuEl.value = '';
+  const catEl = document.getElementById('art-category-id');
+  if (catEl) catEl.innerHTML = '<option value="">-- 先に親メニューを選択してください --</option>';
+  const artTitleEl = document.getElementById('art-title');
+  if (artTitleEl) artTitleEl.value = '';
+  const authorEl = document.getElementById('art-author');
+  if (authorEl) authorEl.value = '';
+  const scriptureEl = document.getElementById('art-scripture');
+  if (scriptureEl) scriptureEl.value = '';
+  const videoEl = document.getElementById('art-video-url');
+  if (videoEl) videoEl.value = '';
   if (document.getElementById('art-photo-url')) {
     document.getElementById('art-photo-url').value = '';
   }
-  document.getElementById('art-content').value = '';
+  const contentEl = document.getElementById('art-content');
+  if (contentEl) contentEl.value = '';
   const wysiwygBox = document.getElementById('art-editor-wysiwyg');
   if (wysiwygBox) wysiwygBox.innerHTML = '';
-  document.getElementById('art-date').value = new Date().toISOString().split('T')[0];
+  const dateEl = document.getElementById('art-date');
+  if (dateEl) dateEl.value = new Date().toISOString().split('T')[0];
   if (typeof selectTistoryMode === 'function') selectTistoryMode('basic');
   handleCategoryChange();
 }
 
 async function handleSaveArticle(event) {
-  event.preventDefault();
-  
-  if (typeof currentTistoryMode !== 'undefined' && currentTistoryMode === 'basic') {
-    const wysiwygBox = document.getElementById('art-editor-wysiwyg');
-    if (wysiwygBox) {
-      document.getElementById('art-content').value = wysiwygBox.innerHTML.trim();
-    }
+  if (event && event.preventDefault) {
+    event.preventDefault();
   }
+  
+  try {
+    const articleId = document.getElementById('edit-article-id') ? document.getElementById('edit-article-id').value.trim() : '';
+    const categoryId = document.getElementById('art-category-id') ? document.getElementById('art-category-id').value.trim() : '';
+    let title = document.getElementById('art-title') ? document.getElementById('art-title').value.trim() : '';
+    let author = document.getElementById('art-author') ? document.getElementById('art-author').value.trim() : '';
+    let scripture = document.getElementById('art-scripture') ? document.getElementById('art-scripture').value.trim() : '';
+    let videoUrl = document.getElementById('art-video-url') ? document.getElementById('art-video-url').value.trim() : '';
+    const photoUrl = document.getElementById('art-photo-url') ? document.getElementById('art-photo-url').value.trim() : '';
+    
+    // Extract content reliably from active editor mode
+    let content = '';
+    const wysiwygBox = document.getElementById('art-editor-wysiwyg');
+    const textarea = document.getElementById('art-content');
+    if (typeof currentTistoryMode !== 'undefined' && currentTistoryMode === 'basic') {
+      content = wysiwygBox ? wysiwygBox.innerHTML.trim() : (textarea ? textarea.value.trim() : '');
+      if (content === '<p><br></p>' || content === '<br>' || content === '<div><br></div>') {
+        content = '';
+      }
+    } else {
+      content = textarea ? textarea.value.trim() : (wysiwygBox ? wysiwygBox.innerHTML.trim() : '');
+    }
+    if (textarea) textarea.value = content;
 
-  const articleId = document.getElementById('edit-article-id').value;
-  const categoryId = document.getElementById('art-category-id').value;
-  let title = document.getElementById('art-title').value.trim();
-  let author = document.getElementById('art-author').value.trim();
-  let scripture = document.getElementById('art-scripture').value.trim();
-  let videoUrl = document.getElementById('art-video-url').value.trim();
-  const photoUrl = document.getElementById('art-photo-url') ? document.getElementById('art-photo-url').value.trim() : '';
-  const content = document.getElementById('art-content').value.trim();
-  const date = document.getElementById('art-date').value;
+    let date = document.getElementById('art-date') ? document.getElementById('art-date').value.trim() : '';
+    if (!date) {
+      date = new Date().toISOString().split('T')[0];
+      const dateEl = document.getElementById('art-date');
+      if (dateEl) dateEl.value = date;
+    }
 
     const isServantMenu = categoryId === 'cat_1787469050463';
-  const isPurposeMenu = categoryId === 'cat_1787469045280';
-  
-  if (isServantMenu) {
-    // For servants, Author input acts as 'Name' (db title) and Scripture input acts as 'Position' (db author)
-    title = author;      // Name goes to title
-    author = scripture;  // Position goes to author
-    scripture = '';      // Empty scripture
-    videoUrl = '';       // Empty youtube url
-  } else if (isPurposeMenu) {
-    title = '기관 목적';  // Default title
-    author = '관리자';    // Default author
-    scripture = '';
-    videoUrl = '';
-  }
-
-    if (!categoryId || !title || !content || !author || !date) {
+    const isPurposeMenu = categoryId === 'cat_1787469045280';
+    
     if (isServantMenu) {
-      alert("이름, 직분, 소개글은 필수 입력 항목입니다.");
+      // For servants, Author input acts as 'Name' (db title) and Scripture input acts as 'Position' (db author)
+      title = author;      // Name goes to title
+      author = scripture;  // Position goes to author
+      scripture = '';      // Empty scripture
+      videoUrl = '';       // Empty youtube url
     } else if (isPurposeMenu) {
-      alert("주요 내용은 필수 입력 항목입니다.");
+      title = '기관 목적';  // Default title
+      author = '관리자';    // Default author
+      scripture = '';
+      videoUrl = '';
+    }
+
+    // Validation with clear error reporting
+    if (!categoryId) {
+      alert("親メニュー 및 細部フォルダ（카테고리）를 먼저 선택해 주세요.");
+      const catSelect = document.getElementById('art-category-id') || document.getElementById('art-parent-menu');
+      if (catSelect) catSelect.focus();
+      return;
+    }
+    if (!title) {
+      if (isServantMenu) {
+        alert("이름을 입력해 주세요.");
+        const authorInput = document.getElementById('art-author');
+        if (authorInput) authorInput.focus();
+      } else {
+        alert("제목(タイトル)을 입력해 주세요.");
+        const titleInput = document.getElementById('art-title');
+        if (titleInput) titleInput.focus();
+      }
+      return;
+    }
+    if (!author) {
+      if (isServantMenu) {
+        alert("직분을 입력해 주세요.");
+        const scriptureInput = document.getElementById('art-scripture');
+        if (scriptureInput) scriptureInput.focus();
+      } else {
+        alert("저자/설교자(著者 / 説教者)를 입력해 주세요.");
+        const authorInput = document.getElementById('art-author');
+        if (authorInput) authorInput.focus();
+      }
+      return;
+    }
+    if (!content) {
+      alert("본문 내용(本文)을 작성해 주세요.");
+      if (wysiwygBox && wysiwygBox.style.display !== 'none') {
+        wysiwygBox.focus();
+      } else if (textarea) {
+        textarea.focus();
+      }
+      return;
+    }
+
+    const finalId = articleId || 'art_' + Date.now();
+    const artData = {
+      categoryId: categoryId,
+      title: title,
+      author: author,
+      scripture: scripture,
+      videoUrl: videoUrl,
+      photoUrl: photoUrl,
+      content: content,
+      createdAt: date,
+      views: 0
+    };
+
+    // If editing, preserve views
+    if (articleId) {
+      const oldArt = state.articles.find(a => a.id === articleId);
+      if (oldArt) {
+        artData.views = oldArt.views || 0;
+      }
+    }
+
+    // 1. Local backup in memory
+    if (articleId) {
+      const artIdx = state.articles.findIndex(a => a.id === articleId);
+      if (artIdx !== -1) {
+        state.articles[artIdx] = { id: finalId, ...artData };
+      } else {
+        state.articles.unshift({ id: finalId, ...artData });
+      }
     } else {
-      alert("親メニュー、細부폴더、타이틀、저자、등록일, 그리고 본문은 필수 입력 항목입니다.");
+      state.articles.unshift({ id: finalId, ...artData });
     }
-    return;
-  }
+    saveArticles();
 
-  const finalId = articleId || 'art_' + Date.now();
-  const artData = {
-    categoryId: categoryId,
-    title: title,
-    author: author,
-    scripture: scripture,
-    videoUrl: videoUrl,
-    photoUrl: photoUrl,
-    content: content,
-    createdAt: date,
-    views: 0
-  };
-
-  // If editing, preserve views
-  if (articleId) {
-    const oldArt = state.articles.find(a => a.id === articleId);
-    if (oldArt) {
-      artData.views = oldArt.views || 0;
+    // 2. Sync compiled data.json to GitHub (in background)
+    try {
+      syncDataJsonToGitHub();
+    } catch(e) {
+      console.warn("GitHub sync background notice:", e);
     }
-  }
 
-  // 1. Local backup
-  if (articleId) {
-    const artIdx = state.articles.findIndex(a => a.id === articleId);
-    if (artIdx !== -1) {
-      state.articles[artIdx] = { id: finalId, ...artData };
+    renderRecentArticles();
+    renderAdminArticleList();
+    if (typeof renderArticlesList === 'function' && state.currentCategory) {
+      renderArticlesList();
     }
-  } else {
-    state.articles.push({ id: finalId, ...artData });
+
+    alert(articleId ? "記事を修正・保存しました。(글이 성공적으로 수정·저장되었습니다.)" : "新規記事を公開しました。(새 글이 성공적으로 등록되었습니다.)");
+    resetWriteForm();
+    switchAdminTab('articles');
+  } catch (err) {
+    console.error("handleSaveArticle Error:", err);
+    alert("저장 처리 중 오류가 발생했습니다:\n" + err.message);
   }
-  saveArticles();
-
-
-
-  // 3. Sync compiled data.json to GitHub
-  syncDataJsonToGitHub();
-
-  renderRecentArticles();
-
-  alert(articleId ? "記事を修正・保存しました。" : "新規記事を公開しました。");
-  resetWriteForm();
-  switchAdminTab('articles');
 }
 
 function cancelWrite() {
@@ -3952,64 +4019,106 @@ async function loadArticleToEdit(artId) {
   // Open admin dashboard view first
   showAdminDashboard();
   switchAdminTab('write');
-  document.getElementById('write-section-title').innerHTML = '<i class="fa-solid fa-edit"></i> 記事・資料の修正編集 (글 수정/편집)';
+  const titleEl = document.getElementById('write-section-title');
+  if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-edit"></i> 記事・資料の修正編集 (글 수정/편집)';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   state.editArticleId = artId;
   
   const catObj = state.categories.find(c => c.id === art.categoryId);
   
-  // Trace back to root parent menu for initial selector match
+  // Trace back to root parent menu dynamically
   let parentMenu = '';
   if (catObj) {
-    const rootMenus = ['sermon', 'catechism', 'theology', 'discipleship', 'pastor'];
+    const rootMenuIds = state.mainMenus.map(m => m.id);
     let tempCat = catObj;
-    while (tempCat && !rootMenus.includes(tempCat.parentId)) {
+    const visited = new Set();
+    while (tempCat && !rootMenuIds.includes(tempCat.parentId) && !visited.has(tempCat.id)) {
+      visited.add(tempCat.id);
       tempCat = state.categories.find(c => c.id === tempCat.parentId);
     }
-    if (tempCat) {
+    if (tempCat && rootMenuIds.includes(tempCat.parentId)) {
       parentMenu = tempCat.parentId;
+    } else if (tempCat && rootMenuIds.includes(tempCat.id)) {
+      parentMenu = tempCat.id;
     }
   }
 
-  document.getElementById('edit-article-id').value = artId;
-  document.getElementById('art-parent-menu').value = parentMenu;
+  // Fallback: If not found, check if any category has this parent
+  if (!parentMenu && state.mainMenus.length > 0) {
+    for (const menu of state.mainMenus) {
+      const descendants = getAllDescendantCategoryIds(menu.id);
+      if (descendants.includes(art.categoryId)) {
+        parentMenu = menu.id;
+        break;
+      }
+    }
+  }
+
+  const editIdEl = document.getElementById('edit-article-id');
+  if (editIdEl) editIdEl.value = artId;
+  
+  const parentMenuEl = document.getElementById('art-parent-menu');
+  if (parentMenuEl) {
+    parentMenuEl.value = parentMenu;
+  }
   
   updateWriteSubcategoryDropdown();
-  document.getElementById('art-category-id').value = art.categoryId;
   
-      const isServantMenu = art.categoryId === 'cat_1787469050463';
+  const catSelectEl = document.getElementById('art-category-id');
+  if (catSelectEl) {
+    catSelectEl.value = art.categoryId;
+  }
+  
+  const isServantMenu = art.categoryId === 'cat_1787469050463';
   const isPurposeMenu = art.categoryId === 'cat_1787469045280';
   
+  const artTitleInput = document.getElementById('art-title');
+  const artAuthorInput = document.getElementById('art-author');
+  const artScriptureInput = document.getElementById('art-scripture');
+  const artVideoInput = document.getElementById('art-video-url');
+  
   if (isServantMenu) {
-    document.getElementById('art-title').value = '';
-    document.getElementById('art-author').value = art.title; // Name goes to Name input
-    document.getElementById('art-scripture').value = art.author; // Position goes to Position input
-    document.getElementById('art-video-url').value = '';
+    if (artTitleInput) artTitleInput.value = '';
+    if (artAuthorInput) artAuthorInput.value = art.title; // Name goes to Name input
+    if (artScriptureInput) artScriptureInput.value = art.author; // Position goes to Position input
+    if (artVideoInput) artVideoInput.value = '';
   } else if (isPurposeMenu) {
-    document.getElementById('art-title').value = '';
-    document.getElementById('art-author').value = '';
-    document.getElementById('art-scripture').value = '';
-    document.getElementById('art-video-url').value = '';
+    if (artTitleInput) artTitleInput.value = '';
+    if (artAuthorInput) artAuthorInput.value = '';
+    if (artScriptureInput) artScriptureInput.value = '';
+    if (artVideoInput) artVideoInput.value = '';
   } else {
-    document.getElementById('art-title').value = art.title;
-    document.getElementById('art-author').value = art.author;
-    document.getElementById('art-scripture').value = art.scripture || '';
-    document.getElementById('art-video-url').value = art.videoUrl || '';
+    if (artTitleInput) artTitleInput.value = art.title || '';
+    if (artAuthorInput) artAuthorInput.value = art.author || '';
+    if (artScriptureInput) artScriptureInput.value = art.scripture || '';
+    if (artVideoInput) artVideoInput.value = art.videoUrl || '';
   }
+  
   if (document.getElementById('art-photo-url')) {
     document.getElementById('art-photo-url').value = art.photoUrl || '';
   }
+  
   const content = art.content || '';
-  document.getElementById('art-content').value = content;
+  const contentInput = document.getElementById('art-content');
+  if (contentInput) contentInput.value = content;
+  
   const wysiwygBox = document.getElementById('art-editor-wysiwyg');
   if (wysiwygBox) wysiwygBox.innerHTML = content;
-  if (isFullHtmlDoc(content)) {
-    selectTistoryMode('html');
-  } else {
-    selectTistoryMode('basic');
+  
+  if (typeof selectTistoryMode === 'function') {
+    if (isFullHtmlDoc(content)) {
+      selectTistoryMode('html');
+    } else {
+      selectTistoryMode('basic');
+    }
   }
-  document.getElementById('art-date').value = art.createdAt || new Date().toISOString().split('T')[0];
+  
+  const dateEl = document.getElementById('art-date');
+  if (dateEl) {
+    dateEl.value = art.createdAt || new Date().toISOString().split('T')[0];
+  }
+  
   handleCategoryChange();
 }
 
