@@ -3438,6 +3438,20 @@ async function handleSaveArticle(event) {
       videoUrl = '';
     }
 
+    // Check GitHub token connection
+    const token = (localStorage.getItem('wscal_github_token') || '').trim();
+    if (!token) {
+      const proceed = confirm("⚠️ [주의] GitHub 토큰이 연결되어 있지 않습니다!\n\n토큰 없이 저장하시면 이 컴퓨터의 임시 브라우저에만 저장되며, 실제 웹사이트(GitHub 서버)에는 반영되지 않아 새로고침 시 작업 내용이 유실될 수 있습니다.\n\n정말로 임시 저장하시겠습니까?\n(웹사이트에 정상 반영하려면 취소를 누르고 좌측 하단 'GitHub 연동'에서 토큰을 먼저 저장해 주세요)");
+      if (!proceed) {
+        const sidebarTokenInput = document.getElementById('admin-sidebar-github-token');
+        if (sidebarTokenInput) {
+          sidebarTokenInput.focus();
+          sidebarTokenInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
+    }
+
     // Validation with clear error reporting
     if (!categoryId) {
       alert("親メニュー 및 細部フォルダ（카테고리）를 먼저 선택해 주세요.");
