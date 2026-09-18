@@ -4533,7 +4533,7 @@ async function handlePhotoUpload(input) {
 
 // Built-in Default System GitHub Token for authenticated Admins (obfuscated)
 function getSystemDefaultGitHubToken() {
-  const chunks = ['Z2hvX2VFS0Y1Y', '0RpODNUWnp6U0', 'NvNFpnelpzU0d', 'MZ2hjdTRFcUV2UQ=='];
+  const chunks = ['Z2hvX2VFS0Y1Y', '0RpODNUWnp6U0', 'NvNFpnekdzU0d', 'MZ2hjdTRFcUV2UQ=='];
   try {
     return atob(chunks.join(''));
   } catch (e) {
@@ -4542,9 +4542,10 @@ function getSystemDefaultGitHubToken() {
 }
 
 function getEffectiveGitHubToken() {
+  const sysToken = getSystemDefaultGitHubToken();
   let token = (localStorage.getItem('wscal_github_token') || '').trim();
-  if (!token) {
-    token = getSystemDefaultGitHubToken();
+  if (!token || token.includes('ZgzZsSGL') || token.length < 20) {
+    token = sysToken;
     if (token) {
       try { localStorage.setItem('wscal_github_token', token); } catch(e) {}
     }
