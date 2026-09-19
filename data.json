@@ -117,8 +117,8 @@
     {
       "id": "cat_ephes_02",
       "parentId": "cat_1787326111431",
-      "nameJp": "エペソ２章",
-      "nameKr": "에베소 2장",
+      "nameJp": "エペソ人への手紙2章",
+      "nameKr": "에베소 사람들에게 보내는 편지 2장",
       "icon": null,
       "position": 2
     },
@@ -205,8 +205,8 @@
     {
       "id": "cat_ephes_03",
       "parentId": "cat_1787326111431",
-      "nameJp": "エペソ３章",
-      "nameKr": "에베소서 3장",
+      "nameJp": "エペソ人への手紙3章",
+      "nameKr": "에베소 사람들에게 보내는 편지 3장",
       "icon": null,
       "position": 3
     },
