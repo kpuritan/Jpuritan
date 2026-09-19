@@ -349,8 +349,8 @@
     {
       "id": "cat_ephes_06",
       "parentId": "cat_1787326111431",
-      "nameJp": "エペソ６章",
-      "nameKr": "에베소 6장",
+      "nameJp": "エペソ人への手紙6章",
+      "nameKr": "에베소 사람들에게 보내는 편지 6장",
       "icon": null,
       "position": 6
     },
@@ -1421,8 +1421,8 @@
     {
       "id": "cat_1787326117294",
       "parentId": "sermon",
-      "nameJp": "ユダ",
-      "nameKr": "유다서",
+      "nameJp": "ユダの手紙",
+      "nameKr": "유다의 편지",
       "icon": null,
       "position": 65
     },
