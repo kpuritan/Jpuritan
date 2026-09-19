@@ -1341,8 +1341,8 @@
     {
       "id": "cat_sermon_gal",
       "parentId": "sermon",
-      "nameJp": "ガラテヤ書",
-      "nameKr": "갈라디아서",
+      "nameJp": "ガラテヤ人への手紙",
+      "nameKr": "갈라디아에게 편지",
       "icon": null,
       "position": 48
     },
