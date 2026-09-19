@@ -53,8 +53,8 @@
     {
       "id": "cat_gal_01",
       "parentId": "cat_sermon_gal",
-      "nameJp": "ガラテヤ書 1章",
-      "nameKr": "갈라디아서 1장",
+      "nameJp": "ガラテヤ人への手紙1章",
+      "nameKr": "갈라디아에게 보내는 편지 1장",
       "icon": null,
       "position": 1
     },
@@ -157,8 +157,8 @@
     {
       "id": "cat_gal_02",
       "parentId": "cat_sermon_gal",
-      "nameJp": "ガラテヤ書 2章",
-      "nameKr": "갈라디아서 2장",
+      "nameJp": "ガラテヤ人への手紙2章",
+      "nameKr": "갈라디아에게 보내는 편지 2장",
       "icon": null,
       "position": 2
     },
