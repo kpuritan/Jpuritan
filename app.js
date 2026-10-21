@@ -78,7 +78,9 @@ const BIBLE_66_ORDER = {
   "요한계시록": 66, "ヨハネの黙示録": 66, "Revelation": 66,
 
   // Special Topics
-  "예수님의 비유": 67, "イエスのたとえ話": 67, "예수님의 이적비유": 67, "イエスの奇跡とたとえ話": 67
+  "예수님의 비유": 67, "イエスのたとえ話": 67, "예수님의 이적비유": 67, "イエスの奇跡とたとえ話": 67,
+  "산상수훈": 40.5, "산상보훈": 40.5, "山上の説教": 40.5, "山上の垂訓": 40.5,
+  "이사야 53장": 23, "이사야53장": 23, "イザヤ書53章": 23, "イザヤ書 53章": 23
 };
 
 function getCategorySortKey(cat) {
@@ -207,22 +209,22 @@ function loadLocalStorageOnly() {
   let cachedFeat = null;
 
   try {
-    const rawArts = localStorage.getItem('wscal_articles_v33');
+    const rawArts = localStorage.getItem('wscal_articles_v34');
     if (rawArts) cachedArts = JSON.parse(rawArts);
   } catch (e) {}
 
   try {
-    const rawCats = localStorage.getItem('wscal_categories_v33');
+    const rawCats = localStorage.getItem('wscal_categories_v34');
     if (rawCats) cachedCats = JSON.parse(rawCats);
   } catch (e) {}
 
   try {
-    const rawMenus = localStorage.getItem('wscal_mainmenus_v33');
+    const rawMenus = localStorage.getItem('wscal_mainmenus_v34');
     if (rawMenus) cachedMenus = JSON.parse(rawMenus);
   } catch (e) {}
 
   try {
-    const rawFeat = localStorage.getItem('wscal_featured_v33');
+    const rawFeat = localStorage.getItem('wscal_featured_v34');
     if (rawFeat) cachedFeat = JSON.parse(rawFeat);
   } catch (e) {}
 
@@ -243,11 +245,11 @@ function loadLocalStorageOnly() {
 
 async function initApp() {
   // Clear any old session states and all older localStorage caches on version update
-  if (sessionStorage.getItem('wscal_version') !== 'v33') {
+  if (sessionStorage.getItem('wscal_version') !== 'v34') {
     sessionStorage.removeItem('wscal_user_menu');
     sessionStorage.removeItem('wscal_user_category');
     sessionStorage.removeItem('wscal_user_article');
-    sessionStorage.setItem('wscal_version', 'v33');
+    sessionStorage.setItem('wscal_version', 'v34');
     try {
       Object.keys(localStorage).forEach(key => {
         if (key.startsWith('wscal_')) {
@@ -279,22 +281,22 @@ async function initApp() {
 
       if (fileData.mainMenus && fileData.mainMenus.length > 0) {
         state.mainMenus = fileData.mainMenus;
-        try { localStorage.setItem('wscal_mainmenus_v33', JSON.stringify(fileData.mainMenus)); } catch(e) {}
+        try { localStorage.setItem('wscal_mainmenus_v34', JSON.stringify(fileData.mainMenus)); } catch(e) {}
       }
       if (fileData.categories && fileData.categories.length > 0) {
         state.categories = fileData.categories;
-        try { localStorage.setItem('wscal_categories_v33', JSON.stringify(fileData.categories)); } catch(e) {}
+        try { localStorage.setItem('wscal_categories_v34', JSON.stringify(fileData.categories)); } catch(e) {}
       }
       if (fileData.featured) {
         state.featured = fileData.featured;
-        try { localStorage.setItem('wscal_featured_v33', JSON.stringify(fileData.featured)); } catch(e) {}
+        try { localStorage.setItem('wscal_featured_v34', JSON.stringify(fileData.featured)); } catch(e) {}
       }
       if (fileData.articles && fileData.articles.length > 0) {
         // If fileData has more or equal articles than state, adopt it
         if (fileData.articles.length >= state.articles.length) {
           state.articles = fileData.articles;
         }
-        try { localStorage.setItem('wscal_articles_v33', JSON.stringify(fileData.articles)); } catch(e) {}
+        try { localStorage.setItem('wscal_articles_v34', JSON.stringify(fileData.articles)); } catch(e) {}
       }
 
       initializeCollapsedStates();
@@ -377,7 +379,7 @@ function loadArticlesFallback() {
   const embeddedArts = (MASTER_SITE_DATABASE && MASTER_SITE_DATABASE.articles) || [];
   let cachedArts = null;
   try {
-    const raw = localStorage.getItem('wscal_articles_v33');
+    const raw = localStorage.getItem('wscal_articles_v34');
     if (raw) cachedArts = JSON.parse(raw);
   } catch (e) {}
 
@@ -422,37 +424,37 @@ async function loadLocalDataFallback() {
   if (fetchedData) {
     if (fetchedData.mainMenus) {
       state.mainMenus = fetchedData.mainMenus;
-      try { localStorage.setItem('wscal_mainmenus_v33', JSON.stringify(fetchedData.mainMenus)); } catch(e) {}
+      try { localStorage.setItem('wscal_mainmenus_v34', JSON.stringify(fetchedData.mainMenus)); } catch(e) {}
     }
     if (fetchedData.categories) {
       state.categories = fetchedData.categories;
-      try { localStorage.setItem('wscal_categories_v33', JSON.stringify(fetchedData.categories)); } catch(e) {}
+      try { localStorage.setItem('wscal_categories_v34', JSON.stringify(fetchedData.categories)); } catch(e) {}
     }
     if (fetchedData.featured) {
       state.featured = fetchedData.featured;
-      try { localStorage.setItem('wscal_featured_v33', JSON.stringify(fetchedData.featured)); } catch(e) {}
+      try { localStorage.setItem('wscal_featured_v34', JSON.stringify(fetchedData.featured)); } catch(e) {}
     }
     if (fetchedData.articles) {
       state.articles = fetchedData.articles;
-      try { localStorage.setItem('wscal_articles_v33', JSON.stringify(fetchedData.articles)); } catch(e) {}
+      try { localStorage.setItem('wscal_articles_v34', JSON.stringify(fetchedData.articles)); } catch(e) {}
     }
   }
 }
 
 // Save back to LocalStorage & Sync to GitHub
 async function saveMainMenus() {
-  try { localStorage.setItem('wscal_mainmenus_v33', JSON.stringify(state.mainMenus)); } catch(e) {}
+  try { localStorage.setItem('wscal_mainmenus_v34', JSON.stringify(state.mainMenus)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 async function saveCategories() {
-  try { localStorage.setItem('wscal_categories_v33', JSON.stringify(state.categories)); } catch(e) {}
+  try { localStorage.setItem('wscal_categories_v34', JSON.stringify(state.categories)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 function saveArticles() {
-  try { localStorage.setItem('wscal_articles_v33', JSON.stringify(state.articles)); } catch(e) {}
+  try { localStorage.setItem('wscal_articles_v34', JSON.stringify(state.articles)); } catch(e) {}
 }
 async function saveFeatured() {
-  try { localStorage.setItem('wscal_featured_v33', JSON.stringify(state.featured)); } catch(e) {}
+  try { localStorage.setItem('wscal_featured_v34', JSON.stringify(state.featured)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 
@@ -588,7 +590,11 @@ async function translateKoToJa(text) {
       "창세기": "創世記",
       "동영상 강의": "動画講義",
       "동영상": "動画",
-      "설교": "説教"
+      "설교": "説教",
+      "이사야 53장": "イザヤ書53章",
+      "이사야53장": "イザヤ書53章",
+      "산상수훈": "山上の説教",
+      "산상보훈": "山上の説教"
     };
     
     let fallbackText = text;
@@ -627,7 +633,10 @@ async function translateJaToKo(text) {
       "実践神学": "실천신학",
       "ヨハネによる福音書": "요한복음",
       "創世記": "창세기",
-      "動画講義": "동영상 강의"
+      "動画講義": "동영상 강의",
+      "イザヤ書53章": "이사야 53장",
+      "山上の説教": "산상수훈",
+      "山上の垂訓": "산상수훈"
     };
     let fallbackText = text;
     for (const key in dictionary) {
@@ -973,35 +982,35 @@ function isAnyAncestorCollapsed(catId) {
 // Smart merge server data into local storage to avoid overriding admin modifications
 function mergeServerData(serverData) {
   // 1. Merge Main Menus
-  const localMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v33')) || [];
+  const localMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v34')) || [];
   serverData.mainMenus.forEach(sm => {
     if (!localMenus.some(lm => lm.id === sm.id)) {
       localMenus.push(sm);
     }
   });
-  localStorage.setItem('wscal_mainmenus_v33', JSON.stringify(localMenus));
+  localStorage.setItem('wscal_mainmenus_v34', JSON.stringify(localMenus));
 
   // 2. Merge Categories
-  const localCats = JSON.parse(localStorage.getItem('wscal_categories_v33')) || [];
+  const localCats = JSON.parse(localStorage.getItem('wscal_categories_v34')) || [];
   serverData.categories.forEach(sc => {
     if (!localCats.some(lc => lc.id === sc.id)) {
       localCats.push(sc);
     }
   });
-  localStorage.setItem('wscal_categories_v33', JSON.stringify(localCats));
+  localStorage.setItem('wscal_categories_v34', JSON.stringify(localCats));
 
   // 3. Merge Articles
-  const localArts = JSON.parse(localStorage.getItem('wscal_articles_v33')) || [];
+  const localArts = JSON.parse(localStorage.getItem('wscal_articles_v34')) || [];
   serverData.articles.forEach(sa => {
     if (!localArts.some(la => la.id === sa.id)) {
       localArts.push(sa);
     }
   });
-  localStorage.setItem('wscal_articles_v33', JSON.stringify(localArts));
+  localStorage.setItem('wscal_articles_v34', JSON.stringify(localArts));
 
   // 4. Merge Featured
-  if (!localStorage.getItem('wscal_featured_v33')) {
-    localStorage.setItem('wscal_featured_v33', JSON.stringify(serverData.featured));
+  if (!localStorage.getItem('wscal_featured_v34')) {
+    localStorage.setItem('wscal_featured_v34', JSON.stringify(serverData.featured));
   }
 }
 
@@ -1012,10 +1021,10 @@ async function resetLocalDataToServer() {
       const res = await fetch('./data.json?t=' + Date.now());
       if (res.ok) {
         const serverData = await res.json();
-        localStorage.setItem('wscal_mainmenus_v33', JSON.stringify(serverData.mainMenus));
-        localStorage.setItem('wscal_categories_v33', JSON.stringify(serverData.categories));
-        localStorage.setItem('wscal_articles_v33', JSON.stringify(serverData.articles));
-        localStorage.setItem('wscal_featured_v33', JSON.stringify(serverData.featured));
+        localStorage.setItem('wscal_mainmenus_v34', JSON.stringify(serverData.mainMenus));
+        localStorage.setItem('wscal_categories_v34', JSON.stringify(serverData.categories));
+        localStorage.setItem('wscal_articles_v34', JSON.stringify(serverData.articles));
+        localStorage.setItem('wscal_featured_v34', JSON.stringify(serverData.featured));
         alert("성공적으로 서버 최신 데이터와 동기화(초기화)했습니다. 페이지를 새로고침합니다.");
         location.reload();
       } else {

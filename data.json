@@ -11,7 +11,7 @@
     {
       "id": "sermon",
       "nameJp": "聖書講解",
-      "nameKr": "성경강해",
+      "nameKr": "성경주석",
       "icon": "fa-book-open",
       "isVideo": false,
       "position": 1
@@ -2041,6 +2041,22 @@
       "nameKr": "사도행전 28장",
       "icon": null,
       "position": 28
+    },
+    {
+      "id": "cat_sermon_isaiah53",
+      "parentId": "sermon",
+      "nameJp": "イザヤ書53章",
+      "nameKr": "이사야 53장",
+      "icon": null,
+      "position": 23
+    },
+    {
+      "id": "cat_sermon_sermon_mount",
+      "parentId": "sermon",
+      "nameJp": "山上の説教",
+      "nameKr": "산상수훈",
+      "icon": null,
+      "position": 40.5
     }
   ],
   "featured": {
