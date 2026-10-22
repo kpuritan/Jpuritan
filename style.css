@@ -235,6 +235,99 @@ header {
   letter-spacing: 1px;
 }
 
+/* E-BOOK SPECIAL HIGHLIGHT (무료책자 돋보이는 빨강 스타일) */
+.menu-card[data-menu="ebook"],
+.menu-card.menu-card-ebook {
+  border-top: 4px solid #dc2626 !important;
+  border-color: #fca5a5;
+  background: linear-gradient(180deg, #fff5f5 0%, #ffffff 100%);
+  position: relative;
+  box-shadow: 0 10px 25px rgba(220, 38, 38, 0.12);
+}
+
+.menu-card[data-menu="ebook"] .menu-icon,
+.menu-card.menu-card-ebook .menu-icon {
+  color: #dc2626 !important;
+  transition: var(--transition-smooth);
+}
+
+.menu-card[data-menu="ebook"] .menu-title-jp,
+.menu-card.menu-card-ebook .menu-title-jp {
+  color: #b91c1c !important;
+  font-weight: 800;
+}
+
+.menu-card[data-menu="ebook"] .menu-title-sub,
+.menu-card.menu-card-ebook .menu-title-sub {
+  color: #ef4444 !important;
+  font-weight: 700 !important;
+}
+
+.menu-card[data-menu="ebook"]:hover,
+.menu-card.menu-card-ebook:hover {
+  transform: translateY(-8px);
+  border-top-color: #b91c1c !important;
+  border-color: #f87171 !important;
+  background: #fee2e2 !important;
+  box-shadow: 0 16px 32px rgba(220, 38, 38, 0.22) !important;
+}
+
+.menu-card[data-menu="ebook"]:hover .menu-icon,
+.menu-card.menu-card-ebook:hover .menu-icon {
+  transform: scale(1.15);
+  color: #b91c1c !important;
+}
+
+.menu-card[data-menu="ebook"].active,
+.menu-card.menu-card-ebook.active {
+  border-top-color: #991b1b !important;
+  border-color: #ef4444 !important;
+  background-color: #fee2e2 !important;
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.28) !important;
+}
+
+.menu-badge-free {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.4);
+  line-height: 1.2;
+}
+
+/* Submenu & Sidebar E-book Highlight */
+.submenu-item[data-cat-id="cat_1787673527469"] {
+  border-color: #fca5a5 !important;
+  background-color: #fff5f5 !important;
+  color: #b91c1c !important;
+  font-weight: 700;
+}
+.submenu-item[data-cat-id="cat_1787673527469"]:hover {
+  background-color: #fee2e2 !important;
+  border-color: #ef4444 !important;
+}
+.submenu-item[data-cat-id="cat_1787673527469"].active {
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+  border-color: #991b1b !important;
+}
+
+.sidebar-item[title*="無料冊子"],
+.sidebar-item[title*="무료책자"] {
+  color: #b91c1c !important;
+  font-weight: 700 !important;
+}
+.sidebar-item[title*="無料冊子"] i,
+.sidebar-item[title*="무료책자"] i {
+  color: #dc2626 !important;
+}
+
 /* Sub-menu panel */
 .submenu-container {
   max-width: 1720px;

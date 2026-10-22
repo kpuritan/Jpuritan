@@ -254,7 +254,7 @@ function loadLocalStorageOnly() {
     });
   }
 
-  const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'discipleship', 'pastor'];
+  const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'ebook', 'pastor'];
   state.mainMenus.sort((a, b) => {
     const posA = a.position !== undefined ? a.position : defaultMenuIds.indexOf(a.id);
     const posB = b.position !== undefined ? b.position : defaultMenuIds.indexOf(b.id);
@@ -265,11 +265,11 @@ function loadLocalStorageOnly() {
 
 async function initApp() {
   // Clear any old session states and all older localStorage caches on version update
-  if (sessionStorage.getItem('wscal_version') !== 'v35') {
+  if (sessionStorage.getItem('wscal_version') !== 'v36') {
     sessionStorage.removeItem('wscal_user_menu');
     sessionStorage.removeItem('wscal_user_category');
     sessionStorage.removeItem('wscal_user_article');
-    sessionStorage.setItem('wscal_version', 'v35');
+    sessionStorage.setItem('wscal_version', 'v36');
     try {
       Object.keys(localStorage).forEach(key => {
         if (key.startsWith('wscal_')) {
@@ -1009,8 +1009,8 @@ function isAnyAncestorCollapsed(catId) {
   const cat = state.categories.find(c => c.id === catId);
   if (!cat) return false;
 
-  const rootMenus = ['sermon', 'catechism', 'theology', 'discipleship', 'pastor', 'menu_1787468975888'];
-  if (rootMenus.includes(cat.parentId)) {
+  const rootMenus = ['sermon', 'catechism', 'theology', 'ebook', 'discipleship', 'pastor', 'menu_1787468975888'];
+  if (rootMenus.includes(cat.parentId) || (state.mainMenus && state.mainMenus.some(m => m.id === cat.parentId))) {
     return false;
   }
 

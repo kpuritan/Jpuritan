@@ -33,10 +33,10 @@
       "position": 3
     },
     {
-      "id": "discipleship",
-      "nameJp": "伝道・弟子道",
-      "nameKr": "전도·제자도",
-      "icon": "fa-users-line",
+      "id": "ebook",
+      "nameJp": "無料冊子 (Free e-book)",
+      "nameKr": "무료책자 (Free e-book)",
+      "icon": "fa-book-bookmark",
       "isVideo": false,
       "position": 4
     },
@@ -1372,7 +1372,7 @@
     },
     {
       "id": "cat_disc_1",
-      "parentId": "discipleship",
+      "parentId": "cat_theo_discipleship",
       "nameJp": "伝道",
       "nameKr": "전도",
       "icon": null,
@@ -1380,7 +1380,7 @@
     },
     {
       "id": "cat_disc_2",
-      "parentId": "discipleship",
+      "parentId": "cat_theo_discipleship",
       "nameJp": "弟子",
       "nameKr": "제자도",
       "icon": null,
@@ -1388,15 +1388,15 @@
     },
     {
       "id": "cat_1787673527469",
-      "parentId": "discipleship",
-      "nameJp": "無料冊子 (Free E-Book)",
-      "nameKr": "무료 책자 (Free E-Book)",
+      "parentId": "ebook",
+      "nameJp": "無料冊子 (Free e-book)",
+      "nameKr": "무료책자 (Free e-book)",
       "icon": null,
-      "position": 53
+      "position": 1
     },
     {
       "id": "cat_disc_3",
-      "parentId": "discipleship",
+      "parentId": "cat_theo_discipleship",
       "nameJp": "伝道説教",
       "nameKr": "전도설교",
       "icon": null,
@@ -2057,6 +2057,14 @@
       "nameKr": "산상수훈",
       "icon": null,
       "position": 40.5
+    },
+    {
+      "id": "cat_theo_discipleship",
+      "parentId": "theology",
+      "nameJp": "伝道・弟子道",
+      "nameKr": "전도·제자도",
+      "icon": "fa-users-line",
+      "position": 20
     }
   ],
   "featured": {
