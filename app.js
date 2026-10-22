@@ -1855,15 +1855,39 @@ function renderArticlesList() {
           scriptureBadge = `<span class="meta-item meta-scripture"><i class="fa-solid fa-bible"></i> 関連聖句: ${art.scripture}</span>`;
         }
 
-        card.innerHTML = `
-          <h3 class="article-item-title">${art.title} ${hasVideoBadge}</h3>
-          <div class="article-item-meta">
-            <span class="meta-item meta-author"><i class="fa-regular fa-user"></i> 著者: ${art.author}</span>
-            ${scriptureBadge}
-            <span class="meta-item meta-date"><i class="fa-regular fa-calendar"></i> 日付: ${art.createdAt}</span>
+        const coverThumbnail = art.photoUrl ? `
+          <div style="flex-shrink: 0; width: 75px; height: 110px; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.12); margin-right: 18px; border: 1px solid var(--border-color); background: #f8fafc;">
+            <img src="${art.photoUrl}" alt="${art.title}" style="width: 100%; height: 100%; object-fit: cover;">
           </div>
-          ${adminToolbar}
-        `;
+        ` : '';
+
+        if (coverThumbnail) {
+          card.style.display = 'flex';
+          card.style.alignItems = 'flex-start';
+          card.innerHTML = `
+            ${coverThumbnail}
+            <div style="flex: 1; min-width: 0;">
+              <h3 class="article-item-title" style="margin-top: 2px;">${art.title} ${hasVideoBadge}</h3>
+              <div class="article-item-meta" style="margin-top: 8px;">
+                <span class="meta-item meta-author"><i class="fa-regular fa-user"></i> 著者: ${art.author}</span>
+                ${scriptureBadge}
+                <span class="meta-item meta-date"><i class="fa-regular fa-calendar"></i> 日付: ${art.createdAt}</span>
+                ${art.pdfUrl ? '<span class="meta-item" style="color: #0284c7; font-weight: 600;"><i class="fa-solid fa-file-pdf"></i> PDF</span>' : ''}
+              </div>
+              ${adminToolbar}
+            </div>
+          `;
+        } else {
+          card.innerHTML = `
+            <h3 class="article-item-title">${art.title} ${hasVideoBadge}</h3>
+            <div class="article-item-meta">
+              <span class="meta-item meta-author"><i class="fa-regular fa-user"></i> 著者: ${art.author}</span>
+              ${scriptureBadge}
+              <span class="meta-item meta-date"><i class="fa-regular fa-calendar"></i> 日付: ${art.createdAt}</span>
+            </div>
+            ${adminToolbar}
+          `;
+        }
 
         if (state.isAdmin) {
           attachArticleDragEvents(card, art.id);
@@ -2194,11 +2218,13 @@ function viewArticleDetail(articleId) {
         const pdfBanner = document.createElement('div');
         pdfBanner.className = 'article-pdf-banner';
         pdfBanner.style.cssText = 'background: linear-gradient(135deg, #1e3a8a, #0284c7); color: white; padding: 18px 24px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);';
+        const isEbook = article.categoryId === 'cat_1787673527469' || (article.title && article.title.toLowerCase().includes('e-book'));
+        const docLabel = isEbook ? '電子書籍 (E-Book) PDF' : '原本 PDF';
         pdfBanner.innerHTML = `
           <div style="display: flex; align-items: center; gap: 14px;">
             <i class="fa-solid fa-file-pdf" style="font-size: 2.2rem; color: #fde047;"></i>
             <div>
-              <div style="font-weight: bold; font-size: 1.1rem; color: #ffffff;">${article.title} - 小冊子 PDF</div>
+              <div style="font-weight: bold; font-size: 1.1rem; color: #ffffff;">${article.title} - ${docLabel}</div>
               <div style="font-size: 0.85rem; color: #e0f2fe; margin-top: 2px;">全文を原本PDFファイルで閲覧・無料ダウンロードいただけます。</div>
             </div>
           </div>
