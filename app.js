@@ -1545,7 +1545,13 @@ function renderArticlesList() {
     }
   } else {
     const currentCatObj = state.categories.find(c => c.id === state.currentCategory);
-    if (listTitle) listTitle.textContent = currentCatObj ? `${currentCatObj.nameJp} の資料一覧` : '資料一覧';
+    if (listTitle) {
+      if (state.currentMenu === 'ebook' || state.currentCategory === 'cat_1787673527469') {
+        listTitle.innerHTML = `<i class="fa-solid fa-book-bookmark" style="color: #ef4444; margin-right: 8px;"></i> 無料冊子・電子書籍 (Free e-book)`;
+      } else {
+        listTitle.textContent = currentCatObj ? `${currentCatObj.nameJp} の資料一覧` : '資料一覧';
+      }
+    }
 
     const descendantIds = getAllDescendantCategoryIds(state.currentCategory);
     filteredArticles = state.articles.filter(art => descendantIds.includes(art.categoryId));
@@ -1594,6 +1600,7 @@ function renderArticlesList() {
 
   const isPastorMenu = state.currentMenu === 'pastor';
   const isServantMenu = state.currentCategory === 'cat_1787469050463';
+  const isEbookMenu = state.currentMenu === 'ebook' || state.currentCategory === 'cat_1787673527469';
 
   // 2. Render Page Size Selector, View Mode Toggle & Total count
   const headerWrapper = document.createElement('div');
@@ -1734,7 +1741,7 @@ function renderArticlesList() {
   } else {
     // CARD / GRID VIEW (썸네일/카드보기)
     const itemsWrapper = document.createElement('div');
-    itemsWrapper.className = isPastorMenu ? 'video-gallery-grid' : (isServantMenu ? 'profile-list' : 'article-list');
+    itemsWrapper.className = isPastorMenu ? 'video-gallery-grid' : (isServantMenu ? 'profile-list' : (isEbookMenu ? 'ebook-book-grid' : 'article-list'));
     container.appendChild(itemsWrapper);
 
     if (isPastorMenu) {
@@ -1813,6 +1820,60 @@ function renderArticlesList() {
             <div class="profile-title">${art.author}</div>
             <div class="profile-history">${art.content}</div>
             ${adminToolbar}
+          </div>
+        `;
+
+        if (state.isAdmin) {
+          attachArticleDragEvents(card, art.id);
+        }
+        itemsWrapper.appendChild(card);
+      });
+    } else if (isEbookMenu) {
+      pagedArticles.forEach(art => {
+        const card = document.createElement('div');
+        card.className = 'ebook-book-card';
+        card.style.cursor = 'pointer';
+        card.onclick = (e) => {
+          if (e.target.closest('.card-inline-admin-bar') || e.target.closest('.ebook-action-btn')) return;
+          viewArticleDetail(art.id);
+        };
+
+        const adminToolbar = state.isAdmin ? `
+          <div class="card-inline-admin-bar" onclick="event.stopPropagation()" style="position: absolute; top: 10px; right: 10px; z-index: 5;">
+            <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正" style="padding: 3px 6px; font-size: 0.75rem;"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動" style="padding: 3px 6px; font-size: 0.75rem;"><i class="fa-solid fa-folder-tree"></i></button>
+            <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除" style="padding: 3px 6px; font-size: 0.75rem;"><i class="fa-solid fa-trash-can"></i></button>
+          </div>
+        ` : '';
+
+        const coverSrc = art.photoUrl || 'hero_bg.jpg';
+        const isFullBook = art.id.includes('baxter') || (art.title && art.title.includes('呼びかけ'));
+        const badgeTag = isFullBook ? '無料配布' : '小冊子';
+
+        card.innerHTML = `
+          <div class="ebook-showcase-container">
+            <div class="ebook-badges-wrapper">
+              <span class="ebook-badge-tag">${badgeTag}</span>
+              <span class="ebook-badge-pdf">PDF</span>
+            </div>
+            <div class="ebook-cover-wrapper">
+              <img class="ebook-cover-img" src="${coverSrc}" alt="${art.title}" loading="lazy">
+            </div>
+            ${adminToolbar}
+          </div>
+          <div class="ebook-info-box">
+            <div class="ebook-series-tag">${isFullBook ? 'PHB クラシック' : 'PHB 伝道小冊子'}</div>
+            <h3 class="ebook-title" title="${art.title}">${art.title}</h3>
+            <div class="ebook-author"><i class="fa-regular fa-user" style="margin-right: 4px;"></i> ${art.author}</div>
+            <div class="ebook-footer-row">
+              <div class="ebook-status-badge">
+                <i class="fa-solid fa-file-pdf" style="color: #ef4444;"></i>
+                <span>無料ダウンロード</span>
+              </div>
+              <button type="button" class="ebook-action-btn" title="詳細・PDFダウンロード" onclick="event.stopPropagation(); viewArticleDetail('${art.id}')">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
           </div>
         `;
 
@@ -2301,6 +2362,23 @@ function viewArticleDetail(articleId) {
 
         iframe.srcdoc = article.content;
         contentArea.appendChild(iframe);
+      } else if ((article.categoryId === 'cat_1787673527469' || state.currentMenu === 'ebook') && article.photoUrl && !article.content.includes('<img')) {
+        const textBody = document.createElement('div');
+        textBody.className = 'article-body-html';
+        textBody.innerHTML = `
+          <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; align-items: flex-start; background: #f8fafc; padding: 24px; border-radius: 12px; border: 1px solid #e2e8f0;">
+            <div style="flex-shrink: 0; width: 160px; margin: 0 auto; text-align: center;">
+              <img src="${article.photoUrl}" alt="${article.title}" style="width: 100%; max-width: 160px; height: auto; border-radius: 4px; box-shadow: -4px 6px 14px rgba(0,0,0,0.18), 0 10px 20px rgba(0,0,0,0.15);">
+            </div>
+            <div style="flex: 1; min-width: 260px;">
+              <div style="color: #b91c1c; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">PHB 伝道小冊子 (Evangelism Booklet)</div>
+              <h2 style="font-size: 1.5rem; font-weight: 700; color: #0f172a; margin: 0 0 8px 0;">${article.title}</h2>
+              <div style="color: #64748b; font-size: 0.95rem; margin-bottom: 16px;"><strong>著者:</strong> ${article.author}</div>
+              <div style="line-height: 1.85; color: #334155;">${formatArticleContent(article.content)}</div>
+            </div>
+          </div>
+        `;
+        contentArea.appendChild(textBody);
       } else {
         const textBody = document.createElement('div');
         textBody.className = 'article-body-html';
