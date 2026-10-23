@@ -1847,7 +1847,7 @@ function renderArticlesList() {
         ` : '';
 
         const coverSrc = art.photoUrl || 'hero_bg.jpg';
-        const isFullBook = art.id.includes('baxter') || (art.title && art.title.includes('呼びかけ'));
+        const isFullBook = art.id.startsWith('art_ebook_') || art.id.includes('baxter') || art.id.includes('alleine') || (art.title && (art.title.includes('呼びかけ') || art.title.includes('警鐘')));
         const badgeTag = isFullBook ? '無料配布' : '小冊子';
 
         card.innerHTML = `
