@@ -1847,7 +1847,7 @@ function renderArticlesList() {
         ` : '';
 
         const coverSrc = art.photoUrl || 'hero_bg.jpg';
-        const isFullBook = art.id.startsWith('art_ebook_') || art.id.includes('baxter') || art.id.includes('alleine') || (art.title && (art.title.includes('呼びかけ') || art.title.includes('警鐘')));
+        const isFullBook = art.id.startsWith('art_ebook_') || art.id.includes('baxter') || art.id.includes('alleine') || art.id.includes('mead') || (art.title && (art.title.includes('呼びかけ') || art.title.includes('警鐘') || art.title.includes('牧者像') || art.title.includes('類似') || art.title.includes('ほぼ')));
         const badgeTag = isFullBook ? '無料配布' : '小冊子';
 
         card.innerHTML = `
