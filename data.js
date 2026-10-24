@@ -1,4 +1,4 @@
-const initialData = {
+window.MASTER_SITE_DATABASE = {
   "mainMenus": [
     {
       "id": "menu_1787468975888",
@@ -675,6 +675,14 @@ const initialData = {
       "position": 13
     },
     {
+      "id": "cat_theo_covenant",
+      "parentId": "theology",
+      "nameJp": "契約神学",
+      "nameKr": "언약신학",
+      "icon": null,
+      "position": 14
+    },
+    {
       "id": "cat_rom_13",
       "parentId": "cat_sermon_rom",
       "nameJp": "ローマ人への手紙 13章",
@@ -704,7 +712,7 @@ const initialData = {
       "nameJp": "キリスト論",
       "nameKr": "기독론",
       "icon": null,
-      "position": 14
+      "position": 15
     },
     {
       "id": "cat_deut_14",
@@ -720,7 +728,7 @@ const initialData = {
       "nameJp": "救い論",
       "nameKr": "구원론",
       "icon": null,
-      "position": 15
+      "position": 16
     },
     {
       "id": "cat_rom_15",
@@ -776,7 +784,7 @@ const initialData = {
       "nameJp": "教会論",
       "nameKr": "교회론",
       "icon": null,
-      "position": 16
+      "position": 17
     },
     {
       "id": "cat_wcf_17",
@@ -792,7 +800,7 @@ const initialData = {
       "nameJp": "終末論",
       "nameKr": "종말론",
       "icon": null,
-      "position": 17
+      "position": 18
     },
     {
       "id": "cat_deut_17",
@@ -816,7 +824,7 @@ const initialData = {
       "nameJp": "歴史神学",
       "nameKr": "역사신학",
       "icon": null,
-      "position": 18
+      "position": 19
     },
     {
       "id": "cat_wcf_18",
@@ -832,7 +840,7 @@ const initialData = {
       "nameJp": "説教学",
       "nameKr": "설교학",
       "icon": null,
-      "position": 19
+      "position": 20
     },
     {
       "id": "cat_wcf_19",
@@ -2064,7 +2072,7 @@ const initialData = {
       "nameJp": "伝道・弟子道",
       "nameKr": "전도·제자도",
       "icon": "fa-users-line",
-      "position": 20
+      "position": 21
     }
   ],
   "featured": {
