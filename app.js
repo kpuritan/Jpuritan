@@ -154,6 +154,15 @@ function getArticleSortKey(art) {
         secNum = parseInt(m[1], 10);
       } else {
         secNum = (art.position !== undefined && art.position !== null) ? Number(art.position) : 999999;
+        if (secNum === 999999 && art.scripture) {
+          const sm = art.scripture.match(/(\d+)章\s*(\d+)(?:〜(\d+))?절?節?([ab])?/);
+          if (sm) {
+            const ch = parseInt(sm[1], 10);
+            const v = parseInt(sm[2], 10);
+            const sub = sm[4] === 'b' ? 2 : (sm[4] === 'a' ? 1 : 0);
+            secNum = ch * 10000 + v * 10 + sub;
+          }
+        }
       }
     }
   }
