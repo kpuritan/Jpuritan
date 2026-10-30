@@ -1,4 +1,4 @@
-﻿// Reformed & Puritan Japanese Hub - Solid Standalone Engine v25.0
+// Reformed & Puritan Japanese Hub - Solid Standalone Engine v25.0
 
 // ==========================================
 // 1. Fully Embedded Master Database (Zero Loading Delay, No External Dependency)
@@ -2294,6 +2294,9 @@ function viewArticleDetail(articleId) {
         pdfBanner.style.cssText = 'background: linear-gradient(135deg, #1e3a8a, #0284c7); color: white; padding: 18px 24px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);';
         const isEbook = article.categoryId === 'cat_1787673527469' || (article.title && article.title.toLowerCase().includes('e-book'));
         const docLabel = isEbook ? '電子書籍 (E-Book) PDF' : '原本 PDF';
+        const rawFilename = article.pdfUrl.split('/').pop();
+        const pdfDownloadName = decodeURIComponent(rawFilename);
+        const encodedPdfUrl = encodeURI(decodeURI(article.pdfUrl));
         pdfBanner.innerHTML = `
           <div style="display: flex; align-items: center; gap: 14px;">
             <i class="fa-solid fa-file-pdf" style="font-size: 2.2rem; color: #fde047;"></i>
@@ -2303,10 +2306,10 @@ function viewArticleDetail(articleId) {
             </div>
           </div>
           <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-            <a href="${article.pdfUrl}" target="_blank" class="btn-pdf-view" style="background: rgba(255,255,255,0.2); color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.4);">
+            <a href="${encodedPdfUrl}" target="_blank" class="btn-pdf-view" style="background: rgba(255,255,255,0.2); color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.4);">
               <i class="fa-solid fa-eye"></i> 閲覧 (View)
             </a>
-            <a href="${article.pdfUrl}" download class="btn-pdf-download" style="background: #f59e0b; color: #111827; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+            <a href="${encodedPdfUrl}" download="${pdfDownloadName}" class="btn-pdf-download" style="background: #f59e0b; color: #111827; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
               <i class="fa-solid fa-download"></i> PDFダウンロード (Download)
             </a>
           </div>
