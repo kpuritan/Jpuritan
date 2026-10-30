@@ -42,8 +42,8 @@ const initialData = {
     },
     {
       "id": "pastor",
-      "nameJp": "10分動画<br>神学講義",
-      "nameKr": "10분 동영상<br>신학강의",
+      "nameJp": "10分動画神学講義",
+      "nameKr": "10분 동영상 신학강의",
       "icon": "fa-user-tie",
       "isVideo": true,
       "position": 5

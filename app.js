@@ -83,6 +83,16 @@ const BIBLE_66_ORDER = {
   "이사야 53장": 23, "이사야53장": 23, "イザヤ書53章": 23, "イザヤ書 53章": 23
 };
 
+// Clean HTML tags and <br> glitches from display names/titles
+function stripHtmlTags(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/<br\s*\/?>/gi, '')
+    .replace(/&lt;br\s*\/?&gt;/gi, '')
+    .replace(/<[^>]*>/g, '')
+    .trim();
+}
+
 function getCategorySortKey(cat) {
   if (!cat) return 999999;
   if (cat.parentId === 'sermon' || cat.parent === 'sermon') {
@@ -536,9 +546,14 @@ function renderMainMenuCards() {
       ? `<div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">動画講義</div>`
       : '';
 
+    const cleanTitle = stripHtmlTags(menu.nameJp);
+    const cardTitle = menu.id === 'pastor'
+      ? cleanTitle.replace('10分動画', '10分動画<br>')
+      : cleanTitle;
+
     card.innerHTML = `
       <i class="fa-solid ${iconClass} menu-icon"></i>
-      <div class="menu-title-jp">${menu.nameJp}</div>
+      <div class="menu-title-jp">${cardTitle}</div>
       ${videoLabel}
     `;
     container.appendChild(card);
@@ -550,7 +565,7 @@ function renderMainMenuCards() {
     footerLinksList.innerHTML = '';
     state.mainMenus.forEach(menu => {
       const li = document.createElement('li');
-      li.innerHTML = `<a href="#" onclick="event.preventDefault(); selectMainMenu('${menu.id}')">${menu.nameJp}</a>`;
+      li.innerHTML = `<a href="#" onclick="event.preventDefault(); selectMainMenu('${menu.id}')">${stripHtmlTags(menu.nameJp)}</a>`;
       footerLinksList.appendChild(li);
     });
   }
@@ -1124,7 +1139,7 @@ function selectMainMenu(menuKey) {
     renderTheologySubmenu();
   } else {
     if (categoryTitle) {
-      categoryTitle.textContent = menuObj ? `${menuObj.nameJp} のフォルダ` : 'フォルダ一覧';
+      categoryTitle.textContent = menuObj ? `${stripHtmlTags(menuObj.nameJp)} のフォルダ` : 'フォルダ一覧';
     }
 
     // Render Submenu badges (dual-language support)
@@ -1408,7 +1423,7 @@ function renderWorkspaceSidebar() {
 
   // 2. Standard Category Tree
   const menuObj = state.mainMenus.find(m => m.id === state.currentMenu);
-  sidebarHeader.textContent = menuObj ? menuObj.nameJp : 'フォルダ一覧';
+  sidebarHeader.textContent = menuObj ? stripHtmlTags(menuObj.nameJp) : 'フォルダ一覧';
 
   // Get flat tree representation for hierarchical sidebar display
   const flatTree = buildFlatTree(state.currentMenu, 0);
@@ -1562,7 +1577,7 @@ function renderArticlesList() {
       if (state.currentMenu === 'ebook' || state.currentCategory === 'cat_1787673527469') {
         listTitle.innerHTML = `<i class="fa-solid fa-book-bookmark" style="color: #ef4444; margin-right: 8px;"></i> 無料冊子・電子書籍 (Free e-book)`;
       } else {
-        listTitle.textContent = currentCatObj ? `${currentCatObj.nameJp} の資料一覧` : '資料一覧';
+        listTitle.textContent = currentCatObj ? `${stripHtmlTags(currentCatObj.nameJp)} の資料一覧` : '資料一覧';
       }
     }
 
@@ -2913,7 +2928,7 @@ function populateAllMenuDropdowns() {
     state.mainMenus.forEach(menu => {
       const opt = document.createElement('option');
       opt.value = menu.id;
-      opt.textContent = `${menu.nameJp} (${menu.nameKr || ''})`;
+      opt.textContent = `${stripHtmlTags(menu.nameJp)} (${stripHtmlTags(menu.nameKr) || ''})`;
       newCatParent.appendChild(opt);
     });
     if (val) {
@@ -2929,7 +2944,7 @@ function populateAllMenuDropdowns() {
     state.mainMenus.forEach(menu => {
       const opt = document.createElement('option');
       opt.value = menu.id;
-      opt.textContent = `${menu.nameJp} (${menu.nameKr || ''})`;
+      opt.textContent = `${stripHtmlTags(menu.nameJp)} (${stripHtmlTags(menu.nameKr) || ''})`;
       filterCatParent.appendChild(opt);
     });
     filterCatParent.value = val;
@@ -2943,7 +2958,7 @@ function populateAllMenuDropdowns() {
     state.mainMenus.forEach(menu => {
       const opt = document.createElement('option');
       opt.value = menu.id;
-      opt.textContent = `${menu.nameJp} (${menu.nameKr || ''})`;
+      opt.textContent = `${stripHtmlTags(menu.nameJp)} (${stripHtmlTags(menu.nameKr) || ''})`;
       artParentMenu.appendChild(opt);
     });
     artParentMenu.value = val;
@@ -2959,7 +2974,7 @@ function populateAllMenuDropdowns() {
       // Main menu option
       const optMenu = document.createElement('option');
       optMenu.value = menu.id;
-      optMenu.textContent = `[대메뉴] ${menu.nameJp} (${menu.nameKr || ''})`;
+      optMenu.textContent = `[대메뉴] ${stripHtmlTags(menu.nameJp)} (${stripHtmlTags(menu.nameKr) || ''})`;
       optMenu.style.fontWeight = 'bold';
       filterArtParent.appendChild(optMenu);
       
@@ -2969,7 +2984,7 @@ function populateAllMenuDropdowns() {
         const opt = document.createElement('option');
         opt.value = c.id;
         const indent = '\u00A0\u00A0\u00A0\u00A0'.repeat(c.depth + 1);
-        opt.textContent = `${indent}└ ${c.nameJp} (${c.nameKr || ''})`;
+        opt.textContent = `${indent}└ ${stripHtmlTags(c.nameJp)} (${stripHtmlTags(c.nameKr) || ''})`;
         filterArtParent.appendChild(opt);
       });
     });
@@ -3182,7 +3197,7 @@ function populateParentDropdown() {
     const optGroup = document.createElement('option');
     optGroup.value = root.id;
     optGroup.style.fontWeight = 'bold';
-    optGroup.textContent = `▶ ${root.nameJp} (${root.nameKr || ''})`;
+    optGroup.textContent = `▶ ${stripHtmlTags(root.nameJp)} (${stripHtmlTags(root.nameKr) || ''})`;
     select.appendChild(optGroup);
     
     // Add nested children recursively
@@ -5071,7 +5086,7 @@ function openMoveFolderModal(artId) {
   state.mainMenus.forEach(menu => {
     const menuCats = state.categories.filter(c => c.parentId === menu.id);
     if (menuCats.length > 0) {
-      optionsHtml += `<optgroup label="[${menu.nameJp} / ${menu.nameKr}]">`;
+      optionsHtml += `<optgroup label="[${stripHtmlTags(menu.nameJp)} / ${stripHtmlTags(menu.nameKr)}]">`;
       menuCats.forEach(cat => {
         const subCats = state.categories.filter(c => c.parentId === cat.id);
         const isSelected = cat.id === art.categoryId ? 'selected' : '';
