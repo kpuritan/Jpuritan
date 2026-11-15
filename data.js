@@ -42,49 +42,13 @@ window.SITE_DATA = {
       "position": 4
     },
     {
-      "id": "sw_intro",
-      "nameJp": "サウスウェスタン紹介",
-      "nameKr": "사우스웨스턴소개",
-      "subTitle": "사우스웨스턴소개",
-      "icon": "fa-school",
+      "id": "sw_seminary",
+      "nameJp": "South Western Reformed Seminary",
+      "nameKr": "South Western Reformed Seminary",
+      "subTitle": "サウスウェスタン神学校",
+      "icon": "fa-university",
       "isVideo": false,
       "position": 5
-    },
-    {
-      "id": "sw_grad",
-      "nameJp": "大学院課程",
-      "nameKr": "대학원과정",
-      "subTitle": "대학원과정",
-      "icon": "fa-graduation-cap",
-      "isVideo": false,
-      "position": 6
-    },
-    {
-      "id": "sw_mission",
-      "nameJp": "宣教師継続教育課程",
-      "nameKr": "선교사연장교육과정",
-      "subTitle": "선교사연장교육과정",
-      "icon": "fa-earth-asia",
-      "isVideo": false,
-      "position": 7
-    },
-    {
-      "id": "sw_admissions",
-      "nameJp": "入学案内",
-      "nameKr": "입학안내",
-      "subTitle": "입학안내",
-      "icon": "fa-clipboard-list",
-      "isVideo": false,
-      "position": 8
-    },
-    {
-      "id": "jrtm_youtube",
-      "nameJp": "JRTM YouTube",
-      "nameKr": "JRTM 유튜브",
-      "subTitle": "公式動画チャンネル",
-      "icon": "fa-youtube",
-      "isVideo": true,
-      "position": 9
     }
   ],
   "categories": [
@@ -1673,30 +1637,6 @@ window.SITE_DATA = {
       "position": 148
     },
     {
-      "id": "cat_pastor_systematic",
-      "parentId": "jrtm_youtube",
-      "nameJp": "10分で学ぶ組織神学",
-      "nameKr": "10분으로 배우는 조직신학",
-      "icon": "fa-brain",
-      "position": 1
-    },
-    {
-      "id": "cat_pastor_life",
-      "parentId": "jrtm_youtube",
-      "nameJp": "10分で学ぶクリスチャン生活",
-      "nameKr": "10분으로 배우는 그리스도인의 생활",
-      "icon": "fa-heart",
-      "position": 2
-    },
-    {
-      "id": "cat_pastor_biblical",
-      "parentId": "jrtm_youtube",
-      "nameJp": "10分で学ぶ聖書神学",
-      "nameKr": "10분으로 배우는 성경신학",
-      "icon": "fa-book-bible",
-      "position": 3
-    },
-    {
       "id": "cat_john_01",
       "parentId": "cat_sermon_john",
       "nameJp": "ヨハネの福音書 1章",
@@ -2114,7 +2054,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_welcome",
-      "parentId": "sw_intro",
+      "parentId": "cat_sw_intro",
       "nameJp": "総長挨拶",
       "nameKr": "총장환영인사",
       "icon": "fa-user-tie",
@@ -2122,7 +2062,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_theology",
-      "parentId": "sw_intro",
+      "parentId": "cat_sw_intro",
       "nameJp": "サウスウェスタンの神学的特徴",
       "nameKr": "southwestern의신학적특징",
       "icon": "fa-book-bible",
@@ -2130,7 +2070,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_faculty",
-      "parentId": "sw_intro",
+      "parentId": "cat_sw_intro",
       "nameJp": "教授陣",
       "nameKr": "교수진",
       "icon": "fa-users",
@@ -2138,7 +2078,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_accreditation",
-      "parentId": "sw_intro",
+      "parentId": "cat_sw_intro",
       "nameJp": "学位認可・認証",
       "nameKr": "학위인증",
       "icon": "fa-award",
@@ -2146,7 +2086,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_partner_univ",
-      "parentId": "sw_intro",
+      "parentId": "cat_sw_intro",
       "nameJp": "提携大学",
       "nameKr": "제휴대학",
       "icon": "fa-handshake",
@@ -2154,7 +2094,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_degree_features",
-      "parentId": "sw_intro",
+      "parentId": "cat_sw_intro",
       "nameJp": "学位課程の特徴",
       "nameKr": "학위과정특징",
       "icon": "fa-certificate",
@@ -2162,7 +2102,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_course_method",
-      "parentId": "sw_intro",
+      "parentId": "cat_sw_intro",
       "nameJp": "受講方法",
       "nameKr": "수강방법",
       "icon": "fa-laptop",
@@ -2170,7 +2110,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_reg_method",
-      "parentId": "sw_intro",
+      "parentId": "cat_sw_intro",
       "nameJp": "登録方法",
       "nameKr": "등록방법",
       "icon": "fa-file-signature",
@@ -2178,7 +2118,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_inquiry",
-      "parentId": "sw_intro",
+      "parentId": "cat_sw_intro",
       "nameJp": "入学・行政・事務処のお問い合わせ",
       "nameKr": "입학_행정_사무처문의",
       "icon": "fa-envelope-open-text",
@@ -2186,7 +2126,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_dept_info",
-      "parentId": "sw_grad",
+      "parentId": "cat_sw_grad",
       "nameJp": "学科案内",
       "nameKr": "학과안내",
       "icon": "fa-circle-info",
@@ -2194,7 +2134,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_curriculum",
-      "parentId": "sw_grad",
+      "parentId": "cat_sw_grad",
       "nameJp": "カリキュラム (教育課程)",
       "nameKr": "교과과정",
       "icon": "fa-book-journal-whills",
@@ -2202,7 +2142,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_phd",
-      "parentId": "sw_grad",
+      "parentId": "cat_sw_grad",
       "nameJp": "哲学博士 (Ph.D.)",
       "nameKr": "철학 박사",
       "icon": "fa-graduation-cap",
@@ -2210,7 +2150,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_thd",
-      "parentId": "sw_grad",
+      "parentId": "cat_sw_grad",
       "nameJp": "神学博士 (Th.D.)",
       "nameKr": "신학 박사",
       "icon": "fa-graduation-cap",
@@ -2218,7 +2158,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_dics",
-      "parentId": "sw_grad",
+      "parentId": "cat_sw_grad",
       "nameJp": "宣教学博士 (D.ICS)",
       "nameKr": "선교학 박사",
       "icon": "fa-earth-americas",
@@ -2226,7 +2166,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_dmin",
-      "parentId": "sw_grad",
+      "parentId": "cat_sw_grad",
       "nameJp": "牧会学博士 (D.Min.)",
       "nameKr": "목회학 박사",
       "icon": "fa-user-tie",
@@ -2234,7 +2174,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_thm",
-      "parentId": "sw_grad",
+      "parentId": "cat_sw_grad",
       "nameJp": "神学修士 (Th.M.)",
       "nameKr": "신학 석사",
       "icon": "fa-scroll",
@@ -2242,7 +2182,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_mdiv",
-      "parentId": "sw_grad",
+      "parentId": "cat_sw_grad",
       "nameJp": "牧会学修士 (M.Div.)",
       "nameKr": "목회학 석사",
       "icon": "fa-book-open",
@@ -2250,7 +2190,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_ma",
-      "parentId": "sw_grad",
+      "parentId": "cat_sw_grad",
       "nameJp": "文学修士 (M.A.)",
       "nameKr": "문학 석사",
       "icon": "fa-graduation-cap",
@@ -2258,7 +2198,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_puritan_ma",
-      "parentId": "sw_grad",
+      "parentId": "cat_sw_grad",
       "nameJp": "ピューリタン神学 文学修士 (M.A.)",
       "nameKr": "청교도신학 문학석사",
       "icon": "fa-feather-pointed",
@@ -2266,7 +2206,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_miss_program",
-      "parentId": "sw_mission",
+      "parentId": "cat_sw_mission",
       "nameJp": "課程案内",
       "nameKr": "과정안내",
       "icon": "fa-circle-info",
@@ -2274,7 +2214,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_miss_ma",
-      "parentId": "sw_mission",
+      "parentId": "cat_sw_mission",
       "nameJp": "宣教学 文学修士 (M.A.)",
       "nameKr": "선교학 문학석사",
       "icon": "fa-graduation-cap",
@@ -2282,7 +2222,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_miss_mdiv",
-      "parentId": "sw_mission",
+      "parentId": "cat_sw_mission",
       "nameJp": "宣教学 牧会学修士 (M.Div.)",
       "nameKr": "선교학 목회학석사",
       "icon": "fa-book-open",
@@ -2290,7 +2230,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_miss_phd",
-      "parentId": "sw_mission",
+      "parentId": "cat_sw_mission",
       "nameJp": "宣教学 博士 (D.ICS / D.Miss.)",
       "nameKr": "선교학 박사",
       "icon": "fa-award",
@@ -2298,7 +2238,7 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_adm_fresh",
-      "parentId": "sw_admissions",
+      "parentId": "cat_sw_admissions",
       "nameJp": "新入生募集要項",
       "nameKr": "신입생모집요강",
       "icon": "fa-user-plus",
@@ -2306,18 +2246,46 @@ window.SITE_DATA = {
     },
     {
       "id": "cat_sw_adm_transfer",
-      "parentId": "sw_admissions",
+      "parentId": "cat_sw_admissions",
       "nameJp": "再入学・編入生募集要項",
       "nameKr": "재입_편입모집요강",
       "icon": "fa-users-rectangle",
       "position": 2
     },
     {
-      "id": "cat_yt_channel",
-      "parentId": "jrtm_youtube",
-      "nameJp": "公式YouTubeチャンネル",
-      "nameKr": "공식 유튜브 채널",
-      "icon": "fa-play",
+      "id": "cat_sw_intro",
+      "parentId": "sw_seminary",
+      "nameJp": "サウスウェスタン紹介",
+      "nameKr": "사우스웨스턴 소개",
+      "subTitle": "사우스웨스턴소개",
+      "icon": "fa-school",
+      "position": 1
+    },
+    {
+      "id": "cat_sw_grad",
+      "parentId": "sw_seminary",
+      "nameJp": "大学院プログラム (大学院課程)",
+      "nameKr": "대학원 프로그램",
+      "subTitle": "대학원과정",
+      "icon": "fa-graduation-cap",
+      "position": 2
+    },
+    {
+      "id": "cat_sw_mission",
+      "parentId": "sw_seminary",
+      "nameJp": "宣教師生涯教育プログラム",
+      "nameKr": "선교사 평생교육 프로그램",
+      "subTitle": "선교사연장교육과정",
+      "icon": "fa-earth-asia",
+      "position": 3
+    },
+    {
+      "id": "cat_sw_admissions",
+      "parentId": "sw_seminary",
+      "nameJp": "登録情報 (入学案内)",
+      "nameKr": "등록 정보",
+      "subTitle": "입학안내",
+      "icon": "fa-clipboard-list",
       "position": 4
     }
   ],
@@ -22957,6 +22925,50 @@ window.SITE_DATA = {
       "views": 0,
       "position": 15,
       "pdfUrl": "pdf/Discourses_on_the_Existence_and_Attributes_of_God_Stephen_Charnock.pdf"
+    },
+    {
+      "id": "art_sw_intro_main",
+      "categoryId": "cat_sw_intro",
+      "titleJp": "サウスウェスタン紹介 概要 (ABOUT SRS)",
+      "titleKr": "사우스웨스턴 소개 개요",
+      "contentJp": "\n<div class=\"sw-intro-overview\">\n  <div class=\"sw-header-box mb-4\">\n    <h3 class=\"fw-bold mb-2 text-primary\"><i class=\"fas fa-university me-2\"></i>サウスウェスタン改革派神学大学院へようこそ</h3>\n    <p class=\"text-muted mb-0\">Southwestern Reformed Seminary (SRS) は、歴史的改革派信仰とピューリタンの精神に基づき、現代社会において神の御言葉を正しく解釈し宣布する神学者、牧会者、宣教師を育成する高等神学教育機関です。</p>\n  </div>\n\n  <div class=\"row g-4 mb-4\">\n    <div class=\"col-md-5\">\n      <div class=\"card p-3 border-0 shadow-sm text-center\">\n        <img src=\"images/dr_kim_hongman.jpg\" alt=\"金弘晩 総長\" class=\"img-fluid rounded mb-3 shadow-sm mx-auto\" style=\"max-height: 260px; object-fit: cover;\">\n        <h5 class=\"fw-bold mb-1\">金弘晩 総長 (学長)</h5>\n        <div class=\"small text-muted mb-2\">Ph.D., Reformed Theological Seminary</div>\n        <p class=\"small text-secondary mb-0\">「21世紀の方式を用いて、宗教改革者たちの神学原理を追求します。」</p>\n      </div>\n    </div>\n    <div class=\"col-md-7\">\n      <div class=\"card p-4 border-0 shadow-sm h-100\">\n        <h5 class=\"fw-bold text-primary mb-3\"><i class=\"fas fa-compass me-2\"></i>主要案内セクション</h5>\n        <ul class=\"list-group list-group-flush small\">\n          <li class=\"list-group-item d-flex justify-content-between align-items-center py-2\">\n            <span><i class=\"fas fa-comment-dots text-primary me-2\"></i>総長挨拶 (WELCOME GREETINGS)</span>\n            <span class=\"badge bg-light text-dark\">理念・設立目的</span>\n          </li>\n          <li class=\"list-group-item d-flex justify-content-between align-items-center py-2\">\n            <span><i class=\"fas fa-book-bible text-primary me-2\"></i>神学的特徴 (THEOLOGICAL FEATURES)</span>\n            <span class=\"badge bg-light text-dark\">4大特徴 (Place/Prof/Puritan/Practical)</span>\n          </li>\n          <li class=\"list-group-item d-flex justify-content-between align-items-center py-2\">\n            <span><i class=\"fas fa-user-graduate text-primary me-2\"></i>教授陣 (PROFESSORS)</span>\n            <span class=\"badge bg-light text-dark\">6大分科 14名の碩学</span>\n          </li>\n          <li class=\"list-group-item d-flex justify-content-between align-items-center py-2\">\n            <span><i class=\"fas fa-award text-primary me-2\"></i>学位認証 (ACCREDITATION)</span>\n            <span class=\"badge bg-light text-dark\">QAHE 国際認証 (ISO 17011)</span>\n          </li>\n          <li class=\"list-group-item d-flex justify-content-between align-items-center py-2\">\n            <span><i class=\"fas fa-handshake text-primary me-2\"></i>提携大学 (AFFILIATED UNIVERSITIES)</span>\n            <span class=\"badge bg-light text-dark\">グローバル教育ネットワーク</span>\n          </li>\n          <li class=\"list-group-item d-flex justify-content-between align-items-center py-2\">\n            <span><i class=\"fas fa-laptop text-primary me-2\"></i>受講方法・登録方法 (ENROLLMENT)</span>\n            <span class=\"badge bg-light text-dark\">オンライン＆集中講義ハイブリッド</span>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</div>\n",
+      "contentKr": "\n<div class=\"sw-intro-overview\">\n  <div class=\"sw-header-box mb-4\">\n    <h3 class=\"fw-bold mb-2 text-primary\"><i class=\"fas fa-university me-2\"></i>サウスウェスタン改革派神学大学院へようこそ</h3>\n    <p class=\"text-muted mb-0\">Southwestern Reformed Seminary (SRS) は、歴史的改革派信仰とピューリタンの精神に基づき、現代社会において神の御言葉を正しく解釈し宣布する神学者、牧会者、宣教師を育成する高等神学教育機関です。</p>\n  </div>\n\n  <div class=\"row g-4 mb-4\">\n    <div class=\"col-md-5\">\n      <div class=\"card p-3 border-0 shadow-sm text-center\">\n        <img src=\"images/dr_kim_hongman.jpg\" alt=\"金弘晩 総長\" class=\"img-fluid rounded mb-3 shadow-sm mx-auto\" style=\"max-height: 260px; object-fit: cover;\">\n        <h5 class=\"fw-bold mb-1\">金弘晩 総長 (学長)</h5>\n        <div class=\"small text-muted mb-2\">Ph.D., Reformed Theological Seminary</div>\n        <p class=\"small text-secondary mb-0\">「21世紀の方式を用いて、宗教改革者たちの神学原理を追求します。」</p>\n      </div>\n    </div>\n    <div class=\"col-md-7\">\n      <div class=\"card p-4 border-0 shadow-sm h-100\">\n        <h5 class=\"fw-bold text-primary mb-3\"><i class=\"fas fa-compass me-2\"></i>主要案内セクション</h5>\n        <ul class=\"list-group list-group-flush small\">\n          <li class=\"list-group-item d-flex justify-content-between align-items-center py-2\">\n            <span><i class=\"fas fa-comment-dots text-primary me-2\"></i>総長挨拶 (WELCOME GREETINGS)</span>\n            <span class=\"badge bg-light text-dark\">理念・設立目的</span>\n          </li>\n          <li class=\"list-group-item d-flex justify-content-between align-items-center py-2\">\n            <span><i class=\"fas fa-book-bible text-primary me-2\"></i>神学的特徴 (THEOLOGICAL FEATURES)</span>\n            <span class=\"badge bg-light text-dark\">4大特徴 (Place/Prof/Puritan/Practical)</span>\n          </li>\n          <li class=\"list-group-item d-flex justify-content-between align-items-center py-2\">\n            <span><i class=\"fas fa-user-graduate text-primary me-2\"></i>教授陣 (PROFESSORS)</span>\n            <span class=\"badge bg-light text-dark\">6大分科 14名の碩学</span>\n          </li>\n          <li class=\"list-group-item d-flex justify-content-between align-items-center py-2\">\n            <span><i class=\"fas fa-award text-primary me-2\"></i>学位認証 (ACCREDITATION)</span>\n            <span class=\"badge bg-light text-dark\">QAHE 国際認証 (ISO 17011)</span>\n          </li>\n          <li class=\"list-group-item d-flex justify-content-between align-items-center py-2\">\n            <span><i class=\"fas fa-handshake text-primary me-2\"></i>提携大学 (AFFILIATED UNIVERSITIES)</span>\n            <span class=\"badge bg-light text-dark\">グローバル教育ネットワーク</span>\n          </li>\n          <li class=\"list-group-item d-flex justify-content-between align-items-center py-2\">\n            <span><i class=\"fas fa-laptop text-primary me-2\"></i>受講方法・登録方法 (ENROLLMENT)</span>\n            <span class=\"badge bg-light text-dark\">オンライン＆集中講義ハイブリッド</span>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</div>\n",
+      "date": "2026-11-15",
+      "author": "Southwestern Reformed Seminary",
+      "readTime": "4分"
+    },
+    {
+      "id": "art_sw_grad_main",
+      "categoryId": "cat_sw_grad",
+      "titleJp": "大学院プログラム 概要 (GRADUATE PROGRAMS)",
+      "titleKr": "대학원 프로그램 개요",
+      "contentJp": "\n<div class=\"sw-grad-overview\">\n  <div class=\"sw-header-box mb-4\">\n    <h3 class=\"fw-bold mb-2 text-primary\"><i class=\"fas fa-graduation-cap me-2\"></i>大学院プログラム (GRADUATE DEGREE PROGRAMS)</h3>\n    <p class=\"text-muted mb-0\">サウスウェスタン改革派神学大学院の全学位課程です。基礎修士課程から最高峰の研究博士課程まで、体系的な改革派神学教育を提供しています。</p>\n  </div>\n\n  <div class=\"row g-3 mb-4\">\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-primary\">\n        <h6 class=\"fw-bold text-primary mb-1\">哲学博士 (Ph.D.) 課程</h6>\n        <div class=\"small text-muted mb-2\">計60単位 / 神学専攻 (コホート) & 牧会リーダーシップ専攻</div>\n        <p class=\"small text-secondary mb-0\">最高峰の学術研究者・教授要員を養成する研究博士課程。</p>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-success\">\n        <h6 class=\"fw-bold text-success mb-1\">神学博士 (Th.D.) 課程</h6>\n        <div class=\"small text-muted mb-2\">計48単位 / 4学期オンライン + 論文1学期</div>\n        <p class=\"small text-secondary mb-0\">組織神学・歴史神学・ピューリタン強解説教学の高度な専門研究。</p>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-info\">\n        <h6 class=\"fw-bold text-info mb-1\">宣教学博士 (D.ICS / D.Miss.) 課程</h6>\n        <div class=\"small text-muted mb-2\">計48単位 / 4学期オンライン + 論文1学期</div>\n        <p class=\"small text-secondary mb-0\">異文化間宣教の理論と戦略、世界観変革を担う宣教専門指導者養成。</p>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-warning\">\n        <h6 class=\"fw-bold text-warning text-dark mb-1\">牧会学博士 (D.Min.) 課程</h6>\n        <div class=\"small text-muted mb-2\">計36単位 / 2年6学期 昼間集中講義</div>\n        <p class=\"small text-secondary mb-0\">現職牧会者のための聖書強解説教学・説教刷新プログラム。</p>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-secondary\">\n        <h6 class=\"fw-bold text-secondary mb-1\">神学修士 (Th.M.) 課程</h6>\n        <div class=\"small text-muted mb-2\">計27単位 / 3学期オンライン (論文なし修了可能)</div>\n        <p class=\"small text-secondary mb-0\">M.Div.修了者のための専門神学深化プログラム。</p>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-dark\">\n        <h6 class=\"fw-bold text-dark mb-1\">牧会学修士 (M.Div.) 課程</h6>\n        <div class=\"small text-muted mb-2\">計90単位 / 3年6学期 牧師按手標準課程</div>\n        <p class=\"small text-secondary mb-0\">聖書語学、2トラック組織神学・教会史、実践神学の統合。</p>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-primary\">\n        <h6 class=\"fw-bold text-primary mb-1\">文学修士 (M.A.) 課程</h6>\n        <div class=\"small text-muted mb-2\">計48単位 / 2年6学期 (学期授業料 $500)</div>\n        <p class=\"small text-secondary mb-0\">聖書神学専攻 / 組織・歴史神学専攻の深層研究。</p>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-danger\">\n        <h6 class=\"fw-bold text-danger mb-1\">ピューリタン神学 文学修士 (M.A.)</h6>\n        <div class=\"small text-muted mb-2\">計36単位 / 2年6学期 集中講義 (学期授業料 $500)</div>\n        <p class=\"small text-secondary mb-0\">16〜17世紀ピューリタン神学全分野を修得する世界唯一の修士課程。</p>\n      </div>\n    </div>\n  </div>\n</div>\n",
+      "contentKr": "\n<div class=\"sw-grad-overview\">\n  <div class=\"sw-header-box mb-4\">\n    <h3 class=\"fw-bold mb-2 text-primary\"><i class=\"fas fa-graduation-cap me-2\"></i>大学院プログラム (GRADUATE DEGREE PROGRAMS)</h3>\n    <p class=\"text-muted mb-0\">サウスウェスタン改革派神学大学院の全学位課程です。基礎修士課程から最高峰の研究博士課程まで、体系的な改革派神学教育を提供しています。</p>\n  </div>\n\n  <div class=\"row g-3 mb-4\">\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-primary\">\n        <h6 class=\"fw-bold text-primary mb-1\">哲学博士 (Ph.D.) 課程</h6>\n        <div class=\"small text-muted mb-2\">計60単位 / 神学専攻 (コホート) & 牧会リーダーシップ専攻</div>\n        <p class=\"small text-secondary mb-0\">最高峰の学術研究者・教授要員を養成する研究博士課程。</p>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-success\">\n        <h6 class=\"fw-bold text-success mb-1\">神学博士 (Th.D.) 課程</h6>\n        <div class=\"small text-muted mb-2\">計48単位 / 4学期オンライン + 論文1学期</div>\n        <p class=\"small text-secondary mb-0\">組織神学・歴史神学・ピューリタン強解説教学の高度な専門研究。</p>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-info\">\n        <h6 class=\"fw-bold text-info mb-1\">宣教学博士 (D.ICS / D.Miss.) 課程</h6>\n        <div class=\"small text-muted mb-2\">計48単位 / 4学期オンライン + 論文1学期</div>\n        <p class=\"small text-secondary mb-0\">異文化間宣教の理論と戦略、世界観変革を担う宣教専門指導者養成。</p>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-warning\">\n        <h6 class=\"fw-bold text-warning text-dark mb-1\">牧会学博士 (D.Min.) 課程</h6>\n        <div class=\"small text-muted mb-2\">計36単位 / 2年6学期 昼間集中講義</div>\n        <p class=\"small text-secondary mb-0\">現職牧会者のための聖書強解説教学・説教刷新プログラム。</p>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-secondary\">\n        <h6 class=\"fw-bold text-secondary mb-1\">神学修士 (Th.M.) 課程</h6>\n        <div class=\"small text-muted mb-2\">計27単位 / 3学期オンライン (論文なし修了可能)</div>\n        <p class=\"small text-secondary mb-0\">M.Div.修了者のための専門神学深化プログラム。</p>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-dark\">\n        <h6 class=\"fw-bold text-dark mb-1\">牧会学修士 (M.Div.) 課程</h6>\n        <div class=\"small text-muted mb-2\">計90単位 / 3年6学期 牧師按手標準課程</div>\n        <p class=\"small text-secondary mb-0\">聖書語学、2トラック組織神学・教会史、実践神学の統合。</p>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-primary\">\n        <h6 class=\"fw-bold text-primary mb-1\">文学修士 (M.A.) 課程</h6>\n        <div class=\"small text-muted mb-2\">計48単位 / 2年6学期 (学期授業料 $500)</div>\n        <p class=\"small text-secondary mb-0\">聖書神学専攻 / 組織・歴史神学専攻の深層研究。</p>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-3 border-0 shadow-sm border-start border-4 border-danger\">\n        <h6 class=\"fw-bold text-danger mb-1\">ピューリタン神学 文学修士 (M.A.)</h6>\n        <div class=\"small text-muted mb-2\">計36単位 / 2年6学期 集中講義 (学期授業料 $500)</div>\n        <p class=\"small text-secondary mb-0\">16〜17世紀ピューリタン神学全分野を修得する世界唯一の修士課程。</p>\n      </div>\n    </div>\n  </div>\n</div>\n",
+      "date": "2026-11-15",
+      "author": "Southwestern Reformed Seminary",
+      "readTime": "5分"
+    },
+    {
+      "id": "art_sw_mission_main",
+      "categoryId": "cat_sw_mission",
+      "titleJp": "宣教師生涯教育プログラム 概要",
+      "titleKr": "선교사 평생교육 프로그램 개요",
+      "contentJp": "\n<div class=\"sw-mission-overview\">\n  <div class=\"sw-header-box mb-4\">\n    <h3 class=\"fw-bold mb-2 text-primary\"><i class=\"fas fa-globe-americas me-2\"></i>宣教師生涯教育プログラム (MISSIONARY CONTINUING EDUCATION)</h3>\n    <p class=\"text-muted mb-0\">宣教現場の第一線で献身する宣教師たちのために、教授陣が直接現場を訪問して学術的・実践的教育を提供する特別継続教育プログラムです。</p>\n  </div>\n\n  <div class=\"card p-4 border-0 shadow-sm mb-4\">\n    <h5 class=\"fw-bold text-secondary mb-3\"><i class=\"fas fa-star me-2 text-warning\"></i>4大運営原則</h5>\n    <div class=\"row g-3\">\n      <div class=\"col-md-6\">\n        <div class=\"p-3 bg-light rounded\">\n          <strong>1. 現地訪問型講義:</strong> 教授陣が直接世界各地の宣教現場へ赴き講義。\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        <div class=\"p-3 bg-light rounded\">\n          <strong>2. 集中講義制:</strong> 年2〜3学期、各学期1〜2週間の集中短期受講。\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        <div class=\"p-3 bg-light rounded\">\n          <strong>3. 特別奨学金:</strong> 宣教師の経済的負担を軽減する大幅な奨学支援。\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        <div class=\"p-3 bg-light rounded\">\n          <strong>4. 世界規模の拠点:</strong> 北米、アジア、中東、欧州、中南米、アフリカ。\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n",
+      "contentKr": "\n<div class=\"sw-mission-overview\">\n  <div class=\"sw-header-box mb-4\">\n    <h3 class=\"fw-bold mb-2 text-primary\"><i class=\"fas fa-globe-americas me-2\"></i>宣教師生涯教育プログラム (MISSIONARY CONTINUING EDUCATION)</h3>\n    <p class=\"text-muted mb-0\">宣教現場の第一線で献身する宣教師たちのために、教授陣が直接現場を訪問して学術的・実践的教育を提供する特別継続教育プログラムです。</p>\n  </div>\n\n  <div class=\"card p-4 border-0 shadow-sm mb-4\">\n    <h5 class=\"fw-bold text-secondary mb-3\"><i class=\"fas fa-star me-2 text-warning\"></i>4大運営原則</h5>\n    <div class=\"row g-3\">\n      <div class=\"col-md-6\">\n        <div class=\"p-3 bg-light rounded\">\n          <strong>1. 現地訪問型講義:</strong> 教授陣が直接世界各地の宣教現場へ赴き講義。\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        <div class=\"p-3 bg-light rounded\">\n          <strong>2. 集中講義制:</strong> 年2〜3学期、各学期1〜2週間の集中短期受講。\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        <div class=\"p-3 bg-light rounded\">\n          <strong>3. 特別奨学金:</strong> 宣教師の経済的負担を軽減する大幅な奨学支援。\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        <div class=\"p-3 bg-light rounded\">\n          <strong>4. 世界規模の拠点:</strong> 北米、アジア、中東、欧州、中南米、アフリカ。\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n",
+      "date": "2026-11-15",
+      "author": "Southwestern Reformed Seminary",
+      "readTime": "4分"
+    },
+    {
+      "id": "art_sw_admissions_main",
+      "categoryId": "cat_sw_admissions",
+      "titleJp": "登録情報・入学案内 概要 (ADMISSIONS)",
+      "titleKr": "등록 정보 개요",
+      "contentJp": "\n<div class=\"sw-admissions-overview\">\n  <div class=\"sw-header-box mb-4\">\n    <h3 class=\"fw-bold mb-2 text-primary\"><i class=\"fas fa-clipboard-list me-2\"></i>登録情報・入学案内 (ADMISSIONS & ENROLLMENT)</h3>\n    <p class=\"text-muted mb-0\">サウスウェスタン改革派神学大学院（SRS）の新入生および再入学・編入生出願手続きの総合案内です。</p>\n  </div>\n\n  <div class=\"row g-4 mb-4\">\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-4 border-0 shadow-sm\">\n        <h5 class=\"fw-bold text-primary mb-2\"><i class=\"fas fa-user-plus me-2\"></i>新入生募集要項</h5>\n        <p class=\"small text-muted mb-3\">各学位課程（Th.D. / D.ICS / D.Min. / Th.M. / M.Div.）の出願資格および提出書類。</p>\n        <span class=\"badge bg-primary align-self-start\">願書受付中</span>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-4 border-0 shadow-sm\">\n        <h5 class=\"fw-bold text-success mb-2\"><i class=\"fas fa-arrows-split-up-and-left me-2\"></i>再入学・編入学募集要項</h5>\n        <p class=\"small text-muted mb-3\">他校での既履修単位審査、学期免除規定、および編入出願手続き。</p>\n        <span class=\"badge bg-success align-self-start\">単位認定審査</span>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"card border-0 shadow-sm p-4 bg-light\">\n    <h6 class=\"fw-bold mb-2\"><i class=\"fas fa-envelope me-2 text-primary\"></i>出願書類の提出先</h6>\n    <p class=\"small text-muted mb-2\">\n      一次スキャン提出: <a href=\"mailto:srsadmissions@gmail.com\" class=\"fw-bold\">srsadmissions@gmail.com</a><br>\n      原本郵送先: Southwestern Reformed Seminary, 1670 W 12th Pl, Los Angeles, CA 90015 U.S.A.\n    </p>\n  </div>\n</div>\n",
+      "contentKr": "\n<div class=\"sw-admissions-overview\">\n  <div class=\"sw-header-box mb-4\">\n    <h3 class=\"fw-bold mb-2 text-primary\"><i class=\"fas fa-clipboard-list me-2\"></i>登録情報・入学案内 (ADMISSIONS & ENROLLMENT)</h3>\n    <p class=\"text-muted mb-0\">サウスウェスタン改革派神学大学院（SRS）の新入生および再入学・編入生出願手続きの総合案内です。</p>\n  </div>\n\n  <div class=\"row g-4 mb-4\">\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-4 border-0 shadow-sm\">\n        <h5 class=\"fw-bold text-primary mb-2\"><i class=\"fas fa-user-plus me-2\"></i>新入生募集要項</h5>\n        <p class=\"small text-muted mb-3\">各学位課程（Th.D. / D.ICS / D.Min. / Th.M. / M.Div.）の出願資格および提出書類。</p>\n        <span class=\"badge bg-primary align-self-start\">願書受付中</span>\n      </div>\n    </div>\n    <div class=\"col-md-6\">\n      <div class=\"card h-100 p-4 border-0 shadow-sm\">\n        <h5 class=\"fw-bold text-success mb-2\"><i class=\"fas fa-arrows-split-up-and-left me-2\"></i>再入学・編入学募集要項</h5>\n        <p class=\"small text-muted mb-3\">他校での既履修単位審査、学期免除規定、および編入出願手続き。</p>\n        <span class=\"badge bg-success align-self-start\">単位認定審査</span>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"card border-0 shadow-sm p-4 bg-light\">\n    <h6 class=\"fw-bold mb-2\"><i class=\"fas fa-envelope me-2 text-primary\"></i>出願書類の提出先</h6>\n    <p class=\"small text-muted mb-2\">\n      一次スキャン提出: <a href=\"mailto:srsadmissions@gmail.com\" class=\"fw-bold\">srsadmissions@gmail.com</a><br>\n      原本郵送先: Southwestern Reformed Seminary, 1670 W 12th Pl, Los Angeles, CA 90015 U.S.A.\n    </p>\n  </div>\n</div>\n",
+      "date": "2026-11-15",
+      "author": "Southwestern Reformed Seminary",
+      "readTime": "4分"
     }
   ]
 };

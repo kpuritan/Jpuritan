@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>日本改革派神学と牧会 | Japan Reformed Theology & Ministry</title>
   <meta name="description" content="聖書に立ち返り、福音によって教会を新たにする。日本改革派神学と牧会、聖書講解、歴史的教理教育、伝道と弟子道のための学術的・実践的リソースを提供します。">
-  <link rel="stylesheet" href="style.css?v=20261115_southwestern">
+  <link rel="stylesheet" href="style.css?v=20261115_southwestern_restructure">
   <!-- FontAwesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -65,7 +65,7 @@
   </section>
 
   <!-- MAIN MENUS (PERMANENT STATIC 10 CARDS: Home section leftmost) -->
-  <section class="main-menu-grid" id="main-menu-sec" style="grid-template-columns: repeat(10, 1fr);">
+  <section class="main-menu-grid" id="main-menu-sec" style="grid-template-columns: repeat(6, 1fr);">
     <div class="menu-card" data-menu="menu_1787468975888" onclick="selectMainMenu('menu_1787468975888')">
       <i class="fa-solid fa-house-chimney menu-icon"></i>
       <div class="menu-title-jp">ホーム セクション</div>
@@ -88,30 +88,10 @@
       <div class="menu-title-jp">無料冊子</div>
       <div class="menu-title-sub" style="font-size: 0.75rem; color: #ef4444; margin-top: 4px; font-weight: 700;">Free e-book</div>
     </div>
-    <div class="menu-card" data-menu="sw_intro" onclick="selectMainMenu('sw_intro')">
-      <i class="fa-solid fa-school menu-icon"></i>
-      <div class="menu-title-jp">サウスウェスタン紹介</div>
-      <div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">사우스웨스턴소개</div>
-    </div>
-    <div class="menu-card" data-menu="sw_grad" onclick="selectMainMenu('sw_grad')">
-      <i class="fa-solid fa-graduation-cap menu-icon"></i>
-      <div class="menu-title-jp">大学院課程</div>
-      <div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">대학원과정</div>
-    </div>
-    <div class="menu-card" data-menu="sw_mission" onclick="selectMainMenu('sw_mission')">
-      <i class="fa-solid fa-earth-asia menu-icon"></i>
-      <div class="menu-title-jp">宣教師継続教育課程</div>
-      <div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">선교사연장교육과정</div>
-    </div>
-    <div class="menu-card" data-menu="sw_admissions" onclick="selectMainMenu('sw_admissions')">
-      <i class="fa-solid fa-clipboard-list menu-icon"></i>
-      <div class="menu-title-jp">入学案内</div>
-      <div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">입학안내</div>
-    </div>
-    <div class="menu-card" data-menu="jrtm_youtube" onclick="selectMainMenu('jrtm_youtube')">
-      <i class="fa-brands fa-youtube menu-icon" style="color: #ef4444;"></i>
-      <div class="menu-title-jp">JRTM YouTube</div>
-      <div class="menu-title-sub" style="font-size: 0.75rem; color: #ef4444; margin-top: 4px; font-weight: 700;">公式動画</div>
+    <div class="menu-card" data-menu="sw_seminary" onclick="selectMainMenu('sw_seminary')">
+      <i class="fa-solid fa-university menu-icon"></i>
+      <div class="menu-title-jp">South Western Seminary</div>
+      <div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">神学大学院 (SRS)</div>
     </div>
   </section>
 
@@ -700,6 +680,29 @@
     </div>
   </section>
 
+  <!-- JRTM YOUTUBE PROMO SECTION (HOME BOTTOM) -->
+  <section class="youtube-home-section" id="youtube-home-sec">
+    <div class="youtube-home-card">
+      <div class="youtube-home-left">
+        <div class="youtube-home-icon-circle">
+          <i class="fa-brands fa-youtube"></i>
+        </div>
+        <div>
+          <div class="youtube-home-badge"><i class="fa-solid fa-circle-play me-1"></i> OFFICIAL YOUTUBE CHANNEL</div>
+          <h3 class="youtube-home-title">日本改革派神学と牧会 (JRTM) 公式動画チャンネル</h3>
+          <p class="youtube-home-desc">10分で学ぶ組織神学・聖書神学・キリスト者の生活などの動画講義を配信中（@J.R.T.M）</p>
+        </div>
+      </div>
+      <div class="youtube-home-right">
+        <a href="https://www.youtube.com/@J.R.T.M" target="_blank" rel="noopener noreferrer" class="youtube-home-btn">
+          <i class="fa-brands fa-youtube"></i>
+          <span>YouTubeで視聴する</span>
+          <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem;"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-grid">
@@ -726,11 +729,8 @@
           <li><a href="#" onclick="selectMainMenu('catechism')">教理教育と復興</a></li>
           <li><a href="#" onclick="selectMainMenu('theology')">改革派神学</a></li>
           <li><a href="#" onclick="selectMainMenu('ebook')">無料冊子 (Free e-book)</a></li>
-          <li><a href="#" onclick="selectMainMenu('sw_intro')">サウスウェスタン紹介 (사우스웨스턴소개)</a></li>
-          <li><a href="#" onclick="selectMainMenu('sw_grad')">大学院課程 (대학원과정)</a></li>
-          <li><a href="#" onclick="selectMainMenu('sw_mission')">宣教師継続教育課程 (선교사연장교육과정)</a></li>
-          <li><a href="#" onclick="selectMainMenu('sw_admissions')">入学案内 (입학안내)</a></li>
-          <li><a href="#" onclick="selectMainMenu('jrtm_youtube')"><i class="fa-brands fa-youtube" style="color: #ef4444; margin-right: 4px;"></i> JRTM YouTube</a></li>
+          <li><a href="#" onclick="selectMainMenu('sw_seminary')">South Western Seminary</a></li>
+          <li><a href="https://www.youtube.com/@J.R.T.M" target="_blank" rel="noopener noreferrer" style="color: #ef4444; font-weight: 600;"><i class="fa-brands fa-youtube" style="margin-right: 4px;"></i> JRTM YouTube公式</a></li>
           <li><a href="#" onclick="event.preventDefault(); navigateToContact();" style="color: var(--accent-color); font-weight: 500;">Contact (お問い合わせ)</a></li>
         </ul>
       </div>
@@ -751,6 +751,12 @@
     </div>
   </footer>
 
+  <!-- YOUTUBE FLOATING BUTTON -->
+  <a href="https://www.youtube.com/@J.R.T.M" target="_blank" rel="noopener noreferrer" id="youtube-float-btn" class="youtube-float-btn" title="JRTM 公式YouTubeチャンネル (@J.R.T.M)">
+    <i class="fa-brands fa-youtube"></i>
+    <span class="youtube-float-text">JRTM YouTube</span>
+  </a>
+
   <!-- BGM FLOATING BUTTON -->
   <button id="bgm-toggle-btn" class="bgm-float-btn" onclick="toggleBgm()">
     <i class="fa-solid fa-volume-xmark" style="margin-right: 6px;"></i>
@@ -760,8 +766,8 @@
 
 
   <!-- CORE LOGIC AND DATA -->
-  <script src="data.js?v=20261115_southwestern_curriculum"></script>
-  <script src="mindmap.js?v=20261115_southwestern_curriculum"></script>
-  <script src="app.js?v=20261115_southwestern_curriculum"></script>
+  <script src="data.js?v=20261115_southwestern_restructure"></script>
+  <script src="mindmap.js?v=20261115_southwestern_restructure"></script>
+  <script src="app.js?v=20261115_southwestern_restructure"></script>
 </body>
 </html>

@@ -279,7 +279,7 @@ function loadLocalStorageOnly() {
     });
   }
 
-  const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'ebook', 'sw_intro', 'sw_grad', 'sw_mission', 'sw_admissions', 'jrtm_youtube'];
+  const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'ebook', 'sw_seminary'];
   state.mainMenus.sort((a, b) => {
     const posA = a.position !== undefined ? a.position : defaultMenuIds.indexOf(a.id);
     const posB = b.position !== undefined ? b.position : defaultMenuIds.indexOf(b.id);
@@ -290,11 +290,11 @@ function loadLocalStorageOnly() {
 
 async function initApp() {
   // Clear any old session states and all older localStorage caches on version update
-  if (sessionStorage.getItem('wscal_version') !== 'v42') {
+  if (sessionStorage.getItem('wscal_version') !== 'v43') {
     sessionStorage.removeItem('wscal_user_menu');
     sessionStorage.removeItem('wscal_user_category');
     sessionStorage.removeItem('wscal_user_article');
-    sessionStorage.setItem('wscal_version', 'v42');
+    sessionStorage.setItem('wscal_version', 'v43');
     try {
       Object.keys(localStorage).forEach(key => {
         if (key.startsWith('wscal_')) {
@@ -357,25 +357,32 @@ async function initApp() {
 
       // Refresh submenu buttons if currently viewing a menu
       if (state.currentMenu) {
-        const submenuGrid = document.getElementById('submenu-items-container');
-        if (submenuGrid && state.currentMenu !== 'theology') {
-          submenuGrid.innerHTML = '';
-          const menuCats = (state.categories || []).filter(cat => cat.parentId === state.currentMenu);
-          sortCategoriesList(menuCats);
-          menuCats.forEach(cat => {
-            const badge = document.createElement('div');
-            badge.className = `submenu-item ${cat.id === state.currentCategory ? 'active' : ''}`;
-            badge.dataset.catId = cat.id;
-            badge.style.display = 'flex';
-            badge.style.alignItems = 'center';
-            badge.style.justifyContent = 'center';
-            badge.style.padding = '12px 24px';
-            badge.innerHTML = `
-              <div style="font-family: var(--font-serif); font-size: 0.95rem; font-weight: 700;">${cat.nameJp}</div>
-            `;
-            badge.onclick = () => selectSubcategory(cat.id, false);
-            submenuGrid.appendChild(badge);
-          });
+        if (state.currentMenu === 'theology') {
+          renderTheologySubmenu();
+        } else if (state.currentMenu === 'sw_seminary') {
+          renderSouthwesternSubmenu();
+        } else {
+          const submenuGrid = document.getElementById('submenu-items-container');
+          if (submenuGrid) {
+            submenuGrid.className = 'submenu-grid';
+            submenuGrid.innerHTML = '';
+            const menuCats = (state.categories || []).filter(cat => cat.parentId === state.currentMenu);
+            sortCategoriesList(menuCats);
+            menuCats.forEach(cat => {
+              const badge = document.createElement('div');
+              badge.className = `submenu-item ${cat.id === state.currentCategory ? 'active' : ''}`;
+              badge.dataset.catId = cat.id;
+              badge.style.display = 'flex';
+              badge.style.alignItems = 'center';
+              badge.style.justifyContent = 'center';
+              badge.style.padding = '12px 24px';
+              badge.innerHTML = `
+                <div style="font-family: var(--font-serif); font-size: 0.95rem; font-weight: 700;">${cat.nameJp}</div>
+              `;
+              badge.onclick = () => selectSubcategory(cat.id, false);
+              submenuGrid.appendChild(badge);
+            });
+          }
         }
       }
     }
@@ -1047,6 +1054,83 @@ function renderTheologySubmenu() {
   }
 }
 
+// Render Southwestern 4 Programs Submenu Cards (Exact match to screenshot)
+function renderSouthwesternSubmenu() {
+  const submenuGrid = document.getElementById('submenu-items-container');
+  const categoryTitle = document.getElementById('submenu-category-title');
+  if (categoryTitle) {
+    categoryTitle.innerHTML = `
+      <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; flex-wrap: wrap; gap: 8px;">
+        <span style="font-weight: 700; color: #0A1C36; font-size: 1.05rem;">
+          <i class="fa-solid fa-university me-2" style="color: var(--accent-color);"></i>South Western Reformed Seminary (サウスウェスタン改革派神学大学院)
+        </span>
+        <span style="font-size: 0.82rem; color: var(--text-light); font-weight: normal;">
+          ※ 下記の4つの課程からプログラムを選択してください。
+        </span>
+      </div>
+    `;
+  }
+  if (!submenuGrid) return;
+  submenuGrid.innerHTML = '';
+  submenuGrid.className = 'sw-program-grid';
+
+  const swCats = [
+    {
+      id: 'cat_sw_intro',
+      titleKr: '사우스웨스턴 소개',
+      titleJp: 'サウスウェスタン紹介',
+      subKr: '사우스웨스턴소개',
+      icon: 'fa-school'
+    },
+    {
+      id: 'cat_sw_grad',
+      titleKr: '대학원 프로그램',
+      titleJp: '大学院プログラム (大学院課程)',
+      subKr: '대학원과정',
+      icon: 'fa-graduation-cap'
+    },
+    {
+      id: 'cat_sw_mission',
+      titleKr: '선교사 평생교육 프로그램',
+      titleJp: '宣教師生涯教育プログラム',
+      subKr: '선교사연장교육과정',
+      icon: 'fa-earth-asia'
+    },
+    {
+      id: 'cat_sw_admissions',
+      titleKr: '등록 정보',
+      titleJp: '登録情報 (入学案内)',
+      subKr: '입학안내',
+      icon: 'fa-clipboard-list'
+    }
+  ];
+
+  swCats.forEach(item => {
+    const card = document.createElement('div');
+    const descendants = typeof getAllDescendantCategoryIds === 'function' ? getAllDescendantCategoryIds(item.id) : [];
+    const isActive = state.currentCategory === item.id || descendants.includes(state.currentCategory);
+    card.className = `sw-program-card ${isActive ? 'active' : ''}`;
+    card.dataset.catId = item.id;
+    card.innerHTML = `
+      <div class="sw-card-icon">
+        <i class="fa-solid ${item.icon}"></i>
+      </div>
+      <div class="sw-card-title-kr">${item.titleKr}</div>
+      <div class="sw-card-title-jp">${item.titleJp}</div>
+      <div class="sw-card-sub">${item.subKr}</div>
+    `;
+    card.onclick = () => {
+      // Find first child and select it, which expands the tree
+      const children = state.categories.filter(c => c.parentId === item.id);
+      if (children.length > 0) {
+        selectSubcategory(children[0].id, true);
+      } else {
+        selectSubcategory(item.id, true);
+      }
+    };
+    submenuGrid.appendChild(card);
+  });
+}
 
 // Initialize categories collapse states
 function initializeCollapsedStates() {
@@ -1064,7 +1148,7 @@ function isAnyAncestorCollapsed(catId) {
   const cat = state.categories.find(c => c.id === catId);
   if (!cat) return false;
 
-  const rootMenus = ['sermon', 'catechism', 'theology', 'ebook', 'discipleship', 'sw_intro', 'sw_grad', 'sw_mission', 'sw_admissions', 'jrtm_youtube', 'menu_1787468975888'];
+  const rootMenus = ['sermon', 'catechism', 'theology', 'ebook', 'discipleship', 'sw_seminary', 'menu_1787468975888'];
   if (rootMenus.includes(cat.parentId) || (state.mainMenus && state.mainMenus.some(m => m.id === cat.parentId))) {
     return false;
   }
@@ -1164,7 +1248,10 @@ function selectMainMenu(menuKey) {
 
   if (menuKey === 'theology') {
     renderTheologySubmenu();
+  } else if (menuKey === 'sw_seminary') {
+    renderSouthwesternSubmenu();
   } else {
+    if (submenuGrid) submenuGrid.className = 'submenu-grid';
     if (categoryTitle) {
       categoryTitle.textContent = menuObj ? `${stripHtmlTags(menuObj.nameJp)} のフォルダ` : 'フォルダ一覧';
     }
@@ -1215,6 +1302,11 @@ function selectMainMenu(menuKey) {
       workspaceSec.classList.add('active');
       document.getElementById('view-article-list').style.display = 'block';
       document.getElementById('view-article-detail').style.display = 'none';
+    }
+  } else if (menuKey === 'sw_seminary') {
+    const welcomeCat = state.categories.find(c => c.id === 'cat_sw_welcome') || state.categories.find(c => c.parentId === 'cat_sw_intro');
+    if (welcomeCat) {
+      selectSubcategory(welcomeCat.id, false);
     }
   } else {
     const allSubCats = buildFlatTree(menuKey, 0);
@@ -1284,6 +1376,8 @@ function selectSubcategory(categoryId, shouldScroll = false) {
   // Keep Submenu visible and updated
   if (state.currentMenu === 'theology') {
     renderTheologySubmenu();
+  } else if (state.currentMenu === 'sw_seminary') {
+    renderSouthwesternSubmenu();
   }
   const submenuContainer = document.getElementById('submenu-sec');
   if (submenuContainer) submenuContainer.classList.add('active');
