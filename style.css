@@ -236,7 +236,7 @@ header {
   letter-spacing: 1px;
 }
 
-/* E-BOOK SPECIAL HIGHLIGHT (무료책자 돋보이는 빨강 스타일) */
+/* E-BOOK SPECIAL HIGHLIGHT (無料冊子 スタイル) */
 .menu-card[data-menu="ebook"],
 .menu-card.menu-card-ebook {
   border-top: 4px solid #dc2626 !important;
@@ -333,12 +333,12 @@ header {
 }
 
 .sidebar-item[title*="無料冊子"],
-.sidebar-item[title*="무료책자"] {
+.sidebar-item[title*="無料冊子"] {
   color: #b91c1c !important;
   font-weight: 700 !important;
 }
 .sidebar-item[title*="無料冊子"] i,
-.sidebar-item[title*="무료책자"] i {
+.sidebar-item[title*="無料冊子"] i {
   color: #dc2626 !important;
 }
 
@@ -836,9 +836,9 @@ header {
 
 .article-item-card {
   padding: 1.35rem 1.6rem;
-  background-color: #fffde7; /* 노랑 바탕 */
-  border: 1px solid #fef08a; /* 부드러운 옐로우 보더 */
-  border-left: 5px solid #facc15; /* 골드 옐로우 포인트 바 */
+  background-color: #fffde7; /* Yellow background */
+  border: 1px solid #fef08a; /* Soft yellow border */
+  border-left: 5px solid #facc15; /* Gold yellow point bar */
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -846,7 +846,7 @@ header {
 }
 
 .article-item-card:hover {
-  background-color: #fef9c3; /* 호버 시 약간 더 선명한 노랑 */
+  background-color: #fef9c3; /* Hover yellow */
   border-color: #eab308;
   border-left-color: #ca8a04;
   box-shadow: 0 4px 14px rgba(202, 138, 4, 0.14);
@@ -857,7 +857,7 @@ header {
   font-family: var(--font-serif);
   font-size: 1.3rem;
   font-weight: 700;
-  color: #111827; /* 선명하고 깔끔한 검은 글씨 */
+  color: #111827; /* Dark text */
   margin-bottom: 0.65rem;
   line-height: 1.4;
   letter-spacing: -0.01em;
@@ -878,7 +878,7 @@ header {
   gap: 6px;
 }
 
-/* 저자: 돋보이는 뱃지 스타일 */
+/* 著者バッジ */
 .article-item-meta .meta-author {
   background: #eff6ff;
   border: 1px solid #bfdbfe;
@@ -892,7 +892,7 @@ header {
   color: #2563eb;
 }
 
-/* 관련구절 / 주제: 빨강 (Red) */
+/* 御言葉 / 主題 */
 .article-item-meta .meta-scripture,
 .article-item-meta .meta-theme {
   color: #dc2626 !important;
@@ -903,7 +903,7 @@ header {
   color: #ef4444 !important;
 }
 
-/* 날짜 */
+/* 日付 */
 .article-item-meta .meta-date {
   color: #4b5563;
   font-weight: 500;
@@ -1736,7 +1736,7 @@ footer {
 }
 
 /* ==========================================
-   Tree View Styles (관리자 폴더/카테고리 트리)
+   Tree View Styles (フォルダ/カテゴリツリー)
    ========================================== */
 .category-tree-container {
   display: flex;
@@ -1845,7 +1845,7 @@ footer {
 .sidebar-item.depth-4 { padding-left: 60px; }
 
 /* ==========================================
-   Video Gallery Grid (목회자 10분 신학 - 동영상 카드)
+   Video Gallery Grid (動画カード)
    ========================================== */
 .video-gallery-grid {
   display: grid;
@@ -1953,7 +1953,7 @@ footer {
 }
 
 /* ==========================================
-   Responsive Video Embed (상세보기 비디오)
+   Responsive Video Embed (動画)
    ========================================== */
 .video-embed-wrapper {
   position: relative;
@@ -2165,7 +2165,7 @@ footer {
   user-select: none;
 }
 
-/* Profile layout for "섬기는 이들" (Servants) */
+/* Profile layout for 奉仕者一覧 */
 .profile-list {
   display: flex;
   flex-direction: column;
@@ -2251,7 +2251,7 @@ footer {
   box-sizing: border-box;
 }
 
-/* Theology Paper Container & Elements (구원론, 교회론, 종말론, 역사신학 등) */
+/* Theology Paper Container & Elements (組織神学・歴史神学等) */
 .theology-paper-container {
   max-width: 100% !important;
   width: 100% !important;
@@ -2401,7 +2401,7 @@ footer {
 }
 
 /* ==========================================
-   Editor Toolbar & Mode Switch Styles (티스토리 스타일)
+   Editor Toolbar & Mode Switch Styles
    ========================================== */
 .btn-editor-mode {
   padding: 5px 12px;

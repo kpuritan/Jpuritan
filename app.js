@@ -8,79 +8,79 @@ var MASTER_SITE_DATABASE = (typeof window !== 'undefined' && (window.SITE_DATA |
 // Canonical 66 Books Order Mapping for Sermons
 const BIBLE_66_ORDER = {
   // Old Testament (1-39)
-  "창세기": 1, "創世記": 1, "Genesis": 1,
-  "출애굽기": 2, "出エジプト記": 2, "Exodus": 2,
-  "레위기": 3, "レビ記": 3, "Leviticus": 3,
-  "민수기": 4, "民数記": 4, "Numbers": 4,
-  "신명기": 5, "申命記": 5, "Deuteronomy": 5,
-  "여호수아": 6, "ヨシュア記": 6, "Joshua": 6,
-  "사사기": 7, "士師記": 7, "Judges": 7,
-  "룻기": 8, "ルツ記": 8, "Ruth": 8,
-  "사무엘상": 9, "サムエル記上": 9, "サムエル記第一": 9, "1 Samuel": 9,
-  "사무엘하": 10, "サムエル記下": 10, "サムエル記第二": 10, "2 Samuel": 10,
-  "열왕기상": 11, "列王記上": 11, "列王記第一": 11, "1 Kings": 11,
-  "열왕기하": 12, "列王記下": 12, "列王記第二": 12, "2 Kings": 12,
-  "역대상": 13, "歴代誌上": 13, "歴代誌第一": 13, "1 Chronicles": 13,
-  "역대하": 14, "歴代誌下": 14, "歴代誌第二": 14, "2 Chronicles": 14,
-  "에스라": 15, "エズラ記": 15, "Ezra": 15,
-  "느헤미야": 16, "ネヘミヤ記": 16, "Nehemiah": 16,
-  "에스더": 17, "エステル記": 17, "Esther": 17,
-  "욥기": 18, "ヨブ記": 18, "Job": 18,
-  "시편": 19, "詩篇": 19, "Psalms": 19,
-  "잠언": 20, "箴言": 20, "Proverbs": 20,
-  "전도서": 21, "伝道者の書": 21, "伝道の書": 21, "Ecclesiastes": 21,
-  "아가": 22, "雅歌": 22, "Song of Solomon": 22,
-  "이사야": 23, "イザヤ書": 23, "Isaiah": 23,
-  "예레미야": 24, "エレミヤ書": 24, "Jeremiah": 24,
-  "예레미야애가": 25, "哀歌": 25, "Lamentations": 25,
-  "에스겔": 26, "エゼキエル書": 26, "Ezekiel": 26,
-  "다니엘": 27, "ダニエル書": 27, "Daniel": 27,
-  "호세아": 28, "ホセア書": 28, "Hosea": 28,
-  "요엘": 29, "ヨエル書": 29, "Joel": 29,
-  "아모스": 30, "アモス書": 30, "Amos": 30,
-  "오바댜": 31, "オバデヤ書": 31, "Obadiah": 31,
-  "요나": 32, "ヨナ書": 32, "Jonah": 32,
-  "미가": 33, "ミカ書": 33, "Micah": 33,
-  "나훔": 34, "ナホム書": 34, "Nahum": 34,
-  "하박국": 35, "ハバクク書": 35, "Habakkuk": 35,
-  "스바냐": 36, "ゼパニヤ書": 36, "Zephaniah": 36,
-  "학개": 37, "ハガイ書": 37, "Haggai": 37,
-  "스가랴": 38, "ゼカリヤ書": 38, "Zechariah": 38,
-  "말라기": 39, "マラキ書": 39, "Malachi": 39,
+  "創世記": 1, "Genesis": 1,
+  "出エジプト記": 2, "Exodus": 2,
+  "レビ記": 3, "Leviticus": 3,
+  "民数記": 4, "Numbers": 4,
+  "申命記": 5, "Deuteronomy": 5,
+  "ヨシュア記": 6, "Joshua": 6,
+  "士師記": 7, "Judges": 7,
+  "ルツ記": 8, "Ruth": 8,
+  "サムエル記上": 9, "サムエル記第一": 9, "1 Samuel": 9,
+  "サムエル記下": 10, "サムエル記第二": 10, "2 Samuel": 10,
+  "列王記上": 11, "列王記第一": 11, "1 Kings": 11,
+  "列王記下": 12, "列王記第二": 12, "2 Kings": 12,
+  "歴代誌上": 13, "歴代誌第一": 13, "1 Chronicles": 13,
+  "歴代誌下": 14, "歴代誌第二": 14, "2 Chronicles": 14,
+  "エズラ記": 15, "Ezra": 15,
+  "ネヘミヤ記": 16, "Nehemiah": 16,
+  "エステル記": 17, "Esther": 17,
+  "ヨブ記": 18, "Job": 18,
+  "詩篇": 19, "Psalms": 19,
+  "箴言": 20, "Proverbs": 20,
+  "伝道者の書": 21, "伝道の書": 21, "Ecclesiastes": 21,
+  "雅歌": 22, "Song of Solomon": 22,
+  "イザヤ書": 23, "Isaiah": 23,
+  "エレミヤ書": 24, "Jeremiah": 24,
+  "哀歌": 25, "Lamentations": 25,
+  "エゼキエル書": 26, "Ezekiel": 26,
+  "ダニエル書": 27, "Daniel": 27,
+  "ホセア書": 28, "Hosea": 28,
+  "ヨエル書": 29, "Joel": 29,
+  "アモス書": 30, "Amos": 30,
+  "オバデヤ書": 31, "Obadiah": 31,
+  "ヨナ書": 32, "Jonah": 32,
+  "ミカ書": 33, "Micah": 33,
+  "ナホム書": 34, "Nahum": 34,
+  "ハバクク書": 35, "Habakkuk": 35,
+  "ゼパニヤ書": 36, "Zephaniah": 36,
+  "ハガイ書": 37, "Haggai": 37,
+  "ゼカリヤ書": 38, "Zechariah": 38,
+  "マラキ書": 39, "Malachi": 39,
 
   // New Testament (40-66)
-  "마태복음": 40, "マタイによる福音書": 40, "マタイの福音書": 40, "Matthew": 40,
-  "마가복음": 41, "マルコによる福音書": 41, "マルコの福音書": 41, "Mark": 41,
-  "누가복음": 42, "ルカによる福音書": 42, "ルカの福音書": 42, "Luke": 42,
-  "요한복음": 43, "ヨハネによる福音書": 43, "ヨハネの福音書": 43, "John": 43,
-  "사도행전": 44, "使徒行伝": 44, "使徒の働き": 44, "Acts": 44,
-  "로마서": 45, "ローマ人への手紙": 45, "ローマの信徒への手紙": 45, "Romans": 45,
-  "고린도전서": 46, "コリント人への手紙第一": 46, "コリントの信徒への手紙一": 46, "1 Corinthians": 46,
-  "고린도후서": 47, "コリント人への手紙第二": 47, "コリントの信徒への手紙二": 47, "2 Corinthians": 47,
-  "갈라디아서": 48, "ガラテヤ人への手紙": 48, "ガラテヤ書": 48, "Galatians": 48,
-  "에베소서": 49, "エフェソス人への手紙": 49, "エフェソス": 49, "Ephesians": 49,
-  "빌립보서": 50, "ピリピ人への手紙": 50, "フィリピの信徒への手紙": 50, "Philippians": 50,
-  "골로새서": 51, "コロサイ人への手紙": 51, "コロサイの信徒への手紙": 51, "Colossians": 51,
-  "데살로니가전서": 52, "テサロニケ人への手紙第一": 52, "1 Thessalonians": 52,
-  "데살로니가후서": 53, "テサロニケ人への手紙第二": 53, "2 Thessalonians": 53,
-  "디모데전서": 54, "テモテへの手紙第一": 54, "1 Timothy": 54,
-  "디모데후서": 55, "テモテへの手紙第二": 55, "2 Timothy": 55,
-  "디도서": 56, "テトスへの手紙": 56, "Titus": 56,
-  "빌레몬서": 57, "ピレモンへの手紙": 57, "フィレモンへの手紙": 57, "Philemon": 57,
-  "히브리서": 58, "ヘブル人への手紙": 58, "ヘブライ人への手紙": 58, "Hebrews": 58,
-  "야고보서": 59, "ヤコブの手紙": 59, "James": 59,
-  "베드로전서": 60, "ペテロの手紙第一": 60, "ペトロの手紙一": 60, "1 Peter": 60,
-  "베드로후서": 61, "ペテロの手紙第二": 61, "ペトロの手紙二": 61, "2 Peter": 61,
-  "요한일서": 62, "ヨハネの手紙第一": 62, "1 John": 62,
-  "요한이서": 63, "ヨハネの手紙第二": 63, "2 John": 63,
-  "요한삼서": 64, "ヨハネの手紙第三": 64, "3 John": 64,
-  "유다서": 65, "ユダの手紙": 65, "ユダ": 65, "Jude": 65,
-  "요한계시록": 66, "ヨハネの黙示録": 66, "Revelation": 66,
+  "マタイによる福音書": 40, "マタイの福音書": 40, "Matthew": 40,
+  "マルコによる福音書": 41, "マルコの福音書": 41, "Mark": 41,
+  "ルカによる福音書": 42, "ルカの福音書": 42, "Luke": 42,
+  "ヨハネによる福音書": 43, "ヨハネの福音書": 43, "John": 43,
+  "使徒行伝": 44, "使徒の働き": 44, "Acts": 44,
+  "ローマ人への手紙": 45, "ローマの信徒への手紙": 45, "Romans": 45,
+  "コリント人への手紙第一": 46, "コリントの信徒への手紙一": 46, "1 Corinthians": 46,
+  "コリント人への手紙第二": 47, "コリントの信徒への手紙二": 47, "2 Corinthians": 47,
+  "ガラテヤ人への手紙": 48, "ガラテヤ書": 48, "Galatians": 48,
+  "エフェソス人への手紙": 49, "エフェソス": 49, "Ephesians": 49,
+  "ピリピ人への手紙": 50, "フィリピの信徒への手紙": 50, "Philippians": 50,
+  "コロサイ人への手紙": 51, "コロサイの信徒への手紙": 51, "Colossians": 51,
+  "テサロニケ人への手紙第一": 52, "1 Thessalonians": 52,
+  "テサロニケ人への手紙第二": 53, "2 Thessalonians": 53,
+  "テモテへの手紙第一": 54, "1 Timothy": 54,
+  "テモテへの手紙第二": 55, "2 Timothy": 55,
+  "テトスへの手紙": 56, "Titus": 56,
+  "ピレモンへの手紙": 57, "フィレモンへの手紙": 57, "Philemon": 57,
+  "ヘブル人への手紙": 58, "ヘブライ人への手紙": 58, "Hebrews": 58,
+  "ヤコブの手紙": 59, "James": 59,
+  "ペテロの手紙第一": 60, "ペトロの手紙一": 60, "1 Peter": 60,
+  "ペテロの手紙第二": 61, "ペトロの手紙二": 61, "2 Peter": 61,
+  "ヨハネの手紙第一": 62, "1 John": 62,
+  "ヨハネの手紙第二": 63, "2 John": 63,
+  "ヨハネの手紙第三": 64, "3 John": 64,
+  "ユダの手紙": 65, "ユダ": 65, "Jude": 65,
+  "ヨハネの黙示録": 66, "Revelation": 66,
 
   // Special Topics
-  "예수님의 비유": 67, "イエスのたとえ話": 67, "예수님의 이적비유": 67, "イエスの奇跡とたとえ話": 67,
-  "산상수훈": 40.5, "산상보훈": 40.5, "山上の説教": 40.5, "山上の垂訓": 40.5,
-  "이사야 53장": 23, "이사야53장": 23, "イザヤ書53章": 23, "イザヤ書 53章": 23
+  "イエスのたとえ話": 67, "イエスの奇跡とたとえ話": 67,
+  "山上の説教": 40.5, "山上の垂訓": 40.5,
+  "イザヤ書53章": 23, "イザヤ書 53章": 23
 };
 
 // Clean HTML tags and <br> glitches from display names/titles
@@ -123,7 +123,7 @@ function sortCategoriesList(cats) {
   });
 }
 
-// Extract numerical sort key from title and category (Chapter order 1~33, WCF sections [1절]/[1節], catechism questions 第1問/질문 1, etc.)
+
 function getArticleSortKey(art) {
   if (!art) return { catOrder: 999999, secNum: 999999, pos: 999999, id: '' };
   
@@ -154,13 +154,13 @@ function getArticleSortKey(art) {
   const title = (art.title || '').trim();
   let secNum = 999999;
   
-  // 2. WCF sections: [1절], [1節], [1-2절], [1-2節], [1-7절], etc.
-  let m = title.match(/\[\s*(\d+)(?:-\d+)?\s*(?:절|節)\s*\]/);
+  // 2. WCF sections: [1節], [1-2節], etc.
+  let m = title.match(/\[\s*(\d+)(?:-\d+)?\s*節\s*\]/);
   if (m) {
     secNum = parseInt(m[1], 10);
   } else {
-    // 3. Catechism Questions: 第1問, 第129問, 질문 1, 질문 129, Q1, Q129, Question 1
-    m = title.match(/(?:第|질문|Q|Question)\s*(\d+)\s*(?:問|:|：|\.|\s)/i);
+    // 3. Catechism Questions: 第1問, 第129問, Q1, Q129, Question 1
+    m = title.match(/(?:第|Q|Question)\s*(\d+)\s*(?:問|:|：|\.|\s)/i);
     if (m) {
       secNum = parseInt(m[1], 10);
     } else {
@@ -171,7 +171,7 @@ function getArticleSortKey(art) {
       } else {
         secNum = (art.position !== undefined && art.position !== null) ? Number(art.position) : 999999;
         if (secNum === 999999 && art.scripture) {
-          const sm = art.scripture.match(/(\d+)章\s*(\d+)(?:〜(\d+))?절?節?([ab])?/);
+          const sm = art.scripture.match(/(\d+)章\s*(\d+)(?:〜(\d+))?節?([ab])?/);
           if (sm) {
             const ch = parseInt(sm[1], 10);
             const v = parseInt(sm[2], 10);
@@ -214,11 +214,11 @@ let state = {
     currentPage: 1,
     pageSize: 10
   },
-  theologyMode: 'topic',           // 'topic' (조직신학별), 'author' (저자별), 'combined' (통합선택)
+  theologyMode: 'topic',           // 'topic' (組織神学), 'author' (著者別), 'combined' (統合選択)
   theologyAuthor: 'all',          // 'all' or specific author name (for author mode)
   theologyFilterAuthor: 'all',    // 'all' or specific author name (for combined mode)
   theologyFilterCategory: 'all',  // 'all' or specific categoryId (for combined mode)
-  articleViewMode: sessionStorage.getItem('wscal_article_view_mode') || 'cards' // 'cards' (상세카드보기) or 'table' (제목/전체목록보기)
+  articleViewMode: sessionStorage.getItem('wscal_article_view_mode') || 'cards' 
 };
 
 // Synchronously load data from MASTER_SITE_DATABASE / localStorage and update state instantly
@@ -234,22 +234,22 @@ function loadLocalStorageOnly() {
   let cachedFeat = null;
 
   try {
-    const rawArts = localStorage.getItem('wscal_articles_v49');
+    const rawArts = localStorage.getItem('wscal_articles_v51');
     if (rawArts) cachedArts = JSON.parse(rawArts);
   } catch (e) {}
 
   try {
-    const rawCats = localStorage.getItem('wscal_categories_v49');
+    const rawCats = localStorage.getItem('wscal_categories_v51');
     if (rawCats) cachedCats = JSON.parse(rawCats);
   } catch (e) {}
 
   try {
-    const rawMenus = localStorage.getItem('wscal_mainmenus_v49');
+    const rawMenus = localStorage.getItem('wscal_mainmenus_v51');
     if (rawMenus) cachedMenus = JSON.parse(rawMenus);
   } catch (e) {}
 
   try {
-    const rawFeat = localStorage.getItem('wscal_featured_v49');
+    const rawFeat = localStorage.getItem('wscal_featured_v51');
     if (rawFeat) cachedFeat = JSON.parse(rawFeat);
   } catch (e) {}
 
@@ -265,7 +265,7 @@ function loadLocalStorageOnly() {
       id: 'cat_sermon_isaiah53',
       parentId: 'sermon',
       nameJp: 'イザヤ書53章',
-      nameKr: '이사야 53장',
+      nameKr: 'イザヤ書 53章',
       position: 23
     });
   }
@@ -274,7 +274,7 @@ function loadLocalStorageOnly() {
       id: 'cat_sermon_sermon_mount',
       parentId: 'sermon',
       nameJp: '山上の説教',
-      nameKr: '산상수훈',
+      nameKr: '山上の説教',
       position: 40.5
     });
   }
@@ -326,22 +326,22 @@ async function initApp() {
 
       if (fileData.mainMenus && fileData.mainMenus.length > 0) {
         state.mainMenus = fileData.mainMenus;
-        try { localStorage.setItem('wscal_mainmenus_v49', JSON.stringify(fileData.mainMenus)); } catch(e) {}
+        try { localStorage.setItem('wscal_mainmenus_v51', JSON.stringify(fileData.mainMenus)); } catch(e) {}
       }
       if (fileData.categories && fileData.categories.length > 0) {
         state.categories = fileData.categories;
-        try { localStorage.setItem('wscal_categories_v49', JSON.stringify(fileData.categories)); } catch(e) {}
+        try { localStorage.setItem('wscal_categories_v51', JSON.stringify(fileData.categories)); } catch(e) {}
       }
       if (fileData.featured) {
         state.featured = fileData.featured;
-        try { localStorage.setItem('wscal_featured_v49', JSON.stringify(fileData.featured)); } catch(e) {}
+        try { localStorage.setItem('wscal_featured_v51', JSON.stringify(fileData.featured)); } catch(e) {}
       }
       if (fileData.articles && fileData.articles.length > 0) {
         // If fileData has more or equal articles than state, adopt it
         if (fileData.articles.length >= state.articles.length) {
           state.articles = fileData.articles;
         }
-        try { localStorage.setItem('wscal_articles_v49', JSON.stringify(fileData.articles)); } catch(e) {}
+        try { localStorage.setItem('wscal_articles_v51', JSON.stringify(fileData.articles)); } catch(e) {}
       }
 
       initializeCollapsedStates();
@@ -455,7 +455,7 @@ function loadArticlesFallback() {
   const embeddedArts = (MASTER_SITE_DATABASE && MASTER_SITE_DATABASE.articles) || [];
   let cachedArts = null;
   try {
-    const raw = localStorage.getItem('wscal_articles_v49');
+    const raw = localStorage.getItem('wscal_articles_v51');
     if (raw) cachedArts = JSON.parse(raw);
   } catch (e) {}
 
@@ -500,37 +500,37 @@ async function loadLocalDataFallback() {
   if (fetchedData) {
     if (fetchedData.mainMenus) {
       state.mainMenus = fetchedData.mainMenus;
-      try { localStorage.setItem('wscal_mainmenus_v49', JSON.stringify(fetchedData.mainMenus)); } catch(e) {}
+      try { localStorage.setItem('wscal_mainmenus_v51', JSON.stringify(fetchedData.mainMenus)); } catch(e) {}
     }
     if (fetchedData.categories) {
       state.categories = fetchedData.categories;
-      try { localStorage.setItem('wscal_categories_v49', JSON.stringify(fetchedData.categories)); } catch(e) {}
+      try { localStorage.setItem('wscal_categories_v51', JSON.stringify(fetchedData.categories)); } catch(e) {}
     }
     if (fetchedData.featured) {
       state.featured = fetchedData.featured;
-      try { localStorage.setItem('wscal_featured_v49', JSON.stringify(fetchedData.featured)); } catch(e) {}
+      try { localStorage.setItem('wscal_featured_v51', JSON.stringify(fetchedData.featured)); } catch(e) {}
     }
     if (fetchedData.articles) {
       state.articles = fetchedData.articles;
-      try { localStorage.setItem('wscal_articles_v49', JSON.stringify(fetchedData.articles)); } catch(e) {}
+      try { localStorage.setItem('wscal_articles_v51', JSON.stringify(fetchedData.articles)); } catch(e) {}
     }
   }
 }
 
 // Save back to LocalStorage & Sync to GitHub
 async function saveMainMenus() {
-  try { localStorage.setItem('wscal_mainmenus_v49', JSON.stringify(state.mainMenus)); } catch(e) {}
+  try { localStorage.setItem('wscal_mainmenus_v51', JSON.stringify(state.mainMenus)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 async function saveCategories() {
-  try { localStorage.setItem('wscal_categories_v49', JSON.stringify(state.categories)); } catch(e) {}
+  try { localStorage.setItem('wscal_categories_v51', JSON.stringify(state.categories)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 function saveArticles() {
-  try { localStorage.setItem('wscal_articles_v49', JSON.stringify(state.articles)); } catch(e) {}
+  try { localStorage.setItem('wscal_articles_v51', JSON.stringify(state.articles)); } catch(e) {}
 }
 async function saveFeatured() {
-  try { localStorage.setItem('wscal_featured_v49', JSON.stringify(state.featured)); } catch(e) {}
+  try { localStorage.setItem('wscal_featured_v51', JSON.stringify(state.featured)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 
@@ -653,131 +653,21 @@ function getYouTubeId(url) {
   return (match && match[2].length === 11) ? match[2] : null;
 }
 
-// Translate Korean to Japanese helper using free Google Translate API with static fallback dictionary
+// Translation helper - pure Japanese site
 async function translateKoToJa(text) {
-  if (!text) return "";
-  
-  // Skip translation if there is no Korean character in the input
-  const hasKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(text);
-  if (!hasKorean) return text;
-
-  try {
-    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=ko&tl=ja&dt=t&q=${encodeURIComponent(text)}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    if (data && data[0] && data[0][0] && data[0][0][0]) {
-      return data[0][0][0];
-    }
-  } catch (error) {
-    console.error("Translation API failed. Using static fallback.", error);
-    // Common theological/ministry terms static translation fallback
-    const dictionary = {
-      "성경강해": "聖書講解",
-      "성경주석": "聖書講解", // '성경주석'도 '성경강해(聖書講解)'로 자동 번역되도록 수정!
-      "성경 주석": "聖書講解",
-      "성경 강해": "聖書講解",
-      "교리교육": "教理教育",
-      "기독론": "キリスト論",
-      "구원론": "救済論",
-      "신론": "神論",
-      "인간론": "人間論",
-      "언약신학": "契約神学",
-      "교회론": "教会論",
-      "종말론": "終末論",
-      "로마서": "ローマの信徒への手紙",
-      "마태복음": "マタイによる福音書",
-      "조직신학": "組織神学",
-      "역사신학": "歴史神学",
-      "실천신학": "実践神学",
-      "요한복음": "ヨハネによる福音書",
-      "창세기": "創世記",
-      "동영상 강의": "動画講義",
-      "동영상": "動画",
-      "설교": "説教",
-      "이사야 53장": "イザヤ書53章",
-      "이사야53장": "イザヤ書53章",
-      "산상수훈": "山上の説教",
-      "산상보훈": "山上の説教"
-    };
-    
-    let fallbackText = text;
-    for (const key in dictionary) {
-      if (fallbackText.includes(key)) {
-        fallbackText = fallbackText.replace(new RegExp(key, 'g'), dictionary[key]);
-      }
-    }
-    return fallbackText;
-  }
-  return text;
+  return text ? text.trim() : '';
 }
 
-// Translate Japanese to Korean helper using free Google Translate API with static fallback dictionary
 async function translateJaToKo(text) {
-  if (!text) return "";
-  try {
-    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=ja&tl=ko&dt=t&q=${encodeURIComponent(text)}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    if (data && data[0] && data[0][0] && data[0][0][0]) {
-      return data[0][0][0];
-    }
-  } catch (error) {
-    console.error("Translation API (Ja->Ko) failed. Using static fallback.", error);
-    const dictionary = {
-      "聖書講解": "성경강해",
-      "聖書注解": "성경강해", // 주석도 강해로 매핑
-      "教理教育": "교리교육",
-      "神論": "신론",
-      "人間論": "인간론",
-      "契約神学": "언약신학",
-      "キリスト論": "기독론",
-      "救済論": "구원론",
-      "ローマの信徒への手紙": "로마서",
-      "マタイによる福音書": "마태복음",
-      "組織神学": "조직신학",
-      "歴史神学": "역사신학",
-      "実践神学": "실천신학",
-      "ヨハネによる福音書": "요한복음",
-      "創世記": "창세기",
-      "動画講義": "동영상 강의",
-      "イザヤ書53章": "이사야 53장",
-      "山上の説教": "산상수훈",
-      "山上の垂訓": "산상수훈"
-    };
-    let fallbackText = text;
-    for (const key in dictionary) {
-      if (fallbackText.includes(key)) {
-        fallbackText = fallbackText.replace(new RegExp(key, 'g'), dictionary[key]);
-      }
-    }
-    return fallbackText;
-  }
-  return text;
+  return text ? text.trim() : '';
 }
 
-// Generate dual language name object { nameJp, nameKr } based on input text
 async function createDualLanguageCategory(inputName) {
-  const hasKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(inputName);
-  let nameJp = "";
-  let nameKr = "";
-
-  if (hasKorean) {
-    nameKr = inputName;
-    nameJp = await translateKoToJa(inputName);
-  } else {
-    nameJp = inputName;
-    nameKr = await translateJaToKo(inputName);
+  let nameJp = (inputName || '').trim();
+  if (nameJp.includes('注解')) {
+    nameJp = nameJp.replace(/注解/g, '講解');
   }
-  
-  // 추가적으로 한글로 입력된 '주석' 키워드가 있다면 번역본이나 한글본에서도 강해로 보정
-  if (nameKr.includes("주석")) {
-    nameKr = nameKr.replace(/주석/g, "강해");
-  }
-  if (nameJp.includes("注解")) {
-    nameJp = nameJp.replace(/注解/g, "講解");
-  }
-
-  return { nameJp, nameKr };
+  return { nameJp, nameKr: nameJp };
 }
 
 // Build flat list representation of hierarchical categories for tree rendering
@@ -803,7 +693,7 @@ function getAllDescendantCategoryIds(catId) {
   return ids;
 }
 
-// Check if category belongs to theology (改革派神学 / 개혁신학)
+
 function isTheologyCategory(catId) {
   if (!catId) return false;
   if (catId === 'theology') return true;
@@ -816,7 +706,7 @@ function isTheologyCategory(catId) {
   }
   return false;
 }
-// Get list of unique authors in Reformed Theology (改革派神学 저자 목록 추출)
+
 function getTheologyAuthors() {
   const theologyArticles = state.articles.filter(art => isTheologyCategory(art.categoryId));
   const authorMap = {};
@@ -830,7 +720,7 @@ function getTheologyAuthors() {
   })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 }
 
-// Switch between 3 Modes in Reformed Theology (1. 조직신학별, 2. 저자별, 3. 통합선택)
+
 function setTheologyMode(mode) {
   state.theologyMode = mode;
   state.pagination.currentPage = 1;
@@ -924,7 +814,7 @@ function renderTheologySubmenu() {
     categoryTitle.innerHTML = `
       <div class="theology-mode-wrapper">
         <div style="font-family: var(--font-serif); font-size: 1.15rem; font-weight: 700; color: var(--primary-color); display: flex; align-items: center; gap: 8px;">
-          <i class="fa-solid fa-graduation-cap"></i> 改革派神学 (개혁신학)
+          <i class="fa-solid fa-graduation-cap"></i> 改革派神学
         </div>
         <div class="theology-mode-tabs">
           <button type="button" class="btn-theology-tab ${state.theologyMode === 'topic' ? 'active' : ''}" onclick="setTheologyMode('topic')">
@@ -975,13 +865,13 @@ function renderTheologySubmenu() {
     filterBox.innerHTML = `
       <div class="theology-filter-row">
         <div class="theology-filter-group">
-          <label class="theology-filter-label"><i class="fa-solid fa-user"></i> 著者選択 (저자 선택)</label>
+          <label class="theology-filter-label"><i class="fa-solid fa-user"></i> 著者選択</label>
           <select class="theology-filter-select" onchange="setTheologyCombinedFilter('author', this.value)">
             ${authorOptions}
           </select>
         </div>
         <div class="theology-filter-group">
-          <label class="theology-filter-label"><i class="fa-solid fa-book-open"></i> 主題・分野選択 (주제 선택)</label>
+          <label class="theology-filter-label"><i class="fa-solid fa-book-open"></i> 主題・分野選択</label>
           <select class="theology-filter-select" onchange="setTheologyCombinedFilter('category', this.value)">
             ${categoryOptions}
           </select>
@@ -989,9 +879,9 @@ function renderTheologySubmenu() {
       </div>
       <div class="theology-filter-status-bar">
         <span><i class="fa-solid fa-filter"></i> 適用中の条件: </span>
-        <span class="theology-tag tag-active">저자: ${authName}</span>
+        <span class="theology-tag tag-active">著者: ${authName}</span>
         <span style="color: var(--text-light);">×</span>
-        <span class="theology-tag tag-active">주제: ${catName}</span>
+        <span class="theology-tag tag-active">主題: ${catName}</span>
         <span class="theology-result-count">➔ 該当資料: <strong>${matchedCount}</strong> 件</span>
       </div>
     `;
@@ -1215,56 +1105,56 @@ function isAnyAncestorCollapsed(catId) {
 // Smart merge server data into local storage to avoid overriding admin modifications
 function mergeServerData(serverData) {
   // 1. Merge Main Menus
-  const localMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v49')) || [];
+  const localMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v51')) || [];
   serverData.mainMenus.forEach(sm => {
     if (!localMenus.some(lm => lm.id === sm.id)) {
       localMenus.push(sm);
     }
   });
-  localStorage.setItem('wscal_mainmenus_v49', JSON.stringify(localMenus));
+  localStorage.setItem('wscal_mainmenus_v51', JSON.stringify(localMenus));
 
   // 2. Merge Categories
-  const localCats = JSON.parse(localStorage.getItem('wscal_categories_v49')) || [];
+  const localCats = JSON.parse(localStorage.getItem('wscal_categories_v51')) || [];
   serverData.categories.forEach(sc => {
     if (!localCats.some(lc => lc.id === sc.id)) {
       localCats.push(sc);
     }
   });
-  localStorage.setItem('wscal_categories_v49', JSON.stringify(localCats));
+  localStorage.setItem('wscal_categories_v51', JSON.stringify(localCats));
 
   // 3. Merge Articles
-  const localArts = JSON.parse(localStorage.getItem('wscal_articles_v49')) || [];
+  const localArts = JSON.parse(localStorage.getItem('wscal_articles_v51')) || [];
   serverData.articles.forEach(sa => {
     if (!localArts.some(la => la.id === sa.id)) {
       localArts.push(sa);
     }
   });
-  localStorage.setItem('wscal_articles_v49', JSON.stringify(localArts));
+  localStorage.setItem('wscal_articles_v51', JSON.stringify(localArts));
 
   // 4. Merge Featured
-  if (!localStorage.getItem('wscal_featured_v49')) {
-    localStorage.setItem('wscal_featured_v49', JSON.stringify(serverData.featured));
+  if (!localStorage.getItem('wscal_featured_v51')) {
+    localStorage.setItem('wscal_featured_v51', JSON.stringify(serverData.featured));
   }
 }
 
 // Force reset local data to server state
 async function resetLocalDataToServer() {
-  if (confirm("경고: 로컬 캐시를 초기화하면 아직 반영(인터넷 배포)하지 않은 수정 내역이 모두 사라지고 서버의 최신 데이터로 변경됩니다. 계속하시겠습니까?")) {
+  if (confirm("警告: ローカルキャッシュを初期化すると、サーバーの最新データにリセットされます。続行しますか？")) {
     try {
       const res = await fetch('./data.json?t=' + Date.now());
       if (res.ok) {
         const serverData = await res.json();
-        localStorage.setItem('wscal_mainmenus_v49', JSON.stringify(serverData.mainMenus));
-        localStorage.setItem('wscal_categories_v49', JSON.stringify(serverData.categories));
-        localStorage.setItem('wscal_articles_v49', JSON.stringify(serverData.articles));
-        localStorage.setItem('wscal_featured_v49', JSON.stringify(serverData.featured));
-        alert("성공적으로 서버 최신 데이터와 동기화(초기화)했습니다. 페이지를 새로고침합니다.");
+        localStorage.setItem('wscal_mainmenus_v51', JSON.stringify(serverData.mainMenus));
+        localStorage.setItem('wscal_categories_v51', JSON.stringify(serverData.categories));
+        localStorage.setItem('wscal_articles_v51', JSON.stringify(serverData.articles));
+        localStorage.setItem('wscal_featured_v51', JSON.stringify(serverData.featured));
+        alert("サーバーの最新データと同期（初期化）しました。ページを再読み込みします。");
         location.reload();
       } else {
-        alert("서버의 data.json 파일을 가져오는데 실패했습니다.");
+        alert("サーバーのdata.jsonファイルの取得に失敗しました。");
       }
     } catch (err) {
-      alert("서버 연결 실패: " + err.message);
+      alert("サーバー接続失敗: " + err.message);
     }
   }
 }
@@ -1466,7 +1356,7 @@ function selectSubcategory(categoryId, shouldScroll = false) {
   const workspaceSec = document.getElementById('workspace-sec');
   if (workspaceSec) workspaceSec.classList.add('active');
 
-  // IF THIS CATEGORY IS "기관의 목적" (cat_1787469045280) OR Southwestern subcategories with 1 article, REDIRECT DIRECTLY TO DETAIL!
+  // IF THIS CATEGORY IS "当研究所の目的" (cat_1787469045280) OR Southwestern subcategories with 1 article, REDIRECT DIRECTLY TO DETAIL!
   const isDirectDetailCategory = categoryId === 'cat_1787469045280' || (categoryId.startsWith('cat_sw_') && filteredArticles.length === 1);
   if (isDirectDetailCategory && filteredArticles.length > 0) {
     renderArticlesList();
@@ -1687,7 +1577,7 @@ function formatArticleContent(content) {
     let text = content;
     text = text.replace(/^#[ \t]+[^\r\n]+[\r\n]*/, '');
     text = text.replace(/^[ \t]*---[ \t]*$/gm, '');
-    text = text.replace(/核心적真理/g, '核心的真理');
+    // text cleanup completed
     text = text.replace(/^[ \t]*>[ \t]?/gm, '');
     text = text.replace(/^[ \t]*-[ \t]*\*\*([^*]+)\*\*/gm, '・ $1');
     text = text.replace(/^[ \t]*-[ \t]+/gm, '・ ');
@@ -1757,7 +1647,7 @@ function renderArticlesList() {
     filteredArticles = state.articles.filter(art => descendantIds.includes(art.categoryId));
   }
   
-  // Smart Sort: Chapter/Category order first (Chapters 1~33), Section/Question number ascending second ([1절], [2절]...), then position, then date
+  
   filteredArticles.sort((a, b) => {
     const keyA = getArticleSortKey(a);
     const keyB = getArticleSortKey(b);
@@ -1829,17 +1719,17 @@ function renderArticlesList() {
 
   const isCatechismMenu = state.currentMenu === 'catechism' || (typeof isCatechismOrWcfCategory === 'function' && isCatechismOrWcfCategory(state.currentCategory));
   const mindmapBtnHtml = isCatechismMenu ? `
-    <button type="button" class="btn-view-toggle ${state.articleViewMode === 'mindmap' ? 'active' : ''}" onclick="setArticleViewMode('mindmap')" title="マインドマップ表示 (마인드맵 한눈에 보기)" style="border: none; background: ${state.articleViewMode === 'mindmap' ? '#0A1C36' : 'transparent'}; color: ${state.articleViewMode === 'mindmap' ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
+    <button type="button" class="btn-view-toggle ${state.articleViewMode === 'mindmap' ? 'active' : ''}" onclick="setArticleViewMode('mindmap')" title="マインドマップ表示" style="border: none; background: ${state.articleViewMode === 'mindmap' ? '#0A1C36' : 'transparent'}; color: ${state.articleViewMode === 'mindmap' ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
       <i class="fa-solid fa-brain"></i> 🧠 マインドマップ
     </button>
   ` : '';
 
   const viewModeToggleHtml = (!isPastorMenu && !isServantMenu) ? `
     <div class="view-mode-toggle" style="display: inline-flex; background: #e2e8f0; border-radius: 8px; padding: 3px; gap: 3px;">
-      <button type="button" class="btn-view-toggle ${state.articleViewMode === 'cards' || (!state.articleViewMode || (state.articleViewMode !== 'table' && state.articleViewMode !== 'mindmap')) ? 'active' : ''}" onclick="setArticleViewMode('cards')" title="カード/詳細表示 (카드/썸네일보기)" style="border: none; background: ${(state.articleViewMode === 'cards' || (!state.articleViewMode || (state.articleViewMode !== 'table' && state.articleViewMode !== 'mindmap'))) ? '#0A1C36' : 'transparent'}; color: ${(state.articleViewMode === 'cards' || (!state.articleViewMode || (state.articleViewMode !== 'table' && state.articleViewMode !== 'mindmap'))) ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
+      <button type="button" class="btn-view-toggle ${state.articleViewMode === 'cards' || (!state.articleViewMode || (state.articleViewMode !== 'table' && state.articleViewMode !== 'mindmap')) ? 'active' : ''}" onclick="setArticleViewMode('cards')" title="カード/詳細表示" style="border: none; background: ${(state.articleViewMode === 'cards' || (!state.articleViewMode || (state.articleViewMode !== 'table' && state.articleViewMode !== 'mindmap'))) ? '#0A1C36' : 'transparent'}; color: ${(state.articleViewMode === 'cards' || (!state.articleViewMode || (state.articleViewMode !== 'table' && state.articleViewMode !== 'mindmap'))) ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
         <i class="fa-solid fa-table-cells-large"></i> 🗂️ 詳細カード
       </button>
-      <button type="button" class="btn-view-toggle ${state.articleViewMode === 'table' ? 'active' : ''}" onclick="setArticleViewMode('table')" title="タイトル一覧表示 (제목 목록보기)" style="border: none; background: ${state.articleViewMode === 'table' ? '#0A1C36' : 'transparent'}; color: ${state.articleViewMode === 'table' ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
+      <button type="button" class="btn-view-toggle ${state.articleViewMode === 'table' ? 'active' : ''}" onclick="setArticleViewMode('table')" title="タイトル一覧表示" style="border: none; background: ${state.articleViewMode === 'table' ? '#0A1C36' : 'transparent'}; color: ${state.articleViewMode === 'table' ? '#ffffff' : '#475569'}; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
         <i class="fa-solid fa-list-ul"></i> 📋 タイトル一覧
       </button>
       ${mindmapBtnHtml}
@@ -1873,7 +1763,7 @@ function renderArticlesList() {
 
   // 3. Render articles in selected View Mode
   if (!isPastorMenu && !isServantMenu && state.articleViewMode === 'mindmap' && isCatechismMenu) {
-    // MINDMAP VIEW (마인드맵 모드)
+    // MINDMAP VIEW (マインドマップモード)
     const mindmapWrapper = document.createElement('div');
     mindmapWrapper.className = 'article-mindmap-view-wrapper';
     container.appendChild(mindmapWrapper);
@@ -1882,7 +1772,7 @@ function renderArticlesList() {
     }
     return;
   } else if (!isPastorMenu && !isServantMenu && state.articleViewMode === 'table') {
-    // TABLE / LIST VIEW (순수 전체 제목 목록 - 카테고리/성경요약 제거하고 제목 전체가 한 줄로 시원하게 표시)
+    // TABLE / LIST VIEW (一覧リスト表示)
     const tableWrapper = document.createElement('div');
     tableWrapper.className = 'article-table-wrapper';
     tableWrapper.style.cssText = 'width: 100%; overflow-x: auto; background: white; border-radius: 10px; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.03); margin-bottom: 1.5rem;';
@@ -1940,7 +1830,7 @@ function renderArticlesList() {
     container.appendChild(tableWrapper);
 
   } else {
-    // CARD / GRID VIEW (썸네일/카드보기)
+    // CARD / GRID VIEW (カード表示)
     const itemsWrapper = document.createElement('div');
     itemsWrapper.className = isPastorMenu ? 'video-gallery-grid' : (isServantMenu ? 'profile-list' : (isEbookMenu ? 'ebook-book-grid' : 'article-list'));
     container.appendChild(itemsWrapper);
@@ -1962,10 +1852,10 @@ function renderArticlesList() {
 
         const adminToolbar = state.isAdmin ? `
           <div class="card-inline-admin-bar" onclick="event.stopPropagation()">
-            <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
-            <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
-            <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
-            <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
+            <span class="drag-handle" title="ドラッグして順序変更"><i class="fa-solid fa-grip-vertical"></i></span>
+            <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
+            <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動"><i class="fa-solid fa-folder-tree"></i> 移動</button>
+            <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除"><i class="fa-solid fa-trash-can"></i></button>
           </div>
         ` : '';
 
@@ -2005,10 +1895,10 @@ function renderArticlesList() {
 
         const adminToolbar = state.isAdmin ? `
           <div class="card-inline-admin-bar" onclick="event.stopPropagation()">
-            <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
-            <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
-            <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
-            <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
+            <span class="drag-handle" title="ドラッグして順序変更"><i class="fa-solid fa-grip-vertical"></i></span>
+            <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
+            <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動"><i class="fa-solid fa-folder-tree"></i> 移動</button>
+            <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除"><i class="fa-solid fa-trash-can"></i></button>
           </div>
         ` : '';
 
@@ -2097,10 +1987,10 @@ function renderArticlesList() {
 
         const adminToolbar = state.isAdmin ? `
           <div class="card-inline-admin-bar" onclick="event.stopPropagation()">
-            <span class="drag-handle" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
-            <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正 (글 수정)"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
-            <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動 (폴더 이동)"><i class="fa-solid fa-folder-tree"></i> 移動</button>
-            <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除 (삭제)"><i class="fa-solid fa-trash-can"></i></button>
+            <span class="drag-handle" title="ドラッグして順序変更"><i class="fa-solid fa-grip-vertical"></i></span>
+            <button class="btn-inline-admin btn-inline-edit" onclick="loadArticleToEdit('${art.id}')" title="記事修正"><i class="fa-solid fa-pen-to-square"></i> 修正</button>
+            <button class="btn-inline-admin btn-inline-move" onclick="openMoveFolderModal('${art.id}')" title="フォルダ移動"><i class="fa-solid fa-folder-tree"></i> 移動</button>
+            <button class="btn-inline-admin btn-inline-delete" onclick="handleDeleteArticle('${art.id}')" title="削除"><i class="fa-solid fa-trash-can"></i></button>
           </div>
         ` : '';
 
@@ -2681,7 +2571,7 @@ function renderFeaturedBlocks() {
   document.getElementById('today-theo-summary').textContent = state.featured.todaysTheology.summary;
 }
 
-// Action: Read Today's Sermon 요지
+
 function viewTodaySermonDetail() {
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay active';
@@ -2705,7 +2595,7 @@ function viewTodaySermonDetail() {
   document.body.appendChild(overlay);
 }
 
-// Action: Read Today's Theology 자료
+
 function viewTodayTheologyDetail() {
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay active';
@@ -2742,7 +2632,7 @@ function openLoginModal() {
   const savedUser = localStorage.getItem('wscal_admin_saved_user') || 'admin';
   const hasLogged = localStorage.getItem('wscal_admin_logged') === 'true';
 
-  // 이전에 로그인했거나 비밀번호가 저장된 컴퓨터에서는 모달 없이 바로 관리자 화면으로 연결
+  
   if (state.isAdmin || hasLogged || (rememberEnabled && savedUser === 'admin' && savedPass === '1234')) {
     state.isAdmin = true;
     sessionStorage.setItem('wscal_admin_logged', 'true');
@@ -2759,7 +2649,7 @@ function openLoginModal() {
   const passInput = document.getElementById('login-password');
   const rememberCheckbox = document.getElementById('login-remember');
 
-  // 이 컴퓨터(localStorage)에 저장된 로그인 정보 불러오기
+  
   if (rememberCheckbox) {
     rememberCheckbox.checked = rememberEnabled;
   }
@@ -2774,7 +2664,7 @@ function openLoginModal() {
     }
   }
 
-  // 포커스 이동: 비밀번호까지 이미 채워져 있으면 로그인 버튼 또는 비밀번호창 선택
+  
   if (savedPass && rememberEnabled) {
     if (passInput) passInput.focus();
   } else if (userInput && !userInput.value) {
@@ -2806,7 +2696,7 @@ function handleLogin(event) {
     state.isAdmin = true;
     sessionStorage.setItem('wscal_admin_logged', 'true');
 
-    // 접속한 컴퓨터의 브라우저에 로그인 정보 및 자동연결 저장
+    
     if (shouldRemember) {
       localStorage.setItem('wscal_admin_logged', 'true');
       localStorage.setItem('wscal_admin_saved_user', user);
@@ -2832,7 +2722,7 @@ function handleLogin(event) {
       errEl.style.display = 'block';
       errEl.textContent = 'IDまたはパスワードが正しくありません。(ID: admin / PW: 1234)';
     } else {
-      alert("IDまたはパスワードが正しくありません。(ID: admin / 비밀번호: 1234)");
+      alert("IDまたはパスワードが正しくありません。(ID: admin / パスワード: 1234)");
     }
   }
 }
@@ -2995,14 +2885,14 @@ function updateAdminNavAndFloatingButtons() {
       ghHeaderStatus.style.background = 'rgba(34, 197, 94, 0.2)';
       ghHeaderStatus.style.border = '1px solid rgba(34, 197, 94, 0.6)';
       ghHeaderStatus.style.color = '#86efac';
-      if (ghHeaderStatusText) ghHeaderStatusText.textContent = 'GitHub 연동됨';
-      ghHeaderStatus.title = 'GitHub 연동: 정상 (토큰 등록됨)\n클릭 시 관리자 화면으로 이동';
+      if (ghHeaderStatusText) ghHeaderStatusText.textContent = 'GitHub連携中';
+      ghHeaderStatus.title = 'GitHub連携: 正常 (Token登録済み)\nクリックして管理パネルへ';
     } else {
       ghHeaderStatus.style.background = 'rgba(239, 68, 68, 0.2)';
       ghHeaderStatus.style.border = '1px solid rgba(239, 68, 68, 0.6)';
       ghHeaderStatus.style.color = '#fca5a5';
-      if (ghHeaderStatusText) ghHeaderStatusText.textContent = 'GitHub 미연결';
-      ghHeaderStatus.title = 'GitHub 토큰이 등록되지 않았습니다.\n클릭하여 관리자 화면에서 토큰을 등록해 주세요.';
+      if (ghHeaderStatusText) ghHeaderStatusText.textContent = 'GitHub未連携';
+      ghHeaderStatus.title = 'GitHub Tokenが登録されていません。\nクリックして管理パネルでTokenを登録してください。';
     }
   }
 
@@ -3015,7 +2905,7 @@ function updateAdminNavAndFloatingButtons() {
       toggleBtn.style.color = '#ffffff';
       toggleBtn.style.border = '1px solid rgba(255, 255, 255, 0.3)';
       toggleBtn.style.fontWeight = '600';
-      toggleBtn.innerHTML = '<i class="fa-solid fa-globe"></i> <span>サイトを見る (사이트 보기)</span>';
+      toggleBtn.innerHTML = '<i class="fa-solid fa-globe"></i> <span>サイトを見る</span>';
       toggleBtn.title = 'ユーザーサイトに戻る';
     } else {
       toggleBtn.className = 'btn-admin';
@@ -3023,7 +2913,7 @@ function updateAdminNavAndFloatingButtons() {
       toggleBtn.style.color = '#0A1C36';
       toggleBtn.style.border = '1px solid var(--accent-color)';
       toggleBtn.style.fontWeight = 'bold';
-      toggleBtn.innerHTML = '<i class="fa-solid fa-sliders"></i> <span>管理パネル (관리자 패널)</span>';
+      toggleBtn.innerHTML = '<i class="fa-solid fa-sliders"></i> <span>管理パネル</span>';
       toggleBtn.title = '管理者パネルを開く';
     }
   }
@@ -3036,7 +2926,7 @@ function updateAdminNavAndFloatingButtons() {
     navBtn.style.color = '#fca5a5';
     navBtn.style.border = '1px solid rgba(239, 68, 68, 0.4)';
     navBtn.style.fontWeight = '600';
-    navBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> <span>ログアウト (로그아웃)</span>';
+    navBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> <span>ログアウト</span>';
   }
 }
 
@@ -3142,13 +3032,13 @@ function populateAllMenuDropdowns() {
   const filterArtParent = document.getElementById('filter-art-parent');
   if (filterArtParent) {
     const val = filterArtParent.value || 'all';
-    filterArtParent.innerHTML = '<option value="all">모든 카테고리/폴더 (すべてのフォルダ)</option>';
+    filterArtParent.innerHTML = '<option value="all">すべてのフォルダ</option>';
     
     state.mainMenus.forEach(menu => {
       // Main menu option
       const optMenu = document.createElement('option');
       optMenu.value = menu.id;
-      optMenu.textContent = `[대메뉴] ${stripHtmlTags(menu.nameJp)} (${stripHtmlTags(menu.nameKr) || ''})`;
+      optMenu.textContent = `[大メニュー] ${stripHtmlTags(menu.nameJp)}`;
       optMenu.style.fontWeight = 'bold';
       filterArtParent.appendChild(optMenu);
       
@@ -3187,12 +3077,12 @@ function renderAdminMainMenuList() {
 
     div.innerHTML = `
       <div class="category-node-info" style="display: flex; align-items: center; gap: 8px; font-weight: 600; line-height: 1.35;">
-        <span class="drag-handle-cat" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
+        <span class="drag-handle-cat" title="ドラッグして順序変更"><i class="fa-solid fa-grip-vertical"></i></span>
         <i class="fa-solid ${iconClass}" style="color: var(--accent-color);"></i> ${menu.nameJp} <span style="font-size: 0.8rem; color: var(--text-light); font-weight: normal; margin-left: 5px;">(${menu.nameKr || ''})</span> ${isVideoLabel}
       </div>
       <div class="category-node-actions">
-        <button class="btn-tree-action edit-name" onclick="renameMainMenu('${menu.id}')" title="名前の変更 (대메뉴명 수정)"><i class="fa-solid fa-pen"></i></button>
-        <button class="btn-tree-action delete-node" onclick="handleDeleteMainMenu('${menu.id}')" title="削除 (삭제)"><i class="fa-regular fa-trash-can"></i></button>
+        <button class="btn-tree-action edit-name" onclick="renameMainMenu('${menu.id}')" title="名前の変更"><i class="fa-solid fa-pen"></i></button>
+        <button class="btn-tree-action delete-node" onclick="handleDeleteMainMenu('${menu.id}')" title="削除"><i class="fa-regular fa-trash-can"></i></button>
       </div>
     `;
     attachMainMenuDragEvents(div, menu.id);
@@ -3294,7 +3184,7 @@ async function handleAddMainMenu(event) {
   populateAllMenuDropdowns();
   renderAdminMainMenuList();
 
-  alert(`대메뉴 「${nameKr}」을 일본어 「${nameJp}」로 자동 번역하여 생성했습니다.`);
+  alert(`大メニュー「${nameJp}」を作成しました。`);
 }
 
 // Rename Main Menu
@@ -3302,7 +3192,7 @@ async function renameMainMenu(menuId) {
   const menu = state.mainMenus.find(m => m.id === menuId);
   if (!menu) return;
 
-  const newName = prompt("大メニューの名前を新しく入力してください (대메뉴 이름 수정):", menu.nameKr || menu.nameJp);
+  const newName = prompt("大メニューの名前を入力してください:", menu.nameJp);
   if (newName && newName.trim()) {
     const trimmedName = newName.trim();
     const { nameJp, nameKr } = await createDualLanguageCategory(trimmedName);
@@ -3315,7 +3205,7 @@ async function renameMainMenu(menuId) {
     populateAllMenuDropdowns();
     renderAdminMainMenuList();
 
-    alert(`대메뉴명을 일본어 「${nameJp}」, 한국어 「${nameKr}」로 자동 번역하여 수정했습니다.`);
+    alert(`大メニュー名を「${nameJp}」に変更しました。`);
   }
 }
 
@@ -3334,7 +3224,7 @@ function handleDeleteMainMenu(menuId) {
 
   const relatedArtsCount = state.articles.filter(a => allToDeleteIds.includes(a.categoryId)).length;
 
-  const confirmMsg = `대메뉴 「${menu.nameJp} (${menu.nameKr})」을 삭제하시겠습니까?\n주의: 이 대메뉴 하위의 모든 폴더 및 자료 ${relatedArtsCount}건이 재귀적으로 함께 영구 삭제됩니다!`;
+  const confirmMsg = `大メニュー「${menu.nameJp}」を削除しますか？\n注意: この大メニュー配下のすべてのフォルダおよび記事 ${relatedArtsCount}件も再帰的に削除されます。`;
 
   if (confirm(confirmMsg)) {
     // Delete articles
@@ -3437,13 +3327,13 @@ function renderAdminCategoryList() {
       div.className = `category-tree-node depth-indent-${node.depth}`;
       div.innerHTML = `
         <div class="category-node-info" style="display: flex; align-items: center; gap: 8px; font-weight: 600; line-height: 1.35;">
-          <span class="drag-handle-cat" title="ドラッグして順序変更 (드래그하여 순서 변경)"><i class="fa-solid fa-grip-vertical"></i></span>
+          <span class="drag-handle-cat" title="ドラッグして順序変更"><i class="fa-solid fa-grip-vertical"></i></span>
           <i class="fa-regular fa-folder-open" style="color: var(--accent-color);"></i> ${node.nameJp} <span style="font-size: 0.8rem; color: var(--text-light); font-weight: normal; margin-left: 5px;">(${node.nameKr || ''})</span>
         </div>
         <div class="category-node-actions">
-          <button class="btn-tree-action edit-name" onclick="renameCategory('${node.id}')" title="名前の変更 (폴더명 수정)"><i class="fa-solid fa-pen"></i></button>
-          <button class="btn-tree-action add-sub" onclick="prepareAddSubcategory('${node.id}')" title="下部フォルダ追加 (하위 폴더 추가)"><i class="fa-solid fa-plus"></i></button>
-          <button class="btn-tree-action delete-node" onclick="handleDeleteCategory('${node.id}')" title="フォルダ削除 (폴더 삭제)"><i class="fa-regular fa-trash-can"></i></button>
+          <button class="btn-tree-action edit-name" onclick="renameCategory('${node.id}')" title="名前の変更"><i class="fa-solid fa-pen"></i></button>
+          <button class="btn-tree-action add-sub" onclick="prepareAddSubcategory('${node.id}')" title="サブフォルダ追加"><i class="fa-solid fa-plus"></i></button>
+          <button class="btn-tree-action delete-node" onclick="handleDeleteCategory('${node.id}')" title="フォルダ削除"><i class="fa-regular fa-trash-can"></i></button>
         </div>
       `;
       attachCategoryDragEvents(div, node.id);
@@ -3476,7 +3366,7 @@ async function handleAddCategory(event) {
   populateParentDropdown();
   renderAdminCategoryList();
   
-  alert(`폴더 「${nameKr}」을 일본어 「${nameJp}」로 자동 번역하여 생성했습니다.`);
+  alert(`フォルダ「${nameJp}」を作成しました。`);
 }
 
 function handleDeleteCategory(catId) {
@@ -3597,7 +3487,7 @@ async function renameCategory(catId) {
   const cat = state.categories.find(c => c.id === catId);
   if (!cat) return;
   
-  const newName = prompt("フォルダの名前を新しく入力してください (폴더 이름 수정):", cat.nameKr || cat.nameJp);
+  const newName = prompt("フォルダの名前を入力してください:", cat.nameJp);
   if (newName && newName.trim()) {
     const trimmedName = newName.trim();
     // Translate automatically to generate dual language name object
@@ -3609,7 +3499,7 @@ async function renameCategory(catId) {
     populateParentDropdown();
     renderAdminCategoryList();
 
-    alert(`폴더명을 일본어 「${nameJp}」, 한국어 「${nameKr}」로 자동 번역하여 수정했습니다.`);
+    alert(`フォルダ名を「${nameJp}」に変更しました。`);
   }
 }
 
@@ -3686,34 +3576,34 @@ function handleCategoryChange() {
   if (authorLabel) authorLabel.textContent = '著者 / 説教者';
   if (authorInput) authorInput.placeholder = '例: ジョン・オーウェン、清水牧師';
   if (isTheology) {
-    if (scriptureLabel) scriptureLabel.textContent = '主題 (テーマ・주제)';
-    if (scriptureInput) scriptureInput.placeholder = '例: キリストの神性と人性、義認論 (주제 입력)';
+    if (scriptureLabel) scriptureLabel.textContent = '主題 (テーマ)';
+    if (scriptureInput) scriptureInput.placeholder = '例: キリストの神性と人性、義認論 (主題を入力)';
   } else {
     if (scriptureLabel) scriptureLabel.textContent = '関連聖句（本文章など）';
     if (scriptureInput) scriptureInput.placeholder = '例: ローマの信徒への手紙 8:28 (任意)';
   }
-  if (contentLabel) contentLabel.innerHTML = '<i class="fa-solid fa-file-pen"></i> 本文エディタ (본문 에디터)';
+  if (contentLabel) contentLabel.innerHTML = '<i class="fa-solid fa-file-pen"></i> 本文エディタ';
   if (contentInput) contentInput.placeholder = '説教要旨、神学研究資料などの本文を入力してください...';
 
   if (categoryId === 'cat_1787469050463') {
-    // 섬기는 이들 (Servants)
+    
     if (photoGroup) photoGroup.style.display = 'block';
-    if (contentLabel) contentLabel.innerHTML = '<i class="fa-solid fa-file-pen"></i> 경력 및 소개 (経歴・プロフィール)';
-    if (contentInput) contentInput.placeholder = '섬기는 이의 약력, 소개글 등을 입력하십시오...';
+    if (contentLabel) contentLabel.innerHTML = '<i class="fa-solid fa-file-pen"></i> 経歴・プロフィール';
+    if (contentInput) contentInput.placeholder = '奉仕者の略歴、紹介文などを入力してください...';
     
     if (titleGroup) titleGroup.style.display = 'none';
     if (titleInput) titleInput.removeAttribute('required');
     if (videoGroup) videoGroup.style.display = 'none';
     
-    if (authorLabel) authorLabel.textContent = '이름 (名前)';
-    if (authorInput) authorInput.placeholder = '예시: 김요셉 목사';
+    if (authorLabel) authorLabel.textContent = '氏名 (名前)';
+    if (authorInput) authorInput.placeholder = '例: ヨセフ牧師';
     
-    if (scriptureLabel) scriptureLabel.textContent = '직분 (職分)';
-    if (scriptureInput) scriptureInput.placeholder = '예시: 담임목사, 협동목사, 시무장로';
+    if (scriptureLabel) scriptureLabel.textContent = '職分';
+    if (scriptureInput) scriptureInput.placeholder = '例: 主任牧師、宣教師、長老';
   } else if (categoryId === 'cat_1787469045280') {
-    // 기관 목적 (Organization Purpose)
-    if (contentLabel) contentLabel.innerHTML = '<i class="fa-solid fa-file-pen"></i> 주요 내용 (主要内容)';
-    if (contentInput) contentInput.placeholder = '기관의 목적 및 소개글을 입력해 주세요...';
+    
+    if (contentLabel) contentLabel.innerHTML = '<i class="fa-solid fa-file-pen"></i> 主要内容';
+    if (contentInput) contentInput.placeholder = '研究所の目的および紹介文を入力してください...';
     
     if (titleGroup) titleGroup.style.display = 'none';
     if (titleInput) titleInput.removeAttribute('required');
@@ -3799,8 +3689,8 @@ async function handleSaveArticle(event) {
       scripture = '';      // Empty scripture
       videoUrl = '';       // Empty youtube url
     } else if (isPurposeMenu) {
-      title = '기관 목적';  // Default title
-      author = '관리자';    // Default author
+      title = '当研究所の目的';
+      author = '管理者';
       scripture = '';
       videoUrl = '';
     }
@@ -3808,7 +3698,7 @@ async function handleSaveArticle(event) {
     // Check GitHub token connection
     const token = getEffectiveGitHubToken();
     if (!token) {
-      const proceed = confirm("⚠️ [주의] GitHub 토큰이 연결되어 있지 않습니다!\n\n토큰 없이 저장하시면 이 컴퓨터의 임시 브라우저에만 저장되며, 실제 웹사이트(GitHub 서버)에는 반영되지 않아 새로고침 시 작업 내용이 유실될 수 있습니다.\n\n정말로 임시 저장하시겠습니까?\n(웹사이트에 정상 반영하려면 취소를 누르고 좌측 하단 'GitHub 연동'에서 토큰을 먼저 저장해 주세요)");
+      const proceed = confirm("⚠️ [注意] GitHub Tokenが連携されていません！\n\nTokenなしで保存すると、現在のブラウザの一時メモリにのみ保存され、GitHubサーバーには反映されないため、更新時にデータが失われる可能性があります。\n\n本当に保存しますか？\n(正常に反映するには「キャンセル」を押し、左下の「GitHub連携」からTokenを保存してください)");
       if (!proceed) {
         const sidebarTokenInput = document.getElementById('admin-sidebar-github-token');
         if (sidebarTokenInput) {
@@ -3821,18 +3711,18 @@ async function handleSaveArticle(event) {
 
     // Validation with clear error reporting
     if (!categoryId) {
-      alert("親メニュー 및 細部フォルダ（카테고리）를 먼저 선택해 주세요.");
+      alert("大メニューおよびフォルダ（カテゴリ）を選択してください。");
       const catSelect = document.getElementById('art-category-id') || document.getElementById('art-parent-menu');
       if (catSelect) catSelect.focus();
       return;
     }
     if (!title) {
       if (isServantMenu) {
-        alert("이름을 입력해 주세요.");
+        alert("氏名を入力してください。");
         const authorInput = document.getElementById('art-author');
         if (authorInput) authorInput.focus();
       } else {
-        alert("제목(タイトル)을 입력해 주세요.");
+        alert("タイトルを入力してください。");
         const titleInput = document.getElementById('art-title');
         if (titleInput) titleInput.focus();
       }
@@ -3840,18 +3730,18 @@ async function handleSaveArticle(event) {
     }
     if (!author) {
       if (isServantMenu) {
-        alert("직분을 입력해 주세요.");
+        alert("職分を入力してください。");
         const scriptureInput = document.getElementById('art-scripture');
         if (scriptureInput) scriptureInput.focus();
       } else {
-        alert("저자/설교자(著者 / 説教者)를 입력해 주세요.");
+        alert("著者 / 説教者を入力してください。");
         const authorInput = document.getElementById('art-author');
         if (authorInput) authorInput.focus();
       }
       return;
     }
     if (!content) {
-      alert("본문 내용(本文)을 작성해 주세요.");
+      alert("本文を入力してください。");
       if (wysiwygBox && wysiwygBox.style.display !== 'none') {
         wysiwygBox.focus();
       } else if (textarea) {
@@ -3907,12 +3797,12 @@ async function handleSaveArticle(event) {
       renderArticlesList();
     }
 
-    alert(articleId ? "記事を修正・保存しました。(글이 성공적으로 수정·저장되었습니다.)" : "新規記事を公開しました。(새 글이 성공적으로 등록되었습니다.)");
+    alert(articleId ? "記事を保存しました。" : "新規記事を公開しました。");
     resetWriteForm();
     switchAdminTab('articles');
   } catch (err) {
     console.error("handleSaveArticle Error:", err);
-    alert("저장 처리 중 오류가 발생했습니다:\n" + err.message);
+    alert("保存処理中にエラーが発生しました:\n" + err.message);
   }
 }
 
@@ -3971,7 +3861,7 @@ function selectTistoryMode(mode) {
   }
 
   if (mode === 'basic') {
-    if (modeText) modeText.textContent = '기본모드';
+    if (modeText) modeText.textContent = '標準モード';
     if (wysiwygBox) wysiwygBox.style.display = 'block';
     if (codeTextarea) codeTextarea.style.display = 'none';
     if (toolbar) toolbar.style.display = 'flex';
@@ -3981,15 +3871,15 @@ function selectTistoryMode(mode) {
     if (wysiwygBox) wysiwygBox.style.display = 'none';
     if (codeTextarea) {
       codeTextarea.style.display = 'block';
-      codeTextarea.placeholder = "HTML/CSS 코드를 직접 입력하세요 (<!DOCTYPE html>, <div>, Tailwind 등 전체 지원)...";
+      codeTextarea.placeholder = "HTML/CSSコードを直接入力してください (<!DOCTYPE html>, <div>, Tailwind等対応)...";
     }
     if (toolbar) toolbar.style.display = 'flex';
   } else if (mode === 'markdown') {
-    if (modeText) modeText.textContent = '마크다운';
+    if (modeText) modeText.textContent = 'Markdown';
     if (wysiwygBox) wysiwygBox.style.display = 'none';
     if (codeTextarea) {
       codeTextarea.style.display = 'block';
-      codeTextarea.placeholder = "마크다운 문법(# 제목, **굵게**, - 목록 등)으로 작성하세요...";
+      codeTextarea.placeholder = "Markdown形式（# 見出し、**太字**、- リスト等）で入力してください...";
     }
     if (toolbar) toolbar.style.display = 'none';
   }
@@ -4040,7 +3930,7 @@ function execEditorFontSize(tag) {
   if (tag === 'h1' || tag === 'h2' || tag === 'h3' || tag === 'p') {
     execEditorCmd('formatBlock', tag);
   } else if (tag === 'small') {
-    const selected = window.getSelection().toString() || '각주 또는 작은 설명문입니다.';
+    const selected = window.getSelection().toString() || '脚注または注釈文です。';
     document.execCommand('insertHTML', false, `<span style="font-size: 0.82rem; color: #64748b;">${selected}</span>`);
     syncWysiwygToTextarea();
   }
@@ -4059,10 +3949,10 @@ function insertCalloutTemplate(type) {
       html = `
         <div class="callout-scripture" style="border-left: 4px solid #c5a059; background-color: #fcfaf6; padding: 14px 18px; margin: 1.2rem 0; border-radius: 0 8px 8px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
           <div class="callout-scripture-title" style="font-weight: bold; color: #854d0e; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-book-bible"></i> 성경 구절 본문
+            <i class="fa-solid fa-book-bible"></i> 聖書本文
           </div>
           <div style="font-style: italic; color: #451a03; line-height: 1.6;">
-            "여기에 성경 본문 말씀을 입력하세요."
+            "ここに聖書本文の御言葉を入力してください。"
           </div>
         </div>
         <p><br></p>
@@ -4072,10 +3962,10 @@ function insertCalloutTemplate(type) {
       html = `
         <div class="callout-point" style="border-left: 4px solid #2563eb; background-color: #eff6ff; padding: 14px 18px; margin: 1.2rem 0; border-radius: 0 8px 8px 0;">
           <div class="callout-point-title" style="font-weight: bold; color: #1e40af; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-lightbulb"></i> 설교 요점 / 묵상 포인트
+            <i class="fa-solid fa-lightbulb"></i> 説教の要点 / 黙想ポイント
           </div>
           <div style="color: #1e3a8a; line-height: 1.6;">
-            여기에 설교의 핵심 교훈이나 성도들을 위한 묵상 질문을 입력하세요.
+            ここに説教の核心的教訓や黙想の問いを入力してください。
           </div>
         </div>
         <p><br></p>
@@ -4085,10 +3975,10 @@ function insertCalloutTemplate(type) {
       html = `
         <div class="callout-highlight" style="border-left: 4px solid #dc2626; background-color: #fef2f2; padding: 14px 18px; margin: 1.2rem 0; border-radius: 0 8px 8px 0;">
           <div class="callout-highlight-title" style="font-weight: bold; color: #991b1b; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-triangle-exclamation"></i> 핵심 주의 / 강조
+            <i class="fa-solid fa-triangle-exclamation"></i> 重要・強調ポイント
           </div>
           <div style="color: #7f1d1d; line-height: 1.6;">
-            신학적으로 오해하기 쉽거나 특별히 기억해야 할 중요한 명제를 작성하세요.
+            神学的に重要な命題や強調点を記述してください。
           </div>
         </div>
         <p><br></p>
@@ -4098,11 +3988,11 @@ function insertCalloutTemplate(type) {
       html = `
         <div class="callout-summary" style="border: 1px solid #cbd5e1; background-color: #f8fafc; padding: 14px 18px; margin: 1.2rem 0; border-radius: 8px;">
           <div style="font-weight: bold; color: #334155; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-thumbtack"></i> 신학 요약 정리
+            <i class="fa-solid fa-thumbtack"></i> 神学要約まとめ
           </div>
           <ul style="margin: 0; padding-left: 20px; color: #475569; line-height: 1.6;">
-            <li>요약 항목 1</li>
-            <li>요약 항목 2</li>
+            <li>要約項目 1</li>
+            <li>要約項目 2</li>
           </ul>
         </div>
         <p><br></p>
@@ -4115,13 +4005,13 @@ function insertCalloutTemplate(type) {
 }
 
 function insertWysiwygImage() {
-  const url = prompt("삽입할 이미지 URL(웹 주소)을 입력하세요:", "https://");
+  const url = prompt("挿入する画像のURLを入力してください:", "https://");
   if (url && url.trim()) {
     if (currentTistoryMode !== 'basic') selectTistoryMode('basic');
     const wysiwygBox = document.getElementById('art-editor-wysiwyg');
     if (!wysiwygBox) return;
     wysiwygBox.focus();
-    const imgHtml = `<div style="text-align: center; margin: 1.5rem 0;"><img src="${url.trim()}" alt="이미지" style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);"><div style="font-size: 0.8rem; color: #64748b; margin-top: 6px;">(이미지 설명)</div></div><p><br></p>`;
+    const imgHtml = `<div style="text-align: center; margin: 1.5rem 0;"><img src="${url.trim()}" alt="画像" style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);"><div style="font-size: 0.8rem; color: #64748b; margin-top: 6px;">(画像の説明)</div></div><p><br></p>`;
     document.execCommand('insertHTML', false, imgHtml);
     syncWysiwygToTextarea();
   }
@@ -4142,7 +4032,7 @@ function insertWysiwygHeading(tag) {
   const wysiwygBox = document.getElementById('art-editor-wysiwyg');
   if (!wysiwygBox) return;
   wysiwygBox.focus();
-  const headingHtml = `<h2 style="font-size: 1.4rem; font-weight: bold; color: #1e3a8a; margin: 1.5rem 0 0.8rem 0; border-left: 4px solid #c5a059; padding-left: 10px;">소제목을 입력하세요</h2><p><br></p>`;
+  const headingHtml = `<h2 style="font-size: 1.4rem; font-weight: bold; color: #1e3a8a; margin: 1.5rem 0 0.8rem 0; border-left: 4px solid #c5a059; padding-left: 10px;">小見出しを入力してください</h2><p><br></p>`;
   document.execCommand('insertHTML', false, headingHtml);
   syncWysiwygToTextarea();
 }
@@ -4152,7 +4042,7 @@ function insertWysiwygQuote() {
   const wysiwygBox = document.getElementById('art-editor-wysiwyg');
   if (!wysiwygBox) return;
   wysiwygBox.focus();
-  const quoteHtml = `<blockquote style="border-left: 4px solid #c5a059; padding: 12px 18px; margin: 1.2rem 0; background: rgba(197, 160, 89, 0.08); border-radius: 0 6px 6px 0; font-style: italic;">신학자 또는 성경 인용구를 입력하세요</blockquote><p><br></p>`;
+  const quoteHtml = `<blockquote style="border-left: 4px solid #c5a059; padding: 12px 18px; margin: 1.2rem 0; background: rgba(197, 160, 89, 0.08); border-radius: 0 6px 6px 0; font-style: italic;">神学者または聖書の引用文を入力してください</blockquote><p><br></p>`;
   document.execCommand('insertHTML', false, quoteHtml);
   syncWysiwygToTextarea();
 }
@@ -4162,13 +4052,13 @@ function insertWysiwygTable() {
   const wysiwygBox = document.getElementById('art-editor-wysiwyg');
   if (!wysiwygBox) return;
   wysiwygBox.focus();
-  const tableHtml = `<table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;"><thead><tr style="background: #f1f5f9;"><th style="border: 1px solid #cbd5e1; padding: 8px 12px;">구분</th><th style="border: 1px solid #cbd5e1; padding: 8px 12px;">내용</th></tr></thead><tbody><tr><td style="border: 1px solid #cbd5e1; padding: 8px 12px;">항목 1</td><td style="border: 1px solid #cbd5e1; padding: 8px 12px;">설명 1</td></tr></tbody></table><p><br></p>`;
+  const tableHtml = `<table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;"><thead><tr style="background: #f1f5f9;"><th style="border: 1px solid #cbd5e1; padding: 8px 12px;">区分</th><th style="border: 1px solid #cbd5e1; padding: 8px 12px;">内容</th></tr></thead><tbody><tr><td style="border: 1px solid #cbd5e1; padding: 8px 12px;">項目 1</td><td style="border: 1px solid #cbd5e1; padding: 8px 12px;">説明 1</td></tr></tbody></table><p><br></p>`;
   document.execCommand('insertHTML', false, tableHtml);
   syncWysiwygToTextarea();
 }
 
 function insertWysiwygLink() {
-  const url = prompt("연결할 URL 링크를 입력하세요:", "https://");
+  const url = prompt("リンク先URLを入力してください:", "https://");
   if (url) {
     execEditorCmd('createLink', url);
   }
@@ -4202,10 +4092,10 @@ function insertHtmlSnippet(type) {
     <div class="inline-block px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-semibold tracking-wider uppercase mb-4">
       Theological Visual
     </div>
-    <h1 class="text-2xl font-bold text-slate-800 mb-3">제목을 입력하세요</h1>
-    <p class="text-slate-600 leading-relaxed mb-6">여기에 카드 본문 내용을 입력하세요.</p>
+    <h1 class="text-2xl font-bold text-slate-800 mb-3">タイトルを入力してください</h1>
+    <p class="text-slate-600 leading-relaxed mb-6">ここにカード本文の内容を入力してください。</p>
     <div class="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 text-sm text-indigo-900">
-      "성경 구절 또는 묵상 구절을 적어주세요"
+      "聖句または黙想の言葉を入力してください"
     </div>
   </div>
 </body>
@@ -4273,7 +4163,7 @@ function updateEditorPreview() {
     iframe.srcdoc = content;
     previewDiv.appendChild(iframe);
   } else {
-    previewDiv.innerHTML = formatArticleContent(content) || '<span style="color:#94a3b8; font-style:italic;">작성된 내용이 여기에 실시간으로 표시됩니다.</span>';
+    previewDiv.innerHTML = formatArticleContent(content) || '<span style="color:#94a3b8; font-style:italic;">作成された内容がここにリアルタイムで表示されます。</span>';
   }
 }
 
@@ -4366,8 +4256,8 @@ function renderAdminArticleList() {
     const showOrderButtons = parentFilter !== 'all';
     const orderControls = showOrderButtons ? `
       <div class="admin-article-order-controls" style="display: flex; flex-direction: column; gap: 2px; margin-right: 12px; align-items: center; justify-content: center; flex-shrink: 0;">
-        <button class="btn-mini-order" onclick="event.stopPropagation(); moveArticle('${art.id}', 'up')" title="위로"><i class="fa-solid fa-chevron-up"></i></button>
-        <button class="btn-mini-order" onclick="event.stopPropagation(); moveArticle('${art.id}', 'down')" title="아래로"><i class="fa-solid fa-chevron-down"></i></button>
+        <button class="btn-mini-order" onclick="event.stopPropagation(); moveArticle('${art.id}', 'up')" title="上へ"><i class="fa-solid fa-chevron-up"></i></button>
+        <button class="btn-mini-order" onclick="event.stopPropagation(); moveArticle('${art.id}', 'down')" title="下へ"><i class="fa-solid fa-chevron-down"></i></button>
       </div>
     ` : '';
 
@@ -4401,7 +4291,7 @@ async function loadArticleToEdit(artId) {
   showAdminDashboard();
   switchAdminTab('write');
   const titleEl = document.getElementById('write-section-title');
-  if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-edit"></i> 記事・資料の修正編集 (글 수정/편집)';
+  if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-edit"></i> 記事・資料の修正編集';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   state.editArticleId = artId;
@@ -4507,7 +4397,7 @@ async function handleDeleteArticle(artId) {
   const art = state.articles.find(a => a.id === artId);
   if (!art) return;
 
-  if (confirm(`「${art.title}」을(를) 삭제하시겠습니까?\n(削除しますか？)`)) {
+  if (confirm(`「${art.title}」を削除しますか？\n(削除しますか？)`)) {
     // 1. Local delete
     state.articles = state.articles.filter(a => a.id !== artId);
     saveArticles();
@@ -4602,7 +4492,7 @@ function renderAdminStats() {
   if (sortedArticles.length === 0) {
     rankingBody.innerHTML = `
       <tr>
-        <td colspan="5" style="padding: 20px; text-align: center; color: var(--text-light);">등록된 기사가 없습니다.</td>
+        <td colspan="5" style="padding: 20px; text-align: center; color: var(--text-light);">登録された記事がありません。</td>
       </tr>
     `;
     return;
@@ -4610,7 +4500,7 @@ function renderAdminStats() {
 
   sortedArticles.forEach(art => {
     const catObj = state.categories.find(c => c.id === art.categoryId);
-    const catName = catObj ? catObj.nameJp : '미지정';
+    const catName = catObj ? catObj.nameJp : '未指定';
     const views = art.views || 0;
 
     const tr = document.createElement('tr');
@@ -4817,7 +4707,7 @@ async function handlePhotoUpload(input) {
   const token = getEffectiveGitHubToken();
 
   if (!token) {
-    alert("사진을 업로드하려면 GitHub Token이 필요합니다.");
+    alert("画像をアップロードするにはGitHub Tokenが必要です。");
     input.value = '';
     return;
   }
@@ -4826,7 +4716,7 @@ async function handlePhotoUpload(input) {
   if (statusDiv) {
     statusDiv.style.display = 'block';
     statusDiv.style.color = 'var(--text-light)';
-    statusDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 사진을 GitHub 서버에 업로드 중입니다... 잠시만 기다려 주세요.';
+    statusDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> GitHubに画像をアップロード中です... 少々お待ちください。';
   }
 
   const reader = new FileReader();
@@ -4856,7 +4746,7 @@ async function handlePhotoUpload(input) {
 
       if (!resPut.ok) {
         const errData = await resPut.json();
-        throw new Error(errData.message || "GitHub 이미지 업로드 실패");
+        throw new Error(errData.message || "GitHub画像アップロード失敗");
       }
 
       // Populate input with relative path
@@ -4867,11 +4757,11 @@ async function handlePhotoUpload(input) {
 
       if (statusDiv) {
         statusDiv.style.color = '#2ecc71';
-        statusDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> 업로드 성공! 사진 경로가 자동으로 입력되었습니다.';
+        statusDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> アップロード成功！ 画像パスが自動入力されました。';
       }
     } catch (err) {
       console.error(err);
-      alert("사진 업로드 실패: " + err.message);
+      alert("画像アップロード失敗: " + err.message);
       if (statusDiv) {
         statusDiv.style.display = 'none';
       }
@@ -4881,7 +4771,7 @@ async function handlePhotoUpload(input) {
   };
 
   reader.onerror = function() {
-    alert("파일을 읽는 도중 오류가 발생했습니다.");
+    alert("ファイルの読み込み中にエラーが発生しました。");
     if (statusDiv) statusDiv.style.display = 'none';
     input.value = '';
   };
@@ -4934,11 +4824,11 @@ function updateGitHubSyncBadge() {
 
   if (badge) {
     if (token) {
-      badge.textContent = '연동됨 (자동 연동)';
+      badge.textContent = '連携済み (自動連携)';
       badge.style.background = '#dcfce7';
       badge.style.color = '#15803d';
     } else {
-      badge.textContent = '미연결 (토큰 없음)';
+      badge.textContent = '未連携 (Tokenなし)';
       badge.style.background = '#fee2e2';
       badge.style.color = '#dc2626';
     }
@@ -4946,10 +4836,10 @@ function updateGitHubSyncBadge() {
 
   if (msg) {
     if (token) {
-      msg.textContent = '관리자 자동 연동 활성화: 글 작성/수정 시 GitHub (data.json)으로 실시간 자동 저장됩니다.';
+      msg.textContent = '管理者自動連携有効: 記事作成・修正時にGitHub (data.json)へリアルタイム自動保存されます。';
       msg.style.color = '#15803d';
     } else {
-      msg.textContent = '토큰을 입력 후 저장하시면 GitHub와 실시간 자동 동기화됩니다.';
+      msg.textContent = 'Tokenを入力して保存すると、GitHubとリアルタイムで自動同期されます。';
       msg.style.color = 'var(--text-light)';
     }
   }
@@ -4960,10 +4850,10 @@ function saveGitHubTokenFromSidebar() {
   const val = sidebarInput ? sidebarInput.value.trim() : '';
   if (!val) {
     localStorage.removeItem('wscal_github_token');
-    alert("GitHub 토큰이 삭제되었습니다.");
+    alert("GitHub Tokenが削除されました。");
   } else {
     localStorage.setItem('wscal_github_token', val);
-    alert("GitHub 토큰이 브라우저에 안전하게 저장되었습니다.");
+    alert("GitHub Tokenがブラウザに安全に保存されました。");
   }
   updateGitHubSyncBadge();
 }
@@ -4974,12 +4864,12 @@ async function testGitHubConnection() {
   const badge = document.getElementById('github-sync-badge');
 
   if (!token) {
-    alert("입력된 GitHub 토큰이 없습니다. 먼저 토큰을 입력하고 저장해 주세요.");
+    alert("入力されたGitHub Tokenがありません。先にTokenを入力して保存してください。");
     return;
   }
 
   if (msg) {
-    msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 연결 상태 확인 중...';
+    msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 接続状態を確認中...';
     msg.style.color = 'var(--text-light)';
   }
 
@@ -4993,35 +4883,35 @@ async function testGitHubConnection() {
     if (res.ok) {
       const data = await res.json();
       if (badge) {
-        badge.textContent = '연결 정상 (확인됨)';
+        badge.textContent = '接続正常 (確認済み)';
         badge.style.background = '#dcfce7';
         badge.style.color = '#15803d';
       }
       if (msg) {
-        msg.textContent = `연결 성공! 저장소: ${data.full_name} (${data.default_branch} 브랜치)`;
+        msg.textContent = `接続成功！ リポジトリ: ${data.full_name} (${data.default_branch} ブランチ)`;
         msg.style.color = '#15803d';
       }
-      alert(`GitHub 연동 성공!\n저장소: ${data.full_name}\n관리자 쓰기/동기화 권한이 정상 확인되었습니다.`);
+      alert(`GitHub連携成功！\nリポジトリ: ${data.full_name}\n管理者書き込み・同期権限が正常に確認されました。`);
     } else {
       const err = await res.json().catch(() => ({}));
       if (badge) {
-        badge.textContent = '연결 오류';
+        badge.textContent = '接続エラー';
         badge.style.background = '#fee2e2';
         badge.style.color = '#dc2626';
       }
       if (msg) {
-        msg.textContent = `연결 실패: ${err.message || res.statusText}`;
+        msg.textContent = `接続失敗: ${err.message || res.statusText}`;
         msg.style.color = '#dc2626';
       }
-      alert(`GitHub 연동 실패 (상태 코드: ${res.status}):\n${err.message || '토큰 권한(repo) 또는 유효성을 확인해 주세요.'}`);
+      alert(`GitHub連携失敗 (ステータスコード: ${res.status}):\n${err.message || 'Tokenの権限または有効性を確認してください。'}`);
     }
   } catch (e) {
     console.error("GitHub test error:", e);
     if (msg) {
-      msg.textContent = '네트워크 오류가 발생했습니다.';
+      msg.textContent = 'ネットワークエラーが発生しました。';
       msg.style.color = '#dc2626';
     }
-    alert("GitHub 서버와 통신 중 네트워크 오류가 발생했습니다.");
+    alert("GitHubサーバーとの通信中にネットワークエラーが発生しました。");
   }
 }
 
@@ -5305,7 +5195,7 @@ async function confirmMoveArticleFolder(artId) {
 
   const oldCatId = art.categoryId;
   if (oldCatId === newCatId) {
-    alert("同じフォルダが選択されています。(동일한 폴더가 선택되었습니다.)");
+    alert("同じフォルダが選択されています。");
     return;
   }
 
@@ -5316,7 +5206,7 @@ async function confirmMoveArticleFolder(artId) {
   const overlay = document.getElementById('quick-folder-modal-overlay');
   if (overlay) overlay.remove();
 
-  alert("フォルダ移動が完了しました。(폴더 이동이 완료되었습니다.)");
+  alert("フォルダ移動が完了しました。");
   renderRecentArticles();
   if (state.currentCategory) {
     renderArticlesList();

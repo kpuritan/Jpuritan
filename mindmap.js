@@ -4,11 +4,10 @@
 // ==========================================================================
 
 const MINDMAP_STRUCTURES = {
-  // 1. Westminster Shorter Catechism (웨스트민스터 소교리문답 Q1~Q107)
+  // 1. Westminster Shorter Catechism (Q1~Q107)
   'cat_cat_1': {
     id: 'cat_cat_1',
     titleJp: 'ウェストミンスター小教理問答 マインドマップ',
-    titleKr: '웨스트민스터 소교리문답 마인드맵 (Q1~Q107)',
     subtitle: '信仰の規範と生活の指針（全107問・キム・ホンマン学長 体系分類）',
     themeClass: 'theme-shorter-cat',
     color: '#1e3a8a',
@@ -16,7 +15,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'sc_intro',
         titleJp: '序論：人の目的と聖書',
-        titleKr: '서론: 사람의 목적과 성경',
         qRange: 'Q1 - Q3',
         color: '#1e40af',
         subBranches: [
@@ -33,7 +31,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'sc_faith',
         titleJp: '第1部：信ずべき教理（神論・救済論）',
-        titleKr: '제1부: 믿을 도리 (신론과 구원론)',
         qRange: 'Q4 - Q38',
         color: '#0284c7',
         subBranches: [
@@ -102,7 +99,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'sc_duty',
         titleJp: '第2部：守るべき本分（律法・十戒・恵みの手段）',
-        titleKr: '제2부: 행할 의무 (율법과 은혜의 방편)',
         qRange: 'Q39 - Q107',
         color: '#0d9488',
         subBranches: [
@@ -205,11 +201,10 @@ const MINDMAP_STRUCTURES = {
     ]
   },
 
-  // 2. Westminster Larger Catechism (웨스트민스터 대교리문답 Q1~Q196)
+  // 2. Westminster Larger Catechism (Q1~Q196)
   'cat_cat_2': {
     id: 'cat_cat_2',
     titleJp: 'ウェストミンスター大教理問答 マインドマップ',
-    titleKr: '웨스트민스터 대교리문답 마인드맵 (Q1~Q196)',
     subtitle: '詳細かつ網羅的な改革派神学の集大成（全196問・キム・ホンマン学長 体系分類）',
     themeClass: 'theme-larger-cat',
     color: '#047857',
@@ -217,7 +212,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'lc_intro',
         titleJp: '序論：最高目的と聖書の完全性',
-        titleKr: '서론: 최고 목적과 성경',
         qRange: 'Q1 - Q5',
         color: '#10b981',
         subBranches: [
@@ -236,7 +230,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'lc_faith',
         titleJp: '第1部：信ずべき教理（神、契約、キリスト、救い、審判）',
-        titleKr: '제1부: 믿을 도리 (신론, 언약, 그리스도, 구원, 심판)',
         qRange: 'Q6 - Q90',
         color: '#059669',
         subBranches: [
@@ -286,7 +279,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'lc_duty',
         titleJp: '第2部：守るべき本分（十戒詳細解題・恵みの手段・祈り）',
-        titleKr: '제2부: 행할 의무 (십계명 상세강해, 은혜의 방편, 기도)',
         qRange: 'Q91 - Q196',
         color: '#0f766e',
         subBranches: [
@@ -334,11 +326,10 @@ const MINDMAP_STRUCTURES = {
     ]
   },
 
-  // 3. Westminster Confession of Faith (웨스트민스터 신앙고백서 1~33장)
+  // 3. Westminster Confession of Faith (1~33章)
   'cat_cat_3': {
     id: 'cat_cat_3',
     titleJp: 'ウェストミンスター信仰告白 マインドマップ',
-    titleKr: '웨스트민스터 신앙고백서 마인드맵 (1~33장)',
     subtitle: '歴史的改革派信仰の標準文書（全33章・キム・ホンマン学長 体系分類）',
     themeClass: 'theme-wcf',
     color: '#831843',
@@ -346,7 +337,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'wcf_b1',
         titleJp: '1. 聖書と神論（第1〜5章）',
-        titleKr: '1. 성경과 신론 (1~5장)',
         qRange: '第1 - 5章',
         color: '#9f1239',
         subBranches: [
@@ -365,7 +355,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'wcf_b2',
         titleJp: '2. 堕落・契約・中保者（第6〜8章）',
-        titleKr: '2. 타락, 언약, 중보자 그리스도 (6~8장)',
         qRange: '第6 - 8章',
         color: '#be123c',
         subBranches: [
@@ -382,7 +371,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'wcf_b3',
         titleJp: '3. 救いの恵みと聖徒の生活（第9〜18章）',
-        titleKr: '3. 구원의 은혜와 성도의 삶 (9~18장)',
         qRange: '第9 - 18章',
         color: '#c026d3',
         subBranches: [
@@ -406,7 +394,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'wcf_b4',
         titleJp: '4. 律法・自由・礼拝・国家（第19〜24章）',
-        titleKr: '4. 율법, 자유, 예배, 국가 (19~24장)',
         qRange: '第19 - 24章',
         color: '#7e22ce',
         subBranches: [
@@ -426,7 +413,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'wcf_b5',
         titleJp: '5. 教会・聖礼典・終末（第25〜33章）',
-        titleKr: '5. 교회, 성례전, 종말과 최후심판 (25~33장)',
         qRange: '第25 - 33章',
         color: '#4338ca',
         subBranches: [
@@ -449,11 +435,10 @@ const MINDMAP_STRUCTURES = {
     ]
   },
 
-  // 4. Heidelberg Catechism (하이델베르크 요리문답 Q1~Q129)
+  // 4. Heidelberg Catechism (Q1~Q129)
   'cat_cat_4': {
     id: 'cat_cat_4',
     titleJp: 'ハイデルベルク信仰問答 マインドマップ',
-    titleKr: '하이델베르크 요리문답 마인드맵 (Q1~Q129)',
     subtitle: '福音的慰めとキリスト者の感謝の生活（全129問・キム・ホンマン学長 体系分類）',
     themeClass: 'theme-heidelberg',
     color: '#4f46e5',
@@ -461,7 +446,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'hc_intro',
         titleJp: '序論：唯一の慰め',
-        titleKr: '서론: 유일한 위로',
         qRange: '第1主日 (Q1-2)',
         color: '#6366f1',
         subBranches: [
@@ -477,7 +461,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'hc_part1',
         titleJp: '第1部：人間の罪と悲惨',
-        titleKr: '제1부: 죄와 비참',
         qRange: '第2〜4主日 (Q3-11)',
         color: '#ef4444',
         subBranches: [
@@ -500,7 +483,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'hc_part2',
         titleJp: '第2部：人間の救いと贖い',
-        titleKr: '제2부: 구속과 은혜',
         qRange: '第5〜31主日 (Q12-85)',
         color: '#3b82f6',
         subBranches: [
@@ -546,7 +528,6 @@ const MINDMAP_STRUCTURES = {
       {
         id: 'hc_part3',
         titleJp: '第3部：感謝の生活（十戒と祈り）',
-        titleKr: '제3부: 감사의 삶',
         qRange: '第32〜52主日 (Q86-129)',
         color: '#10b981',
         subBranches: [
@@ -627,8 +608,8 @@ function findArticleForMindmapNode(node, rootCatId, allArticles) {
     // Exact question match in title
     for (const art of candidates) {
       const t = art.title || '';
-      // Match patterns: "第1問", "질문 1", "Q1", "Question 1"
-      const m = t.match(/(?:第|질문|Q|Question)\s*(\d+)\s*(?:問|:|：|\.|\s)/i);
+      // Match patterns: "第1問", "Q1", "Question 1"
+      const m = t.match(/(?:第|Q|Question)\s*(\d+)\s*(?:問|:|：|\.|\s)/i);
       if (m && parseInt(m[1], 10) === qNum) {
         return art;
       }
@@ -669,8 +650,8 @@ function renderMindmapBoard(container, targetCatId, allArticles) {
       <div class="mindmap-board-subtitle">${data.subtitle}</div>
     </div>
     <div class="mindmap-header-right">
-      <button type="button" class="btn-mindmap-close" onclick="closeMindmapFullscreen()" title="マインドマップを閉じる (닫기)">
-        <i class="fa-solid fa-xmark"></i> 閉じる (닫기)
+      <button type="button" class="btn-mindmap-close" onclick="closeMindmapFullscreen()" title="マインドマップを閉じる">
+        <i class="fa-solid fa-xmark"></i> 閉じる
       </button>
     </div>
   `;
