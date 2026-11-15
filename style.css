@@ -4186,6 +4186,71 @@ blockquote p:last-child {
   font-weight: 500;
 }
 
+/* Southwestern Submenu Wrapper & Navigation Pills */
+.sw-program-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 14px;
+}
+
+.sw-subnav-container {
+  width: 100%;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #C5A059;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.sw-subnav-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0A1C36;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 6px;
+}
+
+.sw-subnav-pill {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #1e293b;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.sw-subnav-pill:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #0A1C36;
+  transform: translateY(-1px);
+}
+
+.sw-subnav-pill.active {
+  background: #0A1C36;
+  border-color: #0A1C36;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(10, 28, 54, 0.2);
+}
+
+.sw-subnav-pill.active i {
+  color: #C5A059;
+}
+
 /* YouTube Floating Quick Button */
 .youtube-float-btn {
   position: fixed;

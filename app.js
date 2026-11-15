@@ -234,22 +234,22 @@ function loadLocalStorageOnly() {
   let cachedFeat = null;
 
   try {
-    const rawArts = localStorage.getItem('wscal_articles_v37');
+    const rawArts = localStorage.getItem('wscal_articles_v45');
     if (rawArts) cachedArts = JSON.parse(rawArts);
   } catch (e) {}
 
   try {
-    const rawCats = localStorage.getItem('wscal_categories_v37');
+    const rawCats = localStorage.getItem('wscal_categories_v45');
     if (rawCats) cachedCats = JSON.parse(rawCats);
   } catch (e) {}
 
   try {
-    const rawMenus = localStorage.getItem('wscal_mainmenus_v37');
+    const rawMenus = localStorage.getItem('wscal_mainmenus_v45');
     if (rawMenus) cachedMenus = JSON.parse(rawMenus);
   } catch (e) {}
 
   try {
-    const rawFeat = localStorage.getItem('wscal_featured_v37');
+    const rawFeat = localStorage.getItem('wscal_featured_v45');
     if (rawFeat) cachedFeat = JSON.parse(rawFeat);
   } catch (e) {}
 
@@ -326,22 +326,22 @@ async function initApp() {
 
       if (fileData.mainMenus && fileData.mainMenus.length > 0) {
         state.mainMenus = fileData.mainMenus;
-        try { localStorage.setItem('wscal_mainmenus_v37', JSON.stringify(fileData.mainMenus)); } catch(e) {}
+        try { localStorage.setItem('wscal_mainmenus_v45', JSON.stringify(fileData.mainMenus)); } catch(e) {}
       }
       if (fileData.categories && fileData.categories.length > 0) {
         state.categories = fileData.categories;
-        try { localStorage.setItem('wscal_categories_v37', JSON.stringify(fileData.categories)); } catch(e) {}
+        try { localStorage.setItem('wscal_categories_v45', JSON.stringify(fileData.categories)); } catch(e) {}
       }
       if (fileData.featured) {
         state.featured = fileData.featured;
-        try { localStorage.setItem('wscal_featured_v37', JSON.stringify(fileData.featured)); } catch(e) {}
+        try { localStorage.setItem('wscal_featured_v45', JSON.stringify(fileData.featured)); } catch(e) {}
       }
       if (fileData.articles && fileData.articles.length > 0) {
         // If fileData has more or equal articles than state, adopt it
         if (fileData.articles.length >= state.articles.length) {
           state.articles = fileData.articles;
         }
-        try { localStorage.setItem('wscal_articles_v37', JSON.stringify(fileData.articles)); } catch(e) {}
+        try { localStorage.setItem('wscal_articles_v45', JSON.stringify(fileData.articles)); } catch(e) {}
       }
 
       initializeCollapsedStates();
@@ -455,7 +455,7 @@ function loadArticlesFallback() {
   const embeddedArts = (MASTER_SITE_DATABASE && MASTER_SITE_DATABASE.articles) || [];
   let cachedArts = null;
   try {
-    const raw = localStorage.getItem('wscal_articles_v37');
+    const raw = localStorage.getItem('wscal_articles_v45');
     if (raw) cachedArts = JSON.parse(raw);
   } catch (e) {}
 
@@ -500,37 +500,37 @@ async function loadLocalDataFallback() {
   if (fetchedData) {
     if (fetchedData.mainMenus) {
       state.mainMenus = fetchedData.mainMenus;
-      try { localStorage.setItem('wscal_mainmenus_v37', JSON.stringify(fetchedData.mainMenus)); } catch(e) {}
+      try { localStorage.setItem('wscal_mainmenus_v45', JSON.stringify(fetchedData.mainMenus)); } catch(e) {}
     }
     if (fetchedData.categories) {
       state.categories = fetchedData.categories;
-      try { localStorage.setItem('wscal_categories_v37', JSON.stringify(fetchedData.categories)); } catch(e) {}
+      try { localStorage.setItem('wscal_categories_v45', JSON.stringify(fetchedData.categories)); } catch(e) {}
     }
     if (fetchedData.featured) {
       state.featured = fetchedData.featured;
-      try { localStorage.setItem('wscal_featured_v37', JSON.stringify(fetchedData.featured)); } catch(e) {}
+      try { localStorage.setItem('wscal_featured_v45', JSON.stringify(fetchedData.featured)); } catch(e) {}
     }
     if (fetchedData.articles) {
       state.articles = fetchedData.articles;
-      try { localStorage.setItem('wscal_articles_v37', JSON.stringify(fetchedData.articles)); } catch(e) {}
+      try { localStorage.setItem('wscal_articles_v45', JSON.stringify(fetchedData.articles)); } catch(e) {}
     }
   }
 }
 
 // Save back to LocalStorage & Sync to GitHub
 async function saveMainMenus() {
-  try { localStorage.setItem('wscal_mainmenus_v37', JSON.stringify(state.mainMenus)); } catch(e) {}
+  try { localStorage.setItem('wscal_mainmenus_v45', JSON.stringify(state.mainMenus)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 async function saveCategories() {
-  try { localStorage.setItem('wscal_categories_v37', JSON.stringify(state.categories)); } catch(e) {}
+  try { localStorage.setItem('wscal_categories_v45', JSON.stringify(state.categories)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 function saveArticles() {
-  try { localStorage.setItem('wscal_articles_v37', JSON.stringify(state.articles)); } catch(e) {}
+  try { localStorage.setItem('wscal_articles_v45', JSON.stringify(state.articles)); } catch(e) {}
 }
 async function saveFeatured() {
-  try { localStorage.setItem('wscal_featured_v37', JSON.stringify(state.featured)); } catch(e) {}
+  try { localStorage.setItem('wscal_featured_v45', JSON.stringify(state.featured)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 
@@ -1054,7 +1054,7 @@ function renderTheologySubmenu() {
   }
 }
 
-// Render Southwestern 4 Programs Submenu Cards (Exact match to screenshot)
+// Render Southwestern 4 Programs Submenu Cards (Exact match to screenshot) + Subcategory Navigation Pills
 function renderSouthwesternSubmenu() {
   const submenuGrid = document.getElementById('submenu-items-container');
   const categoryTitle = document.getElementById('submenu-category-title');
@@ -1065,14 +1065,14 @@ function renderSouthwesternSubmenu() {
           <i class="fa-solid fa-university me-2" style="color: var(--accent-color);"></i>South Western Reformed Seminary (サウスウェスタン改革派神学大学院)
         </span>
         <span style="font-size: 0.82rem; color: var(--text-light); font-weight: normal;">
-          ※ 下記の4つの課程からプログラムを選択してください。
+          ※ 下記の課程カードまたは細部メニューを選択してください。
         </span>
       </div>
     `;
   }
   if (!submenuGrid) return;
   submenuGrid.innerHTML = '';
-  submenuGrid.className = 'sw-program-grid';
+  submenuGrid.className = 'sw-program-wrapper';
 
   const swCats = [
     {
@@ -1105,11 +1105,31 @@ function renderSouthwesternSubmenu() {
     }
   ];
 
+  // Determine currently active root program
+  let activeParentId = 'cat_sw_intro';
+  if (state.currentCategory) {
+    if (swCats.some(c => c.id === state.currentCategory)) {
+      activeParentId = state.currentCategory;
+    } else {
+      let curr = state.categories.find(c => c.id === state.currentCategory);
+      while (curr && curr.parentId) {
+        if (swCats.some(c => c.id === curr.parentId)) {
+          activeParentId = curr.parentId;
+          break;
+        }
+        curr = state.categories.find(c => c.id === curr.parentId);
+      }
+    }
+  }
+
+  // 1. Grid of 4 Programs
+  const gridDiv = document.createElement('div');
+  gridDiv.className = 'sw-program-grid';
+
   swCats.forEach(item => {
     const card = document.createElement('div');
-    const descendants = typeof getAllDescendantCategoryIds === 'function' ? getAllDescendantCategoryIds(item.id) : [];
-    const isActive = state.currentCategory === item.id || descendants.includes(state.currentCategory);
-    card.className = `sw-program-card ${isActive ? 'active' : ''}`;
+    const isProgramActive = item.id === activeParentId;
+    card.className = `sw-program-card ${isProgramActive ? 'active' : ''}`;
     card.dataset.catId = item.id;
     card.innerHTML = `
       <div class="sw-card-icon">
@@ -1120,7 +1140,7 @@ function renderSouthwesternSubmenu() {
       <div class="sw-card-sub">${item.subKr}</div>
     `;
     card.onclick = () => {
-      // Find first child and select it, which expands the tree
+      // Find first child of this program and select it
       const children = state.categories.filter(c => c.parentId === item.id);
       if (children.length > 0) {
         selectSubcategory(children[0].id, true);
@@ -1128,8 +1148,44 @@ function renderSouthwesternSubmenu() {
         selectSubcategory(item.id, true);
       }
     };
-    submenuGrid.appendChild(card);
+    gridDiv.appendChild(card);
   });
+  submenuGrid.appendChild(gridDiv);
+
+  // 2. Subcategory Navigation Pills for the Active Program
+  const activeProgramObj = swCats.find(c => c.id === activeParentId);
+  const subCats = state.categories.filter(c => c.parentId === activeParentId);
+  sortCategoriesList(subCats);
+
+  if (subCats.length > 0) {
+    const pillsContainer = document.createElement('div');
+    pillsContainer.className = 'sw-subnav-container';
+
+    const label = document.createElement('div');
+    label.className = 'sw-subnav-label';
+    label.innerHTML = `<i class="fa-solid fa-list-check" style="color: var(--accent-color);"></i> <strong>${activeProgramObj ? activeProgramObj.titleKr : '세부메뉴'} (${activeProgramObj ? activeProgramObj.titleJp : ''}):</strong>`;
+    pillsContainer.appendChild(label);
+
+    subCats.forEach(cat => {
+      const pill = document.createElement('button');
+      pill.type = 'button';
+      const isPillActive = state.currentCategory === cat.id;
+      pill.className = `sw-subnav-pill ${isPillActive ? 'active' : ''}`;
+      const iconClass = cat.icon || 'fa-folder';
+      pill.innerHTML = `
+        <i class="fa-solid ${iconClass}"></i>
+        <span>${cat.nameKr || cat.nameJp}</span>
+        <small style="opacity: 0.75; font-size: 0.75rem;">(${cat.nameJp})</small>
+      `;
+      pill.onclick = (e) => {
+        e.stopPropagation();
+        selectSubcategory(cat.id, true);
+      };
+      pillsContainer.appendChild(pill);
+    });
+
+    submenuGrid.appendChild(pillsContainer);
+  }
 }
 
 // Initialize categories collapse states
@@ -1165,35 +1221,35 @@ function isAnyAncestorCollapsed(catId) {
 // Smart merge server data into local storage to avoid overriding admin modifications
 function mergeServerData(serverData) {
   // 1. Merge Main Menus
-  const localMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v37')) || [];
+  const localMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v45')) || [];
   serverData.mainMenus.forEach(sm => {
     if (!localMenus.some(lm => lm.id === sm.id)) {
       localMenus.push(sm);
     }
   });
-  localStorage.setItem('wscal_mainmenus_v37', JSON.stringify(localMenus));
+  localStorage.setItem('wscal_mainmenus_v45', JSON.stringify(localMenus));
 
   // 2. Merge Categories
-  const localCats = JSON.parse(localStorage.getItem('wscal_categories_v37')) || [];
+  const localCats = JSON.parse(localStorage.getItem('wscal_categories_v45')) || [];
   serverData.categories.forEach(sc => {
     if (!localCats.some(lc => lc.id === sc.id)) {
       localCats.push(sc);
     }
   });
-  localStorage.setItem('wscal_categories_v37', JSON.stringify(localCats));
+  localStorage.setItem('wscal_categories_v45', JSON.stringify(localCats));
 
   // 3. Merge Articles
-  const localArts = JSON.parse(localStorage.getItem('wscal_articles_v37')) || [];
+  const localArts = JSON.parse(localStorage.getItem('wscal_articles_v45')) || [];
   serverData.articles.forEach(sa => {
     if (!localArts.some(la => la.id === sa.id)) {
       localArts.push(sa);
     }
   });
-  localStorage.setItem('wscal_articles_v37', JSON.stringify(localArts));
+  localStorage.setItem('wscal_articles_v45', JSON.stringify(localArts));
 
   // 4. Merge Featured
-  if (!localStorage.getItem('wscal_featured_v37')) {
-    localStorage.setItem('wscal_featured_v37', JSON.stringify(serverData.featured));
+  if (!localStorage.getItem('wscal_featured_v45')) {
+    localStorage.setItem('wscal_featured_v45', JSON.stringify(serverData.featured));
   }
 }
 
@@ -1204,10 +1260,10 @@ async function resetLocalDataToServer() {
       const res = await fetch('./data.json?t=' + Date.now());
       if (res.ok) {
         const serverData = await res.json();
-        localStorage.setItem('wscal_mainmenus_v37', JSON.stringify(serverData.mainMenus));
-        localStorage.setItem('wscal_categories_v37', JSON.stringify(serverData.categories));
-        localStorage.setItem('wscal_articles_v37', JSON.stringify(serverData.articles));
-        localStorage.setItem('wscal_featured_v37', JSON.stringify(serverData.featured));
+        localStorage.setItem('wscal_mainmenus_v45', JSON.stringify(serverData.mainMenus));
+        localStorage.setItem('wscal_categories_v45', JSON.stringify(serverData.categories));
+        localStorage.setItem('wscal_articles_v45', JSON.stringify(serverData.articles));
+        localStorage.setItem('wscal_featured_v45', JSON.stringify(serverData.featured));
         alert("성공적으로 서버 최신 데이터와 동기화(초기화)했습니다. 페이지를 새로고침합니다.");
         location.reload();
       } else {
@@ -1416,8 +1472,9 @@ function selectSubcategory(categoryId, shouldScroll = false) {
   const workspaceSec = document.getElementById('workspace-sec');
   if (workspaceSec) workspaceSec.classList.add('active');
 
-  // IF THIS CATEGORY IS "기관의 목적" (cat_1787469045280) AND HAS AT LEAST 1 ARTICLE, REDIRECT DIRECTLY TO DETAIL!
-  if (categoryId === 'cat_1787469045280' && filteredArticles.length > 0) {
+  // IF THIS CATEGORY IS "기관의 목적" (cat_1787469045280) OR Southwestern subcategories with 1 article, REDIRECT DIRECTLY TO DETAIL!
+  const isDirectDetailCategory = categoryId === 'cat_1787469045280' || (categoryId.startsWith('cat_sw_') && filteredArticles.length === 1);
+  if (isDirectDetailCategory && filteredArticles.length > 0) {
     renderArticlesList();
     viewArticleDetail(filteredArticles[0].id);
   } else {
@@ -1873,10 +1930,11 @@ function renderArticlesList() {
         </div>
       ` : '';
 
+      const artTitle = art.title || art.titleJp || art.titleKr || '';
       tr.innerHTML = `
         <td style="padding: 12px 20px; font-weight: 700; color: #0f172a; font-size: 0.96rem; line-height: 1.4;">
           <i class="fa-solid fa-file-lines" style="color: #c5a059; margin-right: 10px; font-size: 0.9rem;"></i>
-          <span>${art.title}</span>
+          <span>${artTitle}</span>
           ${hasVideoBadge}
         </td>
         ${state.isAdmin ? `<td style="padding: 6px 12px; text-align: center;">${adminToolbar}</td>` : ''}
@@ -2071,13 +2129,14 @@ function renderArticlesList() {
           </div>
         ` : '';
 
+        const artTitle = art.title || art.titleJp || art.titleKr || '';
         if (coverThumbnail) {
           card.style.display = 'flex';
           card.style.alignItems = 'flex-start';
           card.innerHTML = `
             ${coverThumbnail}
             <div style="flex: 1; min-width: 0;">
-              <h3 class="article-item-title" style="margin-top: 2px;">${art.title} ${hasVideoBadge}</h3>
+              <h3 class="article-item-title" style="margin-top: 2px;">${artTitle} ${hasVideoBadge}</h3>
               <div class="article-item-meta" style="margin-top: 8px;">
                 <span class="meta-item meta-author"><i class="fa-regular fa-user"></i> 著者: ${art.author}</span>
                 ${scriptureBadge}
@@ -2089,7 +2148,7 @@ function renderArticlesList() {
           `;
         } else {
           card.innerHTML = `
-            <h3 class="article-item-title">${art.title} ${hasVideoBadge}</h3>
+            <h3 class="article-item-title">${artTitle} ${hasVideoBadge}</h3>
             <div class="article-item-meta">
               <span class="meta-item meta-author"><i class="fa-regular fa-user"></i> 著者: ${art.author}</span>
               ${scriptureBadge}
@@ -2390,7 +2449,7 @@ function viewArticleDetail(articleId) {
     }
 
     const titleEl = document.getElementById('detail-title');
-    if (titleEl) titleEl.textContent = article.title || '';
+    if (titleEl) titleEl.textContent = article.title || article.titleJp || article.titleKr || '';
     
     const authorEl = document.getElementById('detail-author');
     if (authorEl) {
