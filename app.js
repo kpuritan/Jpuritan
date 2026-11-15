@@ -234,22 +234,22 @@ function loadLocalStorageOnly() {
   let cachedFeat = null;
 
   try {
-    const rawArts = localStorage.getItem('wscal_articles_v47');
+    const rawArts = localStorage.getItem('wscal_articles_v48');
     if (rawArts) cachedArts = JSON.parse(rawArts);
   } catch (e) {}
 
   try {
-    const rawCats = localStorage.getItem('wscal_categories_v47');
+    const rawCats = localStorage.getItem('wscal_categories_v48');
     if (rawCats) cachedCats = JSON.parse(rawCats);
   } catch (e) {}
 
   try {
-    const rawMenus = localStorage.getItem('wscal_mainmenus_v47');
+    const rawMenus = localStorage.getItem('wscal_mainmenus_v48');
     if (rawMenus) cachedMenus = JSON.parse(rawMenus);
   } catch (e) {}
 
   try {
-    const rawFeat = localStorage.getItem('wscal_featured_v47');
+    const rawFeat = localStorage.getItem('wscal_featured_v48');
     if (rawFeat) cachedFeat = JSON.parse(rawFeat);
   } catch (e) {}
 
@@ -326,22 +326,22 @@ async function initApp() {
 
       if (fileData.mainMenus && fileData.mainMenus.length > 0) {
         state.mainMenus = fileData.mainMenus;
-        try { localStorage.setItem('wscal_mainmenus_v47', JSON.stringify(fileData.mainMenus)); } catch(e) {}
+        try { localStorage.setItem('wscal_mainmenus_v48', JSON.stringify(fileData.mainMenus)); } catch(e) {}
       }
       if (fileData.categories && fileData.categories.length > 0) {
         state.categories = fileData.categories;
-        try { localStorage.setItem('wscal_categories_v47', JSON.stringify(fileData.categories)); } catch(e) {}
+        try { localStorage.setItem('wscal_categories_v48', JSON.stringify(fileData.categories)); } catch(e) {}
       }
       if (fileData.featured) {
         state.featured = fileData.featured;
-        try { localStorage.setItem('wscal_featured_v47', JSON.stringify(fileData.featured)); } catch(e) {}
+        try { localStorage.setItem('wscal_featured_v48', JSON.stringify(fileData.featured)); } catch(e) {}
       }
       if (fileData.articles && fileData.articles.length > 0) {
         // If fileData has more or equal articles than state, adopt it
         if (fileData.articles.length >= state.articles.length) {
           state.articles = fileData.articles;
         }
-        try { localStorage.setItem('wscal_articles_v47', JSON.stringify(fileData.articles)); } catch(e) {}
+        try { localStorage.setItem('wscal_articles_v48', JSON.stringify(fileData.articles)); } catch(e) {}
       }
 
       initializeCollapsedStates();
@@ -455,7 +455,7 @@ function loadArticlesFallback() {
   const embeddedArts = (MASTER_SITE_DATABASE && MASTER_SITE_DATABASE.articles) || [];
   let cachedArts = null;
   try {
-    const raw = localStorage.getItem('wscal_articles_v47');
+    const raw = localStorage.getItem('wscal_articles_v48');
     if (raw) cachedArts = JSON.parse(raw);
   } catch (e) {}
 
@@ -500,37 +500,37 @@ async function loadLocalDataFallback() {
   if (fetchedData) {
     if (fetchedData.mainMenus) {
       state.mainMenus = fetchedData.mainMenus;
-      try { localStorage.setItem('wscal_mainmenus_v47', JSON.stringify(fetchedData.mainMenus)); } catch(e) {}
+      try { localStorage.setItem('wscal_mainmenus_v48', JSON.stringify(fetchedData.mainMenus)); } catch(e) {}
     }
     if (fetchedData.categories) {
       state.categories = fetchedData.categories;
-      try { localStorage.setItem('wscal_categories_v47', JSON.stringify(fetchedData.categories)); } catch(e) {}
+      try { localStorage.setItem('wscal_categories_v48', JSON.stringify(fetchedData.categories)); } catch(e) {}
     }
     if (fetchedData.featured) {
       state.featured = fetchedData.featured;
-      try { localStorage.setItem('wscal_featured_v47', JSON.stringify(fetchedData.featured)); } catch(e) {}
+      try { localStorage.setItem('wscal_featured_v48', JSON.stringify(fetchedData.featured)); } catch(e) {}
     }
     if (fetchedData.articles) {
       state.articles = fetchedData.articles;
-      try { localStorage.setItem('wscal_articles_v47', JSON.stringify(fetchedData.articles)); } catch(e) {}
+      try { localStorage.setItem('wscal_articles_v48', JSON.stringify(fetchedData.articles)); } catch(e) {}
     }
   }
 }
 
 // Save back to LocalStorage & Sync to GitHub
 async function saveMainMenus() {
-  try { localStorage.setItem('wscal_mainmenus_v47', JSON.stringify(state.mainMenus)); } catch(e) {}
+  try { localStorage.setItem('wscal_mainmenus_v48', JSON.stringify(state.mainMenus)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 async function saveCategories() {
-  try { localStorage.setItem('wscal_categories_v47', JSON.stringify(state.categories)); } catch(e) {}
+  try { localStorage.setItem('wscal_categories_v48', JSON.stringify(state.categories)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 function saveArticles() {
-  try { localStorage.setItem('wscal_articles_v47', JSON.stringify(state.articles)); } catch(e) {}
+  try { localStorage.setItem('wscal_articles_v48', JSON.stringify(state.articles)); } catch(e) {}
 }
 async function saveFeatured() {
-  try { localStorage.setItem('wscal_featured_v47', JSON.stringify(state.featured)); } catch(e) {}
+  try { localStorage.setItem('wscal_featured_v48', JSON.stringify(state.featured)); } catch(e) {}
   syncDataJsonToGitHub();
 }
 
@@ -1077,30 +1077,26 @@ function renderSouthwesternSubmenu() {
   const swCats = [
     {
       id: 'cat_sw_intro',
-      titleKr: '사우스웨스턴 소개',
       titleJp: 'サウスウェスタン紹介',
-      subKr: '사우스웨스턴소개',
+      subJp: 'Southwestern Introduction',
       icon: 'fa-school'
     },
     {
       id: 'cat_sw_grad',
-      titleKr: '대학원 프로그램',
-      titleJp: '大学院プログラム (大学院課程)',
-      subKr: '대학원과정',
+      titleJp: '大学院プログラム',
+      subJp: 'Graduate Programs',
       icon: 'fa-graduation-cap'
     },
     {
       id: 'cat_sw_mission',
-      titleKr: '선교사 평생교육 프로그램',
-      titleJp: '宣教師生涯教育プログラム',
-      subKr: '선교사연장교육과정',
+      titleJp: '宣教師継続教育課程',
+      subJp: 'Missionary Education',
       icon: 'fa-earth-asia'
     },
     {
       id: 'cat_sw_admissions',
-      titleKr: '등록 정보',
-      titleJp: '登録情報 (入学案内)',
-      subKr: '입학안내',
+      titleJp: '登録・入学案内',
+      subJp: 'Admissions & Registration',
       icon: 'fa-clipboard-list'
     }
   ];
@@ -1135,9 +1131,8 @@ function renderSouthwesternSubmenu() {
       <div class="sw-card-icon">
         <i class="fa-solid ${item.icon}"></i>
       </div>
-      <div class="sw-card-title-kr">${item.titleKr}</div>
-      <div class="sw-card-title-jp">${item.titleJp}</div>
-      <div class="sw-card-sub">${item.subKr}</div>
+      <div class="sw-card-title-jp" style="font-size: 1.15rem; font-weight: 800; color: #0A1C36; margin-bottom: 4px;">${item.titleJp}</div>
+      <div class="sw-card-sub" style="font-size: 0.8rem; color: #64748b; font-weight: 600;">${item.subJp}</div>
     `;
     card.onclick = () => {
       // Find first child of this program and select it
@@ -1163,7 +1158,7 @@ function renderSouthwesternSubmenu() {
 
     const label = document.createElement('div');
     label.className = 'sw-subnav-label';
-    label.innerHTML = `<i class="fa-solid fa-list-check" style="color: var(--accent-color);"></i> <strong>${activeProgramObj ? activeProgramObj.titleKr : '세부메뉴'} (${activeProgramObj ? activeProgramObj.titleJp : ''}):</strong>`;
+    label.innerHTML = `<i class="fa-solid fa-list-check" style="color: var(--accent-color);"></i> <strong>${activeProgramObj ? activeProgramObj.titleJp : 'メニュー'}:</strong>`;
     pillsContainer.appendChild(label);
 
     subCats.forEach(cat => {
@@ -1174,8 +1169,7 @@ function renderSouthwesternSubmenu() {
       const iconClass = cat.icon || 'fa-folder';
       pill.innerHTML = `
         <i class="fa-solid ${iconClass}"></i>
-        <span>${cat.nameKr || cat.nameJp}</span>
-        <small style="opacity: 0.75; font-size: 0.75rem;">(${cat.nameJp})</small>
+        <span>${cat.nameJp}</span>
       `;
       pill.onclick = (e) => {
         e.stopPropagation();
@@ -1221,35 +1215,35 @@ function isAnyAncestorCollapsed(catId) {
 // Smart merge server data into local storage to avoid overriding admin modifications
 function mergeServerData(serverData) {
   // 1. Merge Main Menus
-  const localMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v47')) || [];
+  const localMenus = JSON.parse(localStorage.getItem('wscal_mainmenus_v48')) || [];
   serverData.mainMenus.forEach(sm => {
     if (!localMenus.some(lm => lm.id === sm.id)) {
       localMenus.push(sm);
     }
   });
-  localStorage.setItem('wscal_mainmenus_v47', JSON.stringify(localMenus));
+  localStorage.setItem('wscal_mainmenus_v48', JSON.stringify(localMenus));
 
   // 2. Merge Categories
-  const localCats = JSON.parse(localStorage.getItem('wscal_categories_v47')) || [];
+  const localCats = JSON.parse(localStorage.getItem('wscal_categories_v48')) || [];
   serverData.categories.forEach(sc => {
     if (!localCats.some(lc => lc.id === sc.id)) {
       localCats.push(sc);
     }
   });
-  localStorage.setItem('wscal_categories_v47', JSON.stringify(localCats));
+  localStorage.setItem('wscal_categories_v48', JSON.stringify(localCats));
 
   // 3. Merge Articles
-  const localArts = JSON.parse(localStorage.getItem('wscal_articles_v47')) || [];
+  const localArts = JSON.parse(localStorage.getItem('wscal_articles_v48')) || [];
   serverData.articles.forEach(sa => {
     if (!localArts.some(la => la.id === sa.id)) {
       localArts.push(sa);
     }
   });
-  localStorage.setItem('wscal_articles_v47', JSON.stringify(localArts));
+  localStorage.setItem('wscal_articles_v48', JSON.stringify(localArts));
 
   // 4. Merge Featured
-  if (!localStorage.getItem('wscal_featured_v47')) {
-    localStorage.setItem('wscal_featured_v47', JSON.stringify(serverData.featured));
+  if (!localStorage.getItem('wscal_featured_v48')) {
+    localStorage.setItem('wscal_featured_v48', JSON.stringify(serverData.featured));
   }
 }
 
@@ -1260,10 +1254,10 @@ async function resetLocalDataToServer() {
       const res = await fetch('./data.json?t=' + Date.now());
       if (res.ok) {
         const serverData = await res.json();
-        localStorage.setItem('wscal_mainmenus_v47', JSON.stringify(serverData.mainMenus));
-        localStorage.setItem('wscal_categories_v47', JSON.stringify(serverData.categories));
-        localStorage.setItem('wscal_articles_v47', JSON.stringify(serverData.articles));
-        localStorage.setItem('wscal_featured_v47', JSON.stringify(serverData.featured));
+        localStorage.setItem('wscal_mainmenus_v48', JSON.stringify(serverData.mainMenus));
+        localStorage.setItem('wscal_categories_v48', JSON.stringify(serverData.categories));
+        localStorage.setItem('wscal_articles_v48', JSON.stringify(serverData.articles));
+        localStorage.setItem('wscal_featured_v48', JSON.stringify(serverData.featured));
         alert("성공적으로 서버 최신 데이터와 동기화(초기화)했습니다. 페이지를 새로고침합니다.");
         location.reload();
       } else {
@@ -1497,7 +1491,7 @@ function renderWorkspaceSidebar() {
   
   // 1. Combined Mode in Reformed Theology
   if (state.currentMenu === 'theology' && state.theologyMode === 'combined') {
-    sidebarHeader.textContent = '統合フィルター (통합 필터)';
+    sidebarHeader.textContent = '統合フィルター';
     sidebarList.innerHTML = '';
 
     const authors = getTheologyAuthors();
@@ -1506,7 +1500,7 @@ function renderWorkspaceSidebar() {
     // Section 1: Authors
     const authSecHeader = document.createElement('div');
     authSecHeader.className = 'sidebar-section-title';
-    authSecHeader.innerHTML = '<i class="fa-solid fa-user"></i> 著者フィルター (저자)';
+    authSecHeader.innerHTML = '<i class="fa-solid fa-user"></i> 著者フィルター';
     sidebarList.appendChild(authSecHeader);
 
     authors.forEach(auth => {
@@ -1531,7 +1525,7 @@ function renderWorkspaceSidebar() {
     // Section 2: Categories
     const catSecHeader = document.createElement('div');
     catSecHeader.className = 'sidebar-section-title';
-    catSecHeader.innerHTML = '<i class="fa-solid fa-book-open"></i> 主題フィルター (주제)';
+    catSecHeader.innerHTML = '<i class="fa-solid fa-book-open"></i> 主題フィルター';
     sidebarList.appendChild(catSecHeader);
 
     categories.forEach(cat => {
@@ -1553,7 +1547,7 @@ function renderWorkspaceSidebar() {
 
   // 2. Author mode in Reformed Theology
   if (state.currentMenu === 'theology' && state.theologyMode === 'author') {
-    sidebarHeader.textContent = '著者一覧 (저자 목록)';
+    sidebarHeader.textContent = '著者一覧';
     sidebarList.innerHTML = '';
 
     const authors = getTheologyAuthors();
@@ -1900,7 +1894,7 @@ function renderArticlesList() {
     table.innerHTML = `
       <thead>
         <tr style="background: #0f172a; color: white;">
-          <th style="padding: 12px 20px; font-weight: 700; border-bottom: 2px solid #1e3a8a;">タイトル一覧 (전체 제목 목록)</th>
+          <th style="padding: 12px 20px; font-weight: 700; border-bottom: 2px solid #1e3a8a;">タイトル一覧</th>
           ${state.isAdmin ? '<th style="padding: 12px 16px; width: 120px; text-align: center; font-weight: 700; border-bottom: 2px solid #1e3a8a; white-space: nowrap;">管理</th>' : ''}
         </tr>
       </thead>
@@ -2195,7 +2189,7 @@ function renderPaginationButtons(container, currentPage, totalPages, onPageChang
   if (currentPage > 3 && totalPages > 5) {
     const firstBtn = document.createElement('button');
     firstBtn.className = 'btn-pagination';
-    firstBtn.title = '最初のページ (처음)';
+    firstBtn.title = '最初のページ';
     firstBtn.innerHTML = '<i class="fa-solid fa-angles-left"></i>';
     firstBtn.onclick = () => onPageChange(1);
     container.appendChild(firstBtn);
@@ -2205,7 +2199,7 @@ function renderPaginationButtons(container, currentPage, totalPages, onPageChang
   const prevBtn = document.createElement('button');
   prevBtn.className = 'btn-pagination';
   prevBtn.disabled = currentPage === 1;
-  prevBtn.title = '前のページ (이전)';
+  prevBtn.title = '前のページ';
   prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
   prevBtn.onclick = () => onPageChange(currentPage - 1);
   container.appendChild(prevBtn);
@@ -2267,7 +2261,7 @@ function renderPaginationButtons(container, currentPage, totalPages, onPageChang
   const nextBtn = document.createElement('button');
   nextBtn.className = 'btn-pagination';
   nextBtn.disabled = currentPage === totalPages;
-  nextBtn.title = '次のページ (다음)';
+  nextBtn.title = '次のページ';
   nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
   nextBtn.onclick = () => onPageChange(currentPage + 1);
   container.appendChild(nextBtn);
@@ -2276,7 +2270,7 @@ function renderPaginationButtons(container, currentPage, totalPages, onPageChang
   if (currentPage < totalPages - 2 && totalPages > 5) {
     const lastJumpBtn = document.createElement('button');
     lastJumpBtn.className = 'btn-pagination';
-    lastJumpBtn.title = '最後のページ (끝)';
+    lastJumpBtn.title = '最後のページ';
     lastJumpBtn.innerHTML = '<i class="fa-solid fa-angles-right"></i>';
     lastJumpBtn.onclick = () => onPageChange(totalPages);
     container.appendChild(lastJumpBtn);
@@ -2372,37 +2366,37 @@ function viewArticleDetail(articleId) {
       if (isCatechismMenu) {
         backButtonsHtml = `
           <button type="button" class="btn-detail-back btn-back-mindmap" onclick="goBackToArticles('mindmap')">
-            <i class="fa-solid fa-brain" style="color: #f59e0b;"></i> 🧠 マインドマップに戻る (마인드맵으로)
+            <i class="fa-solid fa-brain" style="color: #f59e0b;"></i> 🧠 マインドマップに戻る
           </button>
           <button type="button" class="btn-detail-back btn-back-list" onclick="goBackToArticles('list')">
-            <i class="fa-solid fa-list-ul"></i> 📋 記事一覧に戻る (목록으로)
+            <i class="fa-solid fa-list-ul"></i> 📋 記事一覧に戻る
           </button>
         `;
       } else {
         backButtonsHtml = `
           <button type="button" class="btn-detail-back btn-back-mindmap" onclick="goBackToArticles('list')">
-            <i class="fa-solid fa-arrow-left"></i> 🗂️ 記事一覧に戻る (목록으로 돌아가기)
+            <i class="fa-solid fa-arrow-left"></i> 🗂️ 記事一覧に戻る
           </button>
         `;
       }
 
       const prevBtnHtml = prevArt ? `
         <button type="button" class="btn-adjacent-nav" onclick="viewArticleDetail('${prevArt.id}')" title="${prevArt.title}">
-          <i class="fa-solid fa-chevron-left"></i> 前の項目 (이전글)
+          <i class="fa-solid fa-chevron-left"></i> 前の項目
         </button>
       ` : `
         <button type="button" class="btn-adjacent-nav" disabled>
-          <i class="fa-solid fa-chevron-left"></i> 前の項目 (이전글)
+          <i class="fa-solid fa-chevron-left"></i> 前の項目
         </button>
       `;
 
       const nextBtnHtml = nextArt ? `
         <button type="button" class="btn-adjacent-nav" onclick="viewArticleDetail('${nextArt.id}')" title="${nextArt.title}">
-          次の項目 (다음글) <i class="fa-solid fa-chevron-right"></i>
+          次の項目 <i class="fa-solid fa-chevron-right"></i>
         </button>
       ` : `
         <button type="button" class="btn-adjacent-nav" disabled>
-          次の項目 (다음글) <i class="fa-solid fa-chevron-right"></i>
+          次の項目 <i class="fa-solid fa-chevron-right"></i>
         </button>
       `;
 
@@ -2603,14 +2597,14 @@ function viewArticleDetail(articleId) {
 
       const prevCardHtml = prevArt ? `
         <div class="detail-bottom-nav-card prev-card" onclick="viewArticleDetail('${prevArt.id}')">
-          <div class="detail-bottom-nav-label"><i class="fa-solid fa-arrow-left"></i> 前の項目 (이전글)</div>
+          <div class="detail-bottom-nav-label"><i class="fa-solid fa-arrow-left"></i> 前の項目</div>
           <div class="detail-bottom-nav-title">${prevArt.title}</div>
         </div>
       ` : `<div></div>`;
 
       const nextCardHtml = nextArt ? `
         <div class="detail-bottom-nav-card next-card" onclick="viewArticleDetail('${nextArt.id}')">
-          <div class="detail-bottom-nav-label">次の項目 (다음글) <i class="fa-solid fa-arrow-right"></i></div>
+          <div class="detail-bottom-nav-label">次の項目 <i class="fa-solid fa-arrow-right"></i></div>
           <div class="detail-bottom-nav-title">${nextArt.title}</div>
         </div>
       ` : `<div></div>`;
