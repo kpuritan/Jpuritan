@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>日本改革派神学と牧会 | Japan Reformed Theology & Ministry</title>
   <meta name="description" content="聖書に立ち返り、福音によって教会を新たにする。日本改革派神学と牧会、聖書講解、歴史的教理教育、伝道と弟子道のための学術的・実践的リソースを提供します。">
-  <link rel="stylesheet" href="style.css?v=20261115_faculty_perfect">
+  <link rel="stylesheet" href="style.css?v=20261115_youtube_channel">
   <!-- FontAwesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -40,6 +40,10 @@
       </div>
     </div>
     <div class="header-actions" id="header-actions" style="display: flex; align-items: center; gap: 8px;">
+      <a href="https://www.youtube.com/@J.R.T.M" target="_blank" rel="noopener noreferrer" class="btn-header-youtube" title="Japan Reformed Theology and Ministry - YouTube (@J.R.T.M)">
+        <i class="fa-brands fa-youtube"></i>
+        <span>YouTube</span>
+      </a>
       <div id="header-github-status" style="display: none; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: var(--transition-smooth);" onclick="showAdminDashboard('folders')" title="GitHub 연동 상태">
         <i class="fa-brands fa-github"></i>
         <span id="header-github-status-text">GitHub 연동 정상</span>
@@ -682,21 +686,21 @@
 
   <!-- JRTM YOUTUBE PROMO SECTION (HOME BOTTOM) -->
   <section class="youtube-home-section" id="youtube-home-sec">
-    <div class="youtube-home-card">
+    <div class="youtube-home-card" onclick="window.open('https://www.youtube.com/@J.R.T.M', '_blank')" style="cursor: pointer;">
       <div class="youtube-home-left">
         <div class="youtube-home-icon-circle">
           <i class="fa-brands fa-youtube"></i>
         </div>
         <div>
           <div class="youtube-home-badge"><i class="fa-solid fa-circle-play me-1"></i> OFFICIAL YOUTUBE CHANNEL</div>
-          <h3 class="youtube-home-title">日本改革派神学と牧会 (JRTM) 公式動画チャンネル</h3>
-          <p class="youtube-home-desc">10分で学ぶ組織神学・聖書神学・キリスト者の生活などの動画講義を配信中（@J.R.T.M）</p>
+          <h3 class="youtube-home-title">Japan Reformed Theology and Ministry - YouTube</h3>
+          <p class="youtube-home-desc">日本改革派神学と牧会公式動画チャンネル（@J.R.T.M）- 10分で学ぶ組織神学・聖書神学・キリスト者の生活などの動画講義を配信中</p>
         </div>
       </div>
       <div class="youtube-home-right">
-        <a href="https://www.youtube.com/@J.R.T.M" target="_blank" rel="noopener noreferrer" class="youtube-home-btn">
+        <a href="https://www.youtube.com/@J.R.T.M" target="_blank" rel="noopener noreferrer" class="youtube-home-btn" onclick="event.stopPropagation()">
           <i class="fa-brands fa-youtube"></i>
-          <span>YouTubeで視聴する</span>
+          <span>YouTube公式へ (@J.R.T.M)</span>
           <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem;"></i>
         </a>
       </div>
@@ -730,7 +734,7 @@
           <li><a href="#" onclick="selectMainMenu('theology')">改革派神学</a></li>
           <li><a href="#" onclick="selectMainMenu('ebook')">無料冊子 (Free e-book)</a></li>
           <li><a href="#" onclick="selectMainMenu('sw_seminary')">South Western Seminary</a></li>
-          <li><a href="https://www.youtube.com/@J.R.T.M" target="_blank" rel="noopener noreferrer" style="color: #ef4444; font-weight: 600;"><i class="fa-brands fa-youtube" style="margin-right: 4px;"></i> JRTM YouTube公式</a></li>
+          <li><a href="https://www.youtube.com/@J.R.T.M" target="_blank" rel="noopener noreferrer" style="color: #ef4444; font-weight: 600;"><i class="fa-brands fa-youtube" style="margin-right: 4px;"></i> Japan Reformed Theology and Ministry (YouTube)</a></li>
           <li><a href="#" onclick="event.preventDefault(); navigateToContact();" style="color: var(--accent-color); font-weight: 500;">Contact (お問い合わせ)</a></li>
         </ul>
       </div>
@@ -766,8 +770,8 @@
 
 
   <!-- CORE LOGIC AND DATA -->
-  <script src="data.js?v=20261115_faculty_perfect"></script>
-  <script src="mindmap.js?v=20261115_faculty_perfect"></script>
-  <script src="app.js?v=20261115_faculty_perfect"></script>
+  <script src="data.js?v=20261115_youtube_channel"></script>
+  <script src="mindmap.js?v=20261115_youtube_channel"></script>
+  <script src="app.js?v=20261115_youtube_channel"></script>
 </body>
 </html>
