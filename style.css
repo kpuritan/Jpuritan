@@ -4042,3 +4042,55 @@ blockquote p:last-child {
   transform: scale(1.06);
 }
 
+/* Southwestern Reformed Seminary Styles */
+.sw-header-box {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-left: 5px solid #0A1C36;
+  padding: 1.25rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.faculty-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faculty-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08) !important;
+  border-color: #cbd5e1 !important;
+}
+
+.faculty-photo {
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  flex-shrink: 0;
+}
+
+.dept-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #1e293b;
+}
+
+.faculty-degrees li {
+  line-height: 1.45;
+  color: #475569;
+}
+
+.sw-degree-page .table,
+.sw-curriculum-page .table {
+  border-color: #e2e8f0;
+}
+
+.sw-degree-page .table th,
+.sw-curriculum-page .table th {
+  background-color: #f8fafc;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+
