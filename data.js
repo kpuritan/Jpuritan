@@ -42,8 +42,8 @@ window.initialData = {
     },
     {
       "id": "sw_seminary",
-      "nameJp": "South Western Reformed Seminary",
-      "nameKr": "South Western Reformed Seminary",
+      "nameJp": "Southwestern Reformed Seminary",
+      "nameKr": "Southwestern Reformed Seminary",
       "subTitle": "サウスウェスタン神学校",
       "icon": "fa-university",
       "isVideo": false,
