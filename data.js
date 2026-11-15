@@ -42,12 +42,49 @@ window.initialData = {
       "position": 4
     },
     {
-      "id": "pastor",
-      "nameJp": "10分動画神学講義",
-      "nameKr": "10분 동영상 신학강의",
-      "icon": "fa-user-tie",
-      "isVideo": true,
+      "id": "sw_intro",
+      "nameJp": "サウスウェスタン紹介",
+      "nameKr": "사우스웨스턴소개",
+      "subTitle": "사우스웨스턴소개",
+      "icon": "fa-school",
+      "isVideo": false,
       "position": 5
+    },
+    {
+      "id": "sw_grad",
+      "nameJp": "大学院課程",
+      "nameKr": "대학원과정",
+      "subTitle": "대학원과정",
+      "icon": "fa-graduation-cap",
+      "isVideo": false,
+      "position": 6
+    },
+    {
+      "id": "sw_mission",
+      "nameJp": "宣教師継続教育課程",
+      "nameKr": "선교사연장교육과정",
+      "subTitle": "선교사연장교육과정",
+      "icon": "fa-earth-asia",
+      "isVideo": false,
+      "position": 7
+    },
+    {
+      "id": "sw_admissions",
+      "nameJp": "入学案内",
+      "nameKr": "입학안내",
+      "subTitle": "입학안내",
+      "icon": "fa-clipboard-list",
+      "isVideo": false,
+      "position": 8
+    },
+    {
+      "id": "jrtm_youtube",
+      "nameJp": "JRTM YouTube",
+      "nameKr": "JRTM 유튜브",
+      "subTitle": "公式動画チャンネル",
+      "icon": "fa-youtube",
+      "isVideo": true,
+      "position": 9
     }
   ],
   "categories": [
@@ -1637,7 +1674,7 @@ window.initialData = {
     },
     {
       "id": "cat_pastor_systematic",
-      "parentId": "pastor",
+      "parentId": "jrtm_youtube",
       "nameJp": "10分で学ぶ組織神学",
       "nameKr": "10분으로 배우는 조직신학",
       "icon": "fa-brain",
@@ -1645,7 +1682,7 @@ window.initialData = {
     },
     {
       "id": "cat_pastor_life",
-      "parentId": "pastor",
+      "parentId": "jrtm_youtube",
       "nameJp": "10分で学ぶクリスチャン生活",
       "nameKr": "10분으로 배우는 그리스도인의 생활",
       "icon": "fa-heart",
@@ -1653,7 +1690,7 @@ window.initialData = {
     },
     {
       "id": "cat_pastor_biblical",
-      "parentId": "pastor",
+      "parentId": "jrtm_youtube",
       "nameJp": "10分で学ぶ聖書神学",
       "nameKr": "10분으로 배우는 성경신학",
       "icon": "fa-book-bible",
@@ -2074,6 +2111,214 @@ window.initialData = {
       "nameKr": "전도·제자도",
       "icon": "fa-users-line",
       "position": 21
+    },
+    {
+      "id": "cat_sw_welcome",
+      "parentId": "sw_intro",
+      "nameJp": "総長挨拶",
+      "nameKr": "총장환영인사",
+      "icon": "fa-user-tie",
+      "position": 1
+    },
+    {
+      "id": "cat_sw_theology",
+      "parentId": "sw_intro",
+      "nameJp": "サウスウェスタンの神学的特徴",
+      "nameKr": "southwestern의신학적특징",
+      "icon": "fa-book-bible",
+      "position": 2
+    },
+    {
+      "id": "cat_sw_faculty",
+      "parentId": "sw_intro",
+      "nameJp": "教授陣",
+      "nameKr": "교수진",
+      "icon": "fa-users",
+      "position": 3
+    },
+    {
+      "id": "cat_sw_accreditation",
+      "parentId": "sw_intro",
+      "nameJp": "学位認可・認証",
+      "nameKr": "학위인증",
+      "icon": "fa-award",
+      "position": 4
+    },
+    {
+      "id": "cat_sw_partner_univ",
+      "parentId": "sw_intro",
+      "nameJp": "提携大学",
+      "nameKr": "제휴대학",
+      "icon": "fa-handshake",
+      "position": 5
+    },
+    {
+      "id": "cat_sw_degree_features",
+      "parentId": "sw_intro",
+      "nameJp": "学位課程の特徴",
+      "nameKr": "학위과정특징",
+      "icon": "fa-certificate",
+      "position": 6
+    },
+    {
+      "id": "cat_sw_course_method",
+      "parentId": "sw_intro",
+      "nameJp": "受講方法",
+      "nameKr": "수강방법",
+      "icon": "fa-laptop",
+      "position": 7
+    },
+    {
+      "id": "cat_sw_reg_method",
+      "parentId": "sw_intro",
+      "nameJp": "登録方法",
+      "nameKr": "등록방법",
+      "icon": "fa-file-signature",
+      "position": 8
+    },
+    {
+      "id": "cat_sw_inquiry",
+      "parentId": "sw_intro",
+      "nameJp": "入学・行政・事務処のお問い合わせ",
+      "nameKr": "입학_행정_사무처문의",
+      "icon": "fa-envelope-open-text",
+      "position": 9
+    },
+    {
+      "id": "cat_sw_dept_info",
+      "parentId": "sw_grad",
+      "nameJp": "学科案内",
+      "nameKr": "학과안내",
+      "icon": "fa-circle-info",
+      "position": 1
+    },
+    {
+      "id": "cat_sw_curriculum",
+      "parentId": "sw_grad",
+      "nameJp": "カリキュラム (教育課程)",
+      "nameKr": "교과과정",
+      "icon": "fa-book-journal-whills",
+      "position": 2
+    },
+    {
+      "id": "cat_sw_phd",
+      "parentId": "sw_grad",
+      "nameJp": "哲学博士 (Ph.D.)",
+      "nameKr": "철학 박사",
+      "icon": "fa-graduation-cap",
+      "position": 3
+    },
+    {
+      "id": "cat_sw_thd",
+      "parentId": "sw_grad",
+      "nameJp": "神学博士 (Th.D.)",
+      "nameKr": "신학 박사",
+      "icon": "fa-graduation-cap",
+      "position": 4
+    },
+    {
+      "id": "cat_sw_dics",
+      "parentId": "sw_grad",
+      "nameJp": "宣教学博士 (D.ICS)",
+      "nameKr": "선교학 박사",
+      "icon": "fa-earth-americas",
+      "position": 5
+    },
+    {
+      "id": "cat_sw_dmin",
+      "parentId": "sw_grad",
+      "nameJp": "牧会学博士 (D.Min.)",
+      "nameKr": "목회학 박사",
+      "icon": "fa-user-tie",
+      "position": 6
+    },
+    {
+      "id": "cat_sw_thm",
+      "parentId": "sw_grad",
+      "nameJp": "神学修士 (Th.M.)",
+      "nameKr": "신학 석사",
+      "icon": "fa-scroll",
+      "position": 7
+    },
+    {
+      "id": "cat_sw_mdiv",
+      "parentId": "sw_grad",
+      "nameJp": "牧会学修士 (M.Div.)",
+      "nameKr": "목회학 석사",
+      "icon": "fa-book-open",
+      "position": 8
+    },
+    {
+      "id": "cat_sw_ma",
+      "parentId": "sw_grad",
+      "nameJp": "文学修士 (M.A.)",
+      "nameKr": "문학 석사",
+      "icon": "fa-graduation-cap",
+      "position": 9
+    },
+    {
+      "id": "cat_sw_puritan_ma",
+      "parentId": "sw_grad",
+      "nameJp": "ピューリタン神学 文学修士 (M.A.)",
+      "nameKr": "청교도신학 문학석사",
+      "icon": "fa-feather-pointed",
+      "position": 10
+    },
+    {
+      "id": "cat_sw_miss_program",
+      "parentId": "sw_mission",
+      "nameJp": "課程案内",
+      "nameKr": "과정안내",
+      "icon": "fa-circle-info",
+      "position": 1
+    },
+    {
+      "id": "cat_sw_miss_ma",
+      "parentId": "sw_mission",
+      "nameJp": "宣教学 文学修士 (M.A.)",
+      "nameKr": "선교학 문학석사",
+      "icon": "fa-graduation-cap",
+      "position": 2
+    },
+    {
+      "id": "cat_sw_miss_mdiv",
+      "parentId": "sw_mission",
+      "nameJp": "宣教学 牧会学修士 (M.Div.)",
+      "nameKr": "선교학 목회학석사",
+      "icon": "fa-book-open",
+      "position": 3
+    },
+    {
+      "id": "cat_sw_miss_phd",
+      "parentId": "sw_mission",
+      "nameJp": "宣教学 博士 (D.ICS / D.Miss.)",
+      "nameKr": "선교학 박사",
+      "icon": "fa-award",
+      "position": 4
+    },
+    {
+      "id": "cat_sw_adm_fresh",
+      "parentId": "sw_admissions",
+      "nameJp": "新入生募集要項",
+      "nameKr": "신입생모집요강",
+      "icon": "fa-user-plus",
+      "position": 1
+    },
+    {
+      "id": "cat_sw_adm_transfer",
+      "parentId": "sw_admissions",
+      "nameJp": "再入学・編入生募集要項",
+      "nameKr": "재입_편입모집요강",
+      "icon": "fa-users-rectangle",
+      "position": 2
+    },
+    {
+      "id": "cat_yt_channel",
+      "parentId": "jrtm_youtube",
+      "nameJp": "公式YouTubeチャンネル",
+      "nameKr": "공식 유튜브 채널",
+      "icon": "fa-play",
+      "position": 4
     }
   ],
   "featured": {
@@ -2095,6 +2340,269 @@ window.initialData = {
     }
   },
   "articles": [
+    {
+      "id": "art_yt_channel_intro",
+      "categoryId": "cat_yt_channel",
+      "title": "日本改革派神学と牧会 (JRTM) 公式YouTubeチャンネルのご案内",
+      "titleJp": "日本改革派神学と牧会 (JRTM) 公式YouTubeチャンネルのご案内",
+      "titleKr": "일본개혁파신학과목회 (JRTM) 공식 유튜브 채널 안내",
+      "author": "金洪晩 (キム・ホンマン) 学長",
+      "createdAt": "2026-11-15",
+      "date": "2026-11-15",
+      "views": 260,
+      "videoUrl": "https://www.youtube.com/watch?v=ctc7A10BTFs",
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 28px 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(10,28,54,0.15);\">\n    <div style=\"color: #ef4444; font-size: 0.9rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px;\">\n      <i class=\"fa-brands fa-youtube\" style=\"font-size: 1.2rem; margin-right: 6px;\"></i> OFFICIAL YOUTUBE CHANNEL\n    </div>\n    <h2 style=\"color: #ffffff; font-size: 1.7rem; font-weight: 700; margin: 0 0 10px 0; font-family: var(--font-serif);\">\n      日本改革派神学と牧会 (JRTM) 公式YouTubeチャンネル\n    </h2>\n    <div style=\"color: #cbd5e1; font-size: 0.95rem;\">\n      講師: 金洪晩 (キム・ホンマン) 学長 (Southwestern Reformed Seminary)\n    </div>\n  </div>\n\n  <p>\n    「日本改革派神学と牧会（Japan Reformed Theology & Ministry, JRTM）」では、日本の教会と信徒の皆様の霊的成長、そして聖書的教理の回復のために、YouTube公式チャンネル（<strong>@J.R.T.M</strong>）にて多様な神学講義および聖書講解動画を配信しています。\n  </p>\n\n  <div style=\"background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 24px; margin: 24px 0; text-align: center;\">\n    <h3 style=\"color: #0A1C36; margin-top: 0; font-size: 1.3rem;\">公式チャンネルにアクセス</h3>\n    <p style=\"color: #475569; margin-bottom: 20px;\">\n      最新の動画講義、教理教育、伝道メッセージをYouTubeでいつでもご視聴いただけます。チャンネル登録と通知設定をお願いいたします。\n    </p>\n    <a href=\"https://www.youtube.com/@J.R.T.M\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"display: inline-flex; align-items: center; gap: 10px; background: #ef4444; color: #ffffff; padding: 14px 28px; border-radius: 30px; font-weight: 700; font-size: 1.05rem; text-decoration: none; box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4); transition: transform 0.2s;\">\n      <i class=\"fa-brands fa-youtube\" style=\"font-size: 1.4rem;\"></i> YouTube公式チャンネルへ移動 (@J.R.T.M)\n    </a>\n  </div>\n\n  <h3 style=\"color: #0A1C36; border-bottom: 2px solid #C5A059; padding-bottom: 6px; margin-top: 28px;\">主な配信シリーズ</h3>\n  <ul style=\"line-height: 2; padding-left: 20px;\">\n    <li><strong>10分で学ぶ組織神学：</strong> 神論、人間論、救済論、教会論の要点を10分で明快に解説</li>\n    <li><strong>10分で学ぶクリスチャン生活：</strong> 祈り、安息日、家庭、職場で実践する敬虔の道</li>\n    <li><strong>10分で学ぶ聖書神学：</strong> 救済史の流れと神の契約の成就を探求</li>\n  </ul>\n</div>"
+    },
+    {
+      "id": "art_sw_welcome",
+      "categoryId": "cat_sw_welcome",
+      "titleJp": "サウスウェスタン改革派神学大学院へようこそ (総長歓迎の辞)",
+      "titleKr": "사우스웨스턴 개혁신학대학원에 오신 것을 환영합니다 (총장환영인사)",
+      "author": "金洪晩 (キム・ホンマン) 学長・Ph.D.",
+      "date": "2026-11-15",
+      "views": 135,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 28px 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(10,28,54,0.15);\">\n    <div style=\"color: #C5A059; font-size: 0.9rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase;\">Southwestern Reformed Seminary</div>\n    <h2 style=\"color: #ffffff; font-size: 1.7rem; font-weight: 700; margin: 0 0 10px 0; font-family: var(--font-serif);\">総長挨拶：聖書信仰と改革派神学の確固たる継承</h2>\n    <div style=\"color: #cbd5e1; font-size: 0.95rem;\"><i class=\"fa-solid fa-user-graduate\"></i> 学長: 金洪晩 (キム・ホンマン) Ph.D.</div>\n  </div>\n  <p>サウスウェスタン改革派神学大学院（Southwestern Reformed Seminary, SRS）のホームページをご訪問くださり、心より歓迎いたします。</p>\n  <p>今日の教会と神学校教育は激しい時代の潮流に直面しています。しかし教会が生き、魂が真に回復する道は、神の無誤なる御言葉（聖書）と、歴史的改革派信仰の原点に立ち返ることにあります。</p>\n  <p>本校は宗教改革者たちの「五つのソラ（聖書のみ、信仰のみ、恵みのみ、キリストのみ、神にのみ栄光）」を基盤とし、学術的研鑽と敬虔な霊性、現場の実践力を兼ね備えた主の忠実な僕を育成しています。神の召命を受けた皆様の学びを全力で支援いたします。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_theology",
+      "categoryId": "cat_sw_theology",
+      "titleJp": "サウスウェスタン神学校の神学的特徴と伝統",
+      "titleKr": "southwestern의 신학적 특징과 전통",
+      "author": "SRS 教務処",
+      "date": "2026-11-15",
+      "views": 110,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">改革派正統主義とピューリタン霊性の統合</h2>\n  </div>\n  <h3 style=\"color: #0A1C36; border-bottom: 2px solid #C5A059; padding-bottom: 6px;\">1. 歴史的改革派信仰告白基準の厳格な遵守</h3>\n  <p>本校はウェストミンスター信仰告白（WCF）、大教理問答、小教理問答、およびハイデルベルク信仰問答、ドルト信条を教理的基準として完全に告白します。</p>\n  <h3 style=\"color: #0A1C36; border-bottom: 2px solid #C5A059; padding-bottom: 6px; margin-top: 24px;\">2. ピューリタン的敬虔と福音的説教</h3>\n  <p>単なる学問的抽象論ではなく、心と思想を刷新し、教会を開拓・復興させる実践的教理の適用を指導します。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_faculty",
+      "categoryId": "cat_sw_faculty",
+      "titleJp": "教授陣の紹介：学術的卓越性と牧会現場の実践的知恵",
+      "titleKr": "교수진 소개 (학술적 수월성과 목회 현장의 실천적 지혜)",
+      "author": "SRS 教務処",
+      "date": "2026-11-15",
+      "views": 98,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">国際水準の改革派神学教授陣</h2>\n  </div>\n  <p>サウスウェスタン改革派神学大学院の教授陣は、米英および韓国の主要名門大学院で博士号（Ph.D. / Th.D.）を取得し、長年の牧会・宣教経験を有する国際的学者たちで構成されています。</p>\n  <ul style=\"line-height: 2; padding-left: 20px;\">\n    <li><strong>金洪晩 (キム・ホンマン) 学長：</strong> 総神大学校神学大学院(M.Div.)、米国宣教学・歴史神学Ph.D.、清教徒改革神学研究所所長</li>\n    <li><strong>聖書神学・組織神学・歴史神学・宣教学各専攻専任教授陣</strong>による個別論文指導と実践メンターシップを実施しています。</li>\n  </ul>\n</div>"
+    },
+    {
+      "id": "art_sw_accreditation",
+      "categoryId": "cat_sw_accreditation",
+      "titleJp": "学位認可および認証状況 (Accreditation & Approvals)",
+      "titleKr": "학위인증 및 인가 현황 (Accreditation & Approvals)",
+      "author": "SRS 行政処",
+      "date": "2026-11-15",
+      "views": 125,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">米国政府教育局規程に準拠した正統学位授与</h2>\n  </div>\n  <p>サウスウェスタン改革派神学大学院は、米国カリフォルニア州教育局（BPPE）の宗教免除規程および関連教育憲章に基づき、正規学士・修士・博士学位を合法的に授与する権限を有する大学院です。</p>\n  <p>修了生は米国および世界各国の宣教地、教団において牧師按手および指導者としての認定を受けて奉仕しています。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_partner_univ",
+      "categoryId": "cat_sw_partner_univ",
+      "titleJp": "国内外の提携大学および学術交流協定機関",
+      "titleKr": "제휴대학 및 국내외 학술교류 협력기관",
+      "author": "SRS 対外協力処",
+      "date": "2026-11-15",
+      "views": 85,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">グローバル神学教育ネットワーク</h2>\n  </div>\n  <p>本校は米国、韓国、日本、東南アジアなど世界各国の改革派神学校および研究機関と協定を結び、単位互換、教授交換、共同集中セミナーを定期的に開催しています。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_degree_features",
+      "categoryId": "cat_sw_degree_features",
+      "titleJp": "学位課程の主要特徴：ハイブリッド教育と実戦的学修",
+      "titleKr": "학위과정 특징 (하이브리드 교육 및 실전적 학습)",
+      "author": "SRS 教務処",
+      "date": "2026-11-15",
+      "views": 115,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">時間と場所を超えた高品格の神学教育</h2>\n  </div>\n  <ul style=\"line-height: 2; padding-left: 20px;\">\n    <li><strong>ハイブリッド学習モデル：</strong> オンライン講義と年1〜2回の対面集中セミナーの結合</li>\n    <li><strong>宣教地・牧会現場の継続：</strong> 現職の牧会や宣教奉仕を中断することなく学位を履修</li>\n    <li><strong>徹底した論文指導：</strong> 現場の課題に直接答える研究論文を専任教授陣が1対1で指導</li>\n  </ul>\n</div>"
+    },
+    {
+      "id": "art_sw_course_method",
+      "categoryId": "cat_sw_course_method",
+      "titleJp": "受講方法のご案内 (サイバー講義・課題・集中ゼミ)",
+      "titleKr": "수강방법 안내 (사이버 강의, 과제 및 집중세미나)",
+      "author": "SRS 学務処",
+      "date": "2026-11-15",
+      "views": 92,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">オンラインLMSシステムによる柔軟な受講</h2>\n  </div>\n  <p>学生専用ポータルおよび講義システムを通じて、世界中どこからでも高画質ビデオ講義の視聴、電子教材の閲覧、レポート課題の提出が可能です。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_reg_method",
+      "categoryId": "cat_sw_reg_method",
+      "titleJp": "学期登録および履修申請の手続き (登録方法)",
+      "titleKr": "등록방법 및 수강신청 절차 안내",
+      "author": "SRS 学務処",
+      "date": "2026-11-15",
+      "views": 89,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">学期ごとの簡単な履修登録手続き</h2>\n  </div>\n  <p>毎学期開始前の所定期間内に、教務処へ受講希望科目を申請し、授業料の納付を完了することで受講登録が完了します。奨学金申請も同時期に受け付けます。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_inquiry",
+      "categoryId": "cat_sw_inquiry",
+      "titleJp": "入学・行政・事務処のお問い合わせ (Contact SRS)",
+      "titleKr": "입학_행정_사무처문의 (Contact SRS)",
+      "author": "SRS 事務局",
+      "date": "2026-11-15",
+      "views": 140,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">サウスウェスタン神学校 各国事務処連絡先</h2>\n  </div>\n  <div style=\"background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; line-height: 1.9;\">\n    <div><strong>■ 米国本部 (Main Office & Campus):</strong></div>\n    <div>・Main Office: 1670 W 12th Place, Los Angeles, CA 90015, USA</div>\n    <div>・Campus: 1938 S. Western Ave, Los Angeles, CA 90010, USA</div>\n    <div>・公式メール: <a href=\"mailto:srsadmissions@gmail.com\">srsadmissions@gmail.com</a></div>\n    <div>・Web: <a href=\"http://www.srs.education\" target=\"_blank\">http://www.srs.education</a></div>\n    <div style=\"margin-top: 12px;\"><strong>■ 日本連絡事務所:</strong></div>\n    <div>・所在地: 東京都江東区北砂 3-12-5</div>\n    <div>・電話: <a href=\"tel:080-4306-3863\">080-4306-3863</a></div>\n    <div>・メール: <a href=\"mailto:reformed.jp@gmail.com\">reformed.jp@gmail.com</a></div>\n  </div>\n</div>"
+    },
+    {
+      "id": "art_sw_dept_info",
+      "categoryId": "cat_sw_dept_info",
+      "titleJp": "大学院 学科案内：神学科・宣教学科・牧会学科",
+      "titleKr": "대학원 학과안내 (신학과, 선교학과, 목회학과)",
+      "author": "SRS 教務処",
+      "date": "2026-11-15",
+      "views": 105,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">専門領域別の深化教育学科</h2>\n  </div>\n  <ul style=\"line-height: 2; padding-left: 20px;\">\n    <li><strong>神学科 (Department of Theology)：</strong> 聖書神学、組織神学、歴史神学の学術的研究深化</li>\n    <li><strong>宣教学科 (Department of Missiology)：</strong> 異文化宣教、都市宣教、開拓伝道戦略</li>\n    <li><strong>牧会学科 (Department of Pastoral Ministry)：</strong> 講解説教、牧会相談、教会形成とリーダーシップ</li>\n  </ul>\n</div>"
+    },
+    {
+      "id": "art_sw_curriculum",
+      "categoryId": "cat_sw_curriculum",
+      "titleJp": "大学院 教科課程・カリキュラム体系表",
+      "titleKr": "대학원 교과과정 (커리큘럼 체계표)",
+      "author": "SRS 教務処",
+      "date": "2026-11-15",
+      "views": 120,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">体系的かつ段階的な改革神学履修体系</h2>\n  </div>\n  <p>基礎神学、言語釈義（ヘブライ語・ギリシャ語）、教理史、清教徒神学、実践牧会学に至る体系化された単位カリキュラムを提供しています。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_phd",
+      "categoryId": "cat_sw_phd",
+      "titleJp": "哲学博士課程 (Doctor of Philosophy, Ph.D.) 案内",
+      "titleKr": "철학 박사 과정 (Ph.D.) 안내",
+      "author": "SRS 大学院",
+      "date": "2026-11-15",
+      "views": 150,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">神学研究の最高峰：学者・教授養成プログラム</h2>\n  </div>\n  <p>Ph.D.課程は、神学校の教授要員および高度な神学研究者を育成するための最高学位課程です。徹底した原典研究と学術論文の執筆を要求します。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_thd",
+      "categoryId": "cat_sw_thd",
+      "titleJp": "神学博士課程 (Doctor of Theology, Th.D.) 案内",
+      "titleKr": "신학 박사 과정 (Th.D.) 안내",
+      "author": "SRS 大学院",
+      "date": "2026-11-15",
+      "views": 112,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">歴史・組織神学専門深化博士学位</h2>\n  </div>\n  <p>組織神学、教理史、歴史神学の特定テーマを深く探求し、教会の健全な教理的支柱となる専門博士論文を完成させます。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_dics",
+      "categoryId": "cat_sw_dics",
+      "titleJp": "宣教学博士課程 (Doctor of Intercultural Studies, D.ICS) 案内",
+      "titleKr": "선교학 박사 과정 (D.ICS / D.Miss.) 안내",
+      "author": "SRS 大学院",
+      "date": "2026-11-15",
+      "views": 95,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">異文化宣教戦略と世界的リーダーシップの育成</h2>\n  </div>\n  <p>宣教現場における文化人類学、宣教戦略、リーダーシップ開発など、現職宣教師の経験を学術的に体系化する専門博士課程です。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_dmin",
+      "categoryId": "cat_sw_dmin",
+      "titleJp": "牧会学博士課程 (Doctor of Ministry, D.Min.) 案内",
+      "titleKr": "목회학 박사 과정 (D.Min.) 안내",
+      "author": "SRS 大学院",
+      "date": "2026-11-15",
+      "views": 128,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">現職牧会者のための説教・霊性刷新上級プログラム</h2>\n  </div>\n  <p>牧会現場の課題を診断し、清教徒的説教論と牧会知恵を今日の実践に適用する牧会論文（Ministry Project）を作成します。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_thm",
+      "categoryId": "cat_sw_thm",
+      "titleJp": "神学修士課程 (Master of Theology, Th.M.) 案内",
+      "titleKr": "신학 석사 과정 (Th.M.) 안내",
+      "author": "SRS 大学院",
+      "date": "2026-11-15",
+      "views": 104,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">M.Div.修了者のための専攻深化研究課程</h2>\n  </div>\n  <p>博士課程への進学準備や、特定神学分野の学術的専門性をさらに高めたい教職者のための上級修士課程です。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_mdiv",
+      "categoryId": "cat_sw_mdiv",
+      "titleJp": "牧会学修士課程 (Master of Divinity, M.Div.) 案内",
+      "titleKr": "목회학 석사 과정 (M.Div.) 안내",
+      "author": "SRS 大学院",
+      "date": "2026-11-15",
+      "views": 165,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">正統改革派牧師・教職志望者の必須標準課程</h2>\n  </div>\n  <p>聖書原語、組織神学、教会史、説教学、牧会学を包括する3年制標準神学修士課程であり、牧師按手を受けるための必須学位です。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_ma",
+      "categoryId": "cat_sw_ma",
+      "titleJp": "文学修士課程 (Master of Arts in Religion / Theology, M.A.) 案内",
+      "titleKr": "문학 석사 과정 (M.A.) 안내",
+      "author": "SRS 大学院",
+      "date": "2026-11-15",
+      "views": 96,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">神学・聖書学の基礎研究と信徒指導者育成</h2>\n  </div>\n  <p>一般信徒リーダー、宣教団体スタッフ、キリスト教教育指導者のための2年制修士課程です。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_puritan_ma",
+      "categoryId": "cat_sw_puritan_ma",
+      "titleJp": "ピューリタン神学 文学修士課程 (M.A. in Puritan Theology) 案内",
+      "titleKr": "청교도신학 문학석사 과정 안내",
+      "author": "SRS 大学院",
+      "date": "2026-11-15",
+      "views": 180,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">本校特設：ピューリタン改革神学の集中専門特化課程</h2>\n  </div>\n  <p>17世紀ピューリタン神学者たちの作品、救済論、契約神学、敬虔論、説教論を集中的に研究する本校ならではの特色ある専門修士課程です。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_miss_program",
+      "categoryId": "cat_sw_miss_program",
+      "titleJp": "宣教師継続教育プログラム (Campus Mobilizing) 概要と案内",
+      "titleKr": "선교사연장교육과정 (과정안내)",
+      "author": "SRS 宣教師教育院",
+      "date": "2026-11-15",
+      "views": 140,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">宣教地へ直接赴く現場密着型神学教育 (Campus Mobilizing)</h2>\n  </div>\n  <p>宣教地を長期離れることが難しい世界各国の宣教師のために、教授陣が現場へ直接赴く集中講義とオンライン講義を組み合わせ、正規学位の取得を支えるプログラムです。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_miss_ma",
+      "categoryId": "cat_sw_miss_ma",
+      "titleJp": "宣教学 文学修士課程 (M.A. in Missiology) 案内",
+      "titleKr": "선교학 문학석사 (선교사 연장교육) 안내",
+      "author": "SRS 宣教師教育院",
+      "date": "2026-11-15",
+      "views": 99,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">宣教現場の実務者・専門人のための宣教学修士</h2>\n  </div>\n  <p>現場での宣教働きと学修を両立させながら、聖書的宣教論と地域研究を体系化する2年制修士課程です。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_miss_mdiv",
+      "categoryId": "cat_sw_miss_mdiv",
+      "titleJp": "宣教学 牧会学修士課程 (M.Div. in Missiology) 案内",
+      "titleKr": "선교학 목회학석사 (선교사 연장교육) 안내",
+      "author": "SRS 宣教師教育院",
+      "date": "2026-11-15",
+      "views": 118,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">宣教師のための按手資格対応M.Div.課程</h2>\n  </div>\n  <p>宣教地で教会開拓と現地指導者育成を担う宣教師のための、宣教学特化型牧会学修士プログラムです。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_miss_phd",
+      "categoryId": "cat_sw_miss_phd",
+      "titleJp": "宣教学 博士課程 (D.ICS / D.Miss.) 案内",
+      "titleKr": "선교학 박사 (선교사 연장교육) 안내",
+      "author": "SRS 宣教師教育院",
+      "date": "2026-11-15",
+      "views": 130,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">宣教地リーダーのための最高実践博士学位</h2>\n  </div>\n  <p>現地での長年の宣教成果と課題を学術論文として昇華させ、次世代の宣教戦略を提示する博士課程です。</p>\n</div>"
+    },
+    {
+      "id": "art_sw_adm_fresh",
+      "categoryId": "cat_sw_adm_fresh",
+      "titleJp": "2026-2027年度 新入生募集要項および出願案内",
+      "titleKr": "신입생모집요강 (2026-2027학년도)",
+      "author": "SRS 入学処",
+      "date": "2026-11-15",
+      "views": 175,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">新入生募集要項：出願資格および提出書類</h2>\n  </div>\n  <h3 style=\"color: #0A1C36; border-bottom: 2px solid #C5A059; padding-bottom: 6px;\">1. 出願資格</h3>\n  <ul style=\"line-height: 2; padding-left: 20px;\">\n    <li><strong>修士課程 (M.Div., M.A.)：</strong> 4年制大学卒業者（学士号取得者）または同等の学力を認められた者</li>\n    <li><strong>神学修士 (Th.M.)：</strong> 認定された神学校のM.Div.取得者</li>\n    <li><strong>博士課程 (Ph.D., Th.D., D.Min., D.ICS)：</strong> 関連分野の修士号取得者および相応の奉仕経歴を有する者</li>\n  </ul>\n  <h3 style=\"color: #0A1C36; border-bottom: 2px solid #C5A059; padding-bottom: 6px; margin-top: 24px;\">2. 提出書類</h3>\n  <ol style=\"line-height: 2; padding-left: 20px;\">\n    <li>入学志願書（所定様式）</li>\n    <li>最終学歴の卒業証明書および成績証明書</li>\n    <li>自己紹介書（救いの証し、召命の動機）</li>\n    <li>所属教会牧師または推薦者2名による推薦書</li>\n    <li>証明写真</li>\n  </ol>\n</div>"
+    },
+    {
+      "id": "art_sw_adm_transfer",
+      "categoryId": "cat_sw_adm_transfer",
+      "titleJp": "再入学および編入生募集要項 (単位認定・手続き案内)",
+      "titleKr": "재입_편입모집요강 (학점인정 및 절차 안내)",
+      "author": "SRS 入学処",
+      "date": "2026-11-15",
+      "views": 110,
+      "content": "<div class=\"article-body-content\" style=\"line-height: 1.9; font-size: 1.05rem; color: #1e293b;\">\n  <div style=\"background: linear-gradient(135deg, #0A1C36 0%, #1e3a8a 100%); color: white; padding: 24px 28px; border-radius: 12px; margin-bottom: 24px;\">\n    <h2 style=\"color: #ffffff; font-size: 1.55rem; font-weight: 700; margin: 0; font-family: var(--font-serif);\">再入学および他神学校からの編入学案内</h2>\n  </div>\n  <p>休学後の再入学、または国内外の公認神学校で取得した単位の認定を受けて本校へ編入することを希望する志願者のための募集案内です。</p>\n  <ul style=\"line-height: 2; padding-left: 20px;\">\n    <li>他校での既取得単位は、本校カリキュラムとの照合審査を経て最大50%まで認定可能です。</li>\n    <li>前籍校の成績証明書とシラバスを添付して出願してください。</li>\n  </ul>\n</div>"
+    },
     {
       "id": "art_1794319544503",
       "categoryId": "cat_1787326540446",

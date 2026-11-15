@@ -64,8 +64,8 @@
     </div>
   </section>
 
-  <!-- MAIN MENUS (PERMANENT STATIC 6 CARDS: Home section leftmost) -->
-  <section class="main-menu-grid" id="main-menu-sec" style="grid-template-columns: repeat(6, 1fr);">
+  <!-- MAIN MENUS (PERMANENT STATIC 10 CARDS: Home section leftmost) -->
+  <section class="main-menu-grid" id="main-menu-sec" style="grid-template-columns: repeat(10, 1fr);">
     <div class="menu-card" data-menu="menu_1787468975888" onclick="selectMainMenu('menu_1787468975888')">
       <i class="fa-solid fa-house-chimney menu-icon"></i>
       <div class="menu-title-jp">ホーム セクション</div>
@@ -88,10 +88,30 @@
       <div class="menu-title-jp">無料冊子</div>
       <div class="menu-title-sub" style="font-size: 0.75rem; color: #ef4444; margin-top: 4px; font-weight: 700;">Free e-book</div>
     </div>
-    <div class="menu-card" data-menu="pastor" onclick="selectMainMenu('pastor')">
-      <i class="fa-solid fa-user-tie menu-icon"></i>
-      <div class="menu-title-jp">10分動画<br>神学講義</div>
-      <div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">動画講義</div>
+    <div class="menu-card" data-menu="sw_intro" onclick="selectMainMenu('sw_intro')">
+      <i class="fa-solid fa-school menu-icon"></i>
+      <div class="menu-title-jp">サウスウェスタン紹介</div>
+      <div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">사우스웨스턴소개</div>
+    </div>
+    <div class="menu-card" data-menu="sw_grad" onclick="selectMainMenu('sw_grad')">
+      <i class="fa-solid fa-graduation-cap menu-icon"></i>
+      <div class="menu-title-jp">大学院課程</div>
+      <div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">대학원과정</div>
+    </div>
+    <div class="menu-card" data-menu="sw_mission" onclick="selectMainMenu('sw_mission')">
+      <i class="fa-solid fa-earth-asia menu-icon"></i>
+      <div class="menu-title-jp">宣教師継続教育課程</div>
+      <div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">선교사연장교육과정</div>
+    </div>
+    <div class="menu-card" data-menu="sw_admissions" onclick="selectMainMenu('sw_admissions')">
+      <i class="fa-solid fa-clipboard-list menu-icon"></i>
+      <div class="menu-title-jp">入学案内</div>
+      <div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">입학안내</div>
+    </div>
+    <div class="menu-card" data-menu="jrtm_youtube" onclick="selectMainMenu('jrtm_youtube')">
+      <i class="fa-brands fa-youtube menu-icon" style="color: #ef4444;"></i>
+      <div class="menu-title-jp">JRTM YouTube</div>
+      <div class="menu-title-sub" style="font-size: 0.75rem; color: #ef4444; margin-top: 4px; font-weight: 700;">公式動画</div>
     </div>
   </section>
 
@@ -355,7 +375,11 @@
                   <option value="catechism">教理教育</option>
                   <option value="theology">改革派神学</option>
                   <option value="ebook">無料冊子 (Free e-book)</option>
-                  <option value="pastor">10分動画神学講義</option>
+                  <option value="sw_intro">サウスウェスタン紹介 (사우스웨스턴소개)</option>
+                  <option value="sw_grad">大学院課程 (대학원과정)</option>
+                  <option value="sw_mission">宣教師継続教育課程 (선교사연장교육과정)</option>
+                  <option value="sw_admissions">入学案内 (입학안내)</option>
+                  <option value="jrtm_youtube">JRTM YouTube (JRTM 유튜브)</option>
                 </select>
               </div>
               <div class="category-badges" id="admin-categories-container">
@@ -702,7 +726,11 @@
           <li><a href="#" onclick="selectMainMenu('catechism')">教理教育と復興</a></li>
           <li><a href="#" onclick="selectMainMenu('theology')">改革派神学</a></li>
           <li><a href="#" onclick="selectMainMenu('ebook')">無料冊子 (Free e-book)</a></li>
-          <li><a href="#" onclick="selectMainMenu('pastor')">10分動画神学講義</a></li>
+          <li><a href="#" onclick="selectMainMenu('sw_intro')">サウスウェスタン紹介 (사우스웨스턴소개)</a></li>
+          <li><a href="#" onclick="selectMainMenu('sw_grad')">大学院課程 (대학원과정)</a></li>
+          <li><a href="#" onclick="selectMainMenu('sw_mission')">宣教師継続教育課程 (선교사연장교육과정)</a></li>
+          <li><a href="#" onclick="selectMainMenu('sw_admissions')">入学案内 (입학안내)</a></li>
+          <li><a href="#" onclick="selectMainMenu('jrtm_youtube')"><i class="fa-brands fa-youtube" style="color: #ef4444; margin-right: 4px;"></i> JRTM YouTube</a></li>
           <li><a href="#" onclick="event.preventDefault(); navigateToContact();" style="color: var(--accent-color); font-weight: 500;">Contact (お問い合わせ)</a></li>
         </ul>
       </div>

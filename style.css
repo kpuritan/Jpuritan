@@ -176,8 +176,8 @@ header {
    ========================================== */
 .main-menu-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1.2rem;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 0.75rem;
   max-width: 1720px;
   width: 95%;
   margin: -3rem auto 0 auto;
@@ -191,7 +191,7 @@ header {
   border: 1px solid var(--border-color);
   border-top: 4px solid var(--accent-color);
   border-radius: 6px;
-  padding: 2rem 0.5rem;
+  padding: 1.6rem 0.4rem;
   text-align: center;
   cursor: pointer;
   transition: var(--transition-smooth);
@@ -200,6 +200,7 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: 135px;
 }
 
 .menu-card:hover {
@@ -284,6 +285,19 @@ header {
   border-color: #ef4444 !important;
   background-color: #fee2e2 !important;
   box-shadow: 0 6px 20px rgba(220, 38, 38, 0.28) !important;
+}
+
+/* JRTM YOUTUBE SPECIAL ACCENT */
+.menu-card[data-menu="jrtm_youtube"] .menu-icon {
+  color: #ef4444 !important;
+}
+.menu-card[data-menu="jrtm_youtube"]:hover .menu-icon {
+  transform: scale(1.15);
+  color: #dc2626 !important;
+}
+.menu-card[data-menu="jrtm_youtube"] .menu-title-sub {
+  color: #ef4444 !important;
+  font-weight: 700 !important;
 }
 
 .menu-badge-free {

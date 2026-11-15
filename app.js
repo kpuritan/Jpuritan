@@ -279,7 +279,7 @@ function loadLocalStorageOnly() {
     });
   }
 
-  const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'ebook', 'pastor'];
+  const defaultMenuIds = ['menu_1787468975888', 'sermon', 'catechism', 'theology', 'ebook', 'sw_intro', 'sw_grad', 'sw_mission', 'sw_admissions', 'jrtm_youtube'];
   state.mainMenus.sort((a, b) => {
     const posA = a.position !== undefined ? a.position : defaultMenuIds.indexOf(a.id);
     const posB = b.position !== undefined ? b.position : defaultMenuIds.indexOf(b.id);
@@ -290,11 +290,11 @@ function loadLocalStorageOnly() {
 
 async function initApp() {
   // Clear any old session states and all older localStorage caches on version update
-  if (sessionStorage.getItem('wscal_version') !== 'v36') {
+  if (sessionStorage.getItem('wscal_version') !== 'v40') {
     sessionStorage.removeItem('wscal_user_menu');
     sessionStorage.removeItem('wscal_user_category');
     sessionStorage.removeItem('wscal_user_article');
-    sessionStorage.setItem('wscal_version', 'v36');
+    sessionStorage.setItem('wscal_version', 'v40');
     try {
       Object.keys(localStorage).forEach(key => {
         if (key.startsWith('wscal_')) {
@@ -537,30 +537,50 @@ function renderMainMenuCards() {
 
   // Dynamic grid template columns adjustment to fit count of cards
   container.style.gridTemplateColumns = `repeat(${state.mainMenus.length}, 1fr)`;
+  if (state.mainMenus.length > 6) {
+    container.style.gap = '0.75rem';
+  }
 
   state.mainMenus.forEach(menu => {
     const card = document.createElement('div');
-    card.className = 'menu-card';
+    card.className = 'menu-card' + (menu.id === 'ebook' ? ' menu-card-ebook' : '');
     card.dataset.menu = menu.id;
     card.onclick = () => selectMainMenu(menu.id);
 
     // Default icon if missing
-    const iconClass = menu.icon || 'fa-circle-chevron-right';
+    let iconClass = menu.icon || 'fa-circle-chevron-right';
+    let iconPrefix = 'fa-solid';
+    let iconStyle = '';
+    if (menu.id === 'jrtm_youtube' || iconClass.includes('youtube')) {
+      iconPrefix = 'fa-brands';
+      iconClass = 'fa-youtube';
+      iconStyle = 'style="color: #ef4444;"';
+    }
 
-    // Video tag support
-    const videoLabel = menu.isVideo 
-      ? `<div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">動画講義</div>`
+    // Badge support (e.g. FREE badge for ebook)
+    const badgeHtml = menu.id === 'ebook' 
+      ? '<span class="menu-badge-free">FREE</span>' 
       : '';
 
+    // Subtitle support
+    let subTitleHtml = '';
+    if (menu.id === 'ebook') {
+      subTitleHtml = '<div class="menu-title-sub" style="font-size: 0.75rem; color: #ef4444; margin-top: 4px; font-weight: 700;">Free e-book</div>';
+    } else if (menu.id === 'jrtm_youtube') {
+      subTitleHtml = '<div class="menu-title-sub" style="font-size: 0.75rem; color: #ef4444; margin-top: 4px; font-weight: 700;">公式動画</div>';
+    } else if (menu.subTitle) {
+      subTitleHtml = `<div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">${menu.subTitle}</div>`;
+    } else if (menu.isVideo) {
+      subTitleHtml = '<div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">動画講義</div>';
+    }
+
     const cleanTitle = stripHtmlTags(menu.nameJp);
-    const cardTitle = menu.id === 'pastor'
-      ? cleanTitle.replace('10分動画', '10分動画<br>')
-      : cleanTitle;
 
     card.innerHTML = `
-      <i class="fa-solid ${iconClass} menu-icon"></i>
-      <div class="menu-title-jp">${cardTitle}</div>
-      ${videoLabel}
+      ${badgeHtml}
+      <i class="${iconPrefix} ${iconClass} menu-icon" ${iconStyle}></i>
+      <div class="menu-title-jp">${cleanTitle}</div>
+      ${subTitleHtml}
     `;
     container.appendChild(card);
   });
@@ -571,7 +591,8 @@ function renderMainMenuCards() {
     footerLinksList.innerHTML = '';
     state.mainMenus.forEach(menu => {
       const li = document.createElement('li');
-      li.innerHTML = `<a href="#" onclick="event.preventDefault(); selectMainMenu('${menu.id}')">${stripHtmlTags(menu.nameJp)}</a>`;
+      const ytIcon = menu.id === 'jrtm_youtube' ? '<i class="fa-brands fa-youtube" style="color: #ef4444; margin-right: 4px;"></i> ' : '';
+      li.innerHTML = `<a href="#" onclick="event.preventDefault(); selectMainMenu('${menu.id}')">${ytIcon}${stripHtmlTags(menu.nameJp)}</a>`;
       footerLinksList.appendChild(li);
     });
   }
@@ -1043,7 +1064,7 @@ function isAnyAncestorCollapsed(catId) {
   const cat = state.categories.find(c => c.id === catId);
   if (!cat) return false;
 
-  const rootMenus = ['sermon', 'catechism', 'theology', 'ebook', 'discipleship', 'pastor', 'menu_1787468975888'];
+  const rootMenus = ['sermon', 'catechism', 'theology', 'ebook', 'discipleship', 'sw_intro', 'sw_grad', 'sw_mission', 'sw_admissions', 'jrtm_youtube', 'menu_1787468975888'];
   if (rootMenus.includes(cat.parentId) || (state.mainMenus && state.mainMenus.some(m => m.id === cat.parentId))) {
     return false;
   }
@@ -1632,7 +1653,7 @@ function renderArticlesList() {
   const endIndex = startIndex + pageSize;
   const pagedArticles = filteredArticles.slice(startIndex, endIndex);
 
-  const isPastorMenu = state.currentMenu === 'pastor';
+  const isPastorMenu = state.currentMenu === 'pastor' || state.currentMenu === 'jrtm_youtube';
   const isServantMenu = state.currentCategory === 'cat_1787469050463';
   const isEbookMenu = state.currentMenu === 'ebook' || state.currentCategory === 'cat_1787673527469';
 
