@@ -1759,6 +1759,19 @@ function isFullHtmlDoc(content) {
   );
 }
 
+// Format profile history: cleans up lists and ensures compact bullet rendering
+function formatProfileHistory(content) {
+  if (!content) return '';
+  if (!content.includes('<ul') && !content.includes('<ol')) {
+    const lines = content.split('\n').map(l => l.trim()).filter(Boolean);
+    if (lines.some(l => l.startsWith('-') || l.startsWith('•') || l.startsWith('*'))) {
+      const items = lines.map(l => `<li>${l.replace(/^[-•*]\s*/, '')}</li>`).join('');
+      return `<ul class="profile-bullets">${items}</ul>`;
+    }
+  }
+  return content;
+}
+
 // Format article content: supports raw HTML tags or plain text with preserved line breaks
 function formatArticleContent(content) {
   if (!content) return '';
@@ -2079,11 +2092,7 @@ function renderArticlesList() {
       pagedArticles.forEach(art => {
         const card = document.createElement('div');
         card.className = 'profile-card';
-        card.style.cursor = 'pointer';
-        card.onclick = (e) => {
-          if (e.target.closest('.card-inline-admin-bar')) return;
-          viewArticleDetail(art.id);
-        };
+        card.style.cursor = 'default';
         
         const photoUrl = art.photoUrl || 'hero_bg.jpg';
 
@@ -2096,14 +2105,18 @@ function renderArticlesList() {
           </div>
         ` : '';
 
+        const formattedHistory = formatProfileHistory(art.content);
+
         card.innerHTML = `
           <div class="profile-photo-wrapper">
             <img class="profile-photo" src="${photoUrl}" alt="${art.title}" loading="lazy">
           </div>
           <div class="profile-info">
-            <h3 class="profile-name">${art.title}</h3>
-            <div class="profile-title">${art.author}</div>
-            <div class="profile-history">${art.content}</div>
+            <div class="profile-header-row">
+              <h3 class="profile-name">${art.title}</h3>
+              <div class="profile-title">${art.author || ''}</div>
+            </div>
+            <div class="profile-history">${formattedHistory}</div>
             ${adminToolbar}
           </div>
         `;
