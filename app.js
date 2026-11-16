@@ -151,6 +151,29 @@ function getArticleSortKey(art) {
     return { catOrder: catOrder, secNum: fixedPos, num: fixedPos, pos: fixedPos, id: art.id || '' };
   }
 
+  // 1.6 Fix '仕える' (Servants) exact fixed order: 1. Kim Hong-man, 2. Park Hoon, 3. Jodai Yoshie
+  if (art.categoryId === 'cat_1787469050463') {
+    let order = 999;
+    const t = (art.title || '').trim();
+    if (art.id === 'art_1787590682558' || t.includes('金洪晩') || t.includes('キム・ホンマン')) {
+      order = 1;
+    } else if (art.id === 'art_1787591198414' || t.includes('朴勳') || t.includes('朴勲') || t.includes('パク・フン') || t.includes('Hoon Park')) {
+      order = 2;
+    } else if (art.id === 'art_1787590806222' || t.includes('上代') || t.includes('じょうだい') || t.includes('淑恵')) {
+      order = 3;
+    } else if (art.position !== undefined && art.position !== null && !isNaN(Number(art.position))) {
+      order = Number(art.position);
+    }
+    return { catOrder: catOrder, secNum: order, num: order, pos: order, id: art.id || '' };
+  }
+
+  // If article has explicit custom position assigned by admin, give it highest priority!
+  const hasExplicitPos = art.position !== undefined && art.position !== null && art.position !== '' && !isNaN(Number(art.position));
+  if (hasExplicitPos) {
+    const pVal = Number(art.position);
+    return { catOrder: catOrder, secNum: pVal, num: pVal, pos: pVal, id: art.id || '' };
+  }
+
   const title = (art.title || '').trim();
   let secNum = 999999;
   
@@ -253,8 +276,34 @@ function loadLocalStorageOnly() {
     if (rawFeat) cachedFeat = JSON.parse(rawFeat);
   } catch (e) {}
 
-  // Always use embedded MASTER_SITE_DATABASE if present (SSOT for static site)
-  state.articles = embeddedArts.length > 0 ? embeddedArts : (cachedArts || []);
+  // Merge embedded database with localStorage cache (preserves admin reordered positions & local edits)
+  if (cachedArts && cachedArts.length > 0) {
+    const posMap = {};
+    cachedArts.forEach(ca => {
+      if (ca.position !== undefined && ca.position !== null && ca.position !== '') {
+        posMap[ca.id] = ca.position;
+      }
+    });
+
+    // Start with embedded database or cached database
+    const baseList = embeddedArts.length > 0 ? [...embeddedArts] : [...cachedArts];
+    state.articles = baseList.map(ea => {
+      if (posMap[ea.id] !== undefined) {
+        return { ...ea, position: posMap[ea.id] };
+      }
+      return ea;
+    });
+
+    // Also include any locally created articles not in embeddedArts yet
+    cachedArts.forEach(ca => {
+      if (!state.articles.some(a => a.id === ca.id)) {
+        state.articles.push(ca);
+      }
+    });
+  } else {
+    state.articles = embeddedArts.length > 0 ? embeddedArts : [];
+  }
+
   state.categories = embeddedCats.length > 0 ? embeddedCats : (cachedCats || []);
   state.mainMenus = embeddedMenus.length > 0 ? embeddedMenus : (cachedMenus || []);
   state.featured = (embeddedFeat && Object.keys(embeddedFeat).length > 0) ? embeddedFeat : (cachedFeat || {});
@@ -337,11 +386,31 @@ async function initApp() {
         try { localStorage.setItem('wscal_featured_v52', JSON.stringify(fileData.featured)); } catch(e) {}
       }
       if (fileData.articles && fileData.articles.length > 0) {
-        // If fileData has more or equal articles than state, adopt it
-        if (fileData.articles.length >= state.articles.length) {
-          state.articles = fileData.articles;
-        }
-        try { localStorage.setItem('wscal_articles_v52', JSON.stringify(fileData.articles)); } catch(e) {}
+        // Collect current local explicit positions to preserve them across updates
+        const localPosMap = {};
+        state.articles.forEach(sa => {
+          if (sa.position !== undefined && sa.position !== null && sa.position !== '') {
+            localPosMap[sa.id] = sa.position;
+          }
+        });
+
+        // Adopt fileData articles while preserving local explicit positions
+        const mergedList = fileData.articles.map(fa => {
+          if (localPosMap[fa.id] !== undefined) {
+            return { ...fa, position: localPosMap[fa.id] };
+          }
+          return fa;
+        });
+
+        // Retain any new articles created locally that are not yet in fileData
+        state.articles.forEach(sa => {
+          if (!mergedList.some(m => m.id === sa.id)) {
+            mergedList.unshift(sa);
+          }
+        });
+
+        state.articles = mergedList;
+        try { localStorage.setItem('wscal_articles_v52', JSON.stringify(state.articles)); } catch(e) {}
       }
 
       initializeCollapsedStates();
@@ -413,6 +482,28 @@ async function initApp() {
 
 // Restore last viewed category, article, or menu upon page reload
 function restoreLastUserState() {
+  const hash = window.location.hash || '';
+  if (hash.startsWith('#art=')) {
+    const artId = hash.replace('#art=', '');
+    const art = state.articles.find(a => a.id === artId);
+    if (art) {
+      selectSubcategory(art.categoryId, false, false);
+      viewArticleDetail(artId, false);
+      replaceNavState({ view: 'article', menu: state.currentMenu, category: art.categoryId, id: artId }, hash);
+      return true;
+    }
+  } else if (hash.startsWith('#cat=')) {
+    const catId = hash.replace('#cat=', '');
+    selectSubcategory(catId, false, false);
+    replaceNavState({ view: 'category', menu: state.currentMenu, id: catId }, hash);
+    return true;
+  } else if (hash.startsWith('#menu=')) {
+    const menuKey = hash.replace('#menu=', '');
+    selectMainMenu(menuKey, false);
+    replaceNavState({ view: 'menu', id: menuKey }, hash);
+    return true;
+  }
+
   const savedMenu = sessionStorage.getItem('wscal_user_menu');
   const savedCat = sessionStorage.getItem('wscal_user_category');
   const savedArt = sessionStorage.getItem('wscal_user_article');
@@ -420,8 +511,9 @@ function restoreLastUserState() {
   if (savedArt) {
     const art = state.articles.find(a => a.id === savedArt);
     if (art) {
-      selectSubcategory(art.categoryId, false);
-      viewArticleDetail(savedArt);
+      selectSubcategory(art.categoryId, false, false);
+      viewArticleDetail(savedArt, false);
+      replaceNavState({ view: 'article', menu: state.currentMenu, category: art.categoryId, id: savedArt }, '#art=' + savedArt);
       return true;
     }
   }
@@ -429,7 +521,8 @@ function restoreLastUserState() {
   if (savedCat) {
     const cat = state.categories.find(c => c.id === savedCat);
     if (cat) {
-      selectSubcategory(savedCat, false);
+      selectSubcategory(savedCat, false, false);
+      replaceNavState({ view: 'category', menu: state.currentMenu, id: savedCat }, '#cat=' + savedCat);
       return true;
     }
   }
@@ -437,11 +530,13 @@ function restoreLastUserState() {
   if (savedMenu) {
     const menu = state.mainMenus.find(m => m.id === savedMenu);
     if (menu) {
-      selectMainMenu(savedMenu);
+      selectMainMenu(savedMenu, false);
+      replaceNavState({ view: 'menu', id: savedMenu }, '#menu=' + savedMenu);
       return true;
     }
   }
 
+  replaceNavState({ view: 'home', id: 'home' }, '#home');
   return false;
 }
 
@@ -606,11 +701,36 @@ function renderMainMenuCards() {
 }
 
 // ==========================================
-// 3. User Interface Navigation
+// 3. User Interface Navigation & History Management
 // ==========================================
 
-// Click Home Logo
-document.getElementById('logo-home').addEventListener('click', () => {
+let isNavigatingHistory = false;
+
+function pushNavState(stateObj, hashStr) {
+  if (isNavigatingHistory) return;
+  const current = history.state;
+  if (current && current.view === stateObj.view && current.id === stateObj.id) {
+    return;
+  }
+  const url = hashStr ? `${window.location.pathname}${window.location.search}${hashStr}` : `${window.location.pathname}${window.location.search}`;
+  try {
+    history.pushState(stateObj, '', url);
+  } catch (e) {
+    console.warn("History pushState error:", e);
+  }
+}
+
+function replaceNavState(stateObj, hashStr) {
+  const url = hashStr ? `${window.location.pathname}${window.location.search}${hashStr}` : `${window.location.pathname}${window.location.search}`;
+  try {
+    history.replaceState(stateObj, '', url);
+  } catch (e) {
+    console.warn("History replaceState error:", e);
+  }
+}
+
+// Show Home View (Hero + Main Menus + Featured Articles)
+function showHomeView(pushHistory = true) {
   // Clear saved user view states
   sessionStorage.removeItem('wscal_user_menu');
   sessionStorage.removeItem('wscal_user_category');
@@ -630,12 +750,16 @@ document.getElementById('logo-home').addEventListener('click', () => {
 
   // UI Resets
   document.querySelectorAll('.menu-card').forEach(c => c.classList.remove('active'));
-  document.getElementById('submenu-sec').classList.remove('active');
-  document.getElementById('workspace-sec').classList.remove('active');
+  const subSec = document.getElementById('submenu-sec');
+  if (subSec) subSec.classList.remove('active');
+  const workSec = document.getElementById('workspace-sec');
+  if (workSec) workSec.classList.remove('active');
   
   // Show Main Elements
-  document.getElementById('hero-sec').style.display = 'block';
-  document.getElementById('main-menu-sec').style.display = 'grid';
+  const heroSec = document.getElementById('hero-sec');
+  if (heroSec) heroSec.style.display = 'block';
+  const menuSec = document.getElementById('main-menu-sec');
+  if (menuSec) menuSec.style.display = 'grid';
   const featSec = document.getElementById('featured-sec');
   if (featSec) featSec.style.display = 'block';
 
@@ -643,7 +767,69 @@ document.getElementById('logo-home').addEventListener('click', () => {
 
   // Smooth scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (pushHistory) {
+    pushNavState({ view: 'home', id: 'home' }, '#home');
+  }
+}
+
+// Browser Back / Forward Button Handling (popstate)
+window.addEventListener('popstate', (e) => {
+  isNavigatingHistory = true;
+  try {
+    const s = e.state;
+    const hash = window.location.hash || '';
+
+    const detailView = document.getElementById('view-article-detail');
+    const listView = document.getElementById('view-article-list');
+
+    if (s && s.view === 'article' && s.id) {
+      if (s.category && s.category !== state.currentCategory) {
+        selectSubcategory(s.category, false, false);
+      }
+      viewArticleDetail(s.id, false);
+    } else if (s && s.view === 'category' && s.id) {
+      if (detailView) detailView.style.display = 'none';
+      if (listView) listView.style.display = 'block';
+      state.currentArticle = null;
+      sessionStorage.removeItem('wscal_user_article');
+
+      selectSubcategory(s.id, false, false);
+    } else if (s && s.view === 'menu' && s.id) {
+      if (detailView) detailView.style.display = 'none';
+      if (listView) listView.style.display = 'block';
+      state.currentArticle = null;
+      state.currentCategory = null;
+
+      selectMainMenu(s.id, false);
+    } else if ((s && s.view === 'home') || (!s && (!hash || hash === '#' || hash === '#home'))) {
+      showHomeView(false);
+    } else if (hash.startsWith('#art=')) {
+      const artId = hash.replace('#art=', '');
+      viewArticleDetail(artId, false);
+    } else if (hash.startsWith('#cat=')) {
+      const catId = hash.replace('#cat=', '');
+      selectSubcategory(catId, false, false);
+    } else if (hash.startsWith('#menu=')) {
+      const menuKey = hash.replace('#menu=', '');
+      selectMainMenu(menuKey, false);
+    } else {
+      showHomeView(false);
+    }
+  } catch (err) {
+    console.error("Popstate error:", err);
+  } finally {
+    isNavigatingHistory = false;
+  }
 });
+
+// Click Home Logo
+const logoHomeEl = document.getElementById('logo-home');
+if (logoHomeEl) {
+  logoHomeEl.addEventListener('click', () => {
+    showHomeView(true);
+  });
+}
 
 // YouTube ID extractor helper
 function getYouTubeId(url) {
@@ -1160,7 +1346,7 @@ async function resetLocalDataToServer() {
 }
 
 // Select main menu cards (6 big buttons)
-function selectMainMenu(menuKey) {
+function selectMainMenu(menuKey, pushHistory = true) {
   state.currentMenu = menuKey;
   state.currentCategory = null;
   state.currentArticle = null;
@@ -1169,6 +1355,10 @@ function selectMainMenu(menuKey) {
   sessionStorage.setItem('wscal_user_menu', menuKey);
   sessionStorage.removeItem('wscal_user_category');
   sessionStorage.removeItem('wscal_user_article');
+
+  if (pushHistory) {
+    pushNavState({ view: 'menu', id: menuKey }, '#menu=' + menuKey);
+  }
 
   initializeCollapsedStates();
 
@@ -1246,12 +1436,12 @@ function selectMainMenu(menuKey) {
   } else if (menuKey === 'sw_seminary') {
     const welcomeCat = state.categories.find(c => c.id === 'cat_sw_welcome') || state.categories.find(c => c.parentId === 'cat_sw_intro');
     if (welcomeCat) {
-      selectSubcategory(welcomeCat.id, false);
+      selectSubcategory(welcomeCat.id, false, false);
     }
   } else {
     const allSubCats = buildFlatTree(menuKey, 0);
     if (allSubCats.length > 0) {
-      selectSubcategory(allSubCats[0].id, false);
+      selectSubcategory(allSubCats[0].id, false, false);
     } else {
       state.currentCategory = null;
       state.currentArticle = null;
@@ -1268,10 +1458,14 @@ function selectMainMenu(menuKey) {
 }
 
 // Select a subcategory folder
-function selectSubcategory(categoryId, shouldScroll = false) {
+function selectSubcategory(categoryId, shouldScroll = false, pushHistory = true) {
   state.currentCategory = categoryId;
   state.currentArticle = null;
   state.pagination.currentPage = 1;
+
+  if (pushHistory) {
+    pushNavState({ view: 'category', menu: state.currentMenu, id: categoryId }, '#cat=' + categoryId);
+  }
 
   // Infer and set parent menu if missing
   const catObj = state.categories.find(c => c.id === categoryId);
@@ -1360,7 +1554,7 @@ function selectSubcategory(categoryId, shouldScroll = false) {
   const isDirectDetailCategory = categoryId === 'cat_1787469045280' || (categoryId.startsWith('cat_sw_') && filteredArticles.length === 1);
   if (isDirectDetailCategory && filteredArticles.length > 0) {
     renderArticlesList();
-    viewArticleDetail(filteredArticles[0].id);
+    viewArticleDetail(filteredArticles[0].id, false);
   } else {
     renderArticlesList();
     renderRecentArticles();
@@ -2213,7 +2407,7 @@ function getAdjacentArticles(articleId) {
 }
 
 // View Article Detail (Supports Video Player & Interactive Responsive Document Rendering)
-function viewArticleDetail(articleId) {
+function viewArticleDetail(articleId, pushHistory = true) {
   try {
     let article = state.articles.find(a => a.id === articleId);
     if (!article && MASTER_SITE_DATABASE && MASTER_SITE_DATABASE.articles) {
@@ -2231,6 +2425,10 @@ function viewArticleDetail(articleId) {
     sessionStorage.setItem('wscal_user_article', articleId);
     if (article.categoryId) {
       sessionStorage.setItem('wscal_user_category', article.categoryId);
+    }
+
+    if (pushHistory) {
+      pushNavState({ view: 'article', menu: state.currentMenu, category: state.currentCategory || article.categoryId, id: articleId }, '#art=' + articleId);
     }
 
     // Increment views safely
@@ -2527,6 +2725,12 @@ function viewArticleDetail(articleId) {
 
 // Back to list from detail
 function goBackToArticles(targetMode) {
+  // If user entered via pushState navigation, use history.back() for native seamless browser history
+  if (history.state && history.state.view === 'article') {
+    history.back();
+    return;
+  }
+
   state.currentArticle = null;
   sessionStorage.removeItem('wscal_user_article');
 
@@ -2534,6 +2738,14 @@ function goBackToArticles(targetMode) {
   const listView = document.getElementById('view-article-list');
   if (detailView) detailView.style.display = 'none';
   if (listView) listView.style.display = 'block';
+
+  if (state.currentCategory) {
+    replaceNavState({ view: 'category', menu: state.currentMenu, id: state.currentCategory }, '#cat=' + state.currentCategory);
+  } else if (state.currentMenu) {
+    replaceNavState({ view: 'menu', id: state.currentMenu }, '#menu=' + state.currentMenu);
+  } else {
+    replaceNavState({ view: 'home', id: 'home' }, '#home');
+  }
 
   const isCatechismMenu = state.currentMenu === 'catechism' || (typeof isCatechismOrWcfCategory === 'function' && isCatechismOrWcfCategory(state.currentCategory));
 
@@ -4199,11 +4411,13 @@ function renderAdminArticleList() {
     const descendantIds = getAllDescendantCategoryIds(parentFilter);
     list = list.filter(art => descendantIds.includes(art.categoryId));
     
-    // Sort by custom position within the selected folder
+    // Sort by custom position within the selected folder (aligned with getArticleSortKey)
     list.sort((a, b) => {
-      const posA = a.position !== undefined ? a.position : 999999;
-      const posB = b.position !== undefined ? b.position : 999999;
-      if (posA !== posB) return posA - posB;
+      const keyA = getArticleSortKey(a);
+      const keyB = getArticleSortKey(b);
+      if (keyA.catOrder !== keyB.catOrder) return keyA.catOrder - keyB.catOrder;
+      if (keyA.secNum !== keyB.secNum) return keyA.secNum - keyB.secNum;
+      if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
       const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
       if (dateCompare !== 0) return dateCompare;
       return b.id.localeCompare(a.id);
@@ -4620,9 +4834,9 @@ function showArticleDirectly(artId) {
   }
   
   // Select menu & subcat & render
-  selectMainMenu(parentMenu);
-  selectSubcategory(art.categoryId, false);
-  viewArticleDetail(artId);
+  selectMainMenu(parentMenu, false);
+  selectSubcategory(art.categoryId, false, false);
+  viewArticleDetail(artId, true);
 }
 
 // ==========================================
@@ -4982,6 +5196,38 @@ async function syncDataJsonToGitHub() {
       const errData = await resPut.json();
       console.warn("GitHub data.json sync failed:", errData.message);
     }
+
+    // 4. Also sync compiled data.js to GitHub repository
+    try {
+      const getJsUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data.js`;
+      const resJsGet = await fetch(getJsUrl, {
+        headers: { "Authorization": `token ${token}` }
+      });
+      let shaJs = "";
+      if (resJsGet.ok) {
+        const jsInfo = await resJsGet.json();
+        shaJs = jsInfo.sha;
+      }
+      const jsContentStr = `const initialData = ${jsonStr};\nif (typeof window !== "undefined") {\n  window.SITE_DATA = initialData;\n  window.MASTER_SITE_DATABASE = initialData;\n}\nif (typeof module !== "undefined") {\n  module.exports = initialData;\n}\n`;
+      const base64Js = btoa(unescape(encodeURIComponent(jsContentStr)));
+      const bodyJs = {
+        message: "data: sync data.js via admin panel",
+        content: base64Js,
+        branch: branch
+      };
+      if (shaJs) bodyJs.sha = shaJs;
+      await fetch(getJsUrl, {
+        method: "PUT",
+        headers: {
+          "Authorization": `token ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(bodyJs)
+      });
+      console.log("Successfully synced data.js to GitHub repository.");
+    } catch (eJs) {
+      console.warn("Notice: data.js sync to GitHub:", eJs);
+    }
   } catch (err) {
     console.error("Error syncing data.json to GitHub:", err);
   }
@@ -4996,42 +5242,45 @@ async function moveArticle(artId, direction) {
   // Find all articles in the same category
   const catArticles = state.articles.filter(a => a.categoryId === art.categoryId);
   
-  // Sort them by their current sorting order
+  // Sort them exactly as they are currently displayed on screen (using getArticleSortKey)
   catArticles.sort((a, b) => {
-    const posA = a.position !== undefined ? a.position : 999999;
-    const posB = b.position !== undefined ? b.position : 999999;
-    if (posA !== posB) return posA - posB;
-    const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+    const keyA = getArticleSortKey(a);
+    const keyB = getArticleSortKey(b);
+    if (keyA.catOrder !== keyB.catOrder) return keyA.catOrder - keyB.catOrder;
+    if (keyA.secNum !== keyB.secNum) return keyA.secNum - keyB.secNum;
+    if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
+    const dateCompare = (a.createdAt || '').localeCompare(b.createdAt || '');
     if (dateCompare !== 0) return dateCompare;
-    return b.id.localeCompare(a.id);
+    return (a.id || '').localeCompare(b.id || '');
   });
   
   // Find index of the article in this sorted sub-list
   const idx = catArticles.findIndex(a => a.id === artId);
   if (idx === -1) return;
   
-  let swapIdx = -1;
+  let targetIdx = -1;
   if (direction === 'up' && idx > 0) {
-    swapIdx = idx - 1;
+    targetIdx = idx - 1;
   } else if (direction === 'down' && idx < catArticles.length - 1) {
-    swapIdx = idx + 1;
+    targetIdx = idx + 1;
   }
   
-  if (swapIdx !== -1) {
-    // Assign sequential positions to all articles in this category to ensure they have integer positions
+  if (targetIdx !== -1) {
+    // Swap elements in the array
+    const [moved] = catArticles.splice(idx, 1);
+    catArticles.splice(targetIdx, 0, moved);
+    
+    // Assign sequential integer positions 0, 1, 2...
     catArticles.forEach((a, i) => {
       a.position = i;
+      const mainArt = state.articles.find(m => m.id === a.id);
+      if (mainArt) mainArt.position = i;
     });
-    
-    // Swap positions of idx and swapIdx
-    const tempPos = catArticles[idx].position;
-    catArticles[idx].position = catArticles[swapIdx].position;
-    catArticles[swapIdx].position = tempPos;
     
     // Save locally
     saveArticles();
     
-    // Sync compiled data.json to GitHub
+    // Sync compiled data.json & data.js to GitHub
     syncDataJsonToGitHub();
     
     // Refresh lists
@@ -5099,13 +5348,16 @@ async function reorderArticleByDrag(sourceId, targetId) {
 
   const catArticles = state.articles.filter(a => a.categoryId === categoryId);
 
+  // Sort them exactly as they are currently displayed on screen (using getArticleSortKey)
   catArticles.sort((a, b) => {
-    const posA = a.position !== undefined ? a.position : 999999;
-    const posB = b.position !== undefined ? b.position : 999999;
-    if (posA !== posB) return posA - posB;
-    const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+    const keyA = getArticleSortKey(a);
+    const keyB = getArticleSortKey(b);
+    if (keyA.catOrder !== keyB.catOrder) return keyA.catOrder - keyB.catOrder;
+    if (keyA.secNum !== keyB.secNum) return keyA.secNum - keyB.secNum;
+    if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
+    const dateCompare = (a.createdAt || '').localeCompare(b.createdAt || '');
     if (dateCompare !== 0) return dateCompare;
-    return b.id.localeCompare(a.id);
+    return (a.id || '').localeCompare(b.id || '');
   });
 
   const fromIdx = catArticles.findIndex(a => a.id === sourceId);
@@ -5118,6 +5370,8 @@ async function reorderArticleByDrag(sourceId, targetId) {
     // Re-assign positions
     catArticles.forEach((a, idx) => {
       a.position = idx;
+      const mainArt = state.articles.find(m => m.id === a.id);
+      if (mainArt) mainArt.position = idx;
     });
 
     saveArticles();
@@ -5126,6 +5380,7 @@ async function reorderArticleByDrag(sourceId, targetId) {
     if (state.currentCategory) {
       renderArticlesList();
     }
+    renderAdminArticleList();
   }
 }
 
@@ -5245,11 +5500,11 @@ function navigateToConfession(confessionKey) {
   }
 
   // 1. Select the Catechism main menu
-  selectMainMenu('catechism');
+  selectMainMenu('catechism', false);
 
   // 2. Select the target confession category and scroll smoothly to workspace
   setTimeout(() => {
-    selectSubcategory(targetCatId, true);
+    selectSubcategory(targetCatId, true, true);
     const workspaceSec = document.getElementById('workspace-sec');
     if (workspaceSec) {
       workspaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -5268,11 +5523,11 @@ function navigateToContact() {
   }
 
   // 1. Select Home Section (menu_1787468975888)
-  selectMainMenu('menu_1787468975888');
+  selectMainMenu('menu_1787468975888', false);
 
   // 2. Select Contact subcategory (cat_1787469061107) and scroll smoothly
   setTimeout(() => {
-    selectSubcategory('cat_1787469061107', true);
+    selectSubcategory('cat_1787469061107', true, true);
     const workspaceSec = document.getElementById('workspace-sec');
     if (workspaceSec) {
       workspaceSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
