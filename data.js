@@ -9996,10 +9996,11 @@ const initialData = {
       "content": "神のものを盗む者 ―― Robbers of God\n説教者：チャールズ・H・スパーゾン（Charles Haddon Spurgeon, 1834–1892）\n訳者：清教徒古典翻訳会（Japan Reformed Translation Ministry）\n発行：信仰の父たちの遺産 伝道小冊子刊行会（Puritan Heritage Books · JRTM）\n叢書：FROM THE INHERITANCE OF OUR FATHERS ― Series XXXIV, No. 9\n\n【PDFダウンロード】\n下記のダウンロードボタンより、本小冊子のPDF全文を無料で閲覧・保存いただけます。\n\n【内容概要】\n「人は神のものを盗むことができようか。ところが、あなたがたはわたしのものを盗んでいる。」（マラキ書 3:8）\n19世紀の「説教者の王」チャールズ・H・スパーゾンによる、不敬虔な魂を覚醒させ、真の悔い改めとキリストの十字架の贖いへと導く熱烈なる伝道説教です。人間がいかにして自らの時間、財産、知性、そして心を神から盗み取っているかを鋭く告発し、神の厳粛な律法と主イエス・キリストの限りない憐れみと赦しを力強く宣べ伝えます。\n\n【目次・構成】\n序論：妥協なき預言者の声と厳粛な告発\n第1部：表明された驚愕（神を盗むという恐るべき現実）\n第2部：告白への導き（私たちが奪い取ってきた神の栄光・時間・財・心）\n第3部：悔い改めへの案内（十字架のキリストの血潮と豊かな赦し）\n【付録】神から奪ったものを回復する四つの実践心得\n【解題と信仰告白】ウェストミンスター大教理問答 第142問\n\n※ 本冊子は非営利目的に限り、自由に複製・印刷・配布することができます。",
       "scripture": "マラキ書 3:8",
       "videoUrl": null,
-      "photoUrl": "images/cover_spurgeon_robbers_of_god.png?v=20261118_color",
-      "pdfUrl": "pdf/Robbers_of_God_Spurgeon.pdf?v=20261118_color",
+      "photoUrl": "images/cover_spurgeon_robbers_of_god.png?v=20261118_cover2",
+      "pdfUrl": "pdf/Robbers_of_God_Spurgeon.pdf?v=20261118_cover2",
       "views": 0,
-      "position": 5
+      "position": 5,
+      "updatedAt": "2026-11-18"
     },
     {
       "id": "art_1787641853157",
@@ -23268,3 +23269,10 @@ const initialData = {
     }
   ]
 };
+if (typeof window !== "undefined") {
+  window.SITE_DATA = initialData;
+  window.MASTER_SITE_DATABASE = initialData;
+}
+if (typeof module !== "undefined") {
+  module.exports = initialData;
+}
