@@ -1854,6 +1854,7 @@ function renderArticlesList() {
     filteredArticles = state.articles.filter(art => descendantIds.includes(art.categoryId));
   }
   
+  const isEbookMenu = state.currentMenu === 'ebook' || state.currentCategory === 'cat_1787673527469';
   
   filteredArticles.sort((a, b) => {
     const keyA = getArticleSortKey(a);
@@ -1861,6 +1862,11 @@ function renderArticlesList() {
     if (keyA.catOrder !== keyB.catOrder) return keyA.catOrder - keyB.catOrder;
     if (keyA.secNum !== keyB.secNum) return keyA.secNum - keyB.secNum;
     if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
+    if (isEbookMenu) {
+      const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+      if (dateCompare !== 0) return dateCompare;
+      return (b.id || '').localeCompare(a.id || '');
+    }
     const dateCompare = (a.createdAt || '').localeCompare(b.createdAt || '');
     if (dateCompare !== 0) return dateCompare;
     return (a.id || '').localeCompare(b.id || '');
@@ -1897,7 +1903,6 @@ function renderArticlesList() {
 
   const isPastorMenu = state.currentMenu === 'pastor' || state.currentMenu === 'jrtm_youtube';
   const isServantMenu = state.currentCategory === 'cat_1787469050463';
-  const isEbookMenu = state.currentMenu === 'ebook' || state.currentCategory === 'cat_1787673527469';
 
   // 2. Render Page Size Selector, View Mode Toggle & Total count
   const headerWrapper = document.createElement('div');
@@ -2399,12 +2404,18 @@ function getAdjacentArticles(articleId) {
   }
 
   // Sort by document/question order
+  const isEbookScope = scopeArticles.some(a => a.categoryId === 'cat_1787673527469' || state.currentMenu === 'ebook');
   scopeArticles.sort((a, b) => {
     const keyA = getArticleSortKey(a);
     const keyB = getArticleSortKey(b);
     if (keyA.catOrder !== keyB.catOrder) return keyA.catOrder - keyB.catOrder;
     if (keyA.secNum !== keyB.secNum) return keyA.secNum - keyB.secNum;
     if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
+    if (isEbookScope) {
+      const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+      if (dateCompare !== 0) return dateCompare;
+      return (b.id || '').localeCompare(a.id || '');
+    }
     const dateCompare = (a.createdAt || '').localeCompare(b.createdAt || '');
     if (dateCompare !== 0) return dateCompare;
     return (a.id || '').localeCompare(b.id || '');
