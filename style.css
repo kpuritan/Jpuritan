@@ -340,29 +340,37 @@ header {
 }
 
 /* Submenu & Sidebar E-book Highlight */
-.submenu-item[data-cat-id="cat_1787673527469"] {
+.submenu-item[data-cat-id="cat_1787673527469"],
+.submenu-item[data-cat-id="cat_ebook_theology"],
+.submenu-item[data-cat-id="cat_ebook_devotion"] {
   border-color: #fca5a5 !important;
   background-color: #fff5f5 !important;
   color: #b91c1c !important;
   font-weight: 700;
 }
-.submenu-item[data-cat-id="cat_1787673527469"]:hover {
+.submenu-item[data-cat-id="cat_1787673527469"]:hover,
+.submenu-item[data-cat-id="cat_ebook_theology"]:hover,
+.submenu-item[data-cat-id="cat_ebook_devotion"]:hover {
   background-color: #fee2e2 !important;
   border-color: #ef4444 !important;
 }
-.submenu-item[data-cat-id="cat_1787673527469"].active {
+.submenu-item[data-cat-id="cat_1787673527469"].active,
+.submenu-item[data-cat-id="cat_ebook_theology"].active,
+.submenu-item[data-cat-id="cat_ebook_devotion"].active {
   background-color: #dc2626 !important;
   color: #ffffff !important;
   border-color: #991b1b !important;
 }
 
 .sidebar-item[title*="無料冊子"],
-.sidebar-item[title*="無料冊子"] {
+.sidebar-item[title="神学"],
+.sidebar-item[title="敬虔・伝道"] {
   color: #b91c1c !important;
   font-weight: 700 !important;
 }
 .sidebar-item[title*="無料冊子"] i,
-.sidebar-item[title*="無料冊子"] i {
+.sidebar-item[title="神学"] i,
+.sidebar-item[title="敬虔・伝道"] i {
   color: #dc2626 !important;
 }
 

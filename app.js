@@ -493,7 +493,8 @@ function restoreLastUserState() {
       return true;
     }
   } else if (hash.startsWith('#cat=')) {
-    const catId = hash.replace('#cat=', '');
+    let catId = hash.replace('#cat=', '');
+    if (catId === 'cat_1787673527469') catId = 'cat_ebook_theology';
     selectSubcategory(catId, false, false);
     replaceNavState({ view: 'category', menu: state.currentMenu, id: catId }, hash);
     return true;
@@ -887,6 +888,19 @@ function isTheologyCategory(catId) {
   while (currentId) {
     if (currentId === 'theology') return true;
     const cat = state.categories.find(c => c.id === currentId);
+    if (!cat) break;
+    currentId = cat.parentId;
+  }
+  return false;
+}
+
+function isEbookCategory(catId) {
+  if (!catId) return false;
+  if (catId === 'ebook' || catId === 'cat_ebook_theology' || catId === 'cat_ebook_devotion' || catId === 'cat_1787673527469') return true;
+  let currentId = catId;
+  while (currentId) {
+    if (currentId === 'ebook') return true;
+    const cat = (state.categories || []).find(c => c.id === currentId);
     if (!cat) break;
     currentId = cat.parentId;
   }
@@ -1459,6 +1473,9 @@ function selectMainMenu(menuKey, pushHistory = true) {
 
 // Select a subcategory folder
 function selectSubcategory(categoryId, shouldScroll = false, pushHistory = true) {
+  if (categoryId === 'cat_1787673527469') {
+    categoryId = 'cat_ebook_theology';
+  }
   state.currentCategory = categoryId;
   state.currentArticle = null;
   state.pagination.currentPage = 1;
@@ -1843,8 +1860,10 @@ function renderArticlesList() {
   } else {
     const currentCatObj = state.categories.find(c => c.id === state.currentCategory);
     if (listTitle) {
-      if (state.currentMenu === 'ebook' || state.currentCategory === 'cat_1787673527469') {
-        listTitle.innerHTML = `<i class="fa-solid fa-book-bookmark" style="color: #ef4444; margin-right: 8px;"></i> 無料冊子・電子書籍 (Free e-book)`;
+      if (state.currentMenu === 'ebook' || isEbookCategory(state.currentCategory)) {
+        const catObj = (state.categories || []).find(c => c.id === state.currentCategory);
+        const catTitle = (catObj && catObj.nameJp) ? ` — ${stripHtmlTags(catObj.nameJp)}` : '';
+        listTitle.innerHTML = `<i class="fa-solid fa-book-bookmark" style="color: #ef4444; margin-right: 8px;"></i> 無料冊子・電子書籍 (Free e-book)${catTitle}`;
       } else {
         listTitle.textContent = currentCatObj ? `${stripHtmlTags(currentCatObj.nameJp)} の資料一覧` : '資料一覧';
       }
@@ -1854,7 +1873,7 @@ function renderArticlesList() {
     filteredArticles = state.articles.filter(art => descendantIds.includes(art.categoryId));
   }
   
-  const isEbookMenu = state.currentMenu === 'ebook' || state.currentCategory === 'cat_1787673527469';
+  const isEbookMenu = state.currentMenu === 'ebook' || isEbookCategory(state.currentCategory);
   
   filteredArticles.sort((a, b) => {
     const keyA = getArticleSortKey(a);
@@ -2404,7 +2423,7 @@ function getAdjacentArticles(articleId) {
   }
 
   // Sort by document/question order
-  const isEbookScope = scopeArticles.some(a => a.categoryId === 'cat_1787673527469' || state.currentMenu === 'ebook');
+  const isEbookScope = scopeArticles.some(a => isEbookCategory(a.categoryId) || state.currentMenu === 'ebook');
   scopeArticles.sort((a, b) => {
     const keyA = getArticleSortKey(a);
     const keyB = getArticleSortKey(b);
@@ -2593,7 +2612,7 @@ function viewArticleDetail(articleId, pushHistory = true) {
         const pdfBanner = document.createElement('div');
         pdfBanner.className = 'article-pdf-banner';
         pdfBanner.style.cssText = 'background: linear-gradient(135deg, #1e3a8a, #0284c7); color: white; padding: 18px 24px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);';
-        const isEbook = article.categoryId === 'cat_1787673527469' || (article.title && article.title.toLowerCase().includes('e-book'));
+        const isEbook = isEbookCategory(article.categoryId) || (article.title && article.title.toLowerCase().includes('e-book'));
         const docLabel = isEbook ? '電子書籍 (E-Book) PDF' : '原本 PDF';
         const rawFilename = article.pdfUrl.split('/').pop();
         const pdfDownloadName = decodeURIComponent(rawFilename);
@@ -2679,7 +2698,8 @@ function viewArticleDetail(articleId, pushHistory = true) {
 
         iframe.srcdoc = article.content;
         contentArea.appendChild(iframe);
-      } else if ((article.categoryId === 'cat_1787673527469' || state.currentMenu === 'ebook') && article.photoUrl && !article.content.includes('<img')) {
+      } else if ((isEbookCategory(article.categoryId) || state.currentMenu === 'ebook') && article.photoUrl && !article.content.includes('<img')) {
+        const bookSeriesLabel = article.categoryId === 'cat_ebook_theology' ? 'PHB クラシック (改革派神学・電子書籍)' : 'PHB 伝道小冊子 (Evangelism Booklet)';
         const textBody = document.createElement('div');
         textBody.className = 'article-body-html';
         textBody.innerHTML = `
@@ -2688,7 +2708,7 @@ function viewArticleDetail(articleId, pushHistory = true) {
               <img src="${article.photoUrl}" alt="${article.title}" style="width: 100%; max-width: 160px; height: auto; border-radius: 4px; box-shadow: -4px 6px 14px rgba(0,0,0,0.18), 0 10px 20px rgba(0,0,0,0.15);">
             </div>
             <div style="flex: 1; min-width: 260px;">
-              <div style="color: #b91c1c; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">PHB 伝道小冊子 (Evangelism Booklet)</div>
+              <div style="color: #b91c1c; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">${bookSeriesLabel}</div>
               <h2 style="font-size: 1.5rem; font-weight: 700; color: #0f172a; margin: 0 0 8px 0;">${article.title}</h2>
               <div style="color: #64748b; font-size: 0.95rem; margin-bottom: 16px;"><strong>著者:</strong> ${article.author}</div>
               <div style="line-height: 1.85; color: #334155;">${formatArticleContent(article.content)}</div>

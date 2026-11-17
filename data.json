@@ -1396,12 +1396,20 @@
       "position": 52
     },
     {
-      "id": "cat_1787673527469",
+      "id": "cat_ebook_theology",
       "parentId": "ebook",
-      "nameJp": "無料冊子 (Free e-book)",
-      "nameKr": "無料冊子 (Free e-book)",
-      "icon": null,
+      "nameJp": "神学",
+      "nameKr": "신학",
+      "icon": "fa-graduation-cap",
       "position": 1
+    },
+    {
+      "id": "cat_ebook_devotion",
+      "parentId": "ebook",
+      "nameJp": "敬虔・伝道",
+      "nameKr": "경건・전도",
+      "icon": "fa-book-bookmark",
+      "position": 2
     },
     {
       "id": "cat_disc_3",
@@ -9910,7 +9918,7 @@
     },
     {
       "id": "art_tract_1",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_devotion",
       "title": "キリスト教の基本真理",
       "author": "金洪晩 著",
       "createdAt": "2026-08-25",
@@ -9920,11 +9928,11 @@
       "photoUrl": "images/cover_christian_basic_truth.png",
       "pdfUrl": "pdf/Christian_Basic_Truth.pdf",
       "views": 0,
-      "position": 20
+      "position": 1
     },
     {
       "id": "art_tract_2",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_devotion",
       "title": "眞理易知",
       "author": "ディヴィ・マッカーティー 著 / ヘボン 訳 / 金洪晩 解説",
       "createdAt": "2026-08-25",
@@ -9934,11 +9942,11 @@
       "photoUrl": "images/cover_shinri_echi.png",
       "pdfUrl": "pdf/Shinri_Echi.pdf",
       "views": 0,
-      "position": 21
+      "position": 2
     },
     {
       "id": "art_tract_3",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_devotion",
       "title": "二つの道の人生",
       "author": "文：キム・ホンマン / 絵：キム・スジ",
       "createdAt": "2026-08-25",
@@ -9948,11 +9956,11 @@
       "photoUrl": "images/cover_two_ways_of_life.png",
       "pdfUrl": "pdf/Two_Ways_Of_Life.pdf",
       "views": 0,
-      "position": 22
+      "position": 3
     },
     {
       "id": "art_tract_4",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_devotion",
       "title": "神と人間",
       "author": "金洪晩 著 / イラスト：金テイン",
       "createdAt": "2026-08-25",
@@ -9962,7 +9970,7 @@
       "photoUrl": "images/cover_god_and_man.png",
       "pdfUrl": "pdf/God_And_Man.pdf",
       "views": 0,
-      "position": 23
+      "position": 4
     },
     {
       "id": "art_1787641853157",
@@ -22772,7 +22780,7 @@
     },
     {
       "id": "art_ebook_baxter_call_to_unconverted",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "未回心者への呼びかけ (A Call to the Unconverted)",
       "author": "リチャード・バクスター (Richard Baxter)",
       "createdAt": "2026-10-22",
@@ -22786,7 +22794,7 @@
     },
     {
       "id": "art_ebook_alleine_alarm_to_unconverted",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "未回心の罪人への警鐘 (An Alarm to Unconverted Sinners)",
       "author": "ジョセフ・アリーン (Joseph Alleine)",
       "createdAt": "2026-10-23",
@@ -22800,7 +22808,7 @@
     },
     {
       "id": "art_ebook_baxter_reformed_pastor",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "真の牧者像 (The Reformed Pastor)",
       "author": "リチャード・バクスター (Richard Baxter)",
       "createdAt": "2026-10-24",
@@ -22814,7 +22822,7 @@
     },
     {
       "id": "art_ebook_mead_almost_christian",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "類似キリスト者 (The Almost Christian)",
       "author": "マシュー・ミード (Matthew Mead)",
       "createdAt": "2026-10-24",
@@ -22828,7 +22836,7 @@
     },
     {
       "id": "art_ebook_shepard_sound_believer",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "健全な信仰者 (The Sound Believer)",
       "author": "トマス・シェパード (Thomas Shepard)",
       "scripture": "ホセア書 13:9",
@@ -22842,7 +22850,7 @@
     },
     {
       "id": "art_ebook_boston_fourfold_state",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "改革主義人間論 (The Fourfold State of Man)",
       "author": "トマス・ボストン (Thomas Boston)",
       "scripture": "伝道者の書 7:29, ローマ人への手紙 5:12, ヨハネによる福音書 3:3, マタイによる福音書 25:46",
@@ -22856,7 +22864,7 @@
     },
     {
       "id": "art_ebook_shepard_ten_virgins",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "十人の乙女のたとえ (The Parable of the Ten Virgins)",
       "author": "トマス・シェパード (Thomas Shepard)",
       "scripture": "マタイによる福音書 25:1-13",
@@ -22870,7 +22878,7 @@
     },
     {
       "id": "art_ebook_bunyan_grace_abounding",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "罪人の頭に注がれる恵み (Grace Abounding to the Chief of Sinners)",
       "author": "ジョン・バニヤン (John Bunyan)",
       "scripture": "ローマ人への手紙 5:20, 第1テモテ 1:15",
@@ -22884,7 +22892,7 @@
     },
     {
       "id": "art_ebook_charnock_regeneration",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "新生論 (A Discourse of Regeneration)",
       "author": "スティーブン・チャーノック (Stephen Charnock)",
       "createdAt": "2026-11-03",
@@ -22898,7 +22906,7 @@
     },
     {
       "id": "art_ebook_bunyan_strait_gate",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "狭い門 (The Strait Gate)",
       "author": "ジョン・バニヤン (John Bunyan)",
       "createdAt": "2026-11-03",
@@ -22912,7 +22920,7 @@
     },
     {
       "id": "art_ebook_sibbes_bruised_reed",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "傷ついた葦 (The Bruised Reed)",
       "author": "リチャード・シブス (Richard Sibbes)",
       "scripture": "マタイによる福音書 12:20",
@@ -22926,7 +22934,7 @@
     },
     {
       "id": "art_ebook_pink_saving_faith",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "救いに至る信仰 (Studies on Saving Faith)",
       "author": "アーサー・W・ピンク (Arthur W. Pink)",
       "scripture": "コリントの信徒への手紙二 13:5 / ヤコブの手紙 2:19",
@@ -22940,7 +22948,7 @@
     },
     {
       "id": "art_ebook_dickinson_repentance_faith",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "真正な悔い改めと救いに至る信仰のしるし (Marks of True Repentance and Saving Faith)",
       "author": "ジョナサン・ディッキンソン (Jonathan Dickinson)",
       "scripture": "コリント人への手紙 第二 13:5",
@@ -22954,7 +22962,7 @@
     },
     {
       "id": "art_ebook_dickinson_reformed_soteriology",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "改革主義 救済論 (救いの基本教理)",
       "author": "ジョナサン・ディッキンソン (Jonathan Dickinson)",
       "scripture": "エペソ人への手紙 1:4–5 / ローマ人への手紙 8:30",
@@ -22968,7 +22976,7 @@
     },
     {
       "id": "art_ebook_charnock_god_attributes",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "改革主義 神論 (神の存在と属性)",
       "author": "スティーブン・チャーノック (Stephen Charnock)",
       "scripture": "ヨハネの福音書 4:24",
@@ -23035,7 +23043,7 @@
     },
     {
       "id": "art_ebook_owen_doctrine_of_trinity",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "改革主義 三位一体論 (キリストの位格と贖罪の弁護)",
       "author": "ジョン・オーウェン (John Owen)",
       "scripture": "ヨハネの手紙一 5:7",
@@ -23049,7 +23057,7 @@
     },
     {
       "id": "art_ebook_owen_glory_of_christ",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "改革主義 キリスト論 (キリストの栄光)",
       "author": "ジョン・オーウェン (John Owen)",
       "scripture": "ヨハネによる福音書 17:24",
@@ -23063,7 +23071,7 @@
     },
     {
       "id": "art_ebook_goodwin_holy_ghost",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "改革派聖霊論 (私たちの救いにおける聖霊の御業)",
       "author": "トマス・グッドウィン (Thomas Goodwin)",
       "scripture": "ヨハネの福音書 14:26",
@@ -23077,7 +23085,7 @@
     },
     {
       "id": "art_ebook_bannerman_church_of_christ",
-      "categoryId": "cat_1787673527469",
+      "categoryId": "cat_ebook_theology",
       "title": "改革派教会論 (The Church of Christ)",
       "author": "ジェームズ・バナーマン (James Bannerman)",
       "scripture": "マタイによる福音書 16:18, エペソ人への手紙 1:22",
