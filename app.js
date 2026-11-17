@@ -562,10 +562,18 @@ function loadArticlesFallback() {
     const keyA = getArticleSortKey(a);
     const keyB = getArticleSortKey(b);
     if (keyA.catOrder !== keyB.catOrder) return keyA.catOrder - keyB.catOrder;
+    if (isEbookCategory(a.categoryId) || isEbookCategory(b.categoryId)) {
+      const dateA = a.updatedAt || a.createdAt || '';
+      const dateB = b.updatedAt || b.createdAt || '';
+      const dateCompare = dateB.localeCompare(dateA);
+      if (dateCompare !== 0) return dateCompare;
+      if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
+      return (b.id || '').localeCompare(a.id || '');
+    }
     if (keyA.secNum !== keyB.secNum) return keyA.secNum - keyB.secNum;
     if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
-    const dateA = a.createdAt || '';
-    const dateB = b.createdAt || '';
+    const dateA = a.updatedAt || a.createdAt || '';
+    const dateB = b.updatedAt || b.createdAt || '';
     const dateCompare = dateB.localeCompare(dateA);
     if (dateCompare !== 0) return dateCompare;
     return (a.id || '').localeCompare(b.id || '');
@@ -1879,13 +1887,18 @@ function renderArticlesList() {
     const keyA = getArticleSortKey(a);
     const keyB = getArticleSortKey(b);
     if (keyA.catOrder !== keyB.catOrder) return keyA.catOrder - keyB.catOrder;
-    if (keyA.secNum !== keyB.secNum) return keyA.secNum - keyB.secNum;
-    if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
     if (isEbookMenu) {
-      const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+      const dateA = a.updatedAt || a.createdAt || '';
+      const dateB = b.updatedAt || b.createdAt || '';
+      const dateCompare = dateB.localeCompare(dateA);
       if (dateCompare !== 0) return dateCompare;
+      if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
       return (b.id || '').localeCompare(a.id || '');
     }
+    if (keyA.secNum !== keyB.secNum) return keyA.secNum - keyB.secNum;
+    if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
+    const dateA = a.updatedAt || a.createdAt || '';
+    const dateB = b.updatedAt || b.createdAt || '';
     const dateCompare = (a.createdAt || '').localeCompare(b.createdAt || '');
     if (dateCompare !== 0) return dateCompare;
     return (a.id || '').localeCompare(b.id || '');
@@ -2428,13 +2441,18 @@ function getAdjacentArticles(articleId) {
     const keyA = getArticleSortKey(a);
     const keyB = getArticleSortKey(b);
     if (keyA.catOrder !== keyB.catOrder) return keyA.catOrder - keyB.catOrder;
-    if (keyA.secNum !== keyB.secNum) return keyA.secNum - keyB.secNum;
-    if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
     if (isEbookScope) {
-      const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+      const dateA = a.updatedAt || a.createdAt || '';
+      const dateB = b.updatedAt || b.createdAt || '';
+      const dateCompare = dateB.localeCompare(dateA);
       if (dateCompare !== 0) return dateCompare;
+      if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
       return (b.id || '').localeCompare(a.id || '');
     }
+    if (keyA.secNum !== keyB.secNum) return keyA.secNum - keyB.secNum;
+    if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
+    const dateA = a.updatedAt || a.createdAt || '';
+    const dateB = b.updatedAt || b.createdAt || '';
     const dateCompare = (a.createdAt || '').localeCompare(b.createdAt || '');
     if (dateCompare !== 0) return dateCompare;
     return (a.id || '').localeCompare(b.id || '');
@@ -4007,6 +4025,7 @@ async function handleSaveArticle(event) {
     }
 
     const finalId = articleId || 'art_' + Date.now();
+    const todayStr = new Date().toISOString().split('T')[0];
     const artData = {
       categoryId: categoryId,
       title: title,
@@ -4015,15 +4034,21 @@ async function handleSaveArticle(event) {
       videoUrl: videoUrl,
       photoUrl: photoUrl,
       content: content,
-      createdAt: date,
+      createdAt: date || todayStr,
+      updatedAt: todayStr,
       views: 0
     };
 
-    // If editing, preserve views
+    // If editing, preserve views, original createdAt and position
     if (articleId) {
       const oldArt = state.articles.find(a => a.id === articleId);
       if (oldArt) {
         artData.views = oldArt.views || 0;
+        artData.createdAt = oldArt.createdAt || date || todayStr;
+        artData.updatedAt = todayStr;
+        if (oldArt.position !== undefined && oldArt.position !== null) {
+          artData.position = oldArt.position;
+        }
       }
     }
 
@@ -4460,16 +4485,28 @@ function renderAdminArticleList() {
       const keyA = getArticleSortKey(a);
       const keyB = getArticleSortKey(b);
       if (keyA.catOrder !== keyB.catOrder) return keyA.catOrder - keyB.catOrder;
+      if (isEbookCategory(a.categoryId) || isEbookCategory(b.categoryId) || isEbookCategory(parentFilter)) {
+        const dateA = a.updatedAt || a.createdAt || '';
+        const dateB = b.updatedAt || b.createdAt || '';
+        const dateCompare = dateB.localeCompare(dateA);
+        if (dateCompare !== 0) return dateCompare;
+        if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
+        return b.id.localeCompare(a.id);
+      }
       if (keyA.secNum !== keyB.secNum) return keyA.secNum - keyB.secNum;
       if (keyA.pos !== keyB.pos) return keyA.pos - keyB.pos;
-      const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+      const dateA = a.updatedAt || a.createdAt || '';
+      const dateB = b.updatedAt || b.createdAt || '';
+      const dateCompare = dateB.localeCompare(dateA);
       if (dateCompare !== 0) return dateCompare;
       return b.id.localeCompare(a.id);
     });
   } else {
     // Sort globally by date descending
     list.sort((a, b) => {
-      const dateCompare = (b.createdAt || '').localeCompare(a.createdAt || '');
+      const dateA = a.updatedAt || a.createdAt || '';
+      const dateB = b.updatedAt || b.createdAt || '';
+      const dateCompare = dateB.localeCompare(dateA);
       if (dateCompare !== 0) return dateCompare;
       return b.id.localeCompare(a.id);
     });
@@ -4811,8 +4848,8 @@ function renderRecentArticles() {
   const recentArticles = [...state.articles]
     .filter(a => a && a.title && a.id)
     .sort((a, b) => {
-      const dateA = a.createdAt || '';
-      const dateB = b.createdAt || '';
+      const dateA = a.updatedAt || a.createdAt || '';
+      const dateB = b.updatedAt || b.createdAt || '';
       const dateComp = dateB.localeCompare(dateA);
       if (dateComp !== 0) return dateComp;
       return (b.id || '').localeCompare(a.id || '');
