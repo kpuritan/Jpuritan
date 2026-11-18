@@ -34,8 +34,8 @@
     },
     {
       "id": "ebook",
-      "nameJp": "無料冊子 (Free e-book)",
-      "nameKr": "無料冊子 (Free e-book)",
+      "nameJp": "無料冊子",
+      "nameKr": "무료책자",
       "icon": "fa-book-bookmark",
       "isVideo": false,
       "position": 4

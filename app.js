@@ -339,11 +339,11 @@ function loadLocalStorageOnly() {
 
 async function initApp() {
   // Clear any old session states and all older localStorage caches on version update
-  if (sessionStorage.getItem('wscal_version') !== 'v44') {
+  if (sessionStorage.getItem('wscal_version') !== 'v45') {
     sessionStorage.removeItem('wscal_user_menu');
     sessionStorage.removeItem('wscal_user_category');
     sessionStorage.removeItem('wscal_user_article');
-    sessionStorage.setItem('wscal_version', 'v44');
+    sessionStorage.setItem('wscal_version', 'v45');
     try {
       Object.keys(localStorage).forEach(key => {
         if (key.startsWith('wscal_')) {
@@ -685,7 +685,10 @@ function renderMainMenuCards() {
       subTitleHtml = '<div class="menu-title-sub" style="font-size: 0.75rem; color: var(--accent-color); margin-top: 4px; font-weight: 500;">動画講義</div>';
     }
 
-    const cleanTitle = stripHtmlTags(menu.nameJp);
+    let cleanTitle = stripHtmlTags(menu.nameJp);
+    if (menu.id === 'ebook') {
+      cleanTitle = cleanTitle.replace(/\s*\(Free e-book\)/i, '').trim();
+    }
 
     card.innerHTML = `
       ${badgeHtml}
