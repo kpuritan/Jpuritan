@@ -339,11 +339,11 @@ function loadLocalStorageOnly() {
 
 async function initApp() {
   // Clear any old session states and all older localStorage caches on version update
-  if (sessionStorage.getItem('wscal_version') !== 'v45') {
+  if (sessionStorage.getItem('wscal_version') !== 'v46') {
     sessionStorage.removeItem('wscal_user_menu');
     sessionStorage.removeItem('wscal_user_category');
     sessionStorage.removeItem('wscal_user_article');
-    sessionStorage.setItem('wscal_version', 'v45');
+    sessionStorage.setItem('wscal_version', 'v46');
     try {
       Object.keys(localStorage).forEach(key => {
         if (key.startsWith('wscal_')) {
