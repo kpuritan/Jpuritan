@@ -339,11 +339,11 @@ function loadLocalStorageOnly() {
 
 async function initApp() {
   // Clear any old session states and all older localStorage caches on version update
-  if (sessionStorage.getItem('wscal_version') !== 'v46') {
+  if (sessionStorage.getItem('wscal_version') !== 'v47') {
     sessionStorage.removeItem('wscal_user_menu');
     sessionStorage.removeItem('wscal_user_category');
     sessionStorage.removeItem('wscal_user_article');
-    sessionStorage.setItem('wscal_version', 'v46');
+    sessionStorage.setItem('wscal_version', 'v47');
     try {
       Object.keys(localStorage).forEach(key => {
         if (key.startsWith('wscal_')) {
@@ -2185,7 +2185,7 @@ function renderArticlesList() {
         ` : '';
 
         const coverSrc = art.photoUrl || 'hero_bg.jpg';
-        const isFullBook = art.categoryId === 'cat_ebook_theology' || (art.categoryId !== 'cat_ebook_devotion' && !art.id.startsWith('art_tract_') && (art.id.startsWith('art_ebook_') || art.id.includes('baxter') || art.id.includes('alleine') || art.id.includes('mead') || art.id.includes('shepard') || art.id.includes('boston') || art.id.includes('bunyan') || art.id.includes('charnock') || art.id.includes('sibbes') || art.id.includes('dickinson') || (art.title && (art.title.includes('呼びかけ') || art.title.includes('警鐘') || art.title.includes('牧者像') || art.title.includes('類似') || art.title.includes('ほぼ') || art.title.includes('健全な信仰者') || art.title.includes('四重の状態') || art.title.includes('十人の乙女') || art.title.includes('罪人の頭') || art.title.includes('バニヤン') || art.title.includes('新生論') || art.title.includes('チャーノック') || art.title.includes('狭い門') || art.title.includes('傷ついた葦') || art.title.includes('シブス') || art.title.includes('救いに至る信仰') || art.title.includes('真正な悔い改め') || art.title.includes('ディッキンソン') || art.title.includes('改革主義') || art.title.includes('救済論') || art.title.includes('救いの基本教理') || art.title.includes('神論') || art.title.includes('神の存在と属性')))));
+        const isFullBook = art.categoryId === 'cat_ebook_theology' || (art.categoryId !== 'cat_ebook_devotion' && !art.id.startsWith('art_tract_') && (art.id.startsWith('art_ebook_') || art.id.includes('baxter') || art.id.includes('alleine') || art.id.includes('mead') || art.id.includes('shepard') || art.id.includes('boston') || art.id.includes('bunyan') || art.id.includes('charnock') || art.id.includes('sibbes') || art.id.includes('dickinson') || art.id.includes('ames') || (art.title && (art.title.includes('呼びかけ') || art.title.includes('警鐘') || art.title.includes('牧者像') || art.title.includes('類似') || art.title.includes('ほぼ') || art.title.includes('健全な信仰者') || art.title.includes('四重の状態') || art.title.includes('十人の乙女') || art.title.includes('罪人の頭') || art.title.includes('バニヤン') || art.title.includes('新生論') || art.title.includes('チャーノック') || art.title.includes('狭い門') || art.title.includes('傷ついた葦') || art.title.includes('シブス') || art.title.includes('救いに至る信仰') || art.title.includes('真正な悔い改め') || art.title.includes('ディッキンソン') || art.title.includes('改革主義') || art.title.includes('救済論') || art.title.includes('救いの基本教理') || art.title.includes('神論') || art.title.includes('神の存在と属性') || art.title.includes('エイムズ') || art.title.includes('教理の核心')))));
         const badgeTag = isFullBook ? '無料配布' : '小冊子';
 
         card.innerHTML = `
@@ -2720,7 +2720,7 @@ function viewArticleDetail(articleId, pushHistory = true) {
         iframe.srcdoc = article.content;
         contentArea.appendChild(iframe);
       } else if ((isEbookCategory(article.categoryId) || state.currentMenu === 'ebook') && article.photoUrl && !article.content.includes('<img')) {
-        const isFullBook = article.categoryId === 'cat_ebook_theology' || (article.categoryId !== 'cat_ebook_devotion' && !article.id.startsWith('art_tract_') && (article.id.startsWith('art_ebook_') || article.id.includes('baxter') || article.id.includes('alleine') || article.id.includes('mead') || article.id.includes('shepard') || article.id.includes('boston') || article.id.includes('bunyan') || article.id.includes('charnock') || article.id.includes('sibbes') || article.id.includes('dickinson')));
+        const isFullBook = article.categoryId === 'cat_ebook_theology' || (article.categoryId !== 'cat_ebook_devotion' && !article.id.startsWith('art_tract_') && (article.id.startsWith('art_ebook_') || article.id.includes('baxter') || article.id.includes('alleine') || article.id.includes('mead') || article.id.includes('shepard') || article.id.includes('boston') || article.id.includes('bunyan') || article.id.includes('charnock') || article.id.includes('sibbes') || article.id.includes('dickinson') || article.id.includes('ames')));
         const bookSeriesLabel = isFullBook ? 'PHB クラシック (改革派神学・電子書籍)' : 'PHB 小冊子';
         const textBody = document.createElement('div');
         textBody.className = 'article-body-html';
